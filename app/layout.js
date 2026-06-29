@@ -19,25 +19,25 @@ const inter = Inter({
 export const metadata = {
   metadataBase: new URL('https://plutto.space'),
   title: {
-    default: 'Plutto — Every reading. Every system.',
+    default: 'Plutto — One Place To Ask Better Questions.',
     template: '%s — Plutto',
   },
   description:
-    'Plutto is a voice-first astrology Oracle. Vedic, Western, Chinese, KP, Numerology — one home for every reading.',
+    'Three traditions, one place to ask better questions. Vedic, Western and BaZi — explored with curiosity, not certainty.',
   applicationName: 'Plutto',
   openGraph: {
-    title: 'Plutto — Every reading. Every system.',
+    title: 'Plutto — One Place To Ask Better Questions.',
     description:
-      'Voice-first astrology Oracle. Vedic, Western, Chinese, KP, Numerology — one home for every reading.',
+      'Three traditions, one place to ask better questions. Vedic, Western and BaZi.',
     url: 'https://plutto.space',
     siteName: 'Plutto',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Plutto — Every reading. Every system.',
+    title: 'Plutto — One Place To Ask Better Questions.',
     description:
-      'Voice-first astrology Oracle. Vedic, Western, Chinese, KP, Numerology.',
+      'Three traditions, one place to ask better questions.',
   },
   icons: {
     icon: '/icon.svg',
