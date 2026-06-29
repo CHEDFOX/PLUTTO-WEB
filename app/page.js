@@ -1,222 +1,106 @@
+import Link from 'next/link';
+import Nav from './components/Nav';
+import Footer from './components/Footer';
 import Starfield from './components/Starfield';
-import Mark from './components/Mark';
+import Orb from './components/Orb';
+import NatalWheel from './components/NatalWheel';
+import StoreBadges from './components/StoreBadges';
 
 export default function Home() {
   return (
     <>
       <Starfield />
+      <Nav />
 
-      <main className="relative z-10">
-        {/* HERO */}
-        <section className="relative flex min-h-[100svh] flex-col items-center justify-center px-6 text-center">
-          <p className="mb-10 text-[10px] uppercase tracking-[0.42em] text-white/45">
-            An astrology oracle
-          </p>
-
-          <h1 className="font-serif text-[18vw] sm:text-[14vw] md:text-[11rem] leading-[0.9] tracking-tight">
-            Plutto<Mark className="ml-2 align-top text-[0.18em]" />
-          </h1>
-
-          <p className="mt-10 font-serif italic text-lg md:text-2xl text-white/75">
-            Every reading. Every system.
-          </p>
-
-          <p className="mt-6 max-w-md text-sm md:text-base text-white/55">
-            A voice you can talk to. Five traditions, read for you in the
-            language that finds you.
-          </p>
-
-          <a
-            href="#oracle"
-            className="group mt-16 inline-flex items-center gap-3 border border-gold/70 px-7 py-3 text-[11px] uppercase tracking-[0.36em] text-gold transition-colors hover:bg-gold hover:text-black"
-          >
-            Soon
-            <span className="inline-block transition-transform group-hover:translate-y-[2px]">
-              ↓
-            </span>
-          </a>
-
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-[0.4em] text-white/25">
-            Scroll
-          </div>
-        </section>
-
-        {/* ORACLE */}
-        <section
-          id="oracle"
-          className="relative flex min-h-[100svh] flex-col items-center justify-center px-6 text-center"
-        >
-          <p className="mb-8 text-[10px] uppercase tracking-[0.42em] text-white/45">
-            The Oracle
-          </p>
-
-          <h2 className="font-serif text-5xl md:text-7xl leading-tight max-w-3xl">
-            Talk to the stars,
-            <br />
-            <em className="not-italic text-white/80">out loud.</em>
-          </h2>
-
-          <div className="my-16">
-            <Ring />
+      <main className="relative z-10 pt-32 md:pt-40 px-4 md:px-12">
+        {/* HERO CARD */}
+        <section className="mx-auto max-w-6xl hero-card px-6 md:px-16 py-16 md:py-24">
+          <div className="text-center">
+            <h1 className="font-serif text-[40px] sm:text-[56px] md:text-[88px] font-medium text-white leading-none tracking-[0.32em] md:tracking-[0.42em] uppercase pr-[-0.42em]">
+              Plutto
+            </h1>
           </div>
 
-          <p className="max-w-xl text-base md:text-lg text-white/65 leading-relaxed">
-            A voice you can interrupt. A memory that holds your chart.
-            <br className="hidden md:block" /> Five distinct voices — one
-            for each tradition.
-          </p>
-        </section>
-
-        {/* FIVE TRADITIONS */}
-        <section className="relative flex min-h-[100svh] flex-col items-center justify-center px-6 text-center">
-          <p className="mb-8 text-[10px] uppercase tracking-[0.42em] text-white/45">
-            Five traditions, one home
-          </p>
-
-          <h2 className="font-serif text-5xl md:text-7xl leading-tight max-w-3xl">
-            Read your life in the
-            <br />
-            <em className="not-italic text-white/80">
-              language that finds you.
-            </em>
-          </h2>
-
-          <ul className="mt-16 flex flex-wrap items-center justify-center gap-x-4 gap-y-3 font-serif text-base md:text-2xl text-white">
-            <li>Vedic</li>
-            <li><Mark /></li>
-            <li>Western</li>
-            <li><Mark /></li>
-            <li>Chinese</li>
-            <li><Mark /></li>
-            <li>KP</li>
-            <li><Mark /></li>
-            <li>Numerology</li>
-          </ul>
-
-          <p className="mt-10 max-w-xl text-sm md:text-base text-white/55">
-            Parashara, Hellenistic Hermetica, BaZi Four Pillars, Krishnamurti
-            Paddhati, Chaldean &amp; Pythagorean — switch any time. Your chart
-            follows.
-          </p>
-        </section>
-
-        {/* DEPTH */}
-        <section className="relative flex min-h-[100svh] flex-col items-center justify-center px-6 text-center">
-          <p className="mb-10 text-[10px] uppercase tracking-[0.42em] text-white/45">
-            Classical, not generic
-          </p>
-
-          <h2 className="font-serif text-4xl md:text-6xl leading-tight max-w-2xl mb-20">
-            Receipts under
-            <br />
-            <em className="not-italic text-white/80">every reading.</em>
-          </h2>
-
-          <dl className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12 max-w-4xl w-full">
-            <Stat n="300+" label="Classical yogas" />
-            <Stat n="19" label="Divisional charts" />
-            <Stat n="7" label="Dasha systems" />
-            <Stat n="89" label="Languages" />
-          </dl>
-
-          <p className="mt-20 text-[10px] uppercase tracking-[0.4em] text-white/35">
-            Voice on OpenAI Realtime
-            <span className="mx-3 text-white/20">·</span>
-            Charts on Swiss Ephemeris
-          </p>
-        </section>
-
-        {/* FOOTER */}
-        <footer className="relative border-t border-white/10 px-6 py-16">
-          <div className="mx-auto flex max-w-5xl flex-col items-center gap-8 md:flex-row md:justify-between">
-            <div className="font-serif text-xl">
-              Plutto<Mark className="ml-1 text-[0.55em] align-top" />
+          <div className="mt-14 md:mt-20 grid grid-cols-1 md:grid-cols-12 items-center gap-12 md:gap-8">
+            {/* Copy */}
+            <div className="md:col-span-6 md:pl-2">
+              <h2 className="font-serif text-[34px] md:text-[44px] font-light text-white leading-[1.08] tracking-[-0.01em]">
+                Talk to the stars,
+                <br />
+                in your own voice.
+              </h2>
+              <p className="mt-8 max-w-md text-[15px] leading-relaxed text-white/60">
+                Plutto is a voice-first astrology oracle. Vedic, Western,
+                Chinese, KP and Numerology — each read for you in the
+                language that finds you, by a voice that remembers your
+                chart.
+              </p>
+              <div className="mt-10">
+                <Link
+                  href="/natal-chart"
+                  className="inline-flex items-center justify-center rounded-full bg-white px-8 py-4 text-[11px] uppercase tracking-[0.32em] text-black transition-colors hover:bg-gold"
+                >
+                  Get your natal chart
+                </Link>
+              </div>
             </div>
 
-            <nav className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[11px] uppercase tracking-[0.32em] text-white/55">
-              <a
-                href="https://api.plutto.space/privacy"
-                className="transition-colors hover:text-white"
-              >
-                Privacy
-              </a>
-              <a
-                href="https://api.plutto.space/static/terms.html"
-                className="transition-colors hover:text-white"
-              >
-                Terms
-              </a>
-              <a
-                href="https://api.plutto.space/static/delete.html"
-                className="transition-colors hover:text-white"
-              >
-                Delete account
-              </a>
-              <a
-                href="mailto:support@plutto.space"
-                className="transition-colors hover:text-white"
-              >
-                Contact
-              </a>
-            </nav>
+            {/* Visual — gold orb inside a faint natal wheel */}
+            <div className="md:col-span-6 flex items-center justify-center">
+              <div className="relative">
+                <NatalWheel
+                  variant="faint"
+                  size={420}
+                  center={<Orb size="sm" />}
+                />
+              </div>
+            </div>
           </div>
 
-          <p className="mt-12 text-center text-[10px] uppercase tracking-[0.4em] text-white/25">
-            © xooteq Lab
+          {/* Carousel dots — static decoration matching The Pattern's pacing */}
+          <div className="mt-16 flex items-center justify-center gap-3">
+            <Dot active />
+            <Dot />
+            <Dot />
+            <Dot />
+          </div>
+        </section>
+
+        {/* DOWNLOAD */}
+        <section className="mx-auto max-w-6xl mt-24 md:mt-32 text-center">
+          <StoreBadges />
+        </section>
+
+        {/* QUIET DEPTH LINE */}
+        <section className="mx-auto max-w-3xl mt-24 md:mt-32 text-center border-t border-white/8 pt-12">
+          <p className="text-[11px] uppercase tracking-[0.4em] text-white/45">
+            Built on Swiss Ephemeris
+            <span className="mx-3 text-white/20">·</span>
+            Voice on OpenAI Realtime
           </p>
-        </footer>
+          <p className="mt-6 text-[12px] text-white/35">
+            300+ classical yogas
+            <span className="mx-2">·</span>
+            19 divisional charts
+            <span className="mx-2">·</span>
+            7 dasha systems
+            <span className="mx-2">·</span>
+            89 languages
+          </p>
+        </section>
+
+        <Footer />
       </main>
     </>
   );
 }
 
-function Stat({ n, label }) {
+function Dot({ active }) {
   return (
-    <div>
-      <div className="font-serif text-5xl md:text-6xl text-white tabular-nums">
-        {n}
-      </div>
-      <div className="mt-3 text-[10px] uppercase tracking-[0.32em] text-white/45">
-        {label}
-      </div>
-    </div>
-  );
-}
-
-function Ring() {
-  return (
-    <svg
-      width="260"
-      height="260"
-      viewBox="0 0 260 260"
-      aria-hidden="true"
-      className="block"
-    >
-      <circle
-        cx="130"
-        cy="130"
-        r="128"
-        fill="none"
-        stroke="rgba(255,255,255,0.35)"
-        strokeWidth="0.6"
-      />
-      <circle
-        cx="130"
-        cy="130"
-        r="100"
-        fill="none"
-        stroke="rgba(255,255,255,0.18)"
-        strokeWidth="0.6"
-      />
-      <circle
-        cx="130"
-        cy="130"
-        r="68"
-        fill="none"
-        stroke="rgba(255,255,255,0.12)"
-        strokeWidth="0.6"
-      />
-      <circle cx="130" cy="130" r="3" fill="#D4AF37" />
-    </svg>
+    <span
+      className={`block h-1.5 w-1.5 rounded-full ${
+        active ? 'bg-white' : 'bg-white/20'
+      }`}
+    />
   );
 }

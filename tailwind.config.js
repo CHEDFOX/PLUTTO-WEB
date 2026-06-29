@@ -18,8 +18,9 @@ export default {
         scrim: 'rgba(0,0,0,0.85)',
       },
       fontFamily: {
-        serif: ['var(--font-playfair)', 'serif'],
-        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Helvetica', 'Arial', 'sans-serif'],
+        serif: ['var(--font-display)', 'Cormorant Garamond', 'serif'],
+        body: ['var(--font-body)', '-apple-system', 'BlinkMacSystemFont', 'Inter', 'sans-serif'],
+        sans: ['var(--font-body)', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       },
       letterSpacing: {
         wider2: '0.08em',

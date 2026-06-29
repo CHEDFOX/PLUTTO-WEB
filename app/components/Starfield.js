@@ -1,50 +1,48 @@
-// Deterministic static starfield — no animation, no client JS.
-// Seeded so SSR and CSR generate identical positions.
+// Hand-placed constellation — deliberate positions, not random dust.
+// Two magnitudes: bright "anchor" stars and faint "field" stars.
 
-function makeStars(count, seed) {
-  let s = seed >>> 0;
-  const rand = () => {
-    s = (s * 1664525 + 1013904223) >>> 0;
-    return s / 4294967296;
-  };
-  const stars = [];
-  for (let i = 0; i < count; i++) {
-    const r = rand();
-    stars.push({
-      cx: +(rand() * 1000).toFixed(2),
-      cy: +(rand() * 1000).toFixed(2),
-      r: +(0.4 + rand() * 1.3).toFixed(2),
-      o: +(0.12 + (r < 0.08 ? 0.55 : r < 0.25 ? 0.32 : 0.18) * rand()).toFixed(3),
-    });
-  }
-  return stars;
-}
+const BRIGHT = [
+  { cx: 84, cy: 142, r: 1.3, o: 0.55 },
+  { cx: 215, cy: 88, r: 1.1, o: 0.42 },
+  { cx: 388, cy: 196, r: 1.5, o: 0.6 },
+  { cx: 612, cy: 124, r: 1.0, o: 0.4 },
+  { cx: 730, cy: 282, r: 1.2, o: 0.48 },
+  { cx: 158, cy: 412, r: 1.0, o: 0.38 },
+  { cx: 472, cy: 504, r: 1.4, o: 0.55 },
+  { cx: 868, cy: 528, r: 1.1, o: 0.42 },
+  { cx: 102, cy: 678, r: 1.2, o: 0.45 },
+  { cx: 348, cy: 758, r: 1.0, o: 0.36 },
+  { cx: 658, cy: 712, r: 1.3, o: 0.5 },
+  { cx: 920, cy: 802, r: 1.0, o: 0.38 },
+];
 
-const STARS = makeStars(110, 0x5c057a8);
+const FIELD = [
+  { cx: 42, cy: 56 }, { cx: 290, cy: 38 }, { cx: 466, cy: 92 },
+  { cx: 558, cy: 220 }, { cx: 802, cy: 184 }, { cx: 60, cy: 280 },
+  { cx: 244, cy: 326 }, { cx: 552, cy: 348 }, { cx: 692, cy: 392 },
+  { cx: 392, cy: 432 }, { cx: 800, cy: 472 }, { cx: 18, cy: 562 },
+  { cx: 268, cy: 596 }, { cx: 542, cy: 620 }, { cx: 778, cy: 648 },
+  { cx: 458, cy: 866 }, { cx: 198, cy: 902 }, { cx: 712, cy: 944 },
+];
 
 export default function Starfield() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 -z-0 overflow-hidden"
+      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
     >
       <svg
         viewBox="0 0 1000 1000"
         preserveAspectRatio="xMidYMid slice"
         className="h-full w-full"
       >
-        {STARS.map((s, i) => (
-          <circle
-            key={i}
-            cx={s.cx}
-            cy={s.cy}
-            r={s.r}
-            fill="#FFFFFF"
-            opacity={s.o}
-          />
+        {FIELD.map((s, i) => (
+          <circle key={`f${i}`} cx={s.cx} cy={s.cy} r={0.7} fill="#FFF" opacity={0.16} />
+        ))}
+        {BRIGHT.map((s, i) => (
+          <circle key={`b${i}`} cx={s.cx} cy={s.cy} r={s.r} fill="#FFF" opacity={s.o} />
         ))}
       </svg>
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40" />
     </div>
   );
 }
