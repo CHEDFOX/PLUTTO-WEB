@@ -12,9 +12,14 @@ body {
   color: #fff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 ::selection {
   background: rgba(212, 175, 55, 0.35);
   color: #fff;
+}
+
+html {
+  scroll-behavior: smooth;
 }
