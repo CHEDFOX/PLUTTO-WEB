@@ -25,15 +25,13 @@ export default function Home() {
             {/* Copy */}
             <div className="md:col-span-6 md:pl-2">
               <h2 className="font-serif text-[34px] md:text-[44px] font-light text-white leading-[1.08] tracking-[-0.01em]">
-                Talk to the stars,
+                Thousands of years
                 <br />
-                in your own voice.
+                of observation.
               </h2>
-              <p className="mt-8 max-w-md text-[15px] leading-relaxed text-white/60">
-                Plutto is a voice-first astrology oracle. Vedic, Western,
-                Chinese, KP and Numerology — each read for you in the
-                language that finds you, by a voice that remembers your
-                chart.
+              <p className="mt-8 max-w-md text-[16px] leading-relaxed text-white/65">
+                One place to explore how humanity has tried to
+                understand time, choice, and ourselves.
               </p>
               <div className="mt-10">
                 <Link
