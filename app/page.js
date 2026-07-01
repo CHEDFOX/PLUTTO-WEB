@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import Starfield from './components/Starfield';
-import Orb from './components/Orb';
-import NatalWheel from './components/NatalWheel';
+import PlanetSlideshow from './components/PlanetSlideshow';
 import StoreBadges from './components/StoreBadges';
 import FadeUp from './components/FadeUp';
 
@@ -86,12 +85,10 @@ export default function Home() {
               </FadeUp>
             </div>
 
-            {/* Orb + Wheel — the piece that has always been Plutto */}
+            {/* Twelve planets, one at a time */}
             <div className="md:col-span-6 order-1 md:order-2 flex items-center justify-center">
               <FadeUp delay={0.15}>
-                <div className="relative">
-                  <NatalWheel variant="faint" size={460} center={<Orb size="sm" />} />
-                </div>
+                <PlanetSlideshow size={460} />
               </FadeUp>
             </div>
           </div>
