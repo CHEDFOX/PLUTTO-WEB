@@ -1,18 +1,24 @@
-import { Cormorant_Garamond, Inter } from 'next/font/google';
+import { Syne, DM_Sans, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 
-const cormorant = Cormorant_Garamond({
+const syne = Syne({
   subsets: ['latin'],
-  weight: ['300', '400', '500'],
-  style: ['normal', 'italic'],
+  weight: ['500', '600', '700', '800'],
   variable: '--font-display',
   display: 'swap',
 });
 
-const inter = Inter({
+const dmSans = DM_Sans({
   subsets: ['latin'],
-  weight: ['300', '400', '500'],
+  weight: ['400', '500', '700'],
   variable: '--font-body',
+  display: 'swap',
+});
+
+const jetbrains = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-mono',
   display: 'swap',
 });
 
@@ -52,8 +58,11 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${inter.variable}`}>
-      <body className="min-h-screen bg-void text-white font-body antialiased">
+    <html
+      lang="en"
+      className={`${syne.variable} ${dmSans.variable} ${jetbrains.variable}`}
+    >
+      <body className="min-h-screen bg-black text-foreground font-body antialiased">
         {children}
       </body>
     </html>

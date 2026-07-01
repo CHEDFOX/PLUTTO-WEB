@@ -2,30 +2,171 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: dark;
+/* Disable text/content selection site-wide. Inputs stay selectable. */
+html, body, * {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+input, textarea, [contenteditable="true"] {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 }
 
-html,
-body {
-  background: #000;
-  color: #fff;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+/*
+  Plutto design tokens (HSL). Celestial dark:
+    bg        #000000
+    card      #0A0A0A
+    text      #F0F0F0
+    text-2    #888888
+    primary   #7FB8FF   cool celestial blue
+    accent    #FF6B35   warm secondary
+    border    #1A1A1A
+*/
+@layer base {
+  :root {
+    color-scheme: dark;
+
+    --background: 0 0% 0%;              /* #000000 */
+    --foreground: 0 0% 94%;             /* #F0F0F0 */
+
+    --card: 0 0% 4%;                    /* #0A0A0A */
+    --card-foreground: 0 0% 94%;
+
+    --popover: 0 0% 4%;
+    --popover-foreground: 0 0% 94%;
+
+    --primary: 212 100% 75%;            /* #7FB8FF cool celestial */
+    --primary-foreground: 0 0% 4%;
+
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 94%;
+
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 53%;       /* #888888 */
+
+    --accent: 16 100% 60%;              /* #FF6B35 warm */
+    --accent-foreground: 0 0% 4%;
+
+    --destructive: 0 72% 50%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 10%;                 /* #1A1A1A */
+    --input: 0 0% 10%;
+    --ring: 212 100% 75%;
+
+    --radius: 0.5rem;
+  }
+
+  * { @apply border-border; }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: #000;
+    overflow-x: hidden;
+  }
+
+  body {
+    @apply bg-black text-foreground antialiased;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Syne', system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  /* Reduced-motion */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  /* Focus */
+  :where(a, button, [role="button"], input, textarea, select, summary, [tabindex]):focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Selection — cool celestial blue */
+  ::selection {
+    background: rgba(127, 184, 255, 0.35);
+    color: #F0F0F0;
+  }
+
+  /* Autofill override */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus {
+    -webkit-text-fill-color: hsl(var(--foreground));
+    -webkit-box-shadow: 0 0 0 1000px #000 inset;
+    caret-color: hsl(var(--primary));
+    transition: background-color 9999s ease-in-out 0s;
+  }
+
+  /* Mobile tap targets */
+  @media (hover: none) and (pointer: coarse) {
+    a, button, [role="button"], input[type="submit"] { min-height: 44px; }
+    p a, li a, span a { min-height: 0; }
+  }
 }
 
-::selection {
-  background: rgba(212, 175, 55, 0.35);
-  color: #fff;
+@layer utilities {
+  .font-display { font-family: 'Syne', system-ui, sans-serif; }
+  .font-body    { font-family: 'DM Sans', system-ui, sans-serif; }
+  .font-mono    { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+  /* Grain overlay */
+  .grain-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 60;
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-size: 140px 140px;
+  }
+
+  .cursor-hidden, .cursor-hidden * { cursor: none !important; }
+
+  .text-title-case { text-transform: capitalize; }
 }
 
-html {
-  scroll-behavior: smooth;
+:where(.text-title-case) :where(span, em, strong, a, button) {
+  text-transform: inherit;
 }
 
-/* ───────────────────────── The Orb ───────────────────────── */
-/* Every layer is a position: absolute child of <Orb />. */
+/* ───────────────────────── Auto-capitalize ─────────────────────────
+   Match XOOTEQ: title-case everything on the page. `.uppercase` still
+   works, and inputs/textareas opt out via `data-no-auto-case` or by
+   being text inputs. */
+body :where(h1, h2, h3, h4, h5, h6, p, a, button, label, span, li) {
+  text-transform: capitalize;
+}
+body :where(.uppercase) { text-transform: uppercase; }
+body :where(input, textarea, [data-no-auto-case]) { text-transform: none; }
+
+/* ───────────────────────── The Orb ─────────────────────────
+   Recolored from gold to cool celestial blue. Same layered geometry:
+   halo, body, spec, rim, shimmer — each an absolute child of <Orb />. */
 
 .orb-halo,
 .orb-body,
@@ -41,7 +182,7 @@ html {
 .orb-halo {
   inset: -30%;
   background:
-    radial-gradient(closest-side, rgba(212, 175, 55, 0.22), transparent 65%);
+    radial-gradient(closest-side, rgba(127, 184, 255, 0.28), transparent 65%);
   filter: blur(28px);
   animation: orb-breathe 9s ease-in-out infinite;
 }
@@ -50,17 +191,17 @@ html {
   background:
     radial-gradient(
       circle at 50% 52%,
-      #f4d98a 0%,
-      #d9ac4a 22%,
-      #a87a26 46%,
-      #5a3f12 70%,
-      #1a1006 90%,
-      #060401 100%
+      #d6ecff 0%,
+      #8fc0f0 22%,
+      #3d6ba0 46%,
+      #14304d 70%,
+      #060a14 90%,
+      #010204 100%
     );
   box-shadow:
-    inset -28px -52px 78px rgba(0, 0, 0, 0.6),
-    inset 18px 22px 60px rgba(255, 232, 178, 0.18),
-    0 0 60px rgba(212, 175, 55, 0.18);
+    inset -28px -52px 78px rgba(0, 0, 0, 0.65),
+    inset 18px 22px 60px rgba(200, 225, 255, 0.18),
+    0 0 60px rgba(127, 184, 255, 0.22);
   animation: orb-breathe 9s ease-in-out infinite;
 }
 
@@ -68,8 +209,8 @@ html {
   background:
     radial-gradient(
       circle at 34% 28%,
-      rgba(255, 250, 220, 0.55) 0%,
-      rgba(255, 250, 220, 0.18) 14%,
+      rgba(235, 245, 255, 0.55) 0%,
+      rgba(235, 245, 255, 0.18) 14%,
       transparent 38%
     );
   mix-blend-mode: screen;
@@ -79,32 +220,20 @@ html {
   inset: -0.5px;
   background: conic-gradient(
     from 220deg,
-    rgba(255, 240, 200, 0) 0deg,
-    rgba(255, 240, 200, 0.35) 80deg,
-    rgba(255, 240, 200, 0) 180deg,
-    rgba(255, 240, 200, 0) 360deg
+    rgba(200, 225, 255, 0) 0deg,
+    rgba(200, 225, 255, 0.35) 80deg,
+    rgba(200, 225, 255, 0) 180deg,
+    rgba(200, 225, 255, 0) 360deg
   );
-  -webkit-mask: radial-gradient(
-    circle,
-    transparent 49.4%,
-    #000 49.6%,
-    #000 50%,
-    transparent 50.2%
-  );
-          mask: radial-gradient(
-    circle,
-    transparent 49.4%,
-    #000 49.6%,
-    #000 50%,
-    transparent 50.2%
-  );
+  -webkit-mask: radial-gradient(circle, transparent 49.4%, #000 49.6%, #000 50%, transparent 50.2%);
+          mask: radial-gradient(circle, transparent 49.4%, #000 49.6%, #000 50%, transparent 50.2%);
 }
 
 .orb-shimmer {
   background:
     radial-gradient(
       circle at 70% 60%,
-      rgba(255, 220, 150, 0.16) 0%,
+      rgba(180, 215, 255, 0.16) 0%,
       transparent 35%
     );
   mix-blend-mode: screen;
@@ -128,12 +257,12 @@ html {
 /* ─────────────────── Typography helpers ─────────────────── */
 
 .eyebrow {
-  font-family: var(--font-body), -apple-system, sans-serif;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
   font-weight: 500;
-  font-size: 10px;
-  letter-spacing: 0.42em;
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
+  color: hsl(var(--primary));
 }
 
 .hairline {
@@ -141,37 +270,42 @@ html {
   background: linear-gradient(
     to right,
     transparent,
-    rgba(255, 255, 255, 0.25),
+    rgba(127, 184, 255, 0.35),
     transparent
   );
 }
 
-/* Form inputs — single token, dark glass on black */
+/* Form inputs — transparent w/ bottom rule that lights up on focus */
 .input {
   width: 100%;
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  color: #fff;
-  font-family: var(--font-body), -apple-system, sans-serif;
+  border: 1px solid hsl(var(--border));
+  color: hsl(var(--foreground));
+  font-family: 'DM Sans', system-ui, sans-serif;
   font-size: 15px;
   padding: 14px 16px;
   border-radius: 4px;
-  transition: border-color 200ms ease;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
 }
 .input:focus {
   outline: none;
-  border-color: rgba(255, 255, 255, 0.7);
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 3px rgba(127, 184, 255, 0.12);
 }
-.input::placeholder {
-  color: rgba(255, 255, 255, 0.3);
-}
-.input:disabled {
-  opacity: 0.35;
+.input::placeholder { color: rgba(255, 255, 255, 0.3); }
+.input:disabled     { opacity: 0.35; }
+
+/* Hero card — subtle dark surface with hairline */
+.hero-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+  border: 1px solid rgba(127, 184, 255, 0.10);
+  border-radius: 24px;
 }
 
-/* Hero card — slightly elevated dark surface */
-.hero-card {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.018), rgba(255, 255, 255, 0));
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 24px;
+/* Primary CTA glow — parity with XOOTEQ's green pill, tuned to cool blue */
+.cta-glow {
+  transition: box-shadow 250ms ease, transform 250ms ease;
+}
+.cta-glow:hover {
+  box-shadow: 0 0 28px rgba(127, 184, 255, 0.45);
 }
