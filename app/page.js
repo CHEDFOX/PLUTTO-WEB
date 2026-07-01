@@ -1,6 +1,4 @@
 import Link from 'next/link';
-import Nav from './components/Nav';
-import Footer from './components/Footer';
 import Starfield from './components/Starfield';
 import Orb from './components/Orb';
 import NatalWheel from './components/NatalWheel';
@@ -10,9 +8,8 @@ export default function Home() {
   return (
     <>
       <Starfield />
-      <Nav />
 
-      <main className="relative z-10 pt-32 md:pt-40 px-4 md:px-12">
+      <div className="relative z-10 pt-16 md:pt-24 px-4 md:px-12">
         {/* HERO CARD */}
         <section className="mx-auto max-w-6xl hero-card px-6 md:px-16 py-16 md:py-24">
           <div className="text-center">
@@ -87,8 +84,7 @@ export default function Home() {
           </p>
         </section>
 
-        <Footer />
-      </main>
+      </div>
     </>
   );
 }

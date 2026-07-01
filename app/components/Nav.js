@@ -1,45 +1,118 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-const ITEMS = [
-  { href: '/', label: 'App' },
+const LINKS = [
   { href: '/about', label: 'About' },
 ];
 
 export default function Nav() {
+  const [open, setOpen] = useState(false);
   const path = usePathname();
+
+  useEffect(() => {
+    setOpen(false);
+  }, [path]);
+
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-30 px-6 md:px-12 py-6 md:py-8 bg-black/40 backdrop-blur-sm">
-      <div className="mx-auto flex max-w-6xl items-center justify-between">
-        <Link href="/" className="group flex flex-col leading-none">
-          <span className="font-serif text-[24px] md:text-[28px] font-medium text-white tracking-tight">
-            Plutto
-          </span>
-          <span className="mt-0.5 text-[8px] uppercase tracking-[0.4em] text-white/45">
-            An astrology oracle
-          </span>
+    <header className="fixed top-0 left-0 right-0 z-40 bg-transparent">
+      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
+        <Link
+          href="/"
+          className="font-display text-xl font-bold tracking-tight text-[#F0F0F0] transition-colors hover:text-[#7FB8FF]"
+          aria-label="Plutto home"
+        >
+          PLUTTO
         </Link>
 
-        <nav className="flex items-center gap-7 md:gap-12">
-          {ITEMS.map((it) => {
-            const active = path === it.href;
+        <ul className="hidden md:flex items-center gap-8">
+          {LINKS.map((l) => {
+            const active = path === l.href;
             return (
-              <Link
-                key={it.href}
-                href={it.href}
-                className="relative text-[10px] md:text-[11px] uppercase tracking-[0.32em] text-white/75 hover:text-white transition-colors"
-              >
-                {it.label}
-                {active && (
-                  <span className="absolute -bottom-2 left-0 right-0 h-[1px] bg-white" />
-                )}
-              </Link>
+              <li key={l.href}>
+                <Link
+                  href={l.href}
+                  className={
+                    'text-sm font-medium font-body transition-colors hover:text-[#7FB8FF] ' +
+                    (active ? 'text-[#F0F0F0]' : 'text-[#F0F0F0]/80')
+                  }
+                >
+                  {l.label}
+                </Link>
+              </li>
             );
           })}
-        </nav>
-      </div>
+        </ul>
+
+        <button
+          type="button"
+          aria-label={open ? 'Close menu' : 'Open menu'}
+          aria-expanded={open}
+          onClick={() => setOpen((v) => !v)}
+          className="md:hidden inline-flex h-11 w-11 items-center justify-center rounded-md text-[#F0F0F0] hover:text-[#7FB8FF] transition-colors relative z-[55]"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-6 w-6"
+          >
+            {open ? (
+              <>
+                <path d="M18 6L6 18" />
+                <path d="M6 6l12 12" />
+              </>
+            ) : (
+              <>
+                <path d="M3 6h18" />
+                <path d="M3 12h18" />
+                <path d="M3 18h18" />
+              </>
+            )}
+          </svg>
+        </button>
+      </nav>
+
+      {open && (
+        <div className="md:hidden fixed inset-0 z-50 bg-black flex items-center justify-center">
+          <ul className="flex flex-col items-center gap-8 px-6 text-center">
+            {LINKS.map((l) => {
+              const active = path === l.href;
+              return (
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    onClick={() => setOpen(false)}
+                    className={
+                      'font-display font-bold tracking-tight transition-colors min-h-[44px] inline-flex items-center text-3xl ' +
+                      (active
+                        ? 'text-[#7FB8FF]'
+                        : 'text-[#F0F0F0] hover:text-[#7FB8FF]')
+                    }
+                  >
+                    {l.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
     </header>
   );
 }

@@ -1,5 +1,3 @@
-import Nav from '../components/Nav';
-import Footer from '../components/Footer';
 import Starfield from '../components/Starfield';
 
 export const metadata = {
@@ -12,9 +10,8 @@ export default function AboutPage() {
   return (
     <>
       <Starfield />
-      <Nav />
 
-      <main className="relative z-10 pt-32 md:pt-44 px-6 md:px-12">
+      <div className="relative z-10 pt-16 md:pt-28 px-6 md:px-12">
         <section className="mx-auto max-w-3xl">
           <p className="text-[10px] uppercase tracking-[0.42em] text-white/50">
             About
@@ -68,8 +65,7 @@ export default function AboutPage() {
           </p>
         </section>
 
-        <Footer />
-      </main>
+      </div>
     </>
   );
 }

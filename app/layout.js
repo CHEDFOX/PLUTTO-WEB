@@ -1,5 +1,8 @@
 import { Syne, DM_Sans, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
+import Nav from './components/Nav';
+import Footer from './components/Footer';
+import SiteChrome from './components/SiteChrome';
 
 const syne = Syne({
   subsets: ['latin'],
@@ -63,7 +66,10 @@ export default function RootLayout({ children }) {
       className={`${syne.variable} ${dmSans.variable} ${jetbrains.variable}`}
     >
       <body className="min-h-screen bg-black text-foreground font-body antialiased">
-        {children}
+        <Nav />
+        <main className="flex-1 pt-16">{children}</main>
+        <Footer />
+        <SiteChrome />
       </body>
     </html>
   );
