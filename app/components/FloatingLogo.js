@@ -1,12 +1,13 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import LogoMark from './LogoMark';
 
 /**
- * Spring-physics floating planet — plutto's signature chrome piece.
+ * Spring-physics floating logo mark — plutto's signature chrome piece.
  *
  * Behavior (ported from XOOTEQ):
- *  - While `active` is false, the planet sits at `anchor` (bottom-right).
+ *  - While `active` is false, the mark sits at `anchor` (bottom-right).
  *  - While `active` is true, it drifts via constant slow velocity with a
  *    sine-noise heading wobble, softly reflecting off viewport edges.
  *  - Rotation gently tracks horizontal velocity (a sense of lean/weight).
@@ -28,7 +29,6 @@ const FloatingLogo = ({ active = true, anchor, size = 72 }) => {
   });
   const rafRef = useRef(null);
   const startedRef = useRef(false);
-  const [imgSrc, setImgSrc] = useState('/floating-logo.png');
 
   useEffect(() => {
     if (!active) {
@@ -118,7 +118,7 @@ const FloatingLogo = ({ active = true, anchor, size = 72 }) => {
         typeof window !== 'undefined' &&
         window.scrollTo({ top: 0, behavior: 'smooth' })
       }
-      className="fixed z-50 cursor-pointer transition-[filter] duration-300 hover:[filter:drop-shadow(0_0_28px_rgba(127,184,255,0.7))] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-full"
+      className="fixed z-50 cursor-pointer text-[#7FB8FF] transition-[filter] duration-300 hover:[filter:drop-shadow(0_0_28px_rgba(127,184,255,0.7))] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-full"
       style={{
         left: 0,
         top: 0,
@@ -133,13 +133,7 @@ const FloatingLogo = ({ active = true, anchor, size = 72 }) => {
           : 'none',
       }}
     >
-      <img
-        src={imgSrc}
-        alt=""
-        draggable="false"
-        className="w-full h-full object-contain select-none pointer-events-none"
-        onError={() => setImgSrc('/icon.svg')}
-      />
+      <LogoMark className="w-full h-full" />
     </button>
   );
 };
