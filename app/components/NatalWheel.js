@@ -7,13 +7,13 @@ const ZODIAC = ['♈', '♉', '♊', '♋', '♌', '♍', '♎', '♏', '♐', '
 export default function NatalWheel({
   size = 420,
   variant = 'solid', // 'solid' | 'faint'
-  center,            // optional ReactNode to render at the center (e.g. the Orb)
+  center,            // optional ReactNode at the center (e.g. the Orb)
 }) {
   const faint = variant === 'faint';
-  const strokeMain = faint ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.5)';
-  const strokeFine = faint ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.22)';
-  const signColor = faint ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.85)';
-  const houseColor = faint ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.5)';
+  const strokeMain = faint ? 'rgba(127,184,255,0.24)' : 'rgba(127,184,255,0.55)';
+  const strokeFine = faint ? 'rgba(127,184,255,0.10)' : 'rgba(127,184,255,0.24)';
+  const signColor  = faint ? 'rgba(200,225,255,0.35)' : 'rgba(200,225,255,0.85)';
+  const houseColor = faint ? 'rgba(200,225,255,0.22)' : 'rgba(200,225,255,0.55)';
 
   const c = 200;
   const rOuter = 198;
@@ -24,13 +24,11 @@ export default function NatalWheel({
   return (
     <div className="relative" style={{ width: size, height: size }}>
       <svg viewBox="0 0 400 400" width={size} height={size} aria-hidden="true">
-        {/* outer */}
         <circle cx={c} cy={c} r={rOuter} fill="none" stroke={strokeMain} strokeWidth="1" />
         <circle cx={c} cy={c} r={rZodiacBand} fill="none" stroke={strokeFine} strokeWidth="0.6" />
         <circle cx={c} cy={c} r={rHouseBand} fill="none" stroke={strokeFine} strokeWidth="0.6" />
         <circle cx={c} cy={c} r={rInner} fill="none" stroke={strokeFine} strokeWidth="0.6" />
 
-        {/* 12 spokes — zodiac dividers (outer band) */}
         {Array.from({ length: 12 }).map((_, i) => {
           const a = (i * 30 - 90) * (Math.PI / 180);
           const x1 = c + rZodiacBand * Math.cos(a);
@@ -42,7 +40,6 @@ export default function NatalWheel({
           );
         })}
 
-        {/* 12 spokes — house dividers (inner) */}
         {Array.from({ length: 12 }).map((_, i) => {
           const a = (i * 30 - 90) * (Math.PI / 180);
           const x1 = c + rInner * Math.cos(a);
@@ -54,7 +51,6 @@ export default function NatalWheel({
           );
         })}
 
-        {/* zodiac glyphs */}
         {ZODIAC.map((g, i) => {
           const a = (i * 30 + 15 - 90) * (Math.PI / 180);
           const r = (rOuter + rZodiacBand) / 2;
@@ -76,7 +72,6 @@ export default function NatalWheel({
           );
         })}
 
-        {/* house numbers — anti-clockwise from the left ascendant (9 o'clock) */}
         {Array.from({ length: 12 }).map((_, i) => {
           const a = (180 - i * 30 - 15) * (Math.PI / 180);
           const r = (rHouseBand + rInner) / 2;
@@ -91,15 +86,14 @@ export default function NatalWheel({
               dominantBaseline="central"
               fill={houseColor}
               fontSize={faint ? 9 : 11}
-              fontFamily="system-ui, sans-serif"
+              fontFamily="'JetBrains Mono', ui-monospace, monospace"
             >
               {i + 1}
             </text>
           );
         })}
 
-        {/* center mark — single gold dot (sacred placement) */}
-        {!center && <circle cx={c} cy={c} r={3} fill="#D4AF37" />}
+        {!center && <circle cx={c} cy={c} r={3} fill="#7FB8FF" />}
       </svg>
 
       {center && (

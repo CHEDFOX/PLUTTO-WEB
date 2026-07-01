@@ -25,22 +25,36 @@ const FIELD = [
   { cx: 458, cy: 866 }, { cx: 198, cy: 902 }, { cx: 712, cy: 944 },
 ];
 
+const STAR_TINT = '#E6F0FF';
+const HALO_TINT = '#7FB8FF';
+
 export default function Starfield() {
   return (
     <div
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
     >
+      {/* Very soft, wide radial haze — anchors the eye toward mid-stage. */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            `radial-gradient(ellipse 80% 55% at 65% 35%, rgba(127,184,255,0.06) 0%, transparent 60%)`,
+        }}
+      />
       <svg
         viewBox="0 0 1000 1000"
         preserveAspectRatio="xMidYMid slice"
         className="h-full w-full"
       >
         {FIELD.map((s, i) => (
-          <circle key={`f${i}`} cx={s.cx} cy={s.cy} r={0.7} fill="#FFF" opacity={0.16} />
+          <circle key={`f${i}`} cx={s.cx} cy={s.cy} r={0.7} fill={STAR_TINT} opacity={0.18} />
         ))}
         {BRIGHT.map((s, i) => (
-          <circle key={`b${i}`} cx={s.cx} cy={s.cy} r={s.r} fill="#FFF" opacity={s.o} />
+          <g key={`b${i}`}>
+            <circle cx={s.cx} cy={s.cy} r={s.r * 3.5} fill={HALO_TINT} opacity={s.o * 0.14} />
+            <circle cx={s.cx} cy={s.cy} r={s.r} fill={STAR_TINT} opacity={s.o} />
+          </g>
         ))}
       </svg>
     </div>
