@@ -18,24 +18,39 @@ const FRAMES = [
   { src: '/planets/Neptune.png', label: 'Neptune' },
 ];
 
-const INTERVAL_MS = 5000;
-const FADE_MS = 1600;
+// Cadence — designed as a contemplative loop:
+//   fade in (FADE_MS)  →  hold visible (STAY_MS − FADE_MS)  →
+//   fade out (FADE_MS) →  hold blank (HOLD_MS)  →  next planet
+// One planet cycle = STAY_MS + FADE_MS + HOLD_MS  ≈ 6.1s
+const STAY_MS = 3800;
+const FADE_MS = 1400;
+const HOLD_MS = 900;
 
 export default function PlanetSlideshow({ size = 460 }) {
   const [idx, setIdx] = useState(0);
+  const [visible, setVisible] = useState(true);
   const [alive, setAlive] = useState(FRAMES);
 
   useEffect(() => {
-    const reduce =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (typeof window === 'undefined') return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce || alive.length <= 1) return;
 
-    const id = setInterval(() => {
-      setIdx((i) => (i + 1) % alive.length);
-    }, INTERVAL_MS);
-    return () => clearInterval(id);
-  }, [alive.length]);
+    let timer;
+    if (visible) {
+      // Currently showing the planet — stay lit, then start fading out.
+      timer = setTimeout(() => setVisible(false), STAY_MS);
+    } else {
+      // Currently fading out / holding blank — wait for the fade to
+      // complete AND the blank hold, then swap idx and fade the next
+      // planet in.
+      timer = setTimeout(() => {
+        setIdx((i) => (i + 1) % alive.length);
+        setVisible(true);
+      }, FADE_MS + HOLD_MS);
+    }
+    return () => clearTimeout(timer);
+  }, [visible, alive.length]);
 
   const dropFrame = (src) => {
     setAlive((prev) => {
@@ -71,12 +86,11 @@ export default function PlanetSlideshow({ size = 460 }) {
         }}
       />
 
-      {/* All frames mounted at once, stacked at the same position.
-          Opacity is toggled via CSS transitions — the frame at `idx` is
-          fully opaque, every other frame is invisible. Because every img
-          shares `absolute inset-0` + `object-contain`, planets that don't
-          fill the canvas simply sit smaller inside the same footprint,
-          never cropped, always registering at pixel-identical positions. */}
+      {/* All frames mounted at once, stacked at the same position. The
+          frame at `idx` is fully opaque only when `visible` is true; when
+          `visible` flips to false every frame is at 0 opacity, giving the
+          slideshow a moment of blank breath between planets before the
+          next one fades in. */}
       {alive.map((frame, i) => (
         <img
           key={frame.src}
@@ -86,7 +100,7 @@ export default function PlanetSlideshow({ size = 460 }) {
           onError={() => dropFrame(frame.src)}
           className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none"
           style={{
-            opacity: i === idx ? 1 : 0,
+            opacity: i === idx && visible ? 1 : 0,
             transition: `opacity ${FADE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`,
           }}
         />
