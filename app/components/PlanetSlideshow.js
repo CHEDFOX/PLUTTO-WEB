@@ -50,8 +50,8 @@ export default function PlanetSlideshow({ size = 460 }) {
 
   return (
     <div
-      className="relative w-full mx-auto"
-      style={{ maxWidth: `${size}px` }}
+      className="relative mx-auto"
+      style={{ width: `${size}px`, maxWidth: '100%' }}
       role="img"
       aria-label={currentLabel}
     >
