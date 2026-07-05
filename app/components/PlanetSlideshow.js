@@ -6,11 +6,9 @@ import { useEffect, useState } from 'react';
 // Filenames match the assets in /public/planets/ verbatim (case-sensitive).
 const FRAMES = [
   { src: '/planets/sun.png',     label: 'Sun' },
-  { src: '/planets/moon.png',    label: 'Moon' },
   { src: '/planets/mercury.png', label: 'Mercury' },
   { src: '/planets/venus.png',   label: 'Venus' },
   { src: '/planets/mars.png',    label: 'Mars' },
-  { src: '/planets/jupiter.png', label: 'Jupiter' },
   { src: '/planets/saturn.png',  label: 'Saturn' },
   { src: '/planets/rahu.png',    label: 'Rahu' },
   { src: '/planets/ketu.png',    label: 'Ketu' },
