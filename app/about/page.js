@@ -17,7 +17,7 @@ export default function AboutPage() {
         <section className="mx-auto max-w-4xl px-6 pt-16 md:pt-24 pb-16">
           <FadeUp>
             <p
-              className="uppercase text-[#7FB8FF]"
+              className="uppercase text-[#5DBAE8]"
               style={{
                 fontFamily: "'JetBrains Mono', ui-monospace, monospace",
                 fontSize: '0.72rem',
@@ -39,7 +39,7 @@ export default function AboutPage() {
             >
               An Oracle That{' '}
               <em
-                className="italic text-[#7FB8FF]"
+                className="italic text-[#5DBAE8]"
                 style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
               >
                 Speaks
@@ -97,7 +97,7 @@ export default function AboutPage() {
         <section className="mx-auto max-w-4xl px-6 py-24">
           <FadeUp>
             <p
-              className="uppercase text-[#7FB8FF] text-center"
+              className="uppercase text-[#5DBAE8] text-center"
               style={{
                 fontFamily: "'JetBrains Mono', ui-monospace, monospace",
                 fontSize: '0.7rem',
