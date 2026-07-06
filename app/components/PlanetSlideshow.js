@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 // Traditional order (Saturn removed): five classical + two lunar nodes,
@@ -20,8 +20,6 @@ const FRAMES = [
 // Cadence — planets orbit through the frame with a beat of blank between:
 //   enter from lower-left (TRANS_MS)  →  hold at center (STAY_MS)  →
 //   exit toward lower-right (TRANS_MS) →  blank sky (HOLD_MS)  →  next
-// One full planet cycle = STAY + TRANS + HOLD (the incoming TRANS overlaps
-// with the outgoing planet's absence, so it isn't double-counted).
 const STAY_MS = 3200;
 const TRANS_MS = 1500;
 const HOLD_MS = 700;
@@ -31,28 +29,59 @@ const ORBIT_EASE = [0.32, 0, 0.28, 1];
 
 // The offset positions describe an orbital arc: planets enter from the
 // lower-left below the frame and exit to the lower-right below the frame,
-// crossing through center at rest. Rendered as percentages so the arc
-// stays proportional to the container size.
+// crossing through center at rest. Percentages so the arc stays
+// proportional to the container size.
 const OFFSCREEN_ENTER = { x: '-110%', y: '18%' };
 const CENTER          = { x: '0%',    y: '0%'  };
 const OFFSCREEN_EXIT  = { x: '110%',  y: '18%' };
 
+// { alive, idx } live in one reducer so an errored image can't leave the
+// two out of sync (previous version scheduled a nested setIdx inside a
+// setAlive updater, which fires twice under React Strict Mode).
+const initialState = { alive: FRAMES, idx: 0 };
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'advance':
+      return { ...state, idx: (state.idx + 1) % state.alive.length };
+    case 'drop': {
+      const next = state.alive.filter((f) => f.src !== action.src);
+      if (next.length === 0) return state; // keep the broken frame rather than render nothing
+      return {
+        alive: next,
+        idx: state.idx >= next.length ? 0 : state.idx,
+      };
+    }
+    default:
+      return state;
+  }
+}
+
 export default function PlanetSlideshow({ size = 460 }) {
-  const [idx, setIdx] = useState(0);
+  const [{ alive, idx }, dispatch] = useReducer(reducer, initialState);
   const [waiting, setWaiting] = useState(false);
-  const [alive, setAlive] = useState(FRAMES);
+
+  // Keep a live ref to alive.length so the timer's callback advances the
+  // right amount even if a frame errors mid-cycle. Without this, changes
+  // to alive would need to be a useEffect dependency and would reset the
+  // in-flight STAY / HOLD timer.
+  const aliveLenRef = useRef(alive.length);
+  useEffect(() => {
+    aliveLenRef.current = alive.length;
+  }, [alive.length]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce || alive.length <= 1) return;
+    if (reduce) return;
+    if (aliveLenRef.current <= 1) return;
 
     let timer;
     if (waiting) {
       // Outgoing planet is animating away. Wait for the exit to complete
       // plus the blank-sky hold before advancing to the next planet.
       timer = setTimeout(() => {
-        setIdx((i) => (i + 1) % alive.length);
+        dispatch({ type: 'advance' });
         setWaiting(false);
       }, TRANS_MS + HOLD_MS);
     } else {
@@ -60,22 +89,13 @@ export default function PlanetSlideshow({ size = 460 }) {
       timer = setTimeout(() => setWaiting(true), STAY_MS);
     }
     return () => clearTimeout(timer);
-  }, [waiting, alive.length]);
-
-  const dropFrame = (src) => {
-    setAlive((prev) => {
-      const next = prev.filter((f) => f.src !== src);
-      if (next.length === 0) return prev;
-      setIdx((i) => (i >= next.length ? 0 : i));
-      return next;
-    });
-  };
+  }, [waiting]);
 
   const current = alive[idx] ?? FRAMES[0];
 
   return (
     <div
-      className="relative mx-auto overflow-hidden"
+      className="relative mx-auto"
       style={{ width: `${size}px`, maxWidth: '100%' }}
       role="img"
       aria-label={current.label}
@@ -84,7 +104,8 @@ export default function PlanetSlideshow({ size = 460 }) {
           regardless of aspect-ratio CSS support. */}
       <div style={{ paddingBottom: '100%' }} aria-hidden="true" />
 
-      {/* Soft blue halo behind the images */}
+      {/* Halo — sits OUTSIDE the clip wrapper so its negative inset can
+          bleed cleanly beyond the square instead of being flat-clipped. */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-[-6%]"
@@ -96,30 +117,36 @@ export default function PlanetSlideshow({ size = 460 }) {
         }}
       />
 
-      {/* Single motion.img whose key is the planet src. AnimatePresence
-          with mode="wait" guarantees the outgoing planet finishes its
-          exit slide before the incoming planet mounts and slides in —
-          giving us a clean orbital pass with a beat of empty sky between. */}
-      <AnimatePresence mode="wait" initial={false}>
-        {!waiting && (
-          <motion.img
-            key={current.src}
-            src={current.src}
-            alt=""
-            draggable="false"
-            onError={() => dropFrame(current.src)}
-            className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none"
-            initial={{ ...OFFSCREEN_ENTER, opacity: 0 }}
-            animate={{ ...CENTER, opacity: 1 }}
-            exit={{ ...OFFSCREEN_EXIT, opacity: 0 }}
-            transition={{
-              duration: TRANS_MS / 1000,
-              ease: ORBIT_EASE,
-              opacity: { duration: TRANS_MS / 1000, ease: 'linear' },
-            }}
-          />
-        )}
-      </AnimatePresence>
+      {/* Clip wrapper — mirrors the square footprint and hides the
+          sliding planet as it leaves the frame. */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Single motion.img whose key is the planet src. AnimatePresence
+            with mode="wait" guarantees the outgoing planet finishes its
+            exit slide before the incoming planet mounts — giving a clean
+            orbital pass with a beat of empty sky between. No `initial`
+            prop here, so the FIRST planet also plays its enter animation
+            on mount instead of popping in. */}
+        <AnimatePresence mode="wait">
+          {!waiting && (
+            <motion.img
+              key={current.src}
+              src={current.src}
+              alt=""
+              draggable="false"
+              onError={() => dispatch({ type: 'drop', src: current.src })}
+              className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none"
+              initial={{ ...OFFSCREEN_ENTER, opacity: 0 }}
+              animate={{ ...CENTER, opacity: 1 }}
+              exit={{ ...OFFSCREEN_EXIT, opacity: 0 }}
+              transition={{
+                duration: TRANS_MS / 1000,
+                ease: ORBIT_EASE,
+                opacity: { duration: TRANS_MS / 1000, ease: 'linear' },
+              }}
+            />
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }
