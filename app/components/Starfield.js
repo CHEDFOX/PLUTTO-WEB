@@ -26,7 +26,7 @@ const FIELD = [
 ];
 
 const STAR_TINT = '#E6F0FF';
-const HALO_TINT = '#5DBAE8';
+const HALO_TINT = '#4EC5F2';
 
 export default function Starfield() {
   return (
@@ -39,7 +39,7 @@ export default function Starfield() {
         className="absolute inset-0"
         style={{
           background:
-            `radial-gradient(ellipse 80% 55% at 65% 35%, rgba(93,186,232,0.06) 0%, transparent 60%)`,
+            `radial-gradient(ellipse 80% 55% at 65% 35%, rgba(78,197,242,0.06) 0%, transparent 60%)`,
         }}
       />
       <svg

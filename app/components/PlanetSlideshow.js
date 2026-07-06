@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useReducer, useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
 
 // Traditional order (Saturn removed): five classical + two lunar nodes,
 // then the modern outer planets. Filenames match /public/planets/ verbatim
@@ -17,27 +16,13 @@ const FRAMES = [
   { src: '/planets/Neptune.png', label: 'Neptune' },
 ];
 
-// Cadence — planets orbit through the frame with a beat of blank between:
-//   enter from lower-left (TRANS_MS)  →  hold at center (STAY_MS)  →
-//   exit toward lower-right (TRANS_MS) →  blank sky (HOLD_MS)  →  next
-const STAY_MS = 3200;
-const TRANS_MS = 1500;
-const HOLD_MS = 700;
+// Cadence — designed as a contemplative loop:
+//   fade in (FADE_MS)  →  hold visible (STAY_MS − FADE_MS)  →
+//   fade out (FADE_MS) →  hold blank (HOLD_MS)  →  next planet
+const STAY_MS = 3800;
+const FADE_MS = 1400;
+const HOLD_MS = 900;
 
-// Ease that reads as a slow, weighted glide across the frame.
-const ORBIT_EASE = [0.32, 0, 0.28, 1];
-
-// The offset positions describe an orbital arc: planets enter from the
-// lower-left below the frame and exit to the lower-right below the frame,
-// crossing through center at rest. Percentages so the arc stays
-// proportional to the container size.
-const OFFSCREEN_ENTER = { x: '-110%', y: '18%' };
-const CENTER          = { x: '0%',    y: '0%'  };
-const OFFSCREEN_EXIT  = { x: '110%',  y: '18%' };
-
-// { alive, idx } live in one reducer so an errored image can't leave the
-// two out of sync (previous version scheduled a nested setIdx inside a
-// setAlive updater, which fires twice under React Strict Mode).
 const initialState = { alive: FRAMES, idx: 0 };
 
 function reducer(state, action) {
@@ -59,12 +44,9 @@ function reducer(state, action) {
 
 export default function PlanetSlideshow({ size = 460 }) {
   const [{ alive, idx }, dispatch] = useReducer(reducer, initialState);
-  const [waiting, setWaiting] = useState(false);
+  const [visible, setVisible] = useState(true);
 
-  // Keep a live ref to alive.length so the timer's callback advances the
-  // right amount even if a frame errors mid-cycle. Without this, changes
-  // to alive would need to be a useEffect dependency and would reset the
-  // in-flight STAY / HOLD timer.
+  // Live ref to alive.length so a dropped frame doesn't reset the timer.
   const aliveLenRef = useRef(alive.length);
   useEffect(() => {
     aliveLenRef.current = alive.length;
@@ -77,76 +59,64 @@ export default function PlanetSlideshow({ size = 460 }) {
     if (aliveLenRef.current <= 1) return;
 
     let timer;
-    if (waiting) {
-      // Outgoing planet is animating away. Wait for the exit to complete
-      // plus the blank-sky hold before advancing to the next planet.
+    if (visible) {
+      // Currently showing the planet — stay lit, then start fading out.
+      timer = setTimeout(() => setVisible(false), STAY_MS);
+    } else {
+      // Fading out / holding blank — wait for the fade to complete AND
+      // the blank hold, then swap idx and fade the next planet in.
       timer = setTimeout(() => {
         dispatch({ type: 'advance' });
-        setWaiting(false);
-      }, TRANS_MS + HOLD_MS);
-    } else {
-      // A planet is at center. Let it linger, then trigger the exit.
-      timer = setTimeout(() => setWaiting(true), STAY_MS);
+        setVisible(true);
+      }, FADE_MS + HOLD_MS);
     }
     return () => clearTimeout(timer);
-  }, [waiting]);
+  }, [visible]);
 
-  const current = alive[idx] ?? FRAMES[0];
+  const currentLabel = alive[idx]?.label ?? 'Planet';
 
   return (
     <div
       className="relative mx-auto"
       style={{ width: `${size}px`, maxWidth: '100%' }}
       role="img"
-      aria-label={current.label}
+      aria-label={currentLabel}
     >
       {/* Padding-bottom trick forces the container to be square
           regardless of aspect-ratio CSS support. */}
       <div style={{ paddingBottom: '100%' }} aria-hidden="true" />
 
-      {/* Halo — sits OUTSIDE the clip wrapper so its negative inset can
-          bleed cleanly beyond the square instead of being flat-clipped. */}
+      {/* Halo — sits outside the clip container so its negative inset
+          can bleed cleanly beyond the square. */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-[-6%]"
         style={{
           background:
-            'radial-gradient(closest-side, rgba(93,186,232,0.18), transparent 65%)',
+            'radial-gradient(closest-side, rgba(78,197,242,0.18), transparent 65%)',
           filter: 'blur(28px)',
           animation: 'orb-breathe 9s ease-in-out infinite',
         }}
       />
 
-      {/* Clip wrapper — mirrors the square footprint and hides the
-          sliding planet as it leaves the frame. */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Single motion.img whose key is the planet src. AnimatePresence
-            with mode="wait" guarantees the outgoing planet finishes its
-            exit slide before the incoming planet mounts — giving a clean
-            orbital pass with a beat of empty sky between. No `initial`
-            prop here, so the FIRST planet also plays its enter animation
-            on mount instead of popping in. */}
-        <AnimatePresence mode="wait">
-          {!waiting && (
-            <motion.img
-              key={current.src}
-              src={current.src}
-              alt=""
-              draggable="false"
-              onError={() => dispatch({ type: 'drop', src: current.src })}
-              className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none"
-              initial={{ ...OFFSCREEN_ENTER, opacity: 0 }}
-              animate={{ ...CENTER, opacity: 1 }}
-              exit={{ ...OFFSCREEN_EXIT, opacity: 0 }}
-              transition={{
-                duration: TRANS_MS / 1000,
-                ease: ORBIT_EASE,
-                opacity: { duration: TRANS_MS / 1000, ease: 'linear' },
-              }}
-            />
-          )}
-        </AnimatePresence>
-      </div>
+      {/* All frames mounted at once, stacked at the same position. The
+          frame at `idx` is fully opaque only when `visible` is true; when
+          `visible` flips to false every frame is at 0 opacity, giving a
+          moment of blank breath between planets before the next fades in. */}
+      {alive.map((frame, i) => (
+        <img
+          key={frame.src}
+          src={frame.src}
+          alt=""
+          draggable="false"
+          onError={() => dispatch({ type: 'drop', src: frame.src })}
+          className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none"
+          style={{
+            opacity: i === idx && visible ? 1 : 0,
+            transition: `opacity ${FADE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`,
+          }}
+        />
+      ))}
     </div>
   );
 }
