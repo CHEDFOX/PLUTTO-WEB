@@ -1,4 +1,4 @@
-// The Oracle. The single sacred place where gold lives.
+// The Oracle. The single sacred place where celestial blue lives.
 // Pure CSS — no canvas, no JS, no images. Crafted radial gradients
 // plus a soft breathing animation.
 
@@ -6,7 +6,7 @@ export default function Orb({ size = 'lg' }) {
   const dim = size === 'sm' ? 'h-[260px] w-[260px]' : 'h-[460px] w-[460px] md:h-[520px] md:w-[520px]';
   return (
     <div className={`relative ${dim} select-none`} aria-hidden="true">
-      {/* outer halo — diffuse warm bloom */}
+      {/* outer halo — diffuse cool bloom */}
       <div className="orb-halo" />
       {/* the body */}
       <div className="orb-body" />
