@@ -23,7 +23,7 @@ export default function Home() {
                     letterSpacing: '3px',
                   }}
                 >
-                  The Voice-First Oracle
+                  The Search For Meaning
                 </p>
               </FadeUp>
 
@@ -36,14 +36,14 @@ export default function Home() {
                     letterSpacing: '-0.02em',
                   }}
                 >
-                  Every Reading.
+                  We&apos;ve Always
                   <br />
-                  Every{' '}
+                  Looked{' '}
                   <em
                     className="italic text-[#2962FF]"
                     style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
                   >
-                    System
+                    Up
                   </em>
                   .
                 </h1>
@@ -54,10 +54,10 @@ export default function Home() {
                   className="mt-8 max-w-xl text-[#C0C0C0]"
                   style={{ fontSize: '1.05rem', lineHeight: 1.7 }}
                 >
-                  Vedic. Western. Chinese. KP. Numerology. One voice you can talk
-                  to — trained on Parashara and Ptolemy, BaZi and the
-                  Krishnamurti school. It names the pattern in plain words,
-                  before the chart speaks for it.
+                  For thousands of years, humanity searched the sky for meaning.
+                  With Plutto, you join the expedition — an oracle that reads the
+                  heavens across every tradition, and speaks the pattern back to
+                  you in plain words.
                 </p>
               </FadeUp>
 
@@ -68,7 +68,7 @@ export default function Home() {
                     className="cta-glow inline-flex items-center justify-center rounded-md bg-[#2962FF] px-7 py-4 text-[#0A0A0A] font-body font-semibold uppercase"
                     style={{ fontSize: '0.8rem', letterSpacing: '3px' }}
                   >
-                    Meet The Oracle
+                    See Through
                   </Link>
                   <a
                     href="#corpus"
@@ -79,7 +79,7 @@ export default function Home() {
                       letterSpacing: '3px',
                     }}
                   >
-                    See The Corpus →
+                    The Corpus →
                   </a>
                 </div>
               </FadeUp>
