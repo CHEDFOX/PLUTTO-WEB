@@ -65,7 +65,7 @@ export default function Home() {
                 <div className="mt-10 flex items-center gap-5">
                   <Link
                     href="/about"
-                    className="cta-glow inline-flex items-center justify-center rounded-md bg-[#5F82EA] px-7 py-4 text-[#0A0A0A] font-body font-semibold uppercase"
+                    className="cta-glow inline-flex items-center justify-center rounded-md px-7 py-4 text-[#0A0A0A] font-body font-semibold uppercase"
                     style={{ fontSize: '0.75rem', letterSpacing: '0.22em' }}
                   >
                     Meet The Oracle

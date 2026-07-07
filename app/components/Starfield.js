@@ -34,12 +34,15 @@ export default function Starfield() {
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
     >
-      {/* Very soft, wide radial haze — anchors the eye toward mid-stage. */}
+      {/* Layered radial haze:
+          — a soft periwinkle glow high-right (accent),
+          — a deep navy well low-left (adds glossy depth + horizon feel). */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            `radial-gradient(ellipse 80% 55% at 65% 35%, rgba(95,130,234,0.06) 0%, transparent 60%)`,
+            `radial-gradient(ellipse 80% 55% at 65% 35%, rgba(95,130,234,0.06) 0%, transparent 60%),
+             radial-gradient(ellipse 95% 60% at 20% 100%, rgba(15,27,61,0.55) 0%, transparent 70%)`,
         }}
       />
       <svg

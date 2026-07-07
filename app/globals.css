@@ -302,10 +302,25 @@ body :where(input, textarea, [data-no-auto-case]) { text-transform: none; }
   border-radius: 24px;
 }
 
-/* Primary CTA glow — parity with XOOTEQ's green pill, tuned to cool blue */
+/* Primary CTA — glossy periwinkle pill with a navy-seated glow.
+   The double gradient is a top-lit sheen over the base periwinkle
+   deepening into navy; the box-shadow stacks a soft primary halo on
+   top of a deep navy drop for a bit of lift. */
 .cta-glow {
-  transition: box-shadow 250ms ease, transform 250ms ease;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 45%),
+    linear-gradient(180deg, #6D8DEE 0%, #5F82EA 55%, #3E5FC4 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.22),
+    inset 0 -1px 0 rgba(15,27,61,0.35),
+    0 6px 22px rgba(15,27,61,0.45);
+  transition: box-shadow 250ms ease, transform 250ms ease, filter 250ms ease;
 }
 .cta-glow:hover {
-  box-shadow: 0 0 28px rgba(95, 130, 234, 0.45);
+  filter: brightness(1.05);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.28),
+    inset 0 -1px 0 rgba(15,27,61,0.35),
+    0 0 32px rgba(95,130,234,0.45),
+    0 8px 26px rgba(15,27,61,0.55);
 }
