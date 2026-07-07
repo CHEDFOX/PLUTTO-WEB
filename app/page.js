@@ -16,7 +16,7 @@ export default function Home() {
             <div className="md:col-span-6 order-2 md:order-1">
               <FadeUp>
                 <p
-                  className="uppercase text-[#00E676]"
+                  className="uppercase text-[#B855FF]"
                   style={{
                     fontFamily: "'JetBrains Mono', ui-monospace, monospace",
                     fontSize: '0.8rem',
@@ -40,7 +40,7 @@ export default function Home() {
                   <br />
                   Every{' '}
                   <em
-                    className="italic text-[#00E676]"
+                    className="italic text-[#B855FF]"
                     style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
                   >
                     System
@@ -65,7 +65,7 @@ export default function Home() {
                 <div className="mt-10 flex items-center gap-5">
                   <Link
                     href="/about"
-                    className="cta-glow inline-flex items-center justify-center rounded-md bg-[#00E676] px-7 py-4 text-[#0A0A0A] font-body font-semibold uppercase"
+                    className="cta-glow inline-flex items-center justify-center rounded-md bg-[#B855FF] px-7 py-4 text-[#0A0A0A] font-body font-semibold uppercase"
                     style={{ fontSize: '0.8rem', letterSpacing: '3px' }}
                   >
                     Meet The Oracle
@@ -98,7 +98,7 @@ export default function Home() {
         <section id="corpus" className="mx-auto max-w-7xl px-6 py-24">
           <FadeUp>
             <p
-              className="uppercase text-[#00E676] text-center"
+              className="uppercase text-[#B855FF] text-center"
               style={{
                 fontFamily: "'JetBrains Mono', ui-monospace, monospace",
                 fontSize: '0.8rem',
@@ -202,12 +202,12 @@ function FoundationCard({ eyebrow, title, body }) {
     <div
       className="relative p-8 rounded-lg h-full transition-colors"
       style={{
-        background: 'linear-gradient(180deg, rgba(0,230,118,0.03), rgba(255,255,255,0))',
-        border: '1px solid rgba(0,230,118,0.10)',
+        background: 'linear-gradient(180deg, rgba(184,85,255,0.03), rgba(255,255,255,0))',
+        border: '1px solid rgba(184,85,255,0.10)',
       }}
     >
       <p
-        className="uppercase text-[#00E676]"
+        className="uppercase text-[#B855FF]"
         style={{
           fontFamily: "'JetBrains Mono', ui-monospace, monospace",
           fontSize: '0.72rem',

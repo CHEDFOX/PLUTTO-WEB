@@ -71,14 +71,14 @@ const injectStyles = () => {
       100% { filter: blur(0.6px) hue-rotate(0deg) contrast(1.2) saturate(1.4); }
     }
     .${GLITCH_CLASS} {
-      color: #00E676 !important;
+      color: #B855FF !important;
       font-family: 'JetBrains Mono', ui-monospace, monospace !important;
       letter-spacing: 0.05em;
       text-shadow:
          2px 0 0 rgba(255, 80, 160, 0.85),
         -2px 0 0 rgba(180, 80, 255, 0.85),
-         0   0 6px rgba(0, 230, 118, 0.7),
-         0   0 14px rgba(0, 230, 118, 0.45),
+         0   0 6px rgba(184, 85, 255, 0.7),
+         0   0 14px rgba(184, 85, 255, 0.45),
          1px 1px 0 rgba(200, 225, 255, 0.5);
       animation:
         bwShake 90ms steps(2) infinite,
