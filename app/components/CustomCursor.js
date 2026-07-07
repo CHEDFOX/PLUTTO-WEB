@@ -112,8 +112,8 @@ const CustomCursor = () => {
             width: 6,
             height: 6,
             transform: 'translate(-50%, -50%)',
-            backgroundColor: '#B855FF',
-            boxShadow: '0 0 10px rgba(184,85,255,0.8)',
+            backgroundColor: '#2962FF',
+            boxShadow: '0 0 10px rgba(41,98,255,0.8)',
           }}
         />
       </div>

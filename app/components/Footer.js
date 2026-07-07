@@ -27,25 +27,25 @@ export default function Footer() {
             }}
           >
             <a
-              className="text-[#888] transition-colors hover:text-[#B855FF]"
+              className="text-[#888] transition-colors hover:text-[#2962FF]"
               href="https://api.plutto.space/privacy"
             >
               Privacy
             </a>
             <a
-              className="text-[#888] transition-colors hover:text-[#B855FF]"
+              className="text-[#888] transition-colors hover:text-[#2962FF]"
               href="https://api.plutto.space/static/terms.html"
             >
               Terms
             </a>
             <a
-              className="text-[#888] transition-colors hover:text-[#B855FF]"
+              className="text-[#888] transition-colors hover:text-[#2962FF]"
               href="https://api.plutto.space/static/delete.html"
             >
               Delete Account
             </a>
             <a
-              className="text-[#888] transition-colors hover:text-[#B855FF]"
+              className="text-[#888] transition-colors hover:text-[#2962FF]"
               href="mailto:support@plutto.space"
             >
               Contact
