@@ -118,7 +118,7 @@ const FloatingLogo = ({ active = true, anchor, size = 72 }) => {
         typeof window !== 'undefined' &&
         window.scrollTo({ top: 0, behavior: 'smooth' })
       }
-      className="fixed z-50 cursor-pointer text-[#5F82EA] transition-[filter] duration-300 hover:[filter:drop-shadow(0_0_28px_rgba(95,130,234,0.7))] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-full"
+      className="fixed z-50 cursor-pointer text-[#6C82B8] transition-[filter] duration-300 hover:[filter:drop-shadow(0_0_28px_rgba(108,130,184,0.7))] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-full"
       style={{
         left: 0,
         top: 0,
@@ -129,7 +129,7 @@ const FloatingLogo = ({ active = true, anchor, size = 72 }) => {
         }px, 0) rotate(${rot}deg) scale(${scale})`,
         willChange: 'transform, filter',
         filter: active
-          ? 'drop-shadow(0 0 18px rgba(95,130,234,0.45))'
+          ? 'drop-shadow(0 0 18px rgba(108,130,184,0.45))'
           : 'none',
       }}
     >
