@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useReducer, useRef, useState } from 'react';
+import { useEffect, useReducer, useRef } from 'react';
 
 // Traditional order (Saturn removed): five classical + two lunar nodes,
 // then the modern outer planets. Filenames match /public/planets/ verbatim
@@ -16,12 +16,31 @@ const FRAMES = [
   { src: '/planets/Neptune.png', label: 'Neptune' },
 ];
 
-// Cadence — designed as a contemplative loop:
-//   fade in (FADE_MS)  →  hold visible (STAY_MS − FADE_MS)  →
-//   fade out (FADE_MS) →  hold blank (HOLD_MS)  →  next planet
-const STAY_MS = 3800;
-const FADE_MS = 1400;
-const HOLD_MS = 900;
+// Cadence — pure crossfade with no blank between:
+//   the outgoing planet fades 1 → 0 over FADE_MS at the same time as the
+//   incoming planet fades 0 → 1, then holds visible for CYCLE_MS. No halo,
+//   no blank, no interruption — one continuous glide.
+const CYCLE_MS = 5000;
+const FADE_MS = 2200;
+
+// Hover shake — a subtle jitter on the current planet while the pointer is
+// over the frame. Kept scoped to this component via an inline <style>.
+const HOVER_STYLES = `
+  @keyframes planet-hover-shake {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    20%  { transform: translate(-1.6px,  1px)  rotate(-0.5deg); }
+    40%  { transform: translate( 1.6px, -1px)  rotate( 0.5deg); }
+    60%  { transform: translate(-1px,   -1.6px) rotate(-0.3deg); }
+    80%  { transform: translate( 1px,    1.6px) rotate( 0.3deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+  }
+  .planet-slideshow:hover img {
+    animation: planet-hover-shake 700ms ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .planet-slideshow:hover img { animation: none; }
+  }
+`;
 
 const initialState = { alive: FRAMES, idx: 0 };
 
@@ -44,9 +63,8 @@ function reducer(state, action) {
 
 export default function PlanetSlideshow({ size = 460 }) {
   const [{ alive, idx }, dispatch] = useReducer(reducer, initialState);
-  const [visible, setVisible] = useState(true);
 
-  // Live ref to alive.length so a dropped frame doesn't reset the timer.
+  // Live ref so a dropped frame doesn't reset the interval.
   const aliveLenRef = useRef(alive.length);
   useEffect(() => {
     aliveLenRef.current = alive.length;
@@ -58,65 +76,47 @@ export default function PlanetSlideshow({ size = 460 }) {
     if (reduce) return;
     if (aliveLenRef.current <= 1) return;
 
-    let timer;
-    if (visible) {
-      // Currently showing the planet — stay lit, then start fading out.
-      timer = setTimeout(() => setVisible(false), STAY_MS);
-    } else {
-      // Fading out / holding blank — wait for the fade to complete AND
-      // the blank hold, then swap idx and fade the next planet in.
-      timer = setTimeout(() => {
-        dispatch({ type: 'advance' });
-        setVisible(true);
-      }, FADE_MS + HOLD_MS);
-    }
-    return () => clearTimeout(timer);
-  }, [visible]);
+    const id = setInterval(() => {
+      dispatch({ type: 'advance' });
+    }, CYCLE_MS);
+    return () => clearInterval(id);
+  }, []);
 
   const currentLabel = alive[idx]?.label ?? 'Planet';
 
   return (
-    <div
-      className="relative mx-auto"
-      style={{ width: `${size}px`, maxWidth: '100%' }}
-      role="img"
-      aria-label={currentLabel}
-    >
-      {/* Padding-bottom trick forces the container to be square
-          regardless of aspect-ratio CSS support. */}
-      <div style={{ paddingBottom: '100%' }} aria-hidden="true" />
-
-      {/* Halo — sits outside the clip container so its negative inset
-          can bleed cleanly beyond the square. */}
+    <>
+      <style>{HOVER_STYLES}</style>
       <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-[-6%]"
-        style={{
-          background:
-            'radial-gradient(closest-side, rgba(78,197,242,0.18), transparent 65%)',
-          filter: 'blur(28px)',
-          animation: 'orb-breathe 9s ease-in-out infinite',
-        }}
-      />
+        className="planet-slideshow relative mx-auto"
+        style={{ width: `${size}px`, maxWidth: '100%' }}
+        role="img"
+        aria-label={currentLabel}
+      >
+        {/* Padding-bottom trick forces the container to be square
+            regardless of aspect-ratio CSS support. */}
+        <div style={{ paddingBottom: '100%' }} aria-hidden="true" />
 
-      {/* All frames mounted at once, stacked at the same position. The
-          frame at `idx` is fully opaque only when `visible` is true; when
-          `visible` flips to false every frame is at 0 opacity, giving a
-          moment of blank breath between planets before the next fades in. */}
-      {alive.map((frame, i) => (
-        <img
-          key={frame.src}
-          src={frame.src}
-          alt=""
-          draggable="false"
-          onError={() => dispatch({ type: 'drop', src: frame.src })}
-          className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none"
-          style={{
-            opacity: i === idx && visible ? 1 : 0,
-            transition: `opacity ${FADE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`,
-          }}
-        />
-      ))}
-    </div>
+        {/* All frames mounted at once, stacked at the same position. The
+            frame at `idx` is fully opaque; every other frame is at 0. When
+            `idx` advances, one image fades 1 → 0 and the next fades 0 → 1
+            on the same clock — the two curves overlap, so the transition
+            reads as one continuous glide with no gap between planets. */}
+        {alive.map((frame, i) => (
+          <img
+            key={frame.src}
+            src={frame.src}
+            alt=""
+            draggable="false"
+            onError={() => dispatch({ type: 'drop', src: frame.src })}
+            className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none"
+            style={{
+              opacity: i === idx ? 1 : 0,
+              transition: `opacity ${FADE_MS}ms cubic-bezier(0.4, 0, 0.2, 1), transform 250ms ease-out`,
+            }}
+          />
+        ))}
+      </div>
+    </>
   );
 }
