@@ -10,8 +10,8 @@ export default function NatalWheel({
   center,            // optional ReactNode at the center (e.g. the Orb)
 }) {
   const faint = variant === 'faint';
-  const strokeMain = faint ? 'rgba(108,130,184,0.24)' : 'rgba(108,130,184,0.55)';
-  const strokeFine = faint ? 'rgba(108,130,184,0.10)' : 'rgba(108,130,184,0.24)';
+  const strokeMain = faint ? 'rgba(166,131,90,0.24)' : 'rgba(166,131,90,0.55)';
+  const strokeFine = faint ? 'rgba(166,131,90,0.10)' : 'rgba(166,131,90,0.24)';
   const signColor  = faint ? 'rgba(200,225,255,0.35)' : 'rgba(200,225,255,0.85)';
   const houseColor = faint ? 'rgba(200,225,255,0.22)' : 'rgba(200,225,255,0.55)';
 
@@ -93,7 +93,7 @@ export default function NatalWheel({
           );
         })}
 
-        {!center && <circle cx={c} cy={c} r={3} fill="#6C82B8" />}
+        {!center && <circle cx={c} cy={c} r={3} fill="#A6835A" />}
       </svg>
 
       {center && (

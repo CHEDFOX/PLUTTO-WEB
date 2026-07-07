@@ -26,7 +26,7 @@ const FIELD = [
 ];
 
 const STAR_TINT = '#E6F0FF';
-const HALO_TINT = '#6C82B8';
+const HALO_TINT = '#A6835A';
 
 export default function Starfield() {
   return (
@@ -35,14 +35,14 @@ export default function Starfield() {
       className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
     >
       {/* Layered radial haze:
-          — a soft periwinkle glow high-right (accent),
-          — a deep navy well low-left (adds glossy depth + horizon feel). */}
+          — a soft bronze glow high-right (accent),
+          — a deep coffee well low-left (adds glossy depth + horizon feel). */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            `radial-gradient(ellipse 80% 55% at 65% 35%, rgba(108,130,184,0.06) 0%, transparent 60%),
-             radial-gradient(ellipse 95% 60% at 20% 100%, rgba(15,27,61,0.55) 0%, transparent 70%)`,
+            `radial-gradient(ellipse 80% 55% at 65% 35%, rgba(166,131,90,0.06) 0%, transparent 60%),
+             radial-gradient(ellipse 95% 60% at 20% 100%, rgba(30,20,12,0.55) 0%, transparent 70%)`,
         }}
       />
       <svg

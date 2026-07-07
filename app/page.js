@@ -16,7 +16,7 @@ export default function Home() {
             <div className="md:col-span-6 order-2 md:order-1">
               <FadeUp>
                 <p
-                  className="uppercase text-[#6C82B8]"
+                  className="uppercase text-[#A6835A]"
                   style={{
                     fontFamily: "'JetBrains Mono', ui-monospace, monospace",
                     fontSize: '0.72rem',
@@ -40,7 +40,7 @@ export default function Home() {
                   <br />
                   Every{' '}
                   <em
-                    className="italic text-[#6C82B8]"
+                    className="italic text-[#A6835A]"
                     style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
                   >
                     System
@@ -98,7 +98,7 @@ export default function Home() {
         <section id="corpus" className="mx-auto max-w-7xl px-6 py-24">
           <FadeUp>
             <p
-              className="uppercase text-[#6C82B8] text-center"
+              className="uppercase text-[#A6835A] text-center"
               style={{
                 fontFamily: "'JetBrains Mono', ui-monospace, monospace",
                 fontSize: '0.7rem',
@@ -202,12 +202,12 @@ function FoundationCard({ eyebrow, title, body }) {
     <div
       className="relative p-8 rounded-lg h-full transition-colors"
       style={{
-        background: 'linear-gradient(180deg, rgba(108,130,184,0.03), rgba(255,255,255,0))',
-        border: '1px solid rgba(108,130,184,0.10)',
+        background: 'linear-gradient(180deg, rgba(166,131,90,0.03), rgba(255,255,255,0))',
+        border: '1px solid rgba(166,131,90,0.10)',
       }}
     >
       <p
-        className="uppercase text-[#6C82B8]"
+        className="uppercase text-[#A6835A]"
         style={{
           fontFamily: "'JetBrains Mono', ui-monospace, monospace",
           fontSize: '0.62rem',

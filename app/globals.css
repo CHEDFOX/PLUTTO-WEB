@@ -23,7 +23,7 @@ input, textarea, [contenteditable="true"] {
     card      #0A0A0A
     text      #F0F0F0
     text-2    #888888
-    primary   #6C82B8   cool celestial blue
+    primary   #A6835A   warm premium bronze
     accent    #FF6B35   warm secondary
     border    #1A1A1A
 */
@@ -40,7 +40,7 @@ input, textarea, [contenteditable="true"] {
     --popover: 0 0% 4%;
     --popover-foreground: 0 0% 94%;
 
-    --primary: 223 35% 57%;            /* #6C82B8 cool celestial */
+    --primary: 32 30% 50%;            /* #A6835A premium bronze */
     --primary-foreground: 0 0% 4%;
 
     --secondary: 0 0% 10%;
@@ -57,7 +57,7 @@ input, textarea, [contenteditable="true"] {
 
     --border: 0 0% 10%;                 /* #1A1A1A */
     --input: 0 0% 10%;
-    --ring: 223 35% 57%;
+    --ring: 32 30% 50%;
 
     --radius: 0.5rem;
   }
@@ -101,9 +101,9 @@ input, textarea, [contenteditable="true"] {
     border-radius: 4px;
   }
 
-  /* Selection — cool celestial blue */
+  /* Selection — warm bronze */
   ::selection {
-    background: rgba(108, 130, 184, 0.35);
+    background: rgba(166, 131, 90, 0.35);
     color: #F0F0F0;
   }
 
@@ -182,7 +182,7 @@ body :where(input, textarea, [data-no-auto-case]) { text-transform: none; }
 .orb-halo {
   inset: -30%;
   background:
-    radial-gradient(closest-side, rgba(108, 130, 184, 0.28), transparent 65%);
+    radial-gradient(closest-side, rgba(166, 131, 90, 0.28), transparent 65%);
   filter: blur(28px);
   animation: orb-breathe 9s ease-in-out infinite;
 }
@@ -201,7 +201,7 @@ body :where(input, textarea, [data-no-auto-case]) { text-transform: none; }
   box-shadow:
     inset -28px -52px 78px rgba(0, 0, 0, 0.65),
     inset 18px 22px 60px rgba(200, 225, 255, 0.18),
-    0 0 60px rgba(108, 130, 184, 0.22);
+    0 0 60px rgba(166, 131, 90, 0.22);
   animation: orb-breathe 9s ease-in-out infinite;
 }
 
@@ -270,7 +270,7 @@ body :where(input, textarea, [data-no-auto-case]) { text-transform: none; }
   background: linear-gradient(
     to right,
     transparent,
-    rgba(108, 130, 184, 0.35),
+    rgba(166, 131, 90, 0.35),
     transparent
   );
 }
@@ -290,7 +290,7 @@ body :where(input, textarea, [data-no-auto-case]) { text-transform: none; }
 .input:focus {
   outline: none;
   border-color: hsl(var(--primary));
-  box-shadow: 0 0 0 3px rgba(108, 130, 184, 0.12);
+  box-shadow: 0 0 0 3px rgba(166, 131, 90, 0.12);
 }
 .input::placeholder { color: rgba(255, 255, 255, 0.3); }
 .input:disabled     { opacity: 0.35; }
@@ -298,28 +298,27 @@ body :where(input, textarea, [data-no-auto-case]) { text-transform: none; }
 /* Hero card — subtle dark surface with hairline */
 .hero-card {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
-  border: 1px solid rgba(108, 130, 184, 0.10);
+  border: 1px solid rgba(166, 131, 90, 0.10);
   border-radius: 24px;
 }
 
-/* Primary CTA — muted sapphire pill with a restrained silver sheen.
-   Reads premium: quieter highlight (12% instead of 18%), less saturated
-   gradient sitting on a deeper navy shadow. */
+/* Primary CTA — bronze pill with a restrained champagne sheen and a
+   deep aged-bronze shadow. Reads like a hand-finished metal button. */
 .cta-glow {
   background:
-    linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 50%),
-    linear-gradient(180deg, #88A0CA 0%, #6C82B8 55%, #3E4E7A 100%);
+    linear-gradient(180deg, rgba(255,235,200,0.14) 0%, rgba(255,235,200,0) 50%),
+    linear-gradient(180deg, #C4A177 0%, #A6835A 55%, #6E5636 100%);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.16),
-    inset 0 -1px 0 rgba(10,18,44,0.45),
-    0 6px 22px rgba(10,18,44,0.55);
+    inset 0 1px 0 rgba(255,235,200,0.20),
+    inset 0 -1px 0 rgba(28,18,10,0.45),
+    0 6px 22px rgba(28,18,10,0.55);
   transition: box-shadow 250ms ease, transform 250ms ease, filter 250ms ease;
 }
 .cta-glow:hover {
-  filter: brightness(1.05);
+  filter: brightness(1.06);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.22),
-    inset 0 -1px 0 rgba(10,18,44,0.45),
-    0 0 28px rgba(108,130,184,0.35),
-    0 8px 26px rgba(10,18,44,0.6);
+    inset 0 1px 0 rgba(255,235,200,0.28),
+    inset 0 -1px 0 rgba(28,18,10,0.45),
+    0 0 28px rgba(166,131,90,0.35),
+    0 8px 26px rgba(28,18,10,0.6);
 }
