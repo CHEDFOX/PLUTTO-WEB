@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useReducer, useRef } from 'react';
+import { useEffect, useReducer, useRef, useState } from 'react';
 
 // Traditional order (Saturn removed): five classical + two lunar nodes,
 // then the modern outer planets. Filenames match /public/planets/ verbatim
@@ -16,12 +16,12 @@ const FRAMES = [
   { src: '/planets/Neptune.png', label: 'Neptune' },
 ];
 
-// Cadence — pure crossfade with no blank between:
-//   the outgoing planet fades 1 → 0 over FADE_MS at the same time as the
-//   incoming planet fades 0 → 1, then holds visible for CYCLE_MS. No halo,
-//   no blank, no interruption — one continuous glide.
-const CYCLE_MS = 5000;
-const FADE_MS = 2200;
+// Cadence — sequential fade with a short breathing beat between planets:
+//   fade in (FADE_MS)  →  hold visible (STAY_MS − FADE_MS)  →
+//   fade out (FADE_MS) →  hold blank (HOLD_MS)  →  next planet
+const STAY_MS = 3400;
+const FADE_MS = 1400;
+const HOLD_MS = 500;
 
 // Hover shake — a subtle jitter on the current planet while the pointer is
 // over the frame. Kept scoped to this component via an inline <style>.
@@ -63,8 +63,9 @@ function reducer(state, action) {
 
 export default function PlanetSlideshow({ size = 460 }) {
   const [{ alive, idx }, dispatch] = useReducer(reducer, initialState);
+  const [visible, setVisible] = useState(true);
 
-  // Live ref so a dropped frame doesn't reset the interval.
+  // Live ref so a dropped frame doesn't reset the timer.
   const aliveLenRef = useRef(alive.length);
   useEffect(() => {
     aliveLenRef.current = alive.length;
@@ -76,11 +77,20 @@ export default function PlanetSlideshow({ size = 460 }) {
     if (reduce) return;
     if (aliveLenRef.current <= 1) return;
 
-    const id = setInterval(() => {
-      dispatch({ type: 'advance' });
-    }, CYCLE_MS);
-    return () => clearInterval(id);
-  }, []);
+    let timer;
+    if (visible) {
+      // Currently showing the planet — stay lit, then start fading out.
+      timer = setTimeout(() => setVisible(false), STAY_MS);
+    } else {
+      // Fading out / holding blank — wait for the fade to complete AND
+      // the blank breathing beat, then swap idx and fade the next planet in.
+      timer = setTimeout(() => {
+        dispatch({ type: 'advance' });
+        setVisible(true);
+      }, FADE_MS + HOLD_MS);
+    }
+    return () => clearTimeout(timer);
+  }, [visible]);
 
   const currentLabel = alive[idx]?.label ?? 'Planet';
 
@@ -98,10 +108,9 @@ export default function PlanetSlideshow({ size = 460 }) {
         <div style={{ paddingBottom: '100%' }} aria-hidden="true" />
 
         {/* All frames mounted at once, stacked at the same position. The
-            frame at `idx` is fully opaque; every other frame is at 0. When
-            `idx` advances, one image fades 1 → 0 and the next fades 0 → 1
-            on the same clock — the two curves overlap, so the transition
-            reads as one continuous glide with no gap between planets. */}
+            frame at `idx` is fully opaque only when `visible` is true; when
+            `visible` flips to false every frame is at 0 opacity, giving a
+            short blank breath between planets before the next fades in. */}
         {alive.map((frame, i) => (
           <img
             key={frame.src}
@@ -111,7 +120,7 @@ export default function PlanetSlideshow({ size = 460 }) {
             onError={() => dispatch({ type: 'drop', src: frame.src })}
             className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none"
             style={{
-              opacity: i === idx ? 1 : 0,
+              opacity: i === idx && visible ? 1 : 0,
               transition: `opacity ${FADE_MS}ms cubic-bezier(0.4, 0, 0.2, 1), transform 250ms ease-out`,
             }}
           />
