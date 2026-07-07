@@ -6,7 +6,7 @@
 //
 // All animation is pure SMIL — no JS, no CSS keyframes.
 
-const BLUE = '#4EC5F2';
+const BLUE = '#5F82EA';
 const WHITE = '#F0F0F0';
 
 export default function LogoMark({ className = '' }) {

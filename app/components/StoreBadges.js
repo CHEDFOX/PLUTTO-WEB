@@ -5,7 +5,7 @@ export default function StoreBadges() {
   return (
     <div className="flex flex-col items-center gap-6">
       <p
-        className="uppercase text-[#4EC5F2]"
+        className="uppercase text-[#5F82EA]"
         style={{
           fontFamily: "'JetBrains Mono', ui-monospace, monospace",
           fontSize: '0.7rem',
@@ -27,11 +27,11 @@ function Badge({ icon, label, sub }) {
     <div
       className="flex items-center gap-3 rounded-md px-5 py-3 text-[#F0F0F0] transition-colors"
       style={{
-        border: '1px solid rgba(78,197,242,0.25)',
-        background: 'linear-gradient(180deg, rgba(78,197,242,0.05), rgba(78,197,242,0.02))',
+        border: '1px solid rgba(95,130,234,0.25)',
+        background: 'linear-gradient(180deg, rgba(95,130,234,0.05), rgba(95,130,234,0.02))',
       }}
     >
-      <span className="opacity-80 text-[#4EC5F2]">{icon}</span>
+      <span className="opacity-80 text-[#5F82EA]">{icon}</span>
       <span className="flex flex-col leading-tight">
         <span
           className="uppercase text-[#888]"

@@ -38,7 +38,7 @@ const PageLoader = () => {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse at center, rgba(78,197,242,0.08) 0%, transparent 55%)',
+            'radial-gradient(ellipse at center, rgba(95,130,234,0.08) 0%, transparent 55%)',
         }}
       />
 
@@ -77,7 +77,7 @@ const PageLoader = () => {
             className="absolute inset-y-0 left-0"
             style={{
               width: '100%',
-              background: '#4EC5F2',
+              background: '#5F82EA',
               transformOrigin: 'left center',
               transform: 'scaleX(0)',
               animation: 'pl-line 1100ms cubic-bezier(0.22,1,0.36,1) forwards',

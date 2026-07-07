@@ -23,7 +23,7 @@ input, textarea, [contenteditable="true"] {
     card      #0A0A0A
     text      #F0F0F0
     text-2    #888888
-    primary   #4EC5F2   cool celestial blue
+    primary   #5F82EA   cool celestial blue
     accent    #FF6B35   warm secondary
     border    #1A1A1A
 */
@@ -40,7 +40,7 @@ input, textarea, [contenteditable="true"] {
     --popover: 0 0% 4%;
     --popover-foreground: 0 0% 94%;
 
-    --primary: 196 86% 63%;            /* #4EC5F2 cool celestial */
+    --primary: 225 77% 65%;            /* #5F82EA cool celestial */
     --primary-foreground: 0 0% 4%;
 
     --secondary: 0 0% 10%;
@@ -57,7 +57,7 @@ input, textarea, [contenteditable="true"] {
 
     --border: 0 0% 10%;                 /* #1A1A1A */
     --input: 0 0% 10%;
-    --ring: 196 86% 63%;
+    --ring: 225 77% 65%;
 
     --radius: 0.5rem;
   }
@@ -103,7 +103,7 @@ input, textarea, [contenteditable="true"] {
 
   /* Selection — cool celestial blue */
   ::selection {
-    background: rgba(78, 197, 242, 0.35);
+    background: rgba(95, 130, 234, 0.35);
     color: #F0F0F0;
   }
 
@@ -182,7 +182,7 @@ body :where(input, textarea, [data-no-auto-case]) { text-transform: none; }
 .orb-halo {
   inset: -30%;
   background:
-    radial-gradient(closest-side, rgba(78, 197, 242, 0.28), transparent 65%);
+    radial-gradient(closest-side, rgba(95, 130, 234, 0.28), transparent 65%);
   filter: blur(28px);
   animation: orb-breathe 9s ease-in-out infinite;
 }
@@ -201,7 +201,7 @@ body :where(input, textarea, [data-no-auto-case]) { text-transform: none; }
   box-shadow:
     inset -28px -52px 78px rgba(0, 0, 0, 0.65),
     inset 18px 22px 60px rgba(200, 225, 255, 0.18),
-    0 0 60px rgba(78, 197, 242, 0.22);
+    0 0 60px rgba(95, 130, 234, 0.22);
   animation: orb-breathe 9s ease-in-out infinite;
 }
 
@@ -270,7 +270,7 @@ body :where(input, textarea, [data-no-auto-case]) { text-transform: none; }
   background: linear-gradient(
     to right,
     transparent,
-    rgba(78, 197, 242, 0.35),
+    rgba(95, 130, 234, 0.35),
     transparent
   );
 }
@@ -290,7 +290,7 @@ body :where(input, textarea, [data-no-auto-case]) { text-transform: none; }
 .input:focus {
   outline: none;
   border-color: hsl(var(--primary));
-  box-shadow: 0 0 0 3px rgba(78, 197, 242, 0.12);
+  box-shadow: 0 0 0 3px rgba(95, 130, 234, 0.12);
 }
 .input::placeholder { color: rgba(255, 255, 255, 0.3); }
 .input:disabled     { opacity: 0.35; }
@@ -298,7 +298,7 @@ body :where(input, textarea, [data-no-auto-case]) { text-transform: none; }
 /* Hero card — subtle dark surface with hairline */
 .hero-card {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
-  border: 1px solid rgba(78, 197, 242, 0.10);
+  border: 1px solid rgba(95, 130, 234, 0.10);
   border-radius: 24px;
 }
 
@@ -307,5 +307,5 @@ body :where(input, textarea, [data-no-auto-case]) { text-transform: none; }
   transition: box-shadow 250ms ease, transform 250ms ease;
 }
 .cta-glow:hover {
-  box-shadow: 0 0 28px rgba(78, 197, 242, 0.45);
+  box-shadow: 0 0 28px rgba(95, 130, 234, 0.45);
 }
