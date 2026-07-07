@@ -16,11 +16,11 @@ export default function Home() {
             <div className="md:col-span-6 order-2 md:order-1">
               <FadeUp>
                 <p
-                  className="uppercase text-[#A6835A]"
+                  className="uppercase text-[#00E676]"
                   style={{
                     fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                    fontSize: '0.72rem',
-                    letterSpacing: '0.3em',
+                    fontSize: '0.8rem',
+                    letterSpacing: '3px',
                   }}
                 >
                   The Voice-First Oracle
@@ -31,7 +31,7 @@ export default function Home() {
                 <h1
                   className="mt-6 font-display font-bold text-[#F0F0F0]"
                   style={{
-                    fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
+                    fontSize: 'clamp(2.25rem, 5.5vw, 4rem)',
                     lineHeight: 1.05,
                     letterSpacing: '-0.02em',
                   }}
@@ -40,7 +40,7 @@ export default function Home() {
                   <br />
                   Every{' '}
                   <em
-                    className="italic text-[#A6835A]"
+                    className="italic text-[#00E676]"
                     style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
                   >
                     System
@@ -65,8 +65,8 @@ export default function Home() {
                 <div className="mt-10 flex items-center gap-5">
                   <Link
                     href="/about"
-                    className="cta-glow inline-flex items-center justify-center rounded-md px-7 py-4 text-[#0A0A0A] font-body font-semibold uppercase"
-                    style={{ fontSize: '0.75rem', letterSpacing: '0.22em' }}
+                    className="cta-glow inline-flex items-center justify-center rounded-md bg-[#00E676] px-7 py-4 text-[#0A0A0A] font-body font-semibold uppercase"
+                    style={{ fontSize: '0.8rem', letterSpacing: '3px' }}
                   >
                     Meet The Oracle
                   </Link>
@@ -75,8 +75,8 @@ export default function Home() {
                     className="uppercase text-[#888] transition-colors hover:text-[#F0F0F0]"
                     style={{
                       fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                      fontSize: '0.72rem',
-                      letterSpacing: '0.3em',
+                      fontSize: '0.8rem',
+                      letterSpacing: '3px',
                     }}
                   >
                     See The Corpus →
@@ -98,11 +98,11 @@ export default function Home() {
         <section id="corpus" className="mx-auto max-w-7xl px-6 py-24">
           <FadeUp>
             <p
-              className="uppercase text-[#A6835A] text-center"
+              className="uppercase text-[#00E676] text-center"
               style={{
                 fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                fontSize: '0.7rem',
-                letterSpacing: '0.32em',
+                fontSize: '0.8rem',
+                letterSpacing: '3px',
               }}
             >
               The Corpus
@@ -112,7 +112,7 @@ export default function Home() {
             <h2
               className="mt-4 font-display font-bold text-[#F0F0F0] text-center"
               style={{
-                fontSize: 'clamp(1.75rem, 3.2vw, 2.4rem)',
+                fontSize: 'clamp(1.6rem, 3vw, 2.4rem)',
                 letterSpacing: '-0.02em',
               }}
             >
@@ -187,8 +187,8 @@ function Stat({ n, label }) {
         className="mt-4 uppercase text-[#888]"
         style={{
           fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-          fontSize: '0.65rem',
-          letterSpacing: '0.3em',
+          fontSize: '0.72rem',
+          letterSpacing: '3px',
         }}
       >
         {label}
@@ -202,16 +202,16 @@ function FoundationCard({ eyebrow, title, body }) {
     <div
       className="relative p-8 rounded-lg h-full transition-colors"
       style={{
-        background: 'linear-gradient(180deg, rgba(166,131,90,0.03), rgba(255,255,255,0))',
-        border: '1px solid rgba(166,131,90,0.10)',
+        background: 'linear-gradient(180deg, rgba(0,230,118,0.03), rgba(255,255,255,0))',
+        border: '1px solid rgba(0,230,118,0.10)',
       }}
     >
       <p
-        className="uppercase text-[#A6835A]"
+        className="uppercase text-[#00E676]"
         style={{
           fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-          fontSize: '0.62rem',
-          letterSpacing: '0.32em',
+          fontSize: '0.72rem',
+          letterSpacing: '3px',
         }}
       >
         {eyebrow}

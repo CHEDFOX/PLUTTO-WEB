@@ -17,11 +17,11 @@ export default function AboutPage() {
         <section className="mx-auto max-w-4xl px-6 pt-16 md:pt-24 pb-16">
           <FadeUp>
             <p
-              className="uppercase text-[#A6835A]"
+              className="uppercase text-[#00E676]"
               style={{
                 fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                fontSize: '0.72rem',
-                letterSpacing: '0.32em',
+                fontSize: '0.8rem',
+                letterSpacing: '3px',
               }}
             >
               About
@@ -32,14 +32,14 @@ export default function AboutPage() {
             <h1
               className="mt-6 font-display font-bold text-[#F0F0F0]"
               style={{
-                fontSize: 'clamp(2.4rem, 5.5vw, 4rem)',
+                fontSize: 'clamp(2.25rem, 5.5vw, 4rem)',
                 lineHeight: 1.05,
                 letterSpacing: '-0.02em',
               }}
             >
               An Oracle That{' '}
               <em
-                className="italic text-[#A6835A]"
+                className="italic text-[#00E676]"
                 style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
               >
                 Speaks
@@ -51,7 +51,7 @@ export default function AboutPage() {
           <FadeUp delay={0.25}>
             <p
               className="mt-8 max-w-2xl text-[#C0C0C0]"
-              style={{ fontSize: '1.1rem', lineHeight: 1.7 }}
+              style={{ fontSize: '1.05rem', lineHeight: 1.7 }}
             >
               Not a horoscope. A voice you can talk to — trained on Parashara
               and Ptolemy, BaZi and the Krishnamurti school — that names the
@@ -97,11 +97,11 @@ export default function AboutPage() {
         <section className="mx-auto max-w-4xl px-6 py-24">
           <FadeUp>
             <p
-              className="uppercase text-[#A6835A] text-center"
+              className="uppercase text-[#00E676] text-center"
               style={{
                 fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                fontSize: '0.7rem',
-                letterSpacing: '0.32em',
+                fontSize: '0.8rem',
+                letterSpacing: '3px',
               }}
             >
               By The Numbers
@@ -124,8 +124,8 @@ export default function AboutPage() {
               className="uppercase text-[#888]"
               style={{
                 fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-                fontSize: '0.7rem',
-                letterSpacing: '0.4em',
+                fontSize: '0.8rem',
+                letterSpacing: '3px',
               }}
             >
               iOS &amp; Android — Coming Soon
@@ -154,8 +154,8 @@ function Stat({ n, label }) {
         className="mt-4 uppercase text-[#888]"
         style={{
           fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-          fontSize: '0.65rem',
-          letterSpacing: '0.3em',
+          fontSize: '0.72rem',
+          letterSpacing: '3px',
         }}
       >
         {label}

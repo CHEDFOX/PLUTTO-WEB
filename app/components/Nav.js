@@ -30,7 +30,7 @@ export default function Nav() {
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <Link
           href="/"
-          className="font-display text-xl font-bold tracking-tight text-[#F0F0F0] transition-colors hover:text-[#A6835A]"
+          className="font-display text-xl font-bold tracking-tight text-[#F0F0F0] transition-colors hover:text-[#00E676]"
           aria-label="Plutto home"
         >
           PLUTTO
@@ -44,7 +44,7 @@ export default function Nav() {
                 <Link
                   href={l.href}
                   className={
-                    'text-sm font-medium font-body transition-colors hover:text-[#A6835A] ' +
+                    'text-sm font-medium font-body transition-colors hover:text-[#00E676] ' +
                     (active ? 'text-[#F0F0F0]' : 'text-[#F0F0F0]/80')
                   }
                 >
@@ -60,7 +60,7 @@ export default function Nav() {
           aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="md:hidden inline-flex h-11 w-11 items-center justify-center rounded-md text-[#F0F0F0] hover:text-[#A6835A] transition-colors relative z-[55]"
+          className="md:hidden inline-flex h-11 w-11 items-center justify-center rounded-md text-[#F0F0F0] hover:text-[#00E676] transition-colors relative z-[55]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -101,8 +101,8 @@ export default function Nav() {
                     className={
                       'font-display font-bold tracking-tight transition-colors min-h-[44px] inline-flex items-center text-3xl ' +
                       (active
-                        ? 'text-[#A6835A]'
-                        : 'text-[#F0F0F0] hover:text-[#A6835A]')
+                        ? 'text-[#00E676]'
+                        : 'text-[#F0F0F0] hover:text-[#00E676]')
                     }
                   >
                     {l.label}
