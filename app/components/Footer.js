@@ -14,8 +14,9 @@ export default function Footer() {
         </div>
         <nav className="flex flex-wrap items-center gap-x-6 gap-y-3 text-[10px] uppercase tracking-[0.32em] text-white/45">
           <a className="hover:text-white transition-colors" href="https://api.plutto.space/privacy">Privacy</a>
-          <a className="hover:text-white transition-colors" href="https://api.plutto.space/static/terms.html">Terms</a>
-          <a className="hover:text-white transition-colors" href="https://api.plutto.space/static/delete.html">Delete account</a>
+          <a className="hover:text-white transition-colors" href="https://api.plutto.space/terms">Terms</a>
+          <a className="hover:text-white transition-colors" href="https://api.plutto.space/support">Support</a>
+          <a className="hover:text-white transition-colors" href="https://api.plutto.space/api/public/delete-account">Delete account</a>
           <a className="hover:text-white transition-colors" href="mailto:support@plutto.space">Contact</a>
         </nav>
       </div>

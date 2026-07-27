@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const ITEMS = [
-  { href: '/', label: 'App' },
   { href: '/about', label: 'About' },
 ];
 
@@ -38,6 +37,14 @@ export default function Nav() {
               </Link>
             );
           })}
+          <Link
+            href="/app"
+            className="rounded-full border border-gold/60 px-4 py-2 text-[10px] md:text-[11px]
+                       uppercase tracking-[0.28em] text-gold hover:bg-gold hover:text-black
+                       transition-colors"
+          >
+            Open
+          </Link>
         </nav>
       </div>
     </header>
