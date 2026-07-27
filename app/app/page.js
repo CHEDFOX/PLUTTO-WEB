@@ -8,10 +8,12 @@ import Chart from './Chart';
 import Library from '../components/Library';
 import Feature from '../components/Feature';
 import Paywall from '../components/Paywall';
-import { generateKundli, getCatalog } from '../lib/api';
+import Auth from '../components/Auth';
+import { generateKundli, getCatalog, getEntitlement } from '../lib/api';
 import { loadSession, saveSession, clearSession } from '../lib/store';
 import { preloadMedia } from '../lib/media';
-import { isEntitled, isGated } from '../lib/entitlement';
+import { isGated } from '../lib/entitlement';
+import { supabase, auth as sbAuth } from '../lib/supabase';
 
 const TABS = [
   { key: 'oracle', label: 'Oracle' },
@@ -28,12 +30,30 @@ export default function AppPage() {
   const [catalog, setCatalog] = useState(null);
   const [open, setOpen] = useState(null);      // section being read
   const [paywall, setPaywall] = useState(null); // section that triggered the paywall
+  const [user, setUser] = useState(null);       // supabase user (optional)
+  const [entitled, setEntitled] = useState(false);
+  const [showAuth, setShowAuth] = useState(false);
 
   useEffect(() => {
     setSession(loadSession());
     setReady(true);
     preloadMedia();
+    // Track the signed-in user; readings work signed-out, an account carries the
+    // subscription and history across devices.
+    supabase.auth.getUser().then(({ data }) => setUser(data?.user || null)).catch(() => {});
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setUser(s?.user || null));
+    return () => sub?.subscription?.unsubscribe?.();
   }, []);
+
+  // Entitlement follows the ACCOUNT, so a subscription bought on the phone
+  // unlocks the web too. Re-checked whenever the user changes or a checkout
+  // returns to this page.
+  useEffect(() => {
+    if (!user) { setEntitled(false); return; }
+    let live = true;
+    getEntitlement().then((e) => live && setEntitled(!!e?.active)).catch(() => {});
+    return () => { live = false; };
+  }, [user]);
 
   // The catalog drives every feature on the page — fetch once the user exists.
   useEffect(() => {
@@ -45,7 +65,6 @@ export default function AppPage() {
     return () => { live = false; };
   }, [session]);
 
-  const entitled = isEntitled(session);
   const locked = useCallback(
     (section) => isGated(section, catalog, entitled),
     [catalog, entitled]
@@ -103,10 +122,26 @@ export default function AppPage() {
               {name || 'Your chart'}
             </h1>
           </div>
-          <button onClick={reset}
-            className="text-[10px] uppercase tracking-[0.28em] text-white/30 hover:text-white/60 transition-colors">
-            New chart
-          </button>
+          <div className="flex items-center gap-5">
+            {entitled && (
+              <span className="text-[10px] uppercase tracking-[0.28em] text-gold">★ Star</span>
+            )}
+            {user ? (
+              <button onClick={async () => { await sbAuth.signOut(); setUser(null); }}
+                className="text-[10px] uppercase tracking-[0.28em] text-white/30 hover:text-white/60 transition-colors">
+                Sign out
+              </button>
+            ) : (
+              <button onClick={() => setShowAuth(true)}
+                className="text-[10px] uppercase tracking-[0.28em] text-white/30 hover:text-white/60 transition-colors">
+                Sign in
+              </button>
+            )}
+            <button onClick={reset}
+              className="text-[10px] uppercase tracking-[0.28em] text-white/30 hover:text-white/60 transition-colors">
+              New chart
+            </button>
+          </div>
         </header>
 
         <nav className="mt-10 flex gap-8 border-b border-mist">
@@ -166,8 +201,22 @@ export default function AppPage() {
         <Paywall
           catalog={catalog}
           section={paywall}
+          signedIn={!!user}
+          onSignIn={() => { setPaywall(null); setShowAuth(true); }}
           onClose={() => setPaywall(null)}
         />
+      )}
+
+      {showAuth && (
+        <div className="fixed inset-0 z-[70] bg-void/95 overflow-y-auto backdrop-blur-sm">
+          <div className="px-6 py-14">
+            <button onClick={() => setShowAuth(false)}
+              className="mb-10 block mx-auto text-[10px] uppercase tracking-[0.32em] text-white/40 hover:text-white transition-colors">
+              ✕ Close
+            </button>
+            <Auth onDone={() => setShowAuth(false)} onSkip={() => setShowAuth(false)} />
+          </div>
+        </div>
       )}
     </main>
   );

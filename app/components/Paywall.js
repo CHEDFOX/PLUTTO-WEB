@@ -12,7 +12,7 @@
 import { useState } from 'react';
 import { createCheckout } from '../lib/api';
 
-export default function Paywall({ catalog, section, onClose }) {
+export default function Paywall({ catalog, section, signedIn, onSignIn, onClose }) {
   const sub = catalog?.subscription || {};
   const pw = sub.paywall || {};
   const [busy, setBusy] = useState(false);
@@ -24,6 +24,9 @@ export default function Paywall({ catalog, section, onClose }) {
       : [{ title: 'Plutto Star', period: '' }]);
 
   const buy = async (plan) => {
+    // A subscription has to attach to an account or it can't follow the user to
+    // their phone — so sign in first.
+    if (!signedIn) { onSignIn?.(); return; }
     setBusy(true);
     setError('');
     try {

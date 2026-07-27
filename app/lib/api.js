@@ -12,10 +12,26 @@ export const API_BASE =
 
 const api = (path) => `${API_BASE}/api/public${path}`;
 
+/**
+ * Signed-in calls carry the Supabase bearer token, exactly as mobile does, so
+ * the server can attribute conversations and entitlement. Signed-out calls still
+ * work — the API is stateless and readings need no account.
+ */
+async function authHeaders() {
+  if (typeof window === 'undefined') return {};
+  try {
+    const { accessToken } = await import('./supabase');
+    const t = await accessToken();
+    return t ? { Authorization: `Bearer ${t}` } : {};
+  } catch {
+    return {};
+  }
+}
+
 async function postJSON(path, body, { signal } = {}) {
   const r = await fetch(api(path), {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
     body: JSON.stringify(body),
     signal,
   });
@@ -143,7 +159,7 @@ export async function streamChat(
 ) {
   const r = await fetch(api('/chat/stream'), {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
     signal,
     body: JSON.stringify({
       message,
