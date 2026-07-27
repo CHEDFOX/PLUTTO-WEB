@@ -106,6 +106,27 @@ export async function runFeature(endpoint, kundli, { language = 'en', extra } = 
   });
 }
 
+/* ─────────────────────────── billing (web) ─────────────────────────── */
+
+/**
+ * Start a web checkout. StoreKit/RevenueCat is mobile-only, so the browser pays
+ * through Stripe. Returns { url } to redirect to; throws if web billing isn't
+ * configured on the server yet (the paywall then explains the app is the place
+ * to subscribe).
+ */
+export async function createCheckout({ plan, returnUrl }) {
+  return postJSON('/billing/checkout', { plan, return_url: returnUrl });
+}
+
+/** Current entitlement for the signed-in user (or an anonymous checkout id). */
+export async function getEntitlement(params = {}) {
+  try {
+    return await postJSON('/billing/entitlement', params);
+  } catch {
+    return { active: false };
+  }
+}
+
 /* ─────────────────────────── oracle chat ─────────────────────────── */
 
 /**
