@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { searchPlaces, placeDetails } from '../lib/api';
 
 const MONTHS = ['January','February','March','April','May','June',
@@ -192,6 +193,16 @@ export default function BirthForm({ onSubmit, busy, error }) {
         Your details stay in this browser and are sent only to compute your
         readings. Nothing is posted publicly.
       </p>
+
+      {/* Not ready to hand over a birth moment yet? Read what this is first —
+          the Why page ends with a Try button that comes straight back here. */}
+      <Link
+        href="/app/why"
+        className="mt-8 block text-center text-[11px] uppercase tracking-[0.28em]
+                   text-white/30 hover:text-white/60 transition-colors"
+      >
+        Skip — first tell me what this is
+      </Link>
     </form>
   );
 }
