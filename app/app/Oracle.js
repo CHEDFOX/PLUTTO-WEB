@@ -4,6 +4,10 @@ import { useEffect, useRef, useState } from 'react';
 import { streamChat } from '../lib/api';
 import { conversationId } from '../lib/store';
 import { detectPlatform, storeUrl } from '../lib/appStore';
+import VoiceMode from './VoiceMode';
+import {
+  speak, stopSpeaking, startDictation, micSupported, realtimeSupported,
+} from '../lib/voice';
 
 const OPENERS = [
   'What is this year really asking of me?',
@@ -22,6 +26,59 @@ export default function Oracle({ kundli, name, store }) {
   const [error, setError] = useState('');
   const scroller = useRef(null);
   const abort = useRef(null);
+
+  // voice: live mode, read-aloud, and mic dictation
+  const [voiceOpen, setVoiceOpen] = useState(false);
+  const [speakingIdx, setSpeakingIdx] = useState(null);
+  const [recording, setRecording] = useState(false);
+  const [voiceNote, setVoiceNote] = useState('');
+  const dictation = useRef(null);
+  const canMic = micSupported();
+  const canVoice = realtimeSupported();
+
+  useEffect(() => () => { stopSpeaking(); dictation.current?.cancel(); }, []);
+
+  // Read one reply aloud in the Oracle's voice; tapping again stops it.
+  const readAloud = async (i, text) => {
+    if (speakingIdx === i) { stopSpeaking(); setSpeakingIdx(null); return; }
+    stopSpeaking();
+    setSpeakingIdx(i);
+    try {
+      await speak(text);
+    } catch {
+      setVoiceNote('Could not read that aloud just now.');
+    } finally {
+      setSpeakingIdx((c) => (c === i ? null : c));
+    }
+  };
+
+  // Hold-free dictation: tap to start, tap to stop and send the transcript.
+  const toggleMic = async () => {
+    setVoiceNote('');
+    if (recording) {
+      const d = dictation.current;
+      dictation.current = null;
+      setRecording(false);
+      try {
+        const text = await d?.stop();
+        if (text) ask(text);
+        else setVoiceNote('I did not catch that.');
+      } catch {
+        setVoiceNote('Could not transcribe that.');
+      }
+      return;
+    }
+    try {
+      dictation.current = await startDictation({});
+      setRecording(true);
+    } catch (e) {
+      setVoiceNote(
+        e?.message === 'mic-unavailable'
+          ? 'Your browser will not give this page a microphone (it needs a secure connection).'
+          : 'Microphone permission is needed to speak.'
+      );
+    }
+  };
 
   useEffect(() => () => abort.current?.abort(), []);
 
@@ -129,6 +186,16 @@ export default function Oracle({ kundli, name, store }) {
                   )}
                 </div>
 
+                {m.role === 'assistant' && m.content && (
+                  <button
+                    onClick={() => readAloud(i, m.content)}
+                    className="mt-3 text-[10px] uppercase tracking-[0.28em] text-white/30
+                               hover:text-gold transition-colors"
+                  >
+                    {speakingIdx === i ? '■ Stop' : '▶ Read aloud'}
+                  </button>
+                )}
+
                 {m.hooks?.length > 0 && (
                   <div className="mt-4 flex flex-wrap gap-2">
                     {m.hooks.map((h, hi) => (
@@ -151,6 +218,7 @@ export default function Oracle({ kundli, name, store }) {
           </div>
         )}
         {error && <p className="py-3 text-sm text-red-300/80">{error}</p>}
+        {voiceNote && <p className="py-2 text-[12px] leading-relaxed text-white/40">{voiceNote}</p>}
       </div>
 
       <form
@@ -164,6 +232,34 @@ export default function Oracle({ kundli, name, store }) {
           className="flex-1 bg-transparent outline-none py-2 text-sm text-white
                      placeholder:text-white/25"
         />
+        {canMic && (
+          <button
+            type="button"
+            onClick={toggleMic}
+            title={recording ? 'Stop and send' : 'Speak your question'}
+            className={`shrink-0 h-9 w-9 rounded-full border transition-colors ${
+              recording
+                ? 'border-gold bg-gold/20 text-gold animate-pulse'
+                : 'border-mist text-white/45 hover:text-white hover:border-white/40'
+            }`}
+          >
+            ●
+          </button>
+        )}
+
+        {canVoice && (
+          <button
+            type="button"
+            onClick={() => setVoiceOpen(true)}
+            title="Talk to the Oracle live"
+            className="shrink-0 rounded-full border border-gold/50 px-4 py-2 text-[10px]
+                       uppercase tracking-[0.22em] text-gold hover:bg-gold hover:text-black
+                       transition-colors"
+          >
+            Voice
+          </button>
+        )}
+
         <button
           type="submit"
           disabled={!input.trim() || busy}
@@ -176,6 +272,10 @@ export default function Oracle({ kundli, name, store }) {
           {busy ? '…' : 'Ask'}
         </button>
       </form>
+
+      {voiceOpen && (
+        <VoiceMode kundli={kundli} onClose={() => setVoiceOpen(false)} />
+      )}
     </div>
   );
 }
