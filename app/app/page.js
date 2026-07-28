@@ -29,6 +29,11 @@ export default function AppPage() {
   const [user, setUser] = useState(null);       // supabase user (optional)
   const [entitled, setEntitled] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
+  // The app sends a signed-out user to the auth gate BEFORE onboarding
+  // (App.js: `else if (!hasSession) stage = 'auth'`). Web mirrors that, but the
+  // gate can be passed — readings must still work without an account, which is
+  // what makes the web taster worth having.
+  const [authed, setAuthed] = useState(null);   // null = still resolving
 
   useEffect(() => {
     setSession(loadSession());
@@ -36,8 +41,13 @@ export default function AppPage() {
     preloadMedia();
     // Track the signed-in user; readings work signed-out, an account carries the
     // subscription and history across devices.
-    supabase.auth.getUser().then(({ data }) => setUser(data?.user || null)).catch(() => {});
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setUser(s?.user || null));
+    supabase.auth.getUser()
+      .then(({ data }) => { setUser(data?.user || null); setAuthed(!!data?.user); })
+      .catch(() => setAuthed(false));
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => {
+      setUser(s?.user || null);
+      if (s?.user) setAuthed(true);
+    });
     return () => sub?.subscription?.unsubscribe?.();
   }, []);
 
@@ -89,9 +99,21 @@ export default function AppPage() {
 
   if (!ready) return <main className="min-h-screen bg-void" />;
 
+  // Still reading the stored session — black, never a flash of the wrong screen
+  // (the app shows black here for the same reason).
+  if (authed === null) return <main className="min-h-screen bg-void" />;
+
+  if (!authed) {
+    return (
+      <main className="min-h-screen bg-void px-6 py-16">
+        <Auth onDone={() => setAuthed(true)} onSkip={() => setAuthed(true)} />
+      </main>
+    );
+  }
+
   if (!session) {
     return (
-      <main className="min-h-screen bg-void px-6 py-20 md:py-28">
+      <main className="min-h-screen bg-void px-6 py-16">
         <Onboarding onComplete={onSubmit} busy={busy} error={error} />
       </main>
     );

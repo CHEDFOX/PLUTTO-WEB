@@ -13,6 +13,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { auth } from '../lib/supabase';
+import { oauthRedirectTo, SOCIAL_PROVIDERS } from '../config/auth';
 
 const PILL_H = 60;
 const PILL_PAD = 7;
@@ -72,10 +73,10 @@ export default function Auth({ onDone, onSkip }) {
   const [code, setCode] = useState('');
   const [codeError, setCodeError] = useState(false);
   const [error, setError] = useState('');
+  const [pending, setPending] = useState(null);   // provider mid-redirect
   const codeRef = useRef(null);
 
   const valid = EMAIL_RX.test(email.trim());
-  const redirectTo = typeof window !== 'undefined' ? `${window.location.origin}/app` : undefined;
 
   useEffect(() => {
     if (phase === 'verify') codeRef.current?.focus();
@@ -112,11 +113,39 @@ export default function Auth({ onDone, onSkip }) {
     }
   };
 
+  // Google and Apple are REDIRECT flows through Supabase: the browser leaves the
+  // page, so reaching the line after this call at all means the redirect never
+  // happened — almost always because the origin is missing from Supabase's
+  // redirect allow-list or Google's authorised origins (see AUTH_SETUP.md).
+  // Surfacing that beats a button that silently does nothing.
   const oauth = async (provider) => {
     setError('');
+    setPending(provider);
     const fn = provider === 'google' ? auth.signInWithGoogle : auth.signInWithApple;
-    const { error } = await fn(redirectTo);
-    if (error) setError(error.message || 'Sign-in failed.');
+    try {
+      const { data, error } = await fn(oauthRedirectTo());
+      if (error) {
+        setPending(null);
+        setError(error.message || `Could not sign in with ${provider}.`);
+        return;
+      }
+      // Supabase returns the URL when it cannot navigate for us.
+      if (data?.url) { window.location.assign(data.url); return; }
+      setTimeout(() => {
+        setPending((p) => {
+          if (p === provider) {
+            setError(
+              `${provider === 'google' ? 'Google' : 'Apple'} sign-in did not open. ` +
+              'This site may not be authorised for it yet.'
+            );
+          }
+          return null;
+        });
+      }, 4000);
+    } catch (e) {
+      setPending(null);
+      setError(e?.message || `Could not sign in with ${provider}.`);
+    }
   };
 
   const circle =
@@ -174,12 +203,18 @@ export default function Auth({ onDone, onSkip }) {
           <div className="h-px bg-white/[0.15] my-12" style={{ width: '66%' }} />
 
           <div className="flex gap-4">
-            <button onClick={() => oauth('apple')} className={circle} style={{ width: 48, height: 48 }} aria-label="Sign in with Apple">
-              <AppleGlyph />
-            </button>
-            <button onClick={() => oauth('google')} className={circle} style={{ width: 48, height: 48 }} aria-label="Sign in with Google">
-              <GoogleGlyph />
-            </button>
+            {SOCIAL_PROVIDERS.map((prov) => (
+              <button
+                key={prov}
+                onClick={() => oauth(prov)}
+                disabled={!!pending}
+                className={`${circle} ${pending === prov ? 'animate-pulse' : ''}`}
+                style={{ width: 48, height: 48 }}
+                aria-label={`Sign in with ${prov === 'apple' ? 'Apple' : 'Google'}`}
+              >
+                {prov === 'apple' ? <AppleGlyph /> : <GoogleGlyph />}
+              </button>
+            ))}
           </div>
         </div>
       )}
