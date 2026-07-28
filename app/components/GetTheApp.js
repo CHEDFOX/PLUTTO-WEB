@@ -57,7 +57,7 @@ export default function GetTheApp({ store, title, body, points }) {
         href={href}
         target={isMobile ? undefined : '_blank'}
         rel="noreferrer"
-        className="mt-12 inline-block rounded-full bg-gold px-10 py-4 text-[11px]
+        className="mt-12 inline-block rounded-full bg-white px-10 py-4 text-[11px]
                    uppercase tracking-[0.32em] text-black hover:brightness-110
                    transition-all"
       >

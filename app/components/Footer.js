@@ -11,25 +11,25 @@ export default function Footer() {
           }}
         >
           <a
-            className="text-[#888] transition-colors hover:text-[#2962FF]"
+            className="text-[#888] transition-colors hover:text-[#F0F0F0]"
             href="https://api.plutto.space/privacy"
           >
             Privacy
           </a>
           <a
-            className="text-[#888] transition-colors hover:text-[#2962FF]"
+            className="text-[#888] transition-colors hover:text-[#F0F0F0]"
             href="https://api.plutto.space/terms"
           >
             Terms
           </a>
           <a
-            className="text-[#888] transition-colors hover:text-[#2962FF]"
+            className="text-[#888] transition-colors hover:text-[#F0F0F0]"
             href="https://api.plutto.space/api/public/delete-account"
           >
             Delete Account
           </a>
           <a
-            className="text-[#888] transition-colors hover:text-[#2962FF]"
+            className="text-[#888] transition-colors hover:text-[#F0F0F0]"
             href="mailto:support@plutto.space"
           >
             Contact

@@ -16,7 +16,7 @@ export default function Home() {
             <div className="md:col-span-6 order-2 md:order-1">
               <FadeUp>
                 <p
-                  className="uppercase text-[#2962FF]"
+                  className="uppercase text-[#F0F0F0]"
                   style={{
                     fontFamily: "'JetBrains Mono', ui-monospace, monospace",
                     fontSize: '0.8rem',
@@ -40,7 +40,7 @@ export default function Home() {
                   <br />
                   Looked{' '}
                   <em
-                    className="italic text-[#2962FF]"
+                    className="italic text-[#F0F0F0]"
                     style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
                   >
                     Up
@@ -65,7 +65,7 @@ export default function Home() {
                 <div className="mt-10 flex items-center gap-5">
                   <Link
                     href="/about"
-                    className="cta-glow inline-flex items-center justify-center rounded-md bg-[#2962FF] px-7 py-4 text-[#0A0A0A] font-body font-semibold uppercase"
+                    className="cta-glow inline-flex items-center justify-center rounded-md bg-[#F0F0F0] px-7 py-4 text-[#0A0A0A] font-body font-semibold uppercase"
                     style={{ fontSize: '0.8rem', letterSpacing: '3px' }}
                   >
                     See Through

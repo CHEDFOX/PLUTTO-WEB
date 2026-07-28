@@ -104,7 +104,7 @@ export default function WhyPage() {
 
             <Link
               href="/app"
-              className="mt-12 inline-block rounded-full bg-gold px-12 py-4 text-[11px]
+              className="mt-12 inline-block rounded-full bg-white px-12 py-4 text-[11px]
                          uppercase tracking-[0.32em] text-black hover:brightness-110
                          transition-all"
             >
@@ -112,7 +112,8 @@ export default function WhyPage() {
             </Link>
 
             <p className="mt-6 text-[11px] leading-relaxed text-white/25">
-              No account needed to start. Your details stay in your browser.
+              Sign in once with Google — your chart and your conversation then
+              follow you to the app.
             </p>
           </div>
         </section>

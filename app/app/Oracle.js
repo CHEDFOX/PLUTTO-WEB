@@ -204,9 +204,9 @@ export default function Oracle({ kundli, name, store }) {
                         href={storeUrl(platform, store)}
                         target={platform === 'desktop' ? '_blank' : undefined}
                         rel="noreferrer"
-                        className="inline-flex items-center gap-2 rounded-full border border-gold/50
-                                   px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-gold
-                                   hover:bg-gold hover:text-black transition-colors"
+                        className="inline-flex items-center gap-2 rounded-full border border-white/30
+                                   px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-white/80
+                                   hover:bg-white hover:text-black transition-colors"
                       >
                         {h.label} <span aria-hidden>›</span>
                       </a>
@@ -252,9 +252,9 @@ export default function Oracle({ kundli, name, store }) {
             type="button"
             onClick={() => setVoiceOpen(true)}
             title="Talk to the Oracle live"
-            className="shrink-0 rounded-full border border-gold/50 px-4 py-2 text-[10px]
-                       uppercase tracking-[0.22em] text-gold hover:bg-gold hover:text-black
-                       transition-colors"
+            className="shrink-0 rounded-full border border-white/25 px-4 py-2 text-[10px]
+                       uppercase tracking-[0.22em] text-white/70 hover:border-white/50
+                       hover:text-white transition-colors"
           >
             Voice
           </button>
@@ -265,7 +265,7 @@ export default function Oracle({ kundli, name, store }) {
           disabled={!input.trim() || busy}
           className={`px-5 py-2 rounded-full text-[10px] uppercase tracking-[0.28em] transition-all ${
             input.trim() && !busy
-              ? 'bg-gold text-black hover:brightness-110'
+              ? 'bg-white text-black hover:brightness-110'
               : 'border border-mist text-white/25'
           }`}
         >

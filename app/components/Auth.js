@@ -173,7 +173,7 @@ export default function Auth({ onDone }) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && send()}
-              placeholder="Email"
+              placeholder="you@plutto.space"
               autoComplete="email"
               autoCapitalize="none"
               autoCorrect="off"

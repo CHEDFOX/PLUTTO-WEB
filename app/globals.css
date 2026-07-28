@@ -18,13 +18,15 @@ input, textarea, [contenteditable="true"] {
 }
 
 /*
-  Plutto design tokens (HSL). Celestial dark:
+  Plutto design tokens (HSL). Celestial dark — monochrome, with gold as
+  punctuation only (the app's own rule: white does the work, gold marks state):
     bg        #000000
     card      #0A0A0A
     text      #F0F0F0
     text-2    #888888
-    primary   #2962FF   vivid navy
-    accent    #FF6B35   warm secondary
+    primary   #F0F0F0   off-white — the action colour
+    accent    #8A8A8E   silver
+    gold      #D4AF37   rare, never a fill
     border    #1A1A1A
 */
 @layer base {
@@ -40,8 +42,12 @@ input, textarea, [contenteditable="true"] {
     --popover: 0 0% 4%;
     --popover-foreground: 0 0% 94%;
 
-    --primary: 224 100% 58%;            /* #2962FF vivid navy */
-    --primary-foreground: 0 0% 4%;
+    /* PRIMARY is the ACTION colour, and it is off-white — the same choice the
+       app makes (its auth arrow is a solid white circle, its Continue is white
+       text). A filled white button on void is stronger than any hue, and it
+       cannot look cheap. Gold is NOT the theme; see --gold below. */
+    --primary: 0 0% 94%;                /* #F0F0F0 */
+    --primary-foreground: 0 0% 0%;      /* text on a white fill */
 
     --secondary: 0 0% 10%;
     --secondary-foreground: 0 0% 94%;
@@ -49,15 +55,21 @@ input, textarea, [contenteditable="true"] {
     --muted: 0 0% 10%;
     --muted-foreground: 0 0% 53%;       /* #888888 */
 
-    --accent: 16 100% 60%;              /* #FF6B35 warm */
-    --accent-foreground: 0 0% 4%;
+    /* ACCENT is warm neutral, not a second brand hue — the planets supply the
+       only saturated colour on the page and nothing should compete with them. */
+    --accent: 0 0% 54%;                 /* #8A8A8E silver */
+    --accent-foreground: 0 0% 94%;
+
+    /* GOLD — punctuation, deliberately rare. Two or three appearances per page:
+       the mark, the active nav item, a selected state. It is never a fill. */
+    --gold: 46 57% 52%;                 /* #D4AF37 */
 
     --destructive: 0 72% 50%;
     --destructive-foreground: 0 0% 98%;
 
     --border: 0 0% 10%;                 /* #1A1A1A */
     --input: 0 0% 10%;
-    --ring: 224 100% 58%;
+    --ring: 0 0% 94%;
 
     --radius: 0.5rem;
   }
@@ -305,14 +317,14 @@ body :where(input, textarea, [data-no-auto-case]) { text-transform: none; }
 /* Primary CTA — flat XOOTEQ green pill with a hover glow. The elegance
    comes from restraint: no gradient, no gloss, just electric green on
    pure dark with a soft primary halo when you point at it. */
-/* Primary CTA — flat XOOTEQ green pill with a hover glow. The elegance
-   comes from restraint: no gradient, no gloss, just electric green on
-   pure dark with a soft primary halo when you point at it. */
+/* Primary CTA — a flat off-white pill on void. The elegance comes from
+   restraint: no gradient, no gloss, no hue. On hover it simply lifts, the
+   way light does. */
 .cta-glow {
   transition: box-shadow 250ms ease, transform 250ms ease;
 }
 .cta-glow:hover {
-  box-shadow: 0 0 28px rgba(41, 98, 255, 0.45);
+  box-shadow: 0 0 28px rgba(255, 255, 255, 0.22);
 }
 
 /* Wheel pickers and the language grid scroll without a visible bar, matching
