@@ -31,7 +31,7 @@ export default function Nav() {
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <Link
           href="/"
-          className="font-display text-xl font-bold tracking-tight text-[#F0F0F0] transition-colors hover:text-[#F0F0F0]"
+          className="font-display text-lg font-normal tracking-mark pl-[0.5em] text-[#F0F0F0] transition-colors hover:text-[#F0F0F0]"
           aria-label="Plutto home"
         >
           PLUTTO
@@ -100,7 +100,7 @@ export default function Nav() {
                     href={l.href}
                     onClick={() => setOpen(false)}
                     className={
-                      'font-display font-bold tracking-tight transition-colors min-h-[44px] inline-flex items-center text-3xl ' +
+                      'font-display font-normal uppercase tracking-title transition-colors min-h-[44px] inline-flex items-center text-2xl ' +
                       (active
                         ? 'text-[#F0F0F0]'
                         : 'text-[#F0F0F0] hover:text-[#F0F0F0]')

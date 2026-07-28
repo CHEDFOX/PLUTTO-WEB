@@ -43,7 +43,9 @@ function Badge({ icon, label, sub }) {
         >
           {sub}
         </span>
-        <span className="font-display text-[17px] font-bold tracking-tight">
+        {/* The badge imitates a platform button, so it keeps the body face —
+            the display face is for headlines, not for chrome this small. */}
+        <span className="font-body text-[17px] font-medium tracking-tight">
           {label}
         </span>
       </span>

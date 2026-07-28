@@ -1,13 +1,27 @@
-import { Syne, DM_Sans, JetBrains_Mono } from 'next/font/google';
+import { Julius_Sans_One, Syne, DM_Sans, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import Nav from './components/Nav';
 import Footer from './components/Footer';
 import SiteChrome from './components/SiteChrome';
 
+// DISPLAY — thin geometric capitals, set wide. It only ever appears in caps and
+// at large sizes: the wordmark and the headline of a section. It has one weight
+// and no italic on purpose; in this register emphasis comes from space, not from
+// slant or heft.
+const julius = Julius_Sans_One({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-display',
+  display: 'swap',
+});
+
+// Syne stays as the READING face for the app screens (chat replies, feature
+// text, settings). Julius is beautiful at 54px and tiring at 17px, so the two
+// jobs get two faces.
 const syne = Syne({
   subsets: ['latin'],
   weight: ['500', '600', '700', '800'],
-  variable: '--font-display',
+  variable: '--font-reading',
   display: 'swap',
 });
 
@@ -63,7 +77,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${syne.variable} ${dmSans.variable} ${jetbrains.variable}`}
+      className={`${julius.variable} ${syne.variable} ${dmSans.variable} ${jetbrains.variable}`}
     >
       <body className="min-h-screen bg-black text-foreground font-body antialiased">
         <Nav />

@@ -30,21 +30,16 @@ export default function AboutPage() {
 
           <FadeUp delay={0.1}>
             <h1
-              className="mt-6 font-display font-bold text-[#F0F0F0]"
+              className="mt-6 font-display font-normal uppercase text-[#F0F0F0]"
               style={{
-                fontSize: 'clamp(2.25rem, 5.5vw, 4rem)',
-                lineHeight: 1.05,
-                letterSpacing: '-0.02em',
+                fontSize: 'clamp(1.5rem, 3.4vw, 2.6rem)',
+                lineHeight: 1.5,
+                letterSpacing: '0.3em',
               }}
             >
-              An Oracle That{' '}
-              <em
-                className="italic text-[#F0F0F0]"
-                style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
-              >
-                Speaks
-              </em>{' '}
-              Back.
+              An Oracle That
+              <br />
+              Speaks Back
             </h1>
           </FadeUp>
 

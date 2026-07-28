@@ -45,7 +45,7 @@ const PageLoader = () => {
       <div className="relative flex flex-col items-center gap-6">
         {/* Wordmark */}
         <div
-          className="flex font-display font-light text-[#F0F0F0]"
+          className="flex font-display font-normal text-[#F0F0F0]"
           style={{
             fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
             letterSpacing: '0.55em',

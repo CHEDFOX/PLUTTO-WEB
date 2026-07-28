@@ -49,14 +49,18 @@ export default {
         scrim: 'rgba(0,0,0,0.85)',
       },
       fontFamily: {
-        display: ['var(--font-display)', 'Syne', 'system-ui', 'sans-serif'],
+        display: ['var(--font-display)', 'Julius Sans One', 'system-ui', 'sans-serif'],
         body: ['var(--font-body)', 'DM Sans', 'system-ui', 'sans-serif'],
         mono: ['var(--font-mono)', 'JetBrains Mono', 'ui-monospace', 'monospace'],
-        serif: ['var(--font-display)', 'Syne', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-reading)', 'Syne', 'system-ui', 'sans-serif'],
         sans: ['var(--font-body)', 'DM Sans', 'system-ui', 'sans-serif'],
       },
       letterSpacing: {
         wider2: '0.08em',
+        // The display register: wide enough that the eye reads the word as a
+        // shape before it reads the letters.
+        title: '0.3em',
+        mark: '0.5em',
       },
       borderRadius: {
         lg: 'var(--radius)',

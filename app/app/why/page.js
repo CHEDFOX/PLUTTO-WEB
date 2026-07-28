@@ -48,10 +48,10 @@ export default function WhyPage() {
             Before you begin
           </p>
 
-          <h1 className="mt-8 font-serif font-light text-white text-[44px] md:text-[64px] leading-[1.05] tracking-[-0.01em]">
+          <h1 className="mt-8 font-display font-normal uppercase text-white text-[22px] md:text-[38px] leading-[1.5] tracking-title">
             Everything has
             <br />
-            <em className="italic text-white/85">a pattern.</em>
+            a pattern
           </h1>
 
           <div className="mt-14 space-y-7 text-[17px] md:text-[18px] leading-[1.7] text-white/75 font-serif font-light">
@@ -79,7 +79,7 @@ export default function WhyPage() {
                 <p className="text-[10px] uppercase tracking-[0.32em] text-gold/70">
                   {r.n}
                 </p>
-                <h2 className="mt-3 font-serif text-2xl md:text-3xl font-light text-white">
+                <h2 className="mt-3 font-display font-normal uppercase text-[15px] md:text-[19px] leading-[1.55] tracking-title text-white">
                   {r.title}
                 </h2>
                 <p className="mt-4 text-[16px] md:text-[17px] leading-[1.75] text-white/65 font-serif font-light">
@@ -91,10 +91,10 @@ export default function WhyPage() {
 
           {/* The ask */}
           <div className="mt-24 border-t border-mist pt-14 pb-32">
-            <h2 className="font-serif text-3xl md:text-[40px] font-light leading-tight text-white">
+            <h2 className="font-display font-normal uppercase text-[19px] md:text-[28px] leading-[1.5] tracking-title text-white">
               Two minutes, and it
               <br />
-              <em className="italic text-white/85">knows where to look.</em>
+              knows where to look
             </h2>
             <p className="mt-6 max-w-xl text-[16px] leading-[1.75] text-white/60 font-serif font-light">
               Enter your birth moment and ask the oracle one real question — the one
