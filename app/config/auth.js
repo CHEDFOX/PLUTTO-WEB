@@ -26,5 +26,13 @@ export function oauthRedirectTo() {
   return `${window.location.origin}/app`;
 }
 
-/** Providers offered on the web, in the order the app shows them. */
-export const SOCIAL_PROVIDERS = ['apple', 'google'];
+/**
+ * Providers offered on the web.
+ *
+ * 'apple' is deliberately absent: Sign in with Apple on the WEB is not the
+ * native flow the app uses — it needs its own Services ID, a domain-association
+ * file served from plutto.space, and a .p8 client secret that expires every six
+ * months. The code path already exists (Auth.js renders whatever is listed
+ * here), so add 'apple' back the day that setup is finished — no other change.
+ */
+export const SOCIAL_PROVIDERS = ['google'];

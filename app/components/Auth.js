@@ -67,7 +67,7 @@ function ResendGlyph() {
   );
 }
 
-export default function Auth({ onDone, onSkip }) {
+export default function Auth({ onDone }) {
   const [phase, setPhase] = useState('entry');   // entry | sending | verify | verifying
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
@@ -292,14 +292,6 @@ export default function Auth({ onDone, onSkip }) {
 
       {error && <p className="mt-10 text-[13px] text-red-300/80 text-center">{error}</p>}
 
-      {onSkip && phase === 'entry' && (
-        <button
-          onClick={onSkip}
-          className="mt-14 text-[11px] uppercase tracking-[0.28em] text-white/25 hover:text-white/55 transition-colors"
-        >
-          Continue without an account
-        </button>
-      )}
     </div>
   );
 }

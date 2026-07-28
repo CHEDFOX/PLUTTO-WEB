@@ -30,9 +30,9 @@ export default function AppPage() {
   const [entitled, setEntitled] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
   // The app sends a signed-out user to the auth gate BEFORE onboarding
-  // (App.js: `else if (!hasSession) stage = 'auth'`). Web mirrors that, but the
-  // gate can be passed — readings must still work without an account, which is
-  // what makes the web taster worth having.
+  // (App.js: `else if (!hasSession) stage = 'auth'`). Web mirrors that, and the
+  // gate is REQUIRED here too: an account is what carries the chart, the
+  // conversation and the subscription across web and phone.
   const [authed, setAuthed] = useState(null);   // null = still resolving
 
   useEffect(() => {
@@ -106,7 +106,7 @@ export default function AppPage() {
   if (!authed) {
     return (
       <main className="min-h-screen bg-void px-6 py-16">
-        <Auth onDone={() => setAuthed(true)} onSkip={() => setAuthed(true)} />
+        <Auth onDone={() => setAuthed(true)} />
       </main>
     );
   }
@@ -241,7 +241,7 @@ export default function AppPage() {
               className="mb-10 block mx-auto text-[10px] uppercase tracking-[0.32em] text-white/40 hover:text-white transition-colors">
               ✕ Close
             </button>
-            <Auth onDone={() => setShowAuth(false)} onSkip={() => setShowAuth(false)} />
+            <Auth onDone={() => setShowAuth(false)} />
           </div>
         </div>
       )}
