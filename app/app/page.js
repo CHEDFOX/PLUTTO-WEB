@@ -1,18 +1,14 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import BirthForm from './BirthForm';
 import Oracle from './Oracle';
-import Chart from './Chart';
-import Library from '../components/Library';
-import Feature from '../components/Feature';
-import Paywall from '../components/Paywall';
+import GetTheApp from '../components/GetTheApp';
 import Auth from '../components/Auth';
 import { generateKundli, getCatalog, getEntitlement } from '../lib/api';
 import { loadSession, saveSession, clearSession } from '../lib/store';
 import { preloadMedia } from '../lib/media';
-import { isGated } from '../lib/entitlement';
 import { supabase, auth as sbAuth } from '../lib/supabase';
 
 const TABS = [
@@ -28,8 +24,6 @@ export default function AppPage() {
   const [error, setError] = useState('');
   const [tab, setTab] = useState('oracle');
   const [catalog, setCatalog] = useState(null);
-  const [open, setOpen] = useState(null);      // section being read
-  const [paywall, setPaywall] = useState(null); // section that triggered the paywall
   const [user, setUser] = useState(null);       // supabase user (optional)
   const [entitled, setEntitled] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
@@ -65,10 +59,6 @@ export default function AppPage() {
     return () => { live = false; };
   }, [session]);
 
-  const locked = useCallback(
-    (section) => isGated(section, catalog, entitled),
-    [catalog, entitled]
-  );
 
   const onSubmit = async (profile) => {
     setBusy(true);
@@ -90,14 +80,9 @@ export default function AppPage() {
     }
   };
 
-  const openSection = (section) => {
-    if (locked(section)) { setPaywall(section); return; }
-    setOpen(section);
-  };
 
   const reset = () => { clearSession(); setSession(null); setCatalog(null); };
 
-  const theme = catalog?.theme;
   const name = session?.profile?.name || '';
 
   if (!ready) return <main className="min-h-screen bg-void" />;
@@ -168,16 +153,38 @@ export default function AppPage() {
             </div>
           )}
 
-          {tab === 'chart' && <Chart kundli={session.kundli} />}
+          {/* The web carries the Oracle. The chart and the library are the app's —
+              these tabs make that trade plainly and hand the visitor to the right
+              store for their device. */}
+          {tab === 'chart' && (
+            <GetTheApp
+              store={catalog?.store}
+              title={
+                <>
+                  Your whole chart
+                  <br />
+                  <em className="italic text-white/85">lives in the app.</em>
+                </>
+              }
+              body="Every placement, the wheels of time, and the chapters running through your life right now — read the way they were meant to be read."
+              points={[
+                'Your full chart, house by house',
+                'The periods and transits moving through you',
+                'Daily readings, in your language',
+              ]}
+            />
+          )}
 
           {tab === 'explore' && (
-            catalog ? (
-              <Library catalog={catalog} onOpen={openSection} isLocked={locked} />
-            ) : (
-              <p className="py-20 text-center text-[11px] uppercase tracking-[0.28em] text-white/30">
-                Loading the library…
-              </p>
-            )
+            <GetTheApp
+              store={catalog?.store}
+              points={[
+                'Every tradition — Jyotish, Hermetica, BaZi, KP, numerology',
+                'Compatibility, places, timing, past life',
+                'Tarot, I Ching and the number oracle',
+                'The Oracle in live voice, in your language',
+              ]}
+            />
           )}
         </div>
 
@@ -188,24 +195,7 @@ export default function AppPage() {
         </p>
       </div>
 
-      {open && (
-        <Feature
-          section={open}
-          kundli={session.kundli}
-          theme={theme}
-          onClose={() => setOpen(null)}
-        />
-      )}
 
-      {paywall && (
-        <Paywall
-          catalog={catalog}
-          section={paywall}
-          signedIn={!!user}
-          onSignIn={() => { setPaywall(null); setShowAuth(true); }}
-          onClose={() => setPaywall(null)}
-        />
-      )}
 
       {showAuth && (
         <div className="fixed inset-0 z-[70] bg-void/95 overflow-y-auto backdrop-blur-sm">
