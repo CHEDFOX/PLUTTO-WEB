@@ -99,6 +99,32 @@ export async function placeDetails(placeId) {
   }
 }
 
+/* ─────────────────────────── onboarding ─────────────────────────── */
+
+/**
+ * The SAME onboarding content the mobile app renders: the language list, the
+ * birth-screen copy in the chosen language, and the system-select screen. Web
+ * reads it from the backend rather than hardcoding, so both clients show
+ * identical wording and a copy change ships to both at once.
+ */
+export async function getOnboarding(language) {
+  const qs = language ? `?language=${encodeURIComponent(language)}` : '';
+  const r = await fetch(`${api('/onboarding-content')}${qs}`);
+  if (!r.ok) throw new Error(`onboarding ${r.status}`);
+  const d = await r.json();
+  return d?.data || d;
+}
+
+/** Which tradition suits this person — the same call the app's system screen makes. */
+export async function recommendSystem(signals = {}) {
+  try {
+    const d = await postJSON('/recommend-system', signals);
+    return d?.data || d || null;
+  } catch {
+    return null;
+  }
+}
+
 /* ─────────────────────────── catalog ─────────────────────────── */
 
 export async function getCatalog({ lang = 'en', system } = {}) {

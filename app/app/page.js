@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import BirthForm from './BirthForm';
+import Onboarding from './Onboarding';
 import Oracle from './Oracle';
 import GetTheApp from '../components/GetTheApp';
+import Settings from '../components/Settings';
 import Auth from '../components/Auth';
 import { generateKundli, getCatalog, getEntitlement } from '../lib/api';
 import { loadSession, saveSession, clearSession } from '../lib/store';
@@ -15,6 +16,7 @@ const TABS = [
   { key: 'oracle', label: 'Oracle' },
   { key: 'chart', label: 'Your chart' },
   { key: 'explore', label: 'Explore' },
+  { key: 'settings', label: 'Settings' },
 ];
 
 export default function AppPage() {
@@ -90,7 +92,7 @@ export default function AppPage() {
   if (!session) {
     return (
       <main className="min-h-screen bg-void px-6 py-20 md:py-28">
-        <BirthForm onSubmit={onSubmit} busy={busy} error={error} />
+        <Onboarding onComplete={onSubmit} busy={busy} error={error} />
       </main>
     );
   }
@@ -148,7 +150,7 @@ export default function AppPage() {
             <div className="rounded-2xl border border-mist bg-card p-6 md:p-8" style={{ minHeight: '34rem' }}>
               <p className="text-[10px] uppercase tracking-[0.32em] text-gold/70">The Oracle</p>
               <div className="mt-4" style={{ height: '28rem' }}>
-                <Oracle kundli={session.kundli} name={name} />
+                <Oracle kundli={session.kundli} name={name} store={catalog?.store} />
               </div>
             </div>
           )}
@@ -184,6 +186,19 @@ export default function AppPage() {
                 'Tarot, I Ching and the number oracle',
                 'The Oracle in live voice, in your language',
               ]}
+            />
+          )}
+
+          {tab === 'settings' && (
+            <Settings
+              catalog={catalog}
+              profile={session.profile}
+              user={user}
+              entitled={entitled}
+              onSignIn={() => setShowAuth(true)}
+              onSignOut={async () => { await sbAuth.signOut(); setUser(null); }}
+              onNewChart={reset}
+              onDeleteAccount={async () => { await sbAuth.signOut(); reset(); }}
             />
           )}
         </div>

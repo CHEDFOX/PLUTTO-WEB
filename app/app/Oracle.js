@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { streamChat } from '../lib/api';
 import { conversationId } from '../lib/store';
+import { detectPlatform, storeUrl } from '../lib/appStore';
 
 const OPENERS = [
   'What is this year really asking of me?',
@@ -11,7 +12,10 @@ const OPENERS = [
   'What do I keep repeating?',
 ];
 
-export default function Oracle({ kundli, name }) {
+export default function Oracle({ kundli, name, store }) {
+  // Feature hooks open the app on web, so we need to know which store.
+  const [platform, setPlatform] = useState('desktop');
+  useEffect(() => setPlatform(detectPlatform()), []);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
@@ -38,7 +42,7 @@ export default function Oracle({ kundli, name }) {
 
     abort.current = new AbortController();
     try {
-      await streamChat(
+      const { hooks } = await streamChat(
         {
           message: q,
           kundli,
@@ -57,6 +61,17 @@ export default function Oracle({ kundli, name }) {
         },
         { signal: abort.current.signal }
       );
+      // The oracle often ends by offering a feature ("Your timing ›"). The app
+      // opens it inline; on the web that feature lives in the app, so the hook
+      // becomes the invitation to go there — dropping it silently would waste
+      // the one moment the user is most curious.
+      if (hooks?.length) {
+        setMessages((m) => {
+          const next = [...m];
+          next[next.length - 1] = { ...next[next.length - 1], hooks };
+          return next;
+        });
+      }
     } catch (e) {
       if (e.name !== 'AbortError') {
         setError('The oracle went quiet. Try again in a moment.');
@@ -113,6 +128,24 @@ export default function Oracle({ kundli, name }) {
                     <span className="inline-block w-2 h-2 rounded-full bg-gold/70 animate-pulse" />
                   )}
                 </div>
+
+                {m.hooks?.length > 0 && (
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {m.hooks.map((h, hi) => (
+                      <a
+                        key={hi}
+                        href={storeUrl(platform, store)}
+                        target={platform === 'desktop' ? '_blank' : undefined}
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-2 rounded-full border border-gold/50
+                                   px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-gold
+                                   hover:bg-gold hover:text-black transition-colors"
+                      >
+                        {h.label} <span aria-hidden>›</span>
+                      </a>
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
           </div>
