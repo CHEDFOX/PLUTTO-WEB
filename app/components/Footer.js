@@ -1,28 +1,51 @@
 export default function Footer() {
   return (
-    <footer className="px-6 md:px-12 pt-20 pb-12 border-t border-white/8 mt-24">
-      <div className="mx-auto max-w-6xl flex flex-col md:flex-row md:items-end md:justify-between gap-10">
-        <div>
-          <div className="font-serif text-2xl font-light leading-none text-white">
-            Plutto
-          </div>
-          <p className="mt-4 max-w-xs text-[12px] leading-relaxed text-white/45">
-            A voice-first astrology oracle.
-            <br />
-            iOS &amp; Android — soon.
-          </p>
-        </div>
-        <nav className="flex flex-wrap items-center gap-x-6 gap-y-3 text-[10px] uppercase tracking-[0.32em] text-white/45">
-          <a className="hover:text-white transition-colors" href="https://api.plutto.space/privacy">Privacy</a>
-          <a className="hover:text-white transition-colors" href="https://api.plutto.space/terms">Terms</a>
-          <a className="hover:text-white transition-colors" href="https://api.plutto.space/support">Support</a>
-          <a className="hover:text-white transition-colors" href="https://api.plutto.space/api/public/delete-account">Delete account</a>
-          <a className="hover:text-white transition-colors" href="mailto:support@plutto.space">Contact</a>
+    <footer className="mt-24 border-t border-border">
+      <div className="mx-auto max-w-7xl px-6 py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <nav
+          className="flex flex-wrap items-center gap-x-6 gap-y-3 uppercase"
+          style={{
+            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+            fontSize: '0.65rem',
+            letterSpacing: '0.3em',
+          }}
+        >
+          <a
+            className="text-[#888] transition-colors hover:text-[#2962FF]"
+            href="https://api.plutto.space/privacy"
+          >
+            Privacy
+          </a>
+          <a
+            className="text-[#888] transition-colors hover:text-[#2962FF]"
+            href="https://api.plutto.space/terms"
+          >
+            Terms
+          </a>
+          <a
+            className="text-[#888] transition-colors hover:text-[#2962FF]"
+            href="https://api.plutto.space/api/public/delete-account"
+          >
+            Delete Account
+          </a>
+          <a
+            className="text-[#888] transition-colors hover:text-[#2962FF]"
+            href="mailto:support@plutto.space"
+          >
+            Contact
+          </a>
         </nav>
+        <p
+          className="uppercase text-[#444]"
+          style={{
+            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+            fontSize: '0.65rem',
+            letterSpacing: '0.4em',
+          }}
+        >
+          © Xooteq Lab
+        </p>
       </div>
-      <p className="mt-12 text-[10px] uppercase tracking-[0.4em] text-white/25">
-        © xooteq Lab
-      </p>
     </footer>
   );
 }

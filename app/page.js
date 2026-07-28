@@ -1,104 +1,95 @@
 import Link from 'next/link';
-import Nav from './components/Nav';
-import Footer from './components/Footer';
 import Starfield from './components/Starfield';
-import Orb from './components/Orb';
-import NatalWheel from './components/NatalWheel';
+import PlanetSlideshow from './components/PlanetSlideshow';
 import StoreBadges from './components/StoreBadges';
+import FadeUp from './components/FadeUp';
 
 export default function Home() {
   return (
     <>
       <Starfield />
-      <Nav />
 
-      <main className="relative z-10 pt-32 md:pt-40 px-4 md:px-12">
-        {/* HERO CARD */}
-        <section className="mx-auto max-w-6xl hero-card px-6 md:px-16 py-16 md:py-24">
-          <div className="text-center">
-            <h1 className="font-serif text-[40px] sm:text-[56px] md:text-[88px] font-medium text-white leading-none tracking-[0.32em] md:tracking-[0.42em] uppercase pr-[-0.42em]">
-              Plutto
-            </h1>
-          </div>
-
-          <div className="mt-14 md:mt-20 grid grid-cols-1 md:grid-cols-12 items-center gap-12 md:gap-8">
-            {/* Copy */}
-            <div className="md:col-span-6 md:pl-2">
-              <h2 className="font-serif text-[34px] md:text-[44px] font-light text-white leading-[1.08] tracking-[-0.01em]">
-                Thousands of years
-                <br />
-                of observation.
-              </h2>
-              <p className="mt-8 max-w-md text-[16px] leading-relaxed text-white/65">
-                One place to explore how humanity has tried to
-                understand time, choice, and ourselves.
-              </p>
-              <div className="mt-10">
-                <Link
-                  href="/about"
-                  className="inline-flex items-center justify-center rounded-full bg-white px-8 py-4 text-[11px] uppercase tracking-[0.32em] text-black transition-colors hover:bg-gold"
+      <div className="relative z-10">
+        {/* ─────────────────── HERO ─────────────────── */}
+        <section className="mx-auto max-w-7xl px-6 pt-16 md:pt-24 pb-24">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 items-center">
+            <div className="md:col-span-6 order-2 md:order-1">
+              <FadeUp>
+                <p
+                  className="uppercase text-[#2962FF]"
+                  style={{
+                    fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                    fontSize: '0.8rem',
+                    letterSpacing: '3px',
+                  }}
                 >
-                  Learn more
-                </Link>
-              </div>
+                  The Search For Meaning
+                </p>
+              </FadeUp>
+
+              <FadeUp delay={0.1}>
+                <h1
+                  className="mt-6 font-display font-bold text-[#F0F0F0]"
+                  style={{
+                    fontSize: 'clamp(2.25rem, 5.5vw, 4rem)',
+                    lineHeight: 1.05,
+                    letterSpacing: '-0.02em',
+                  }}
+                >
+                  We&apos;ve Always
+                  <br />
+                  Looked{' '}
+                  <em
+                    className="italic text-[#2962FF]"
+                    style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
+                  >
+                    Up
+                  </em>
+                  .
+                </h1>
+              </FadeUp>
+
+              <FadeUp delay={0.25}>
+                <p
+                  className="mt-8 max-w-xl text-[#C0C0C0]"
+                  style={{ fontSize: '1.05rem', lineHeight: 1.7 }}
+                >
+                  For thousands of years, humanity searched the sky for meaning.
+                  With Plutto, you join the expedition — an oracle that reads the
+                  heavens across every tradition, and speaks the pattern back to
+                  you in plain words.
+                </p>
+              </FadeUp>
+
+              <FadeUp delay={0.4}>
+                <div className="mt-10 flex items-center gap-5">
+                  <Link
+                    href="/about"
+                    className="cta-glow inline-flex items-center justify-center rounded-md bg-[#2962FF] px-7 py-4 text-[#0A0A0A] font-body font-semibold uppercase"
+                    style={{ fontSize: '0.8rem', letterSpacing: '3px' }}
+                  >
+                    See Through
+                  </Link>
+                </div>
+              </FadeUp>
             </div>
 
-            {/* Visual — gold orb inside a faint natal wheel */}
-            <div className="md:col-span-6 flex items-center justify-center">
-              <div className="relative">
-                <NatalWheel
-                  variant="faint"
-                  size={420}
-                  center={<Orb size="sm" />}
-                />
-              </div>
+            {/* Twelve planets, one at a time */}
+            <div className="md:col-span-6 order-1 md:order-2 flex items-center justify-center">
+              <FadeUp delay={0.15}>
+                <PlanetSlideshow size={460} />
+              </FadeUp>
             </div>
           </div>
-
-          {/* Carousel dots — static decoration matching The Pattern's pacing */}
-          <div className="mt-16 flex items-center justify-center gap-3">
-            <Dot active />
-            <Dot />
-            <Dot />
-            <Dot />
-          </div>
         </section>
 
-        {/* DOWNLOAD */}
-        <section className="mx-auto max-w-6xl mt-24 md:mt-32 text-center">
-          <StoreBadges />
+        {/* ─────────────────── DOWNLOAD ─────────────────── */}
+        <section className="mx-auto max-w-7xl px-6 py-24 text-center">
+          <FadeUp>
+            <StoreBadges />
+          </FadeUp>
         </section>
-
-        {/* QUIET DEPTH LINE */}
-        <section className="mx-auto max-w-3xl mt-24 md:mt-32 text-center border-t border-white/8 pt-12">
-          <p className="text-[11px] uppercase tracking-[0.4em] text-white/45">
-            Built on Swiss Ephemeris
-            <span className="mx-3 text-white/20">·</span>
-            Voice on OpenAI Realtime
-          </p>
-          <p className="mt-6 text-[12px] text-white/35">
-            300+ classical yogas
-            <span className="mx-2">·</span>
-            19 divisional charts
-            <span className="mx-2">·</span>
-            7 dasha systems
-            <span className="mx-2">·</span>
-            89 languages
-          </p>
-        </section>
-
-        <Footer />
-      </main>
+      </div>
     </>
-  );
-}
-
-function Dot({ active }) {
-  return (
-    <span
-      className={`block h-1.5 w-1.5 rounded-full ${
-        active ? 'bg-white' : 'bg-white/20'
-      }`}
-    />
   );
 }
