@@ -19,6 +19,8 @@ async function loadIndex() {
   if (_pending) return _pending;
   _pending = (async () => {
     try {
+      // On the API's public allowlist (static, per-user-free), so no token here —
+      // it is warmed at launch, before anyone could be signed in.
       const r = await fetch(`${API_BASE}/api/public/media-manifest`);
       const m = await r.json();
       const idx = {};

@@ -12,7 +12,7 @@
  *    is behind a click.
  */
 
-import { API_BASE } from './api';
+import { API_BASE, authHeaders } from './api';
 
 const api = (p) => `${API_BASE}/api/public${p}`;
 
@@ -48,7 +48,7 @@ export async function speak(text, { system = 'plutto', signal } = {}) {
   stopSpeaking();
   const r = await fetch(api('/tts'), {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
     body: JSON.stringify({ text: String(text).slice(0, 5000), system }),
     signal,
   });
@@ -116,7 +116,10 @@ export async function startDictation({ language = 'en' } = {}) {
       const fd = new FormData();
       fd.append('file', blob, `speech.${ext}`);
       if (language) fd.append('language', language);
-      const r = await fetch(api('/whisper/transcribe'), { method: 'POST', body: fd });
+      // No Content-Type: the browser must set the multipart boundary itself.
+      const r = await fetch(api('/whisper/transcribe'), {
+        method: 'POST', headers: await authHeaders(), body: fd,
+      });
       if (!r.ok) throw new Error(`transcribe ${r.status}`);
       const d = await r.json();
       return (d?.text || d?.transcript || '').trim();
@@ -130,7 +133,7 @@ export async function startDictation({ language = 'en' } = {}) {
 export async function realtimeSession({ kundli, system = 'plutto', language = 'en' }) {
   const r = await fetch(api('/realtime/session'), {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
     body: JSON.stringify({
       kundli_data: kundli,
       birth_data: kundli?.raw?.birth_details,

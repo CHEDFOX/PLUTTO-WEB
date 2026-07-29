@@ -13,11 +13,12 @@ export const API_BASE =
 const api = (path) => `${API_BASE}/api/public${path}`;
 
 /**
- * Signed-in calls carry the Supabase bearer token, exactly as mobile does, so
- * the server can attribute conversations and entitlement. Signed-out calls still
- * work — the API is stateless and readings need no account.
+ * Every call carries the Supabase bearer token, exactly as mobile does.
+ *
+ * This is REQUIRED, not decorative: the API is registered-users-only, so a call
+ * without it comes back 401. Exported because the voice helpers need it too.
  */
-async function authHeaders() {
+export async function authHeaders() {
   if (typeof window === 'undefined') return {};
   try {
     const { accessToken } = await import('./supabase');
@@ -107,6 +108,9 @@ export async function placeDetails(placeId) {
  * reads it from the backend rather than hardcoding, so both clients show
  * identical wording and a copy change ships to both at once.
  */
+// No token needed: this is one of the few endpoints on the API's public
+// allowlist, because the app's own sign-in screen reads its country dial codes
+// from it — gate it and the auth screen cannot render.
 export async function getOnboarding(language) {
   const qs = language ? `?language=${encodeURIComponent(language)}` : '';
   const r = await fetch(`${api('/onboarding-content')}${qs}`);
@@ -129,7 +133,7 @@ export async function recommendSystem(signals = {}) {
 
 export async function getCatalog({ lang = 'en', system } = {}) {
   const qs = new URLSearchParams({ lang, ...(system ? { system } : {}) });
-  const r = await fetch(`${api('/catalog')}?${qs}`);
+  const r = await fetch(`${api('/catalog')}?${qs}`, { headers: await authHeaders() });
   if (!r.ok) throw new Error(`catalog ${r.status}`);
   return r.json();
 }
