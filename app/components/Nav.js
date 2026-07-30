@@ -31,7 +31,7 @@ export default function Nav() {
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <Link
           href="/"
-          className="font-display text-lg font-normal tracking-mark pl-[0.5em] text-[#F0F0F0] transition-colors hover:text-[#F0F0F0]"
+          className="font-mark text-base font-thin tracking-mark pl-[0.72em] text-[#F0F0F0] transition-colors hover:text-[#F0F0F0]"
           aria-label="Plutto home"
         >
           PLUTTO

@@ -50,6 +50,7 @@ export default {
       },
       fontFamily: {
         display: ['var(--font-display)', 'Julius Sans One', 'system-ui', 'sans-serif'],
+        mark: ['var(--font-mark)', 'Josefin Sans', 'system-ui', 'sans-serif'],
         body: ['var(--font-body)', 'DM Sans', 'system-ui', 'sans-serif'],
         mono: ['var(--font-mono)', 'JetBrains Mono', 'ui-monospace', 'monospace'],
         serif: ['var(--font-reading)', 'Syne', 'system-ui', 'sans-serif'],
@@ -60,7 +61,10 @@ export default {
         // The display register: wide enough that the eye reads the word as a
         // shape before it reads the letters.
         title: '0.3em',
-        mark: '0.5em',
+        // The mark is spaced further than anything else on the page. Past roughly
+        // 0.7em the letters stop reading as a word and start reading as a row of
+        // marks — which is the effect.
+        mark: '0.72em',
       },
       borderRadius: {
         lg: 'var(--radius)',

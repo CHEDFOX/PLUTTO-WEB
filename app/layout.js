@@ -1,17 +1,27 @@
-import { Julius_Sans_One, Syne, DM_Sans, JetBrains_Mono } from 'next/font/google';
+import { Julius_Sans_One, Josefin_Sans, Syne, DM_Sans, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import Nav from './components/Nav';
 import Footer from './components/Footer';
 import SiteChrome from './components/SiteChrome';
 
 // DISPLAY — thin geometric capitals, set wide. It only ever appears in caps and
-// at large sizes: the wordmark and the headline of a section. It has one weight
-// and no italic on purpose; in this register emphasis comes from space, not from
-// slant or heft.
+// at large sizes: the headline of a section. It has one weight and no italic on
+// purpose; in this register emphasis comes from space, not from slant or heft.
 const julius = Julius_Sans_One({
   subsets: ['latin'],
   weight: ['400'],
   variable: '--font-display',
+  display: 'swap',
+});
+
+// THE MARK gets its own cut, at hairline weight. A logotype is set once, at one
+// size, always in isolation — so it can carry a more delicate stroke than a
+// headline, which has to survive being long, wrapped, and read. Julius at 100
+// does not exist; this is the thinnest geometric cut with a true circular O.
+const josefin = Josefin_Sans({
+  subsets: ['latin'],
+  weight: ['100', '200'],
+  variable: '--font-mark',
   display: 'swap',
 });
 
@@ -77,7 +87,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${julius.variable} ${syne.variable} ${dmSans.variable} ${jetbrains.variable}`}
+      className={`${julius.variable} ${josefin.variable} ${syne.variable} ${dmSans.variable} ${jetbrains.variable}`}
     >
       <body className="min-h-screen bg-black text-foreground font-body antialiased">
         <Nav />

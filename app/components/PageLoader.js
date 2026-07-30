@@ -45,11 +45,12 @@ const PageLoader = () => {
       <div className="relative flex flex-col items-center gap-6">
         {/* Wordmark */}
         <div
-          className="flex font-display font-normal text-[#F0F0F0]"
+          // Same face and spacing as the nav mark — it is the same mark.
+          className="flex font-mark font-thin text-[#F0F0F0]"
           style={{
-            fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
-            letterSpacing: '0.55em',
-            paddingLeft: '0.55em',
+            fontSize: 'clamp(1.5rem, 3.4vw, 2.4rem)',
+            letterSpacing: '0.72em',
+            paddingLeft: '0.72em',
           }}
         >
           {letters.map((ch, i) => (
