@@ -7,6 +7,9 @@ import Oracle from './Oracle';
 import GetTheApp from '../components/GetTheApp';
 import Settings from '../components/Settings';
 import Auth from '../components/Auth';
+import Feature from '../components/Feature';
+import Paywall from '../components/Paywall';
+import { isGated } from '../lib/entitlement';
 import { generateKundli, getCatalog, getEntitlement } from '../lib/api';
 import { loadSession, saveSession, clearSession } from '../lib/store';
 import { preloadMedia } from '../lib/media';
@@ -29,6 +32,10 @@ export default function AppPage() {
   const [user, setUser] = useState(null);       // supabase user (optional)
   const [entitled, setEntitled] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
+  // A feature opened from a chat recommendation. Gated sections show the paywall
+  // instead — the same gate list the app uses, read from the catalog.
+  const [section, setSection] = useState(null);
+  const [showPaywall, setShowPaywall] = useState(false);
   // The app sends a signed-out user to the auth gate BEFORE onboarding
   // (App.js: `else if (!hasSession) stage = 'auth'`). Web mirrors that, and the
   // gate is REQUIRED here too: an account is what carries the chart, the
@@ -94,6 +101,17 @@ export default function AppPage() {
 
 
   const reset = () => { clearSession(); setSession(null); setCatalog(null); };
+
+  // Open a feature the chat recommended. The paywall check happens HERE, before
+  // the reading is ever requested, so a gated section cannot be read for free by
+  // arriving through a chat hook instead of the library.
+  const openSection = (s) => {
+    if (!s) return;
+    if (isGated(s, catalog, entitled)) { setSection(s); setShowPaywall(true); return; }
+    setShowPaywall(false);
+    setSection(s);
+  };
+  const closeSection = () => { setSection(null); setShowPaywall(false); };
 
   const name = session?.profile?.name || '';
 
@@ -172,7 +190,13 @@ export default function AppPage() {
             <div className="rounded-2xl border border-mist bg-card p-6 md:p-8" style={{ minHeight: '34rem' }}>
               <p className="text-[10px] uppercase tracking-[0.32em] text-gold/70">The Oracle</p>
               <div className="mt-4" style={{ height: '28rem' }}>
-                <Oracle kundli={session.kundli} name={name} store={catalog?.store} />
+                <Oracle
+                  kundli={session.kundli}
+                  name={name}
+                  store={catalog?.store}
+                  catalog={catalog}
+                  onOpenSection={openSection}
+                />
               </div>
             </div>
           )}
@@ -233,6 +257,30 @@ export default function AppPage() {
       </div>
 
 
+
+      {/* A feature the Oracle recommended, opened in place. Gated ones show the
+          paywall instead — never the reading. */}
+      {section && showPaywall && (
+        <div className="fixed inset-0 z-[60] bg-void overflow-y-auto">
+          <Paywall
+            catalog={catalog}
+            section={section}
+            signedIn={!!user}
+            onSignIn={() => { closeSection(); setShowAuth(true); }}
+            onClose={closeSection}
+          />
+        </div>
+      )}
+
+      {section && !showPaywall && (
+        <Feature
+          section={section}
+          kundli={session.kundli}
+          theme={catalog?.theme}
+          language={session?.profile?.language || 'en'}
+          onClose={closeSection}
+        />
+      )}
 
       {showAuth && (
         <div className="fixed inset-0 z-[70] bg-void/95 overflow-y-auto backdrop-blur-sm">

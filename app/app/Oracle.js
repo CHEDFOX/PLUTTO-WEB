@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { streamChat } from '../lib/api';
 import { conversationId } from '../lib/store';
 import { detectPlatform, storeUrl } from '../lib/appStore';
+import { sectionForHook, openableOnWeb } from '../lib/hooks';
 import VoiceMode from './VoiceMode';
 import {
   speak, stopSpeaking, startDictation, micSupported, realtimeSupported,
@@ -16,8 +17,9 @@ const OPENERS = [
   'What do I keep repeating?',
 ];
 
-export default function Oracle({ kundli, name, store }) {
-  // Feature hooks open the app on web, so we need to know which store.
+export default function Oracle({ kundli, name, store, catalog, onOpenSection }) {
+  // A hook the web cannot render falls back to the store, so we still need to
+  // know which one this visitor should be sent to.
   const [platform, setPlatform] = useState('desktop');
   useEffect(() => setPlatform(detectPlatform()), []);
   const [messages, setMessages] = useState([]);
@@ -198,19 +200,33 @@ export default function Oracle({ kundli, name, store }) {
 
                 {m.hooks?.length > 0 && (
                   <div className="mt-4 flex flex-wrap gap-2">
-                    {m.hooks.map((h, hi) => (
-                      <a
-                        key={hi}
-                        href={storeUrl(platform, store)}
-                        target={platform === 'desktop' ? '_blank' : undefined}
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-2 rounded-full border border-white/30
-                                   px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-white/80
-                                   hover:bg-white hover:text-black transition-colors"
-                      >
-                        {h.label} <span aria-hidden>›</span>
-                      </a>
-                    ))}
+                    {m.hooks.map((h, hi) => {
+                      // Open the feature here when the web can render it; send to
+                      // the store only when it genuinely needs the app, so the
+                      // store link means something rather than being the one
+                      // answer to every recommendation.
+                      const section = sectionForHook(h, catalog);
+                      const open = openableOnWeb(section) && !!onOpenSection;
+                      const cls =
+                        'inline-flex items-center gap-2 rounded-full border border-white/30 ' +
+                        'px-4 py-2 text-[11px] uppercase tracking-[0.22em] text-white/80 ' +
+                        'hover:bg-white hover:text-black transition-colors';
+                      return open ? (
+                        <button key={hi} onClick={() => onOpenSection(section)} className={cls}>
+                          {h.label} <span aria-hidden>›</span>
+                        </button>
+                      ) : (
+                        <a
+                          key={hi}
+                          href={storeUrl(platform, store)}
+                          target={platform === 'desktop' ? '_blank' : undefined}
+                          rel="noreferrer"
+                          className={cls}
+                        >
+                          {h.label} <span aria-hidden>›</span>
+                        </a>
+                      );
+                    })}
                   </div>
                 )}
               </div>
