@@ -50,9 +50,9 @@ export default function Home() {
                   style={{ fontSize: '1.05rem', lineHeight: 1.7 }}
                 >
                   For thousands of years, humanity searched the sky for meaning.
-                  With Plutto, you join the expedition — an astrology app that
-                  reads your birth chart across every tradition, and speaks the
-                  pattern back to you in plain words.
+                  With Plutto, you join the expedition — an oracle that reads the
+                  heavens across every tradition, and speaks the pattern back to
+                  you in plain words.
                 </p>
               </FadeUp>
 
@@ -79,10 +79,12 @@ export default function Home() {
         </section>
 
         {/* ─────────────────── WHAT PLUTTO IS ─────────────────── */}
-        {/* Google's OAuth brand verification reads this page, and rejects the
-            brand when the purpose of the app — and the reason it asks for an
-            account — are not in plain visible copy. The hero carries the
-            register; this section carries the facts. Keep it literal. */}
+        {/* Kept deliberately short. Google's OAuth brand verification rejected
+            this page once for not saying what the app does; these two lines are
+            the anchor that keeps it from happening again if the brand is ever
+            re-audited. The register stays ours — one plain noun, no feature
+            list. Do not remove without checking the consent screen still reads
+            "Plutto" rather than the raw Supabase host. */}
         <section className="mx-auto max-w-3xl px-6 pb-8">
           <FadeUp>
             <p
@@ -98,50 +100,14 @@ export default function Home() {
           </FadeUp>
 
           <FadeUp delay={0.1}>
-            <div
-              className="mt-8 space-y-6 text-[#C0C0C0]"
+            <p
+              className="mt-8 text-[#C0C0C0]"
               style={{ fontSize: '1.05rem', lineHeight: 1.7 }}
             >
-              <p>
-                Plutto is an astrology app for iPhone, Android and the browser.
-                You enter your birth date, time and place once, and Plutto
-                computes your full natal chart — then lets you ask about it out
-                loud, in your own language, and answers in a voice you can
-                interrupt.
-              </p>
-              <p>
-                One chart, read five ways:{' '}
-                <span className="text-[#F0F0F0]">Vedic</span> for exactness,{' '}
-                <span className="text-[#F0F0F0]">Western</span> for psychology,{' '}
-                <span className="text-[#F0F0F0]">Chinese BaZi</span> for the
-                elements, <span className="text-[#F0F0F0]">KP</span> for timing,
-                and <span className="text-[#F0F0F0]">Numerology</span> when a
-                name needs measuring. Charts are computed with Swiss Ephemeris —
-                the same source observatories use — and the voice runs on OpenAI
-                Realtime.
-              </p>
-              <p>
-                Reading your chart requires an account. You sign in with{' '}
-                <span className="text-[#F0F0F0]">Google</span>, Apple, email or
-                phone, and your chart, chosen tradition, language and
-                conversation history are saved to it, so they follow you from
-                the phone to the browser. You can{' '}
-                <a
-                  href="https://api.plutto.space/api/public/delete-account"
-                  className="text-[#F0F0F0] underline underline-offset-4 decoration-[#F0F0F0]/30 hover:decoration-[#F0F0F0] transition-colors"
-                >
-                  delete your account
-                </a>{' '}
-                and everything in it at any time; what we store is listed in the{' '}
-                <a
-                  href="https://api.plutto.space/privacy"
-                  className="text-[#F0F0F0] underline underline-offset-4 decoration-[#F0F0F0]/30 hover:decoration-[#F0F0F0] transition-colors"
-                >
-                  privacy policy
-                </a>
-                .
-              </p>
-            </div>
+              An astrology oracle, and a voice you can argue with. You give it a
+              date, a time, a place; it computes the geometry of that moment and
+              talks to you about it — out loud, in your language.
+            </p>
           </FadeUp>
         </section>
 
