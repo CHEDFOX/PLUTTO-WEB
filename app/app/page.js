@@ -12,6 +12,7 @@ import Paywall from '../components/Paywall';
 import { isGated } from '../lib/entitlement';
 import { generateKundli, getCatalog, getEntitlement } from '../lib/api';
 import { loadSession, saveSession, clearSession } from '../lib/store';
+import { loadRemoteSession, saveRemoteSession } from '../lib/profile';
 import { preloadMedia } from '../lib/media';
 import { supabase, auth as sbAuth } from '../lib/supabase';
 
@@ -58,6 +59,31 @@ export default function AppPage() {
     return () => sub?.subscription?.unsubscribe?.();
   }, []);
 
+  // ENROLLMENT follows the ACCOUNT, exactly as the chart and subscription do.
+  // localStorage is per-browser, so treating it as the source of truth meant a
+  // user enrolled on their phone — or on this site in another browser — was sent
+  // through onboarding again. The server-held profile decides; localStorage is
+  // the cache in front of it.
+  useEffect(() => {
+    if (!user) return;
+    let live = true;
+    (async () => {
+      const remote = await loadRemoteSession(user);
+      if (!live || remote === undefined) return;   // query failed → keep what we have
+      if (remote) {
+        const next = { profile: remote.profile, kundli: remote.kundli, createdAt: Date.now() };
+        saveSession(next);                          // seed this browser's cache
+        setSession(next);
+        return;
+      }
+      // Enrolled HERE before this synced anywhere: push it up so the phone sees
+      // it, rather than stranding a chart in one browser.
+      const local = loadSession();
+      if (local?.profile) saveRemoteSession(user, local.profile, local.kundli);
+    })();
+    return () => { live = false; };
+  }, [user]);
+
   // Entitlement follows the ACCOUNT, so a subscription bought on the phone
   // unlocks the web too. Re-checked whenever the user changes or a checkout
   // returns to this page.
@@ -88,6 +114,10 @@ export default function AppPage() {
       saveSession(next);
       setSession(next);
       setTab('chart');
+      // And to the account, so this enrollment exists on the phone too. Not
+      // awaited: the chart is computed and on screen, and a sync failure is not
+      // a reason to hold up or fail an onboarding that succeeded.
+      if (user) saveRemoteSession(user, profile, data);
     } catch (e) {
       setError(
         e?.message?.includes('Failed to fetch')
