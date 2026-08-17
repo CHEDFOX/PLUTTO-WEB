@@ -143,6 +143,26 @@ export default function AppPage() {
   };
   const closeSection = () => { setSection(null); setShowPaywall(false); };
 
+  // Just paid, on this page — RevenueCat's sheet closes in place rather than
+  // redirecting, so nothing would otherwise re-check entitlement and the user would
+  // be left staring at the paywall they just bought their way past. Unlock at once
+  // from RevenueCat's own answer, then reconcile against the backend, which is the
+  // real source of truth once its webhook lands a second or two later.
+  const onPurchased = async () => {
+    setEntitled(true);
+    setShowPaywall(false);
+    try {
+      const e = await getEntitlement();
+      // Only ever CORRECT downward on a definite negative — a slow webhook must not
+      // re-lock someone who has genuinely paid.
+      if (e && e.active === false) {
+        setTimeout(() => getEntitlement().then((r) => setEntitled(!!r?.active)).catch(() => {}), 4000);
+      }
+    } catch {
+      /* leave them unlocked; the next load re-checks */
+    }
+  };
+
   const name = session?.profile?.name || '';
 
   if (!ready) return <main className="min-h-screen bg-void" />;
@@ -301,8 +321,11 @@ export default function AppPage() {
             catalog={catalog}
             section={section}
             signedIn={!!user}
+            userId={user?.id}
+            email={user?.email}
             onSignIn={() => { closeSection(); setShowAuth(true); }}
             onClose={closeSection}
+            onPurchased={onPurchased}
           />
         </div>
       )}
