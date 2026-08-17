@@ -226,6 +226,7 @@ export default function AppPage() {
                   store={catalog?.store}
                   catalog={catalog}
                   onOpenSection={openSection}
+                  onUpgrade={() => { setSection(null); setShowPaywall(true); }}
                 />
               </div>
             </div>
@@ -290,7 +291,11 @@ export default function AppPage() {
 
       {/* A feature the Oracle recommended, opened in place. Gated ones show the
           paywall instead — never the reading. */}
-      {section && showPaywall && (
+      {/* No `section &&` here: the chat's free-tier gate opens the paywall with no
+          section behind it, and requiring one made the upgrade button dead on the
+          one screen where the user had just been told to upgrade. Paywall already
+          treats `section` as optional (section?.title). */}
+      {showPaywall && (
         <div className="fixed inset-0 z-[60] bg-void overflow-y-auto">
           <Paywall
             catalog={catalog}

@@ -5,6 +5,7 @@ import { streamChat } from '../lib/api';
 import { conversationId } from '../lib/store';
 import { detectPlatform, storeUrl } from '../lib/appStore';
 import { sectionForHook, openableOnWeb } from '../lib/hooks';
+import { mediaUrl, resolveMedia } from '../lib/media';
 import VoiceMode from './VoiceMode';
 import {
   speak, stopSpeaking, startDictation, micSupported, realtimeSupported,
@@ -17,7 +18,55 @@ const OPENERS = [
   'What do I keep repeating?',
 ];
 
-export default function Oracle({ kundli, name, store, catalog, onOpenSection }) {
+/**
+ * FREE-TIER GATE CARD — shown in place of a reading once the day's free readings
+ * are spent. Every word, the hero and the button label come from the backend
+ * (catalog.chat.gate), the same block the mobile card reads, so the offer stays
+ * identical on both and a copy change ships to both at once.
+ */
+function GateCard({ gate, text, onUpgrade }) {
+  const g = gate || {};
+  const [url, setUrl] = useState(() => mediaUrl(g.media));
+  useEffect(() => {
+    let live = true;
+    if (!url && g.media) resolveMedia(g.media).then((u) => live && setUrl(u));
+    return () => { live = false; };
+  }, [g.media, url]);
+
+  return (
+    <div className="mt-2 overflow-hidden rounded-2xl border border-white/10 bg-black/40">
+      {url && (
+        <div className="relative h-28 w-full overflow-hidden">
+          <img src={url} alt="" className="h-full w-full object-cover" />
+          <div
+            className="absolute inset-0"
+            style={{ backgroundColor: `rgba(0,0,0,${g.tint != null ? g.tint : 0.45})` }}
+          />
+        </div>
+      )}
+      <div className="p-5">
+        <p className="font-serif text-[17px] italic leading-snug text-white/90">
+          {/* The server's message is the fallback, so a client that has the card and
+              a client that does not still say the same thing. */}
+          {g.title || text}
+        </p>
+        {g.subtitle && (
+          <p className="mt-2 text-[12px] leading-relaxed text-white/50">{g.subtitle}</p>
+        )}
+        <button
+          onClick={onUpgrade}
+          className="mt-5 rounded-full border border-gold/60 px-5 py-2 text-[10px]
+                     uppercase tracking-[0.28em] text-gold transition-colors
+                     hover:bg-gold hover:text-black"
+        >
+          {g.button?.label || 'Unlock Plutto'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default function Oracle({ kundli, name, store, catalog, onOpenSection, onUpgrade }) {
   // A hook the web cannot render falls back to the store, so we still need to
   // know which one this visitor should be sent to.
   const [platform, setPlatform] = useState('desktop');
@@ -101,7 +150,7 @@ export default function Oracle({ kundli, name, store, catalog, onOpenSection }) 
 
     abort.current = new AbortController();
     try {
-      const { hooks } = await streamChat(
+      const { hooks, gate } = await streamChat(
         {
           message: q,
           kundli,
@@ -120,6 +169,18 @@ export default function Oracle({ kundli, name, store, catalog, onOpenSection }) 
         },
         { signal: abort.current.signal }
       );
+      // The free daily allowance is spent: this "reply" is the upgrade message,
+      // not a reading. Mark the bubble so it renders as the offer with a way to
+      // subscribe — the text alone reads as ordinary Oracle prose and leads
+      // nowhere, at exactly the moment the user is most willing to pay.
+      if (gate) {
+        setMessages((m) => {
+          const next = [...m];
+          next[next.length - 1] = { ...next[next.length - 1], gated: true };
+          return next;
+        });
+        return;
+      }
       // The oracle often ends by offering a feature ("Your timing ›"). The app
       // opens it inline; on the web that feature lives in the app, so the hook
       // becomes the invitation to go there — dropping it silently would waste
@@ -182,13 +243,23 @@ export default function Oracle({ kundli, name, store, catalog, onOpenSection }) 
                       : 'font-serif text-[17px] leading-[1.7] text-white/90 whitespace-pre-wrap'
                   }
                 >
-                  {m.content}
+                  {!m.gated && m.content}
                   {m.role === 'assistant' && !m.content && busy && (
                     <span className="inline-block w-2 h-2 rounded-full bg-gold/70 animate-pulse" />
                   )}
                 </div>
 
-                {m.role === 'assistant' && m.content && (
+                {m.gated && (
+                  <GateCard
+                    gate={catalog?.chat?.gate}
+                    text={m.content}
+                    onUpgrade={() => onUpgrade?.()}
+                  />
+                )}
+
+                {/* Read-aloud belongs to a reading. The gate message is an offer,
+                    and voicing it in the Oracle's voice would sell in her voice. */}
+                {m.role === 'assistant' && m.content && !m.gated && (
                   <button
                     onClick={() => readAloud(i, m.content)}
                     className="mt-3 text-[10px] uppercase tracking-[0.28em] text-white/30

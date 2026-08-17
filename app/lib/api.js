@@ -177,7 +177,9 @@ export async function getEntitlement(params = {}) {
 
 /**
  * Stream a reply from the Oracle. Calls `onDelta(text)` as tokens arrive and
- * resolves with { text, hooks } when done.
+ * resolves with { text, hooks, gate } when done. `gate` true means the free daily
+ * allowance is spent and `text` is the upgrade message — show the offer, not a
+ * reading (see Oracle.js).
  *
  * The backend emits Server-Sent Events: `data: {json}\n\n` with
  * type = start | delta | ping | done | error.
@@ -216,7 +218,8 @@ export async function streamChat(
     });
     const text = d?.reply || d?.response || '';
     if (text) onDelta?.(text);
-    return { text, hooks: d?.hooks || [] };
+    // Same gate on the non-streaming path, or the fallback quietly sells nothing.
+    return { text, hooks: d?.hooks || [], gate: !!d?.gate };
   }
 
   const reader = r.body.getReader();
@@ -224,6 +227,7 @@ export async function streamChat(
   let buf = '';
   let text = '';
   let hooks = [];
+  let gate = false;
 
   while (true) {
     const { value, done } = await reader.read();
@@ -248,10 +252,16 @@ export async function streamChat(
       } else if (evt.type === 'done') {
         if (evt.full_text) text = evt.full_text;
         hooks = evt.hooks || [];
+        // `gate` means the free daily allowance is spent and this "reply" is the
+        // upgrade message, not a reading. Dropping the flag was silently the worst
+        // case: the text still renders, so nothing LOOKS broken, but it arrives as
+        // ordinary Oracle prose with no card and no way to subscribe — the one
+        // moment the user is ready to pay, answered with a dead end.
+        gate = !!evt.gate;
       } else if (evt.type === 'error') {
         throw new Error(evt.error || 'The oracle went quiet.');
       }
     }
   }
-  return { text, hooks };
+  return { text, hooks, gate };
 }
