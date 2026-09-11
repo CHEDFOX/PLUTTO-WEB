@@ -23,6 +23,14 @@ export function buildBlocks(section, raw) {
     };
   }
 
+  // THE WHEEL — `planets` (+ `fields`). The solar system and the chart wheels
+  // answer in this shape, which is neither blocks nor pages, so they fell all
+  // the way through and opened as their own title. Passed through whole: the
+  // component draws the wheel from the longitudes and reads the sections.
+  if (Array.isArray(raw.planets) && raw.planets.length) {
+    return { hook: { title: ttl, media: section?.media }, blocks: [], wheel: raw };
+  }
+
   // PAGED READING — `pages`, the shape most of what the backend writes comes
   // back in: a tradition, an observation, your places, a person, a concept. It
   // was not handled here at all, so every one of those features fell through to

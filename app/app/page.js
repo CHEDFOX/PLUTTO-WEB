@@ -8,6 +8,7 @@ import GetTheApp from '../components/GetTheApp';
 import Settings from '../components/Settings';
 import Auth from '../components/Auth';
 import Feature from '../components/Feature';
+import Explore from '../components/Explore';
 import Paywall from '../components/Paywall';
 import { isGated } from '../lib/entitlement';
 import { generateKundli, getCatalog, getEntitlement } from '../lib/api';
@@ -274,15 +275,14 @@ export default function AppPage() {
             />
           )}
 
+          {/* The app's own feed, composed by the backend — not a card telling
+              the reader to go and download the app they are already using. */}
           {tab === 'explore' && (
-            <GetTheApp
-              store={catalog?.store}
-              points={[
-                'Every tradition — Jyotish, Hermetica, BaZi, KP, numerology',
-                'Compatibility, places, timing, past life',
-                'Tarot, I Ching and the number oracle',
-                'The Oracle in live voice, in your language',
-              ]}
+            <Explore
+              catalog={catalog}
+              kundli={session.kundli}
+              entitled={entitled}
+              onOpen={openSection}
             />
           )}
 

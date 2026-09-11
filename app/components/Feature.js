@@ -12,6 +12,7 @@
 import { useEffect, useState } from 'react';
 import Blocks from './Blocks';
 import Reels from './Reels';
+import Solar from './Solar';
 import { Media } from './Blocks';
 import { runFeature } from '../lib/api';
 import { buildBlocks } from '../lib/blocks';
@@ -53,14 +54,17 @@ export default function Feature({ section, kundli, theme, language = 'en', onClo
   // above it — that would put two pictures on the page and read as a header
   // stapled to a story.
   const paged = Array.isArray(envelope?.pages) && envelope.pages.length > 0;
+  // The wheel is its own screen too — a diagram with readings hanging off it,
+  // not an article with a picture at the top.
+  const wheel = envelope?.wheel || null;
 
   return (
     <div className="fixed inset-0 z-50 bg-void overflow-y-auto">
-      <div className={paged ? 'w-full' : 'mx-auto w-full max-w-2xl px-6 py-8 md:py-12'}>
+      <div className={paged || wheel ? 'w-full py-10' : 'mx-auto w-full max-w-2xl px-6 py-8 md:py-12'}>
         <button
           onClick={onClose}
           className={
-            paged
+            paged || wheel
               ? 'fixed left-6 top-6 z-10 rounded-full border border-white/15 bg-black/50 px-4 py-2 text-[10px] uppercase tracking-[0.32em] text-white/60 backdrop-blur hover:text-white transition-colors'
               : 'mb-8 text-[10px] uppercase tracking-[0.32em] text-white/40 hover:text-white transition-colors'
           }
@@ -68,13 +72,13 @@ export default function Feature({ section, kundli, theme, language = 'en', onClo
           ← Back
         </button>
 
-        {!paged && section?.media && (
+        {!paged && !wheel && section?.media && (
           <div className="mb-8 overflow-hidden rounded-2xl">
             <Media mediaKey={section.media} rounded alt={section.title || ''} />
           </div>
         )}
 
-        {!paged && section?.title && (
+        {!wheel && !paged && section?.title && (
           <p className="text-[10px] uppercase tracking-[0.32em] text-gold/70">
             {section.title}
           </p>
@@ -98,11 +102,15 @@ export default function Feature({ section, kundli, theme, language = 'en', onClo
           </p>
         )}
 
+        {envelope && wheel && (
+          <Solar data={wheel} theme={theme} title={section?.title} />
+        )}
+
         {envelope && paged && (
           <Reels pages={envelope.pages} config={envelope.config} theme={theme} title={section?.title} />
         )}
 
-        {envelope && !paged && (
+        {envelope && !paged && !wheel && (
           <article className="pb-24">
             <Blocks blocks={envelope.blocks} theme={theme} />
             {Array.isArray(envelope.sections) &&
