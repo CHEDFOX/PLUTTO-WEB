@@ -11,6 +11,7 @@
 
 import { useEffect, useState } from 'react';
 import Blocks from './Blocks';
+import Reels from './Reels';
 import { Media } from './Blocks';
 import { runFeature } from '../lib/api';
 import { buildBlocks } from '../lib/blocks';
@@ -47,23 +48,33 @@ export default function Feature({ section, kundli, theme, language = 'en', onClo
   const envelope =
     state.data && !state.error ? buildBlocks(section, state.data) : null;
 
+  // A PAGED READING TAKES THE WHOLE SCREEN. It carries its own backdrop and its
+  // own rhythm, so it is not poured into the article column with a hero image
+  // above it — that would put two pictures on the page and read as a header
+  // stapled to a story.
+  const paged = Array.isArray(envelope?.pages) && envelope.pages.length > 0;
+
   return (
     <div className="fixed inset-0 z-50 bg-void overflow-y-auto">
-      <div className="mx-auto w-full max-w-2xl px-6 py-8 md:py-12">
+      <div className={paged ? 'w-full' : 'mx-auto w-full max-w-2xl px-6 py-8 md:py-12'}>
         <button
           onClick={onClose}
-          className="mb-8 text-[10px] uppercase tracking-[0.32em] text-white/40 hover:text-white transition-colors"
+          className={
+            paged
+              ? 'fixed left-6 top-6 z-10 rounded-full border border-white/15 bg-black/50 px-4 py-2 text-[10px] uppercase tracking-[0.32em] text-white/60 backdrop-blur hover:text-white transition-colors'
+              : 'mb-8 text-[10px] uppercase tracking-[0.32em] text-white/40 hover:text-white transition-colors'
+          }
         >
           ← Back
         </button>
 
-        {section?.media && (
+        {!paged && section?.media && (
           <div className="mb-8 overflow-hidden rounded-2xl">
             <Media mediaKey={section.media} rounded alt={section.title || ''} />
           </div>
         )}
 
-        {section?.title && (
+        {!paged && section?.title && (
           <p className="text-[10px] uppercase tracking-[0.32em] text-gold/70">
             {section.title}
           </p>
@@ -87,7 +98,11 @@ export default function Feature({ section, kundli, theme, language = 'en', onClo
           </p>
         )}
 
-        {envelope && (
+        {envelope && paged && (
+          <Reels pages={envelope.pages} config={envelope.config} theme={theme} title={section?.title} />
+        )}
+
+        {envelope && !paged && (
           <article className="pb-24">
             <Blocks blocks={envelope.blocks} theme={theme} />
             {Array.isArray(envelope.sections) &&

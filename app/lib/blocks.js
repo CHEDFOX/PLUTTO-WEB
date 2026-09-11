@@ -23,6 +23,24 @@ export function buildBlocks(section, raw) {
     };
   }
 
+  // PAGED READING — `pages`, the shape most of what the backend writes comes
+  // back in: a tradition, an observation, your places, a person, a concept. It
+  // was not handled here at all, so every one of those features fell through to
+  // the bottom of this function and rendered as its own title and nothing else.
+  //
+  // Passed through as pages rather than flattened into blocks, because the beats
+  // are written to be read one at a time (see REEL_ARC on the backend) and a
+  // flattened column loses the thing that makes them work. `config` rides along:
+  // the backdrop, its dim and blur live there.
+  if (Array.isArray(raw.pages) && raw.pages.length) {
+    return {
+      hook: { title: raw.title || ttl, body: raw.pages[0]?.body, media: raw.pages[0]?.media || section?.media },
+      blocks: [],
+      pages: raw.pages,
+      config: { ...(section?.config || {}), ...(raw.config || {}) },
+    };
+  }
+
   // Composed envelope — ordered sub-sections (+ a linear blocks tail).
   if (Array.isArray(raw.sections)) {
     return { hook: raw.hook || {}, blocks: raw.blocks || [], sections: raw.sections };
