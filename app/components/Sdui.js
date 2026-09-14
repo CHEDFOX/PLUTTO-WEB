@@ -77,23 +77,29 @@ function Deck({ node, onOpen }) {
   );
 }
 
-function Node({ node, theme, onOpen, depth = 0 }) {
+function Node({ node, theme, onOpen, onTab, depth = 0 }) {
   if (!node || typeof node !== 'object') return null;
   const p = node.props || {};
   const style = css(node.style, theme);
   const kids = Array.isArray(node.children)
-    ? node.children.map((c, i) => <Node key={i} node={c} theme={theme} onOpen={onOpen} depth={depth + 1} />)
+    ? node.children.map((c, i) => <Node key={i} node={c} theme={theme} onOpen={onOpen} onTab={onTab} depth={depth + 1} />)
     : null;
 
   // A tappable node. Rendered as a real button, so it is focusable and
   // announced; `text-left` because a button centres its content by default and
   // every one of these is a card full of prose.
-  const open = node.action && node.action.kind === 'open' ? node.action.section : null;
+  // Two actions reach this renderer. `open` opens a section; `nav` moves the app
+  // — the home screen's Explore card is {kind:'nav', nav:'tab', arg:'explore'},
+  // and without this it was a large picture that did nothing when clicked.
+  const act = node.action || null;
+  const open = act && act.kind === 'open' ? act.section : null;
+  const navTab = act && act.kind === 'nav' && act.nav === 'tab' ? act.arg : null;
   const wrap = (content, extra) => {
     const s = { ...style, ...extra };
-    if (!open) return <div style={s}>{content}</div>;
+    if (!open && !navTab) return <div style={s}>{content}</div>;
+    const go = () => (navTab ? onTab && onTab(navTab) : onOpen && onOpen(open));
     return (
-      <button type="button" onClick={() => onOpen && onOpen(open)}
+      <button type="button" onClick={go}
               className="block w-full text-left transition-opacity hover:opacity-95"
               style={s}>
         {content}
@@ -163,10 +169,10 @@ function Node({ node, theme, onOpen, depth = 0 }) {
   }
 }
 
-export default function Sdui({ tree, theme, onOpen }) {
+export default function Sdui({ tree, theme, onOpen, onTab }) {
   if (!tree) return null;
   if (Array.isArray(tree)) {
-    return <>{tree.map((n, i) => <Node key={i} node={n} theme={theme} onOpen={onOpen} />)}</>;
+    return <>{tree.map((n, i) => <Node key={i} node={n} theme={theme} onOpen={onOpen} onTab={onTab} />)}</>;
   }
-  return <Node node={tree} theme={theme} onOpen={onOpen} />;
+  return <Node node={tree} theme={theme} onOpen={onOpen} onTab={onTab} />;
 }

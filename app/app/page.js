@@ -9,7 +9,7 @@ import Settings from '../components/Settings';
 import Auth from '../components/Auth';
 import Feature from '../components/Feature';
 import Explore from '../components/Explore';
-import Library from '../components/Library';
+import Home from '../components/Home';
 import Paywall from '../components/Paywall';
 import { isGated } from '../lib/entitlement';
 import { generateKundli, getCatalog, getEntitlement } from '../lib/api';
@@ -18,19 +18,37 @@ import { loadRemoteSession, saveRemoteSession } from '../lib/profile';
 import { preloadMedia } from '../lib/media';
 import { supabase, auth as sbAuth } from '../lib/supabase';
 
-const TABS = [
-  { key: 'oracle', label: 'Oracle' },
-  { key: 'chart', label: 'Your chart' },
-  { key: 'explore', label: 'Explore' },
-  { key: 'settings', label: 'Settings' },
-];
+// THE TABS ARE THE CATALOG'S, NOT THIS FILE'S.
+//
+// The app serves three — oracle, home, explore — in catalog.tabs, with the
+// landing tab named there too. Web had four of its own invention: Oracle, Your
+// chart, Explore, Settings. Two of them do not exist in the product (the chart
+// is reached through the profile, settings through the gear), and Home, which
+// IS the app's second tab and its whole landing screen, was missing.
+//
+// Read from the catalog now, so adding or renaming a tab is a backend edit. The
+// labels come from catalog.labels where the backend provides them — it
+// translates those — and fall back to the key's own English name.
+const TAB_FALLBACK = { oracle: 'Oracle', home: 'Home', explore: 'Explore' };
+
+function tabsOf(catalog) {
+  const items = catalog?.tabs?.items;
+  if (!Array.isArray(items) || !items.length) {
+    return Object.keys(TAB_FALLBACK).map((key) => ({ key, label: TAB_FALLBACK[key] }));
+  }
+  return items.map((t) => ({
+    key: t.key,
+    screen: t.screen || t.key,
+    label: t.label || catalog?.labels?.[`tab.${t.key}`] || TAB_FALLBACK[t.key] || t.key,
+  }));
+}
 
 export default function AppPage() {
   const [session, setSession] = useState(null);
   const [ready, setReady] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
-  const [tab, setTab] = useState('oracle');
+  const [tab, setTab] = useState(null);   // resolved from catalog.tabs.landing
   const [catalog, setCatalog] = useState(null);
   const [user, setUser] = useState(null);       // supabase user (optional)
   const [entitled, setEntitled] = useState(false);
@@ -39,6 +57,10 @@ export default function AppPage() {
   // instead — the same gate list the app uses, read from the catalog.
   const [section, setSection] = useState(null);
   const [showPaywall, setShowPaywall] = useState(false);
+  // The gear and the profile, which are how the phone reaches these two — not
+  // tabs of their own.
+  const [showSettings, setShowSettings] = useState(false);
+  const [showChart, setShowChart] = useState(false);
   // The app sends a signed-out user to the auth gate BEFORE onboarding
   // (App.js: `else if (!hasSession) stage = 'auth'`). Web mirrors that, and the
   // gate is REQUIRED here too: an account is what carries the chart, the
@@ -95,6 +117,13 @@ export default function AppPage() {
     getEntitlement().then((e) => live && setEntitled(!!e?.active)).catch(() => {});
     return () => { live = false; };
   }, [user]);
+
+  // The tab bar and the landing tab, once the catalog lands.
+  const TABS = tabsOf(catalog);
+  useEffect(() => {
+    if (tab || !TABS.length) return;
+    setTab(catalog?.tabs?.landing || TABS[0].key);
+  }, [catalog, tab, TABS]);
 
   // The catalog drives every feature on the page — fetch once the user exists.
   useEffect(() => {
@@ -213,24 +242,27 @@ export default function AppPage() {
               {name || 'Your chart'}
             </h1>
           </div>
-          <div className="flex items-center gap-5">
+          {/* THE TWO CORNERS THE PHONE HAS: the profile ring on one side and the
+              settings gear on the other (catalog.profile / catalog.settings).
+              Sign-in, sign-out and "new chart" moved inside Settings, where the
+              phone keeps them — three text links across the top of a reading app
+              is a website's header, not an app's. */}
+          <div className="flex items-center gap-3">
             {entitled && (
-              <span className="text-[10px] uppercase tracking-[0.28em] text-gold">★ Star</span>
+              <span className="mr-1 text-[10px] uppercase tracking-[0.28em] text-gold">★ Star</span>
             )}
-            {user ? (
-              <button onClick={async () => { await sbAuth.signOut(); setUser(null); }}
-                className="text-[10px] uppercase tracking-[0.28em] text-white/30 hover:text-white/60 transition-colors">
-                Sign out
-              </button>
-            ) : (
-              <button onClick={() => setShowAuth(true)}
-                className="text-[10px] uppercase tracking-[0.28em] text-white/30 hover:text-white/60 transition-colors">
-                Sign in
+            {catalog?.profile?.enabled !== false && (
+              <button onClick={() => setShowChart(true)} aria-label={catalog?.profile?.label || 'Profile'}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-mist text-[12px] text-white/70 transition-colors hover:border-gold/50 hover:text-white">
+                {(name || 'P').slice(0, 1).toUpperCase()}
               </button>
             )}
-            <button onClick={reset}
-              className="text-[10px] uppercase tracking-[0.28em] text-white/30 hover:text-white/60 transition-colors">
-              New chart
+            <button onClick={() => setShowSettings(true)} aria-label="Settings"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-mist text-white/60 transition-colors hover:border-gold/50 hover:text-white">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4">
+                <circle cx="12" cy="12" r="3.2" />
+                <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1 1.56V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 8.9 19.3a1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.7 15a1.7 1.7 0 0 0-1.56-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.7 8.9a1.7 1.7 0 0 0-.34-1.88l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6h.08A1.7 1.7 0 0 0 10.65 3V3a2 2 0 1 1 4 0v.09A1.7 1.7 0 0 0 16.2 4.7a1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 20.4 9v.08a1.7 1.7 0 0 0 1.56 1.57H22a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1.35z" />
+              </svg>
             </button>
           </div>
         </header>
@@ -252,27 +284,21 @@ export default function AppPage() {
             </div>
           )}
 
-          {/* THEIR CHART, NOT AN ADVERT FOR IT. This tab showed a card asking the
-              reader to install the app to see the chart they had just generated
-              here — while Chart.js sat in this same folder, written and unused.
-              Every placement below comes from the kundli already in hand.
-
-              Under it, the chart FEATURES from the catalog: the wheels, the
-              periods, the aspects. They open in place like any other reading, so
-              the tab is the app's chart tab rather than a summary of it. */}
-          {tab === 'chart' && (
-            <>
-              <Chart kundli={session.kundli} />
-              <Library
-                catalog={{ ...catalog, groups: (catalog?.groups || []).filter((g) => g.id === 'charts') }}
-                onOpen={openSection}
-                isLocked={(x) => isGated(x, catalog, entitled)}
-              />
-            </>
+          {/* HOME — the app's landing screen, and it did not exist here at all.
+              It is not a screen this file designs: catalog.home is a list of
+              blocks (today the time wheels and a card into Explore) and Home
+              renders that list. */}
+          {tab === 'home' && (
+            <Home
+              catalog={catalog}
+              kundli={session.kundli}
+              language={session?.profile?.language || 'en'}
+              onOpen={openSection}
+              onTab={setTab}
+            />
           )}
 
-          {/* The app's own feed, composed by the backend — not a card telling
-              the reader to go and download the app they are already using. */}
+          {/* The app's own feed, composed by the backend. */}
           {tab === 'explore' && (
             <Explore
               catalog={catalog}
@@ -282,17 +308,40 @@ export default function AppPage() {
             />
           )}
 
-          {tab === 'settings' && (
-            <Settings
-              catalog={catalog}
-              profile={session.profile}
-              user={user}
-              entitled={entitled}
-              onSignIn={() => setShowAuth(true)}
-              onSignOut={async () => { await sbAuth.signOut(); setUser(null); }}
-              onNewChart={reset}
-              onDeleteAccount={async () => { await sbAuth.signOut(); reset(); }}
-            />
+          {/* SETTINGS IS NOT A TAB — it is the gear, as it is on the phone, and
+              the chart is not a tab either: it is the profile. Both open over
+              the app from the header. */}
+          {showSettings && (
+            <div className="fixed inset-0 z-50 overflow-y-auto bg-void">
+              <div className="mx-auto w-full max-w-[860px] px-6 py-10">
+                <button onClick={() => setShowSettings(false)}
+                        className="mb-8 text-[10px] uppercase tracking-[0.32em] text-white/40 hover:text-white">
+                  ← Back
+                </button>
+                <Settings
+                  catalog={catalog}
+                  profile={session.profile}
+                  user={user}
+                  entitled={entitled}
+                  onSignIn={() => setShowAuth(true)}
+                  onSignOut={async () => { await sbAuth.signOut(); setUser(null); }}
+                  onNewChart={reset}
+                  onDeleteAccount={async () => { await sbAuth.signOut(); reset(); }}
+                />
+              </div>
+            </div>
+          )}
+
+          {showChart && (
+            <div className="fixed inset-0 z-50 overflow-y-auto bg-void">
+              <div className="mx-auto w-full max-w-[860px] px-6 py-10">
+                <button onClick={() => setShowChart(false)}
+                        className="mb-8 text-[10px] uppercase tracking-[0.32em] text-white/40 hover:text-white">
+                  ← Back
+                </button>
+                <Chart kundli={session.kundli} />
+              </div>
+            </div>
           )}
         </div>
 
