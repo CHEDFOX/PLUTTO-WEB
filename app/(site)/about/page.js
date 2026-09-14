@@ -1,5 +1,5 @@
-import Starfield from '../components/Starfield';
-import FadeUp from '../components/FadeUp';
+import Starfield from '../../components/Starfield';
+import FadeUp from '../../components/FadeUp';
 
 export const metadata = {
   title: 'About',

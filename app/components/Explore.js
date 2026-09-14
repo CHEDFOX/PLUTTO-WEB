@@ -18,6 +18,7 @@
 
 import { useEffect, useState } from 'react';
 import Sdui from './Sdui';
+import Loader from './Loader';
 import Library from './Library';
 import { runFeature } from '../lib/api';
 import { isGated } from '../lib/entitlement';
@@ -45,12 +46,7 @@ export default function Explore({ catalog, kundli, entitled, language = 'en', on
   }
 
   if (state.loading) {
-    return (
-      <div className="py-24 text-center">
-        <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-gold/70" />
-        <p className="mt-4 text-[11px] uppercase tracking-[0.28em] text-white/30">Explore</p>
-      </div>
-    );
+    return <Loader media={section?.config?.loadingMedia} theme={catalog?.theme} label="Explore" />;
   }
 
   return (

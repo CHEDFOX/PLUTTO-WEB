@@ -25,7 +25,10 @@ const csp = (dev) =>
     "style-src 'self' 'unsafe-inline'",
     `img-src 'self' data: blob: ${API}`,
     `media-src 'self' data: blob: ${API}`,
-    "font-src 'self' data:",
+    // The app screens are set in the same faces the phone downloads, served from
+    // the backend — without this the browser refuses them and silently falls back
+    // to the system font, which looks like a design choice rather than a block.
+    `font-src 'self' data: ${API}`,
     `connect-src 'self' ${API} ${SUPABASE} ${OPENAI} wss://*.openai.com${dev ? ' ws://localhost:*' : ''}`,
     "frame-ancestors 'none'",   // clickjacking
     "object-src 'none'",

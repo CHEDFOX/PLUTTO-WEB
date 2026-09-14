@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import Starfield from './components/Starfield';
-import PlanetSlideshow from './components/PlanetSlideshow';
-import StoreBadges from './components/StoreBadges';
-import FadeUp from './components/FadeUp';
+import Starfield from '../components/Starfield';
+import PlanetSlideshow from '../components/PlanetSlideshow';
+import StoreBadges from '../components/StoreBadges';
+import FadeUp from '../components/FadeUp';
 
 export default function Home() {
   return (

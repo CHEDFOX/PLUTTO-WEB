@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import Blocks from './Blocks';
 import Reels from './Reels';
 import Solar from './Solar';
+import Loader from './Loader';
 import { Media } from './Blocks';
 import { runFeature } from '../lib/api';
 import { buildBlocks } from '../lib/blocks';
@@ -84,13 +85,10 @@ export default function Feature({ section, kundli, theme, language = 'en', onClo
           </p>
         )}
 
+        {/* The loader the BACKEND names for this feature — the same file the
+            phone shows while the same reading is written. */}
         {state.loading && (
-          <div className="py-20 text-center">
-            <span className="inline-block h-2 w-2 rounded-full bg-gold/70 animate-pulse" />
-            <p className="mt-4 text-[11px] uppercase tracking-[0.28em] text-white/30">
-              Reading
-            </p>
-          </div>
+          <Loader media={section?.config?.loadingMedia} theme={theme} label="Reading" />
         )}
 
         {state.error && <p className="py-10 text-sm text-red-300/80">{state.error}</p>}

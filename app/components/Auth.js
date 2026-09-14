@@ -12,6 +12,8 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
+import { getOnboarding } from '../lib/api';
+import { mediaUrl, resolveMedia } from '../lib/media';
 import { auth } from '../lib/supabase';
 import { oauthRedirectTo, SOCIAL_PROVIDERS } from '../config/auth';
 
@@ -148,12 +150,48 @@ export default function Auth({ onDone }) {
     }
   };
 
+  // THE ECLIPSE AT THE FOOT OF THE GATE — the app's own art, from the app's own
+  // bundle. The phone reads screens.auth.eclipse (and its ratio and drop) out of
+  // /onboarding-content and draws it half off the bottom edge; web showed an
+  // email field alone in a black rectangle. Same endpoint, same key, same file.
+  const [gate, setGate] = useState(null);
+  useEffect(() => {
+    let live = true;
+    getOnboarding()
+      .then((d) => live && setGate(d?.screens?.auth || null))
+      .catch(() => {});
+    return () => { live = false; };
+  }, []);
+
+  const [eclipse, setEclipse] = useState(null);
+  useEffect(() => {
+    const key = gate?.eclipse;
+    if (!key) return;
+    let live = true;
+    const u = mediaUrl(key);
+    if (u) { setEclipse(u); return; }
+    resolveMedia(key).then((r) => live && setEclipse(r));
+    return () => { live = false; };
+  }, [gate?.eclipse]);
+
   const circle =
     'flex items-center justify-center rounded-full transition-colors ' +
     'border-[0.5px] border-white/[0.18] bg-white/[0.03] hover:bg-white/[0.07]';
 
   return (
-    <div className="min-h-[70vh] flex flex-col items-center justify-center w-full px-7">
+    <div className="relative min-h-[70vh] flex flex-col items-center justify-center w-full px-7">
+      {/* Anchored to the bottom and pushed past the edge by `eclipseDrop`, the
+          way the phone places it — it is a horizon, not a picture on a page. */}
+      {eclipse ? (
+        <img
+          src={eclipse}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 w-[min(520px,92vw)] max-w-none -translate-x-1/2 select-none opacity-90"
+          style={{ bottom: -(Number(gate?.eclipseDrop) || 90),
+                   aspectRatio: `1 / ${Number(gate?.eclipseRatio) || 0.863}` }}
+        />
+      ) : null}
       {phase === 'entry' && (
         <div className="w-full max-w-[420px] flex flex-col items-center">
           {/* the pill */}

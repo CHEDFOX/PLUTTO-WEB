@@ -1,8 +1,5 @@
 import { Julius_Sans_One, Josefin_Sans, Syne, DM_Sans, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
-import Nav from './components/Nav';
-import Footer from './components/Footer';
-import SiteChrome from './components/SiteChrome';
 
 // DISPLAY — thin geometric capitals, set wide. It only ever appears in caps and
 // at large sizes: the headline of a section. It has one weight and no italic on
@@ -89,11 +86,11 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${julius.variable} ${josefin.variable} ${syne.variable} ${dmSans.variable} ${jetbrains.variable}`}
     >
+      {/* Root carries the document and the faces, and nothing else. The site's
+          chrome moved into (site)/layout.js so that /app inherits none of it —
+          see the note there. */}
       <body className="min-h-screen bg-black text-foreground font-body antialiased">
-        <Nav />
-        <main className="flex-1 pt-16">{children}</main>
-        <Footer />
-        <SiteChrome />
+        <main className="flex min-h-screen flex-col">{children}</main>
       </body>
     </html>
   );

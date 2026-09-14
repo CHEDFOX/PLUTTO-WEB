@@ -331,3 +331,62 @@ body :where(input, textarea, [data-no-auto-case]) { text-transform: none; }
    the app's native pickers. */
 .no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ── THE APP'S OWN FACES ──────────────────────────────────────────────────────
+ * The phone draws every screen in Baloo 2, served from the backend and named
+ * "Plutto" in the catalog (theme.fonts). The web app was set in Syne and DM
+ * Sans, which is a different product wearing the same colours — so the same
+ * files are loaded here, from the same URLs the phone fetches, and the app
+ * screens are set in them.
+ *
+ * Three cuts, because a weight is not a face: the phone cannot pick a weight out
+ * of a custom family, so the backend registers regular, medium and extra-bold
+ * separately. The web CAN, so each is declared with its own font-weight and the
+ * browser picks correctly from one family name.
+ *
+ * swap, and a real fallback stack: these are ~420 KB each over the network, and
+ * a reading that is invisible until a font lands is worse than a reading in the
+ * system face for a moment.
+ *
+ * MARKETING KEEPS ITS OWN TYPE. This applies under .app-shell only — the site's
+ * display face is its own identity and is not the app.
+ */
+@font-face {
+  font-family: 'Plutto';
+  src: url('https://api.plutto.space/static/fonts/Baloo2-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Plutto';
+  src: url('https://api.plutto.space/static/fonts/Baloo2-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Plutto';
+  src: url('https://api.plutto.space/static/fonts/Baloo2-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-display: swap;
+}
+
+/* Everything inside the app — the reading face, the display face and the body —
+ * is the one family the phone uses. The variables are what Tailwind's font-*
+ * classes resolve to, so this reaches every existing class without touching a
+ * single component. */
+.app-shell {
+  --font-reading: 'Plutto';
+  --font-display: 'Plutto';
+  --font-body: 'Plutto';
+  /* AND THE FAMILY ITSELF, not only the variables. font-family inherits as a
+     COMPUTED value: <body> resolved var(--font-body) to DM Sans before this
+     element existed, so every child that does not carry its own font- class
+     goes on inheriting DM Sans no matter what the variables say here. Measured
+     in a browser — the shell read "Plutto" and the text under it did not. */
+  font-family: 'Plutto', var(--font-body), system-ui, sans-serif;
+}
+/* Baloo 2 carries a taller x-height and a heavier regular than Syne, so the
+ * app's own reading weight (medium, which is what every paragraph on the phone
+ * now uses) is set here rather than per component. */
+.app-shell p, .app-shell li { font-weight: 500; }
+.app-shell h1, .app-shell h2, .app-shell h3 { font-weight: 800; }

@@ -3,12 +3,13 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Onboarding from './Onboarding';
+import Chart from './Chart';
 import Oracle from './Oracle';
-import GetTheApp from '../components/GetTheApp';
 import Settings from '../components/Settings';
 import Auth from '../components/Auth';
 import Feature from '../components/Feature';
 import Explore from '../components/Explore';
+import Library from '../components/Library';
 import Paywall from '../components/Paywall';
 import { isGated } from '../lib/entitlement';
 import { generateKundli, getCatalog, getEntitlement } from '../lib/api';
@@ -166,15 +167,15 @@ export default function AppPage() {
 
   const name = session?.profile?.name || '';
 
-  if (!ready) return <main className="min-h-screen bg-void" />;
+  if (!ready) return <main className="app-shell min-h-screen bg-void" />;
 
   // Still reading the stored session — black, never a flash of the wrong screen
   // (the app shows black here for the same reason).
-  if (authed === null) return <main className="min-h-screen bg-void" />;
+  if (authed === null) return <main className="app-shell min-h-screen bg-void" />;
 
   if (!authed) {
     return (
-      <main className="min-h-screen bg-void px-6 py-16">
+      <main className="app-shell min-h-screen bg-void px-6 py-16">
         <Auth onDone={() => setAuthed(true)} />
       </main>
     );
@@ -182,15 +183,27 @@ export default function AppPage() {
 
   if (!session) {
     return (
-      <main className="min-h-screen bg-void px-6 py-16">
+      <main className="app-shell min-h-screen bg-void px-6 py-16">
         <Onboarding onComplete={onSubmit} busy={busy} error={error} />
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-void">
-      <div className="mx-auto w-full max-w-5xl px-6 py-10 md:py-14">
+    // THE APP'S SHAPE, AT BOTH SIZES.
+    //
+    // This was a wide web page with a rule of tabs across the top: on a phone
+    // the reader's thumb had to reach the top of the screen to change tab, and
+    // on a desktop a 1024px column of chat made the Oracle look like a support
+    // widget. The app is a column with its tabs under the thumb, and it is the
+    // right shape for both — so the column is the app's width and no wider, and
+    // the tab bar is pinned to the bottom edge on a phone and floats as a pill
+    // over the page on a desktop.
+    //
+    // `app-shell` is also what switches the type to the phone's own faces
+    // (globals.css) — one class, and every existing font- class follows.
+    <main className="app-shell min-h-screen bg-void">
+      <div className="mx-auto w-full max-w-[860px] px-6 pb-40 pt-8 md:pt-14">
         <header className="flex items-start justify-between gap-6">
           <div>
             <p className="text-[10px] uppercase tracking-[0.32em] text-white/35">
@@ -222,21 +235,7 @@ export default function AppPage() {
           </div>
         </header>
 
-        <nav className="mt-10 flex gap-8 border-b border-mist">
-          {TABS.map((t) => (
-            <button key={t.key} onClick={() => setTab(t.key)}
-              className={`relative pb-3 text-[10px] uppercase tracking-[0.32em] transition-colors ${
-                tab === t.key ? 'text-white' : 'text-white/35 hover:text-white/70'
-              }`}>
-              {t.label}
-              {tab === t.key && (
-                <span className="absolute -bottom-px left-0 right-0 h-px bg-gold" />
-              )}
-            </button>
-          ))}
-        </nav>
-
-        <div className="mt-10">
+        <div className="mt-8">
           {tab === 'oracle' && (
             <div className="rounded-2xl border border-mist bg-card p-6 md:p-8" style={{ minHeight: '34rem' }}>
               <p className="text-[10px] uppercase tracking-[0.32em] text-gold/70">The Oracle</p>
@@ -253,26 +252,23 @@ export default function AppPage() {
             </div>
           )}
 
-          {/* The web carries the Oracle. The chart and the library are the app's —
-              these tabs make that trade plainly and hand the visitor to the right
-              store for their device. */}
+          {/* THEIR CHART, NOT AN ADVERT FOR IT. This tab showed a card asking the
+              reader to install the app to see the chart they had just generated
+              here — while Chart.js sat in this same folder, written and unused.
+              Every placement below comes from the kundli already in hand.
+
+              Under it, the chart FEATURES from the catalog: the wheels, the
+              periods, the aspects. They open in place like any other reading, so
+              the tab is the app's chart tab rather than a summary of it. */}
           {tab === 'chart' && (
-            <GetTheApp
-              store={catalog?.store}
-              title={
-                <>
-                  Your whole chart
-                  <br />
-                  <em className="italic text-white/85">lives in the app.</em>
-                </>
-              }
-              body="Every placement, the wheels of time, and the chapters running through your life right now — read the way they were meant to be read."
-              points={[
-                'Your full chart, house by house',
-                'The periods and transits moving through you',
-                'Daily readings, in your language',
-              ]}
-            />
+            <>
+              <Chart kundli={session.kundli} />
+              <Library
+                catalog={{ ...catalog, groups: (catalog?.groups || []).filter((g) => g.id === 'charts') }}
+                onOpen={openSection}
+                isLocked={(x) => isGated(x, catalog, entitled)}
+              />
+            </>
           )}
 
           {/* The app's own feed, composed by the backend — not a card telling
@@ -299,6 +295,32 @@ export default function AppPage() {
             />
           )}
         </div>
+
+        {/* THE TAB BAR, WHERE A THUMB IS. Fixed to the bottom edge on a phone —
+            with the home-indicator inset respected, or the last tab sits under
+            it — and a floating pill on a desktop, which keeps the app reading as
+            an app rather than as a document with a navbar. */}
+        <nav
+          className="fixed inset-x-0 bottom-0 z-40 border-t border-mist bg-black/80 backdrop-blur
+                     md:inset-x-auto md:bottom-8 md:left-1/2 md:w-auto md:-translate-x-1/2
+                     md:rounded-full md:border md:px-2"
+          style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+        >
+          <div className="mx-auto flex max-w-[520px] items-stretch justify-around md:gap-1 md:px-1">
+            {TABS.map((t) => (
+              <button key={t.key} onClick={() => setTab(t.key)}
+                aria-current={tab === t.key ? 'page' : undefined}
+                className={`relative flex-1 whitespace-nowrap px-4 py-4 text-[10px] uppercase tracking-[0.28em] transition-colors md:flex-none md:rounded-full md:py-3 ${
+                  tab === t.key ? 'text-white' : 'text-white/35 hover:text-white/70'
+                }`}>
+                {t.label}
+                {tab === t.key && (
+                  <span className="absolute inset-x-4 top-0 h-px bg-gold md:inset-x-3 md:top-auto md:bottom-1.5" />
+                )}
+              </button>
+            ))}
+          </div>
+        </nav>
 
         <p className="mt-16 text-[11px] leading-relaxed text-white/25">
           Plutto explores traditional knowledge systems for insight and reflection.
