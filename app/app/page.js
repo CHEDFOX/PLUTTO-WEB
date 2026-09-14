@@ -268,15 +268,21 @@ export default function AppPage() {
         </header>
 
         <div className="mt-8">
+          {/* THE ORACLE IS THE SCREEN, not a panel on it. It sat in a bordered
+              card with a heading over it and a fixed 28rem window inside — a chat
+              widget embedded in a page. On the phone the conversation IS the tab,
+              edge to edge, and the height follows the viewport rather than a
+              number. */}
           {tab === 'oracle' && (
-            <div className="rounded-2xl border border-mist bg-card p-6 md:p-8" style={{ minHeight: '34rem' }}>
-              <p className="text-[10px] uppercase tracking-[0.32em] text-gold/70">The Oracle</p>
-              <div className="mt-4" style={{ height: '28rem' }}>
+            <div style={{ height: 'calc(100dvh - 15rem)', minHeight: '26rem' }}>
+              <div className="h-full">
                 <Oracle
                   kundli={session.kundli}
                   name={name}
                   store={catalog?.store}
                   catalog={catalog}
+                  system={session?.profile?.system}
+                  language={session?.profile?.language || 'en'}
                   onOpenSection={openSection}
                   onUpgrade={() => { setSection(null); setShowPaywall(true); }}
                 />

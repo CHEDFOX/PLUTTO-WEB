@@ -1,22 +1,28 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { streamChat } from '../lib/api';
 import { conversationId } from '../lib/store';
 import { detectPlatform, storeUrl } from '../lib/appStore';
 import { sectionForHook, openableOnWeb } from '../lib/hooks';
 import { mediaUrl, resolveMedia } from '../lib/media';
 import VoiceMode from './VoiceMode';
+import Starfield from '../components/Starfield';
 import {
   speak, stopSpeaking, startDictation, micSupported, realtimeSupported,
 } from '../lib/voice';
 
-const OPENERS = [
-  'What is this year really asking of me?',
-  'Where should I be living?',
-  'When does the pressure ease?',
-  'What do I keep repeating?',
-];
+// THE EMPTY STATE IS THE CATALOG'S, AND IT IS ONE LINE.
+//
+// Web opened with a paragraph of its own and four suggested questions in boxes.
+// The phone shows `chat.greeting` and nothing else — no openers, no explanation
+// of what the Oracle is — and when the backend sets no greeting it shows an
+// empty screen and waits, which is the more confident thing and also the honest
+// one: two products cannot disagree about what the first screen says.
+//
+// The prompts are gone rather than moved to the backend. If they are ever
+// wanted, they want to be wanted on BOTH clients, and that is a catalog key and
+// a change to ChatPanel too.
 
 /**
  * FREE-TIER GATE CARD — shown in place of a reading once the day's free readings
@@ -66,7 +72,33 @@ function GateCard({ gate, text, onUpgrade }) {
   );
 }
 
-export default function Oracle({ kundli, name, store, catalog, onOpenSection, onUpgrade }) {
+export default function Oracle({ kundli, name, store, catalog, system, language = 'en', onOpenSection, onUpgrade }) {
+  // Everything about this screen that the phone reads from the catalog.
+  const chat = catalog?.chat || {};
+
+  // THE LENS THE QUESTION IS ASKED THROUGH.
+  //
+  // Web sent system:'plutto' on every turn, hardcoded — so the web Oracle was
+  // answering through a different lens from the phone's, whatever the reader had
+  // chosen at onboarding. ChatPanel builds its picker from the ACTIVE system's
+  // `chat_engines` (the native lens plus any cross-system one it declares), and
+  // falls back to a single option named after the system. Same here, from the
+  // same catalog, so the selector is backend-driven on both and neither has a
+  // list of engines written into it.
+  const models = useMemo(() => {
+    const all = catalog?.systems || [];
+    const active = system ? all.find((x) => x.id === system) : null;
+    const sys = active || all.find((x) => (x.chat_engines || []).length) || all.find((x) => x.chat) || {};
+    const engines = Array.isArray(sys.chat_engines) ? sys.chat_engines.filter((e) => e && e.chat !== false) : [];
+    if (engines.length) {
+      return engines.map((e) => ({ id: e.id, name: e.name || '', engine: e.engine || e.id || 'bphs',
+                                   color: e.color || null, textColor: e.textColor || null }));
+    }
+    return sys.id ? [{ id: sys.id, name: sys.name || sys.id, engine: sys.engine || sys.id }] : [];
+  }, [catalog, system]);
+
+  const [model, setModel] = useState(null);
+  useEffect(() => { if (!model && models.length) setModel(models[0]); }, [models, model]);
   // A hook the web cannot render falls back to the store, so we still need to
   // know which one this visitor should be sent to.
   const [platform, setPlatform] = useState('desktop');
@@ -155,6 +187,9 @@ export default function Oracle({ kundli, name, store, catalog, onOpenSection, on
           message: q,
           kundli,
           history,
+          // The chosen lens, not a hardcoded 'plutto'.
+          system: model?.engine || 'plutto',
+          language,
           conversationId: conversationId(),
         },
         (delta) => {
@@ -204,25 +239,24 @@ export default function Oracle({ kundli, name, store, catalog, onOpenSection, on
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="relative flex h-full flex-col">
+      {/* chat.background: 'starfield' — the same switch the phone reads, putting
+          the night sky behind the conversation. It is the only screen in the app
+          that has one, which is why it is not in the page's own background. */}
+      {chat.background === 'starfield' ? (
+        <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+          <Starfield />
+        </div>
+      ) : null}
       <div ref={scroller} className="flex-1 overflow-y-auto pr-1">
         {messages.length === 0 ? (
-          <div className="pt-4">
-            <p className="text-sm leading-relaxed text-white/45">
-              {name ? `${name}, ask` : 'Ask'} anything — it answers from your
-              chart, not from a horoscope.
-            </p>
-            <div className="mt-6 space-y-2">
-              {OPENERS.map((o) => (
-                <button key={o} onClick={() => ask(o)}
-                  className="block w-full text-left px-4 py-3 rounded-lg border border-mist
-                             text-sm text-white/60 hover:text-white hover:border-gold/40
-                             transition-colors">
-                  {o}
-                </button>
-              ))}
+          chat.greeting ? (
+            <div className="flex min-h-[40vh] items-center justify-center px-6">
+              <p className="max-w-[28ch] text-center font-serif text-[22px] leading-snug text-white/70">
+                {chat.greeting}
+              </p>
             </div>
-          </div>
+          ) : null
         ) : (
           <div className="space-y-6 py-4">
             {messages.map((m, i) => (
@@ -312,10 +346,34 @@ export default function Oracle({ kundli, name, store, catalog, onOpenSection, on
         onSubmit={(e) => { e.preventDefault(); ask(); }}
         className="mt-4 flex items-center gap-3 border-t border-mist pt-4"
       >
+        {/* THE LENS, NAMED IN THE INPUT ROW — where the phone puts it, in the
+            colour the backend gives it (chat_engines[].textColor/color). Today
+            every system declares exactly one engine, "Plutt0.8", so this reads
+            as a label; it becomes a picker the moment a second one is added,
+            which is a catalog edit on both clients. */}
+        {model?.name ? (
+          models.length > 1 ? (
+            <select
+              value={model.id}
+              onChange={(e) => setModel(models.find((x) => x.id === e.target.value) || models[0])}
+              aria-label="Reading lens"
+              className="shrink-0 cursor-pointer bg-transparent text-[11px] uppercase tracking-[0.2em] outline-none"
+              style={{ color: model.textColor || model.color || 'rgba(255,255,255,0.55)' }}
+            >
+              {models.map((mo) => <option key={mo.id} value={mo.id} className="bg-black">{mo.name}</option>)}
+            </select>
+          ) : (
+            <span className="shrink-0 text-[11px] uppercase tracking-[0.2em]"
+                  style={{ color: model.textColor || model.color || 'rgba(255,255,255,0.45)' }}>
+              {model.name}
+            </span>
+          )
+        ) : null}
+
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask the oracle…"
+          placeholder={chat.placeholder || catalog?.labels?.chat_placeholder || ''}
           className="flex-1 bg-transparent outline-none py-2 text-sm text-white
                      placeholder:text-white/25"
         />
