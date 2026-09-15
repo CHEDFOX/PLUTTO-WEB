@@ -111,6 +111,20 @@ export async function placeDetails(placeId) {
 // No token needed: this is one of the few endpoints on the API's public
 // allowlist, because the app's own sign-in screen reads its country dial codes
 // from it — gate it and the auth screen cannot render.
+/**
+ * THE GLOBE'S MAP — every tradition at the place it came from, and which of them
+ * this reader has lit. GET, like the phone's, and with the token: `lit` is
+ * per-person and the endpoint keys it on the verified user.
+ */
+export async function getLibraryMap(language = 'en') {
+  const r = await fetch(`${api('/library/map')}?language=${encodeURIComponent(language)}`, {
+    headers: await authHeaders(),
+    credentials: 'include',   // the cookie fallback the backend sets for `lit`
+  });
+  if (!r.ok) throw new Error(`map ${r.status}`);
+  return r.json();
+}
+
 export async function getOnboarding(language) {
   const qs = language ? `?language=${encodeURIComponent(language)}` : '';
   const r = await fetch(`${api('/onboarding-content')}${qs}`);

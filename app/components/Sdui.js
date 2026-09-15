@@ -23,6 +23,8 @@
 import { useEffect, useState } from 'react';
 import { css, clamp } from '../lib/sdui';
 import { mediaUrl, isVideo, resolveMedia } from '../lib/media';
+import Globe from './Globe';
+import { getLibraryMap } from '../lib/api';
 
 function Img({ mediaKey, style, fit = 'cover', alt = '' }) {
   const [url, setUrl] = useState(() => mediaUrl(mediaKey));
@@ -74,6 +76,28 @@ function Deck({ node, onOpen }) {
         </button>
       ))}
     </div>
+  );
+}
+
+/**
+ * The globe's own data: the pins and which are lit. Fetched here rather than
+ * passed down, because the node can appear anywhere in any tree and the feed
+ * that carries it knows nothing about traditions.
+ */
+function GlobeNode({ props, onOpen }) {
+  const [map, setMap] = useState(null);
+  useEffect(() => {
+    let live = true;
+    getLibraryMap().then((d) => live && setMap(d)).catch(() => {});
+    return () => { live = false; };
+  }, []);
+  return (
+    <Globe
+      inset={props.inset ?? 64}
+      pins={map?.pins || []}
+      lit={map?.lit || []}
+      onOpenPin={(section) => onOpen && onOpen(section)}
+    />
   );
 }
 
@@ -157,12 +181,10 @@ function Node({ node, theme, onOpen, onTab, depth = 0 }) {
         ? <div style={style}><Deck node={{ ...node, options: {} }} onOpen={onOpen} /></div>
         : null;
 
-    // THE GLOBE IS NOT HERE YET. It is a turning earth drawn on the GPU with a
-    // hundred and two lit traditions on it, and there is no honest two-line
-    // version. Rendering nothing is deliberate: the feed reads correctly without
-    // it, and a grey box apologising for itself would be worse than its absence.
+    // THE GLOBE. Drawn here now — see Globe.js. `inset` is how much narrower
+    // than its box the earth is, the backend's own number.
     case 'globe':
-      return null;
+      return <div style={style}><GlobeNode props={p} onOpen={onOpen} /></div>;
 
     default:
       return kids ? <div style={style}>{kids}</div> : null;
