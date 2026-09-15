@@ -117,9 +117,14 @@ export async function placeDetails(placeId) {
  * per-person and the endpoint keys it on the verified user.
  */
 export async function getLibraryMap(language = 'en') {
+  // NO COOKIES. The API sets allow_credentials=False, so a credentialed
+  // cross-origin request is REFUSED by the browser outright — this would have
+  // failed in production while working on localhost, and the globe would simply
+  // have had no pins. The Authorization header is what identifies the reader;
+  // the signed `pl_lit` cookie exists for phone builds that predate the header
+  // and the web has never needed it.
   const r = await fetch(`${api('/library/map')}?language=${encodeURIComponent(language)}`, {
     headers: await authHeaders(),
-    credentials: 'include',   // the cookie fallback the backend sets for `lit`
   });
   if (!r.ok) throw new Error(`map ${r.status}`);
   return r.json();
