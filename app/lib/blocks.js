@@ -23,6 +23,13 @@ export function buildBlocks(section, raw) {
     };
   }
 
+  // THE DECK — `cards`. Thirteen catalog sections answer in this shape (every
+  // transit, aspect, pillar, element and luck feature) and none of them rendered.
+  if (Array.isArray(raw.cards) && raw.cards.length) {
+    return { hook: { title: ttl, media: section?.media }, blocks: [], cards: raw.cards,
+             intro: section?.config?.hasIntro };
+  }
+
   // THE WHEEL — `planets` (+ `fields`). The solar system and the chart wheels
   // answer in this shape, which is neither blocks nor pages, so they fell all
   // the way through and opened as their own title. Passed through whole: the

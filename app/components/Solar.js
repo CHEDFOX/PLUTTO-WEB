@@ -51,13 +51,36 @@ function wedge(signIndex) {
   return `M ${CX} ${CY} L ${x0} ${y0} A ${R * 1.02} ${R * 1.02} 0 0 0 ${x1} ${y1} Z`;
 }
 
-export default function Solar({ data, theme, title }) {
+export default function Solar({ data, theme, title, cupLabel = 'Field' }) {
   const [sel, setSel] = useState(null);   // {kind:'planet'|'field', id|n}
 
-  const planets = useMemo(
-    () => (Array.isArray(data?.planets) ? data.planets : []).filter((p) => p && typeof p.lon === 'number'),
-    [data]
-  );
+  // A WHEEL WITHOUT LONGITUDES IS STILL A WHEEL.
+  //
+  // The solar system sends `lon` for every body, so each one stands at its exact
+  // degree. core_chart and the seven other `wheel` sections send only `cup` —
+  // the house — and filtering on `lon` dropped every one of them, which is why
+  // those eight opened as an empty page.
+  //
+  // Where there is no degree, a body is placed at the MIDDLE of its house and
+  // spread with its neighbours, and the degree line under its name is left off
+  // rather than invented. The wheel then says exactly what the data says: this
+  // planet is in this field, and no more than that.
+  const planets = useMemo(() => {
+    const all = (Array.isArray(data?.planets) ? data.planets : []).filter(
+      (p) => p && (typeof p.lon === 'number' || Number.isInteger(p.cup))
+    );
+    const exact = all.filter((p) => typeof p.lon === 'number');
+    if (exact.length) return exact;
+    // House-only: 30° per field, fanned inside it so a crowded house is legible.
+    const byCup = {};
+    all.forEach((p) => { (byCup[p.cup] = byCup[p.cup] || []).push(p); });
+    return all.map((p) => {
+      const mates = byCup[p.cup] || [p];
+      const k = mates.indexOf(p);
+      const share = 30 / (mates.length + 1);
+      return { ...p, lon: (p.cup - 1) * 30 + share * (k + 1), approx: true };
+    });
+  }, [data]);
   const fields = Array.isArray(data?.fields) ? data.fields : [];
   const accent = theme?.solar?.accent || '#D4AF37';
 
@@ -65,6 +88,8 @@ export default function Solar({ data, theme, title }) {
   const asc = useMemo(() => {
     const p = planets.find((q) => Number.isInteger(q.cup));
     if (!p) return 0;
+    // Positions we derived from the house itself put field 1 at 0° by
+    // construction, so the ascendant is 0 and this arithmetic agrees.
     return ((Math.floor(p.lon / 30) - (p.cup - 1)) % 12 + 12) % 12;
   }, [planets]);
 
@@ -145,7 +170,7 @@ export default function Solar({ data, theme, title }) {
           const on = selField === n;
           return (
             <g key={n} onClick={() => setSel({ kind: 'field', n })} style={{ cursor: 'pointer' }}
-               role="button" tabIndex={0} aria-label={`Field ${n}`}
+               role="button" tabIndex={0} aria-label={`${cupLabel} ${n}`}
                onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setSel({ kind: 'field', n })}>
               <path d={wedge(((asc + n - 1) % 12 + 12) % 12)} fill="transparent" />
               <text x={CX + Math.cos(mid * RAD) * rr} y={CY - Math.sin(mid * RAD) * rr + 5}
@@ -188,13 +213,15 @@ export default function Solar({ data, theme, title }) {
             <h2 className="font-display text-[28px] leading-none text-white md:text-[34px]">
               {sel.kind === 'planet'
                 ? (reading?.name || sel.id)
-                : `Field ${sel.n}`}
+                : `${cupLabel} ${sel.n}`}
             </h2>
             <p className="text-[10px] uppercase tracking-[0.28em]" style={{ color: accent }}>
               {sel.kind === 'planet'
-                ? `Field ${placed.find((q) => q.p.id === sel.id)?.field} · ${(
-                    planets.find((q) => q.id === sel.id).lon % 30
-                  ).toFixed(1)}°`
+                ? [`${cupLabel} ${placed.find((q) => q.p.id === sel.id)?.field}`,
+                   planets.find((q) => q.id === sel.id)?.approx
+                     ? null
+                     : `${(planets.find((q) => q.id === sel.id).lon % 30).toFixed(1)}°`,
+                  ].filter(Boolean).join('  ·  ')
                 : [reading?.title, holds.join(' · ')].filter(Boolean).join('  ·  ')}
             </p>
           </div>

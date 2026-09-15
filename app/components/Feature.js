@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import Blocks from './Blocks';
 import Reels from './Reels';
 import Solar from './Solar';
+import Cards from './Cards';
 import Loader from './Loader';
 import { Media } from './Blocks';
 import { runFeature } from '../lib/api';
@@ -101,7 +102,8 @@ export default function Feature({ section, kundli, theme, language = 'en', onClo
         )}
 
         {envelope && wheel && (
-          <Solar data={wheel} theme={theme} title={section?.title} />
+          <Solar data={wheel} theme={theme} title={section?.title}
+                 cupLabel={section?.config?.wheel?.cupLabel || 'House'} />
         )}
 
         {envelope && paged && (
@@ -110,7 +112,9 @@ export default function Feature({ section, kundli, theme, language = 'en', onClo
 
         {envelope && !paged && !wheel && (
           <article className="pb-24">
-            <Blocks blocks={envelope.blocks} theme={theme} />
+            {envelope.cards
+              ? <Cards cards={envelope.cards} theme={theme} intro={envelope.intro} />
+              : <Blocks blocks={envelope.blocks} theme={theme} />}
             {Array.isArray(envelope.sections) &&
               envelope.sections.map((s, i) => (
                 <section key={i} className="mt-12">

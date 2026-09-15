@@ -129,11 +129,16 @@ export default function AppPage() {
   useEffect(() => {
     if (!session) return;
     let live = true;
-    getCatalog({ lang: 'en' })
+    // THE READER'S LANGUAGE, NOT ENGLISH. The catalog is built per language —
+    // every title, every label, every teaser — and this asked for 'en' on every
+    // load, so a reader who chose Hindi at onboarding got an English app on the
+    // web and their own language on the phone. It also pins the SYSTEM, which
+    // scopes the whole catalog the way it does on the phone.
+    getCatalog({ lang: session?.profile?.language || 'en', system: session?.profile?.system })
       .then((c) => live && setCatalog(c))
       .catch(() => {});
     return () => { live = false; };
-  }, [session]);
+  }, [session?.profile?.language, session?.profile?.system, session]);
 
 
   const onSubmit = async (profile) => {
