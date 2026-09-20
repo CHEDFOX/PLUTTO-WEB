@@ -124,7 +124,7 @@ export default function MoonNow({ size = 260 }) {
             <stop offset="100%" stopColor="#BDB6A4" />
           </radialGradient>
           <filter id="moon-soft" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="2.4" />
+            <feGaussianBlur stdDeviation="3.2" />
           </filter>
           <radialGradient id="moon-edge" cx="50%" cy="50%" r="50%">
             <stop offset="72%" stopColor="rgba(0,0,0,0)" />
@@ -160,7 +160,7 @@ export default function MoonNow({ size = 260 }) {
         {/* Maria, roughly where the near side carries them. Faint, soft-edged
             and irregular: texture that survives being looked at, not a diagram
             of craters. */}
-        <g clipPath="url(#moon-lit)" opacity="0.62" fill="#8B8169" filter="url(#moon-soft)">
+        <g clipPath="url(#moon-lit)" opacity="0.4" fill="#8B8169" filter="url(#moon-soft)">
           <ellipse cx="-13" cy="-19" rx="14" ry="10" transform="rotate(-18 -13 -19)" />
           <ellipse cx="7" cy="-25" rx="9" ry="6" transform="rotate(12 7 -25)" />
           <ellipse cx="19" cy="-7" rx="10" ry="13" transform="rotate(8 19 -7)" />

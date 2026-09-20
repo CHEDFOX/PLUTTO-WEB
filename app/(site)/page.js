@@ -1,30 +1,25 @@
 /**
- * THE LANDING PAGE.
+ * THE LANDING PAGE — the world's divination library, with the lights on.
  *
- * The argument it makes, in order, because the order is the design:
+ * THE POSITION. Not "an astrology app": a collection. A hundred and two
+ * traditions, filed on twelve shelves, every one of them computed. That is a
+ * claim no competitor can copy in a quarter, so the page leads with it and the
+ * design serves it — the centrepiece is the shelf itself.
  *
- *  1. THE SKY IS REAL AND IT IS MOVING. The moon at the top is computed in the
- *     reader's browser for the minute they arrived. Before a single claim is
- *     made, something on the page is demonstrably true right now.
- *  2. THE TRADITIONS DISAGREE. The objection every sceptical reader already
- *     has — "they can't all be right" — is put on the page in the reader's own
- *     words, in the third section, before they can raise it. Plutto's answer is
- *     not that one tradition wins; it is that you get to see the argument. An
- *     objection you raise yourself and answer honestly converts; one you dodge
- *     is the reason the reader leaves.
- *  3. THE LIBRARY IS ENORMOUS. A hundred and two real traditions with their
- *     real cities, moving past faster than they can be read. The number is
- *     the claim; the unreadable roll is the proof.
- *  4. IT ANSWERS. The exchange types itself. No screenshot, no mockup, no
- *     phone-in-a-hand render — the interaction, running.
- *  5. THE NUMBERS. Four, large, in the display face. Credibility, cheap.
- *  6. ONE DOOR. Open it in the browser, or take the app.
+ * THE COLOUR. Twelve hues, one per shelf, taken from the backend's own regions
+ * (see lib/traditions.js). Colour here is information: a spine's hue says where
+ * it is filed, and the wall of them sorts itself into bands before a word is
+ * read. Behind the type sit room-sized washes of the same hues at a few
+ * percent. Gold is not part of that palette — it stays the brand's own accent,
+ * spent on one thing per screen.
  *
- * Five type registers do five jobs and never swap: Julius (display caps) for
- * headlines, Instrument Serif for anything the Oracle says or a tradition is
- * named in, JetBrains Mono for instruments and labels, DM Sans for prose,
- * Josefin for the mark alone. Gold is used on this page in single strokes —
- * a rule, a word, the rim of the moon — and nowhere as a fill.
+ * THE COPY. Every block is a headline and, at most, one line under it. The
+ * library is the argument; prose explaining the library would only get in its
+ * way. Nothing here says in twenty words what it can say in eight.
+ *
+ * Five faces, five jobs: Julius (display caps) for structure, Instrument Serif
+ * for anything the Oracle or a tradition says, JetBrains Mono for instruments
+ * and labels, DM Sans for the few lines of prose, Josefin for the mark.
  */
 
 import Link from 'next/link';
@@ -32,15 +27,15 @@ import Starfield from '../components/Starfield';
 import StoreBadges from '../components/StoreBadges';
 import FadeUp from '../components/FadeUp';
 import MoonNow from '../components/site/MoonNow';
-import RollCall from '../components/site/RollCall';
+import Shelf from '../components/site/Shelf';
 import Ask from '../components/site/Ask';
-import Astrolabe from '../components/site/Astrolabe';
+import Aurora from '../components/site/Aurora';
+import { SHELF_COLOR } from '../lib/traditions';
 
 const MONO = 'font-mono uppercase text-[0.7rem] tracking-[0.32em] text-[#8A8A8E]';
 
-/** A section's label. Always mono, always the same size: the page's furniture. */
-function Eyebrow({ children, className = '' }) {
-  return <p className={`${MONO} ${className}`}>{children}</p>;
+function Eyebrow({ children }) {
+  return <p className={MONO}>{children}</p>;
 }
 
 export default function Home() {
@@ -50,49 +45,61 @@ export default function Home() {
 
       <div className="relative z-10">
         {/* ───────────────────────── 1 · HERO ───────────────────────── */}
-        <section className="mx-auto max-w-7xl px-6 pb-20 pt-10 md:pb-28 md:pt-20">
-          <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-12 md:gap-10">
+        <section className="relative overflow-hidden pb-20 pt-10 md:pb-28 md:pt-20">
+          <Aurora
+            blobs={[
+              { color: SHELF_COLOR.persia, x: '8%', y: '18%', size: 620, opacity: 0.2 },
+              { color: SHELF_COLOR.china, x: '62%', y: '4%', size: 460, opacity: 0.14 },
+              { color: SHELF_COLOR.sky, x: '84%', y: '72%', size: 560, opacity: 0.16 },
+            ]}
+          />
+
+          <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-6 md:grid-cols-12 md:gap-10">
             <div className="md:col-span-7">
               <FadeUp>
-                <Eyebrow>The oldest science, finally computed</Eyebrow>
+                <Eyebrow>The world&apos;s divination library</Eyebrow>
               </FadeUp>
 
               <FadeUp delay={0.08}>
-                {/* Three lines, three registers. The eye reads the caps as a
-                    structure, drops into the serif as into a sentence, and is
-                    caught by the third line, which is the whole proposition. */}
                 <h1 className="mt-7">
                   <span
                     className="block font-display uppercase text-[#F0F0F0]"
-                    style={{ fontSize: 'clamp(1.6rem,4.6vw,3.1rem)', lineHeight: 1.18, letterSpacing: '0.3em' }}
+                    style={{ fontSize: 'clamp(1.15rem,2.9vw,1.95rem)', lineHeight: 1.25, letterSpacing: '0.3em' }}
                   >
-                    The Same Sky
+                    One hundred and two
                   </span>
+                  {/* The only place on the page where colour is type: the
+                      spectrum runs through the library's own twelve hues. */}
                   <span
-                    className="mt-3 block font-editorial italic text-[#D8D8D8]"
-                    style={{ fontSize: 'clamp(2rem,5.6vw,3.7rem)', lineHeight: 1.08, maxWidth: '14ch' }}
+                    data-no-auto-case
+                    className="mt-3 block bg-clip-text font-editorial italic text-transparent"
+                    style={{
+                      fontSize: 'clamp(1.95rem,4.7vw,3.5rem)',
+                      lineHeight: 1.08,
+                      whiteSpace: 'nowrap',
+                      backgroundImage: `linear-gradient(94deg, ${SHELF_COLOR.south_asia} 6%, ${SHELF_COLOR.east_asia} 54%, ${SHELF_COLOR.pacific} 96%)`,
+                    }}
                   >
-                    read a hundred and two ways
+                    ways to read tonight
                   </span>
                   <span
                     className="mt-5 block font-display uppercase text-[#D4AF37]"
-                    style={{ fontSize: 'clamp(0.82rem,1.7vw,1.06rem)', letterSpacing: '0.34em' }}
+                    style={{ fontSize: 'clamp(0.8rem,1.6vw,1rem)', letterSpacing: '0.34em' }}
                   >
-                    and no two agree
+                    All of them computed
                   </span>
                 </h1>
               </FadeUp>
 
               <FadeUp delay={0.2}>
-                <p data-no-auto-case className="mt-9 max-w-xl font-body text-[1.05rem] leading-[1.75] text-[#B4B4B8]">
-                  Your sky, to the arc-second. Read back through the tradition
-                  you choose — Vedic, Western, Chinese, Yorùbá, Maya. Out loud,
-                  in your language, in words you can argue with.
+                <p data-no-auto-case className="mt-9 max-w-md font-body text-[1.05rem] leading-[1.75] text-[#B4B4B8]">
+                  Your sky, to the arc-second — read by whichever tradition you
+                  ask for. Out loud, in your language.
                 </p>
               </FadeUp>
 
               <FadeUp delay={0.3}>
-                <div className="mt-11 flex flex-wrap items-center gap-4">
+                <div className="mt-10 flex flex-wrap items-center gap-4">
                   <Link
                     href="/app"
                     data-no-binary
@@ -124,9 +131,43 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ───────────────────── 2 · THE DISAGREEMENT ───────────────── */}
-        <section className="border-t border-white/[0.07] bg-[#050509]/40">
-          <div className="mx-auto max-w-7xl px-6 py-24 md:py-32">
+        {/* ───────────────────────── 2 · THE SHELF ──────────────────── */}
+        <section className="relative overflow-hidden border-t border-white/[0.07] bg-[#050509]/40">
+          <Aurora
+            blobs={[
+              { color: SHELF_COLOR.americas, x: '18%', y: '88%', size: 760, opacity: 0.13 },
+              { color: SHELF_COLOR.east_asia, x: '80%', y: '10%', size: 660, opacity: 0.13 },
+            ]}
+          />
+
+          <div className="relative mx-auto max-w-7xl px-6 pb-16 pt-20 md:pb-20 md:pt-28">
+            <FadeUp>
+              <Eyebrow>The collection</Eyebrow>
+            </FadeUp>
+
+            <FadeUp delay={0.08}>
+              <h2
+                data-no-auto-case
+                className="mt-6 max-w-3xl font-editorial text-[#F0F0F0]"
+                style={{ fontSize: 'clamp(1.9rem,4.4vw,3.2rem)', lineHeight: 1.14 }}
+              >
+                Twelve shelves.
+                <span data-no-auto-case className="text-[#8A8A8E]"> A hundred and
+                two spines.</span>
+              </h2>
+            </FadeUp>
+
+            <FadeUp delay={0.16}>
+              <div className="mt-14" data-no-binary>
+                <Shelf />
+              </div>
+            </FadeUp>
+          </div>
+        </section>
+
+        {/* ───────────────────── 3 · THE DISAGREEMENT ───────────────── */}
+        <section className="relative">
+          <div className="mx-auto max-w-7xl px-6 py-20 md:py-28">
             <FadeUp>
               <Eyebrow>One hour · three verdicts</Eyebrow>
             </FadeUp>
@@ -134,31 +175,34 @@ export default function Home() {
             <FadeUp delay={0.08}>
               <h2
                 data-no-auto-case
-                className="mt-7 max-w-3xl font-editorial text-[#F0F0F0]"
+                className="mt-6 max-w-3xl font-editorial text-[#F0F0F0]"
                 style={{ fontSize: 'clamp(1.9rem,4.4vw,3.2rem)', lineHeight: 1.14 }}
               >
                 Tuesday, ten past four.
-                <span data-no-auto-case className="text-[#8A8A8E]"> All three are
-                reading the same sky.</span>
+                <span data-no-auto-case className="text-[#8A8A8E]"> The same sky,
+                three times.</span>
               </h2>
             </FadeUp>
 
-            <div className="mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:grid-cols-3">
+            <div className="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:grid-cols-3">
               <Verdict
                 lens="Vedic · Parāśara"
+                color={SHELF_COLOR.south_asia}
                 reading="Moon in Āśleṣā, its lord in the eighth."
                 verdict="Hold the news. Nothing signed today."
                 voice="serif"
               />
               <Verdict
                 lens="Hellenistic · Tropical"
+                color={SHELF_COLOR.sky}
                 reading="Mercury cazimi. Ascendant Libra, ruler angular."
                 verdict="The best hour this month to speak."
                 voice="mono"
               />
               <Verdict
                 lens="Chinese · BaZi"
-                reading="丙午 hour. Fire sitting on fire, no water in sight."
+                color={SHELF_COLOR.china}
+                reading="丙午 hour. Fire on fire, no water in sight."
                 verdict="Heat. Useful only if you can aim it."
                 voice="mark"
                 glyph="午"
@@ -166,69 +210,43 @@ export default function Home() {
             </div>
 
             <FadeUp delay={0.15}>
-              <p data-no-auto-case className="mt-12 max-w-2xl font-body text-[1.05rem] leading-[1.75] text-[#B4B4B8]">
+              <p data-no-auto-case className="mt-10 max-w-xl font-body text-[1.05rem] leading-[1.75] text-[#B4B4B8]">
                 <span data-no-auto-case className="text-[#F0F0F0]">
-                  Plutto never picks one for you.
+                  Plutto never picks for you.
                 </span>{' '}
-                It names the lens, computes the rest, and lets you switch
-                mid-sentence. The disagreement is the interesting part.
-              </p>
-            </FadeUp>
-          </div>
-        </section>
-
-        {/* ───────────────────── 3 · THE ROLL-CALL ───────────────────── */}
-        <section className="pb-16 pt-24 md:pb-20 md:pt-32">
-          <div className="mx-auto max-w-7xl px-6">
-            <FadeUp>
-              <Eyebrow>The library</Eyebrow>
-            </FadeUp>
-            <FadeUp delay={0.08}>
-              <h2
-                className="mt-7 max-w-2xl font-display uppercase text-[#F0F0F0]"
-                style={{ fontSize: 'clamp(1.15rem,2.5vw,1.7rem)', lineHeight: 1.5, letterSpacing: '0.26em' }}
-              >
-                A hundred and two ways
-                <br />
-                of telling time
-              </h2>
-            </FadeUp>
-          </div>
-
-          <div className="mt-14 border-y border-white/[0.07] py-6" data-no-binary>
-            <RollCall />
-          </div>
-
-          <div className="mx-auto max-w-7xl px-6">
-            <FadeUp>
-              <p data-no-auto-case className="mt-12 max-w-2xl font-body text-[1.05rem] leading-[1.75] text-[#B4B4B8]">
-                Each pinned to the city that wrote it, on a globe you can turn.
-                Most have never been computed by anything before.
+                It names the lens and shows you the argument.
               </p>
             </FadeUp>
           </div>
         </section>
 
         {/* ───────────────────── 4 · THE EXCHANGE ───────────────────── */}
-        <section className="border-t border-white/[0.07] bg-[#050509]/40">
-          <div className="mx-auto max-w-5xl px-6 py-24 md:py-32">
+        <section className="relative overflow-hidden border-t border-white/[0.07] bg-[#050509]/40">
+          <Aurora
+            blobs={[
+              { color: SHELF_COLOR.letters, x: '12%', y: '20%', size: 560, opacity: 0.14 },
+              { color: SHELF_COLOR.folk, x: '88%', y: '80%', size: 520, opacity: 0.12 },
+            ]}
+          />
+
+          <div className="relative mx-auto max-w-5xl px-6 py-20 md:py-28">
             <FadeUp>
               <Eyebrow>Ask it anything</Eyebrow>
             </FadeUp>
             <FadeUp delay={0.08}>
               <h2
                 data-no-auto-case
-                className="mt-7 max-w-3xl font-editorial text-[#F0F0F0]"
+                className="mt-6 max-w-3xl font-editorial text-[#F0F0F0]"
                 style={{ fontSize: 'clamp(1.9rem,4.4vw,3.2rem)', lineHeight: 1.14 }}
               >
                 Not a horoscope.
-                <span data-no-auto-case className="text-[#8A8A8E]"> A voice that has
-                read your chart and answers what you actually asked.</span>
+                <span data-no-auto-case className="text-[#8A8A8E]"> A voice that
+                has read your chart.</span>
               </h2>
             </FadeUp>
 
             <FadeUp delay={0.16}>
-              <div className="mt-14" data-no-binary>
+              <div className="mt-12" data-no-binary>
                 <Ask />
               </div>
             </FadeUp>
@@ -236,51 +254,45 @@ export default function Home() {
         </section>
 
         {/* ───────────────────── 5 · THE NUMBERS ───────────────────── */}
-        <section className="pb-16 pt-24 md:pb-24 md:pt-32">
-          <div className="mx-auto max-w-7xl px-6">
-            <div className="grid grid-cols-1 gap-14 md:grid-cols-12 md:gap-10">
-              <div className="md:col-span-7">
-                <FadeUp>
-                  <Eyebrow>What is inside</Eyebrow>
-                </FadeUp>
+        <section className="relative">
+          <div className="mx-auto max-w-7xl px-6 py-20 md:py-28">
+            <FadeUp>
+              <Eyebrow>What is inside</Eyebrow>
+            </FadeUp>
 
-                <dl className="mt-12 grid grid-cols-2 gap-x-8 gap-y-12">
-                  <Number n="79" label="Readings" note="Computed for your chart. None written in advance." />
-                  <Number n="102" label="Traditions" note="Named as their own people name them." />
-                  <Number n="100+" label="Languages" note="It speaks the one your phone is in." />
-                  <Number n="19" label="Divisional charts" note="Vargas, yogas, dashās. The machinery itself." />
-                </dl>
+            <dl className="mt-12 grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-4">
+              <Number n="102" label="Traditions" note="Every continent." color={SHELF_COLOR.south_asia} />
+              <Number n="79" label="Readings" note="None written in advance." color={SHELF_COLOR.china} />
+              <Number n="100+" label="Languages" note="Yours is one." color={SHELF_COLOR.sky} />
+              <Number n="19" label="Vargas" note="The machinery itself." color={SHELF_COLOR.americas} />
+            </dl>
 
-                {/* Kept deliberately short and deliberately plain. Google's
-                    OAuth brand verification rejected this page once for not
-                    saying what the app does; this paragraph is the anchor that
-                    keeps it from happening again if the brand is re-audited.
-                    Do not remove without checking the consent screen still
-                    reads "Plutto" rather than the raw Supabase host. */}
-                <FadeUp delay={0.1}>
-                  <div className="mt-16 border-l border-[#D4AF37]/30 pl-6">
-                    <Eyebrow>What Plutto is</Eyebrow>
-                    <p data-no-auto-case className="mt-5 max-w-xl font-body text-[1.05rem] leading-[1.75] text-[#B4B4B8]">
-                      An astrology oracle you can talk back to. Give it a date,
-                      a time and a place; it computes that moment&apos;s geometry
-                      and reads it to you out loud, in your language.
-                    </p>
-                  </div>
-                </FadeUp>
+            {/* Kept deliberately plain. Google's OAuth brand verification
+                rejected this page once for not saying what the app does; this
+                paragraph is the anchor that keeps it from happening again if
+                the brand is re-audited. Do not remove without checking the
+                consent screen still reads "Plutto" rather than the raw
+                Supabase host. */}
+            <FadeUp delay={0.12}>
+              <div className="mt-16 border-l border-[#D4AF37]/30 pl-6">
+                <Eyebrow>What Plutto is</Eyebrow>
+                <p data-no-auto-case className="mt-4 max-w-xl font-body text-[1.05rem] leading-[1.75] text-[#B4B4B8]">
+                  An astrology oracle you can talk back to. Give it a date, a
+                  time and a place; it computes that moment&apos;s geometry and
+                  reads it to you out loud, in your language.
+                </p>
               </div>
-
-              <div className="flex items-center justify-center md:col-span-5">
-                <FadeUp delay={0.18}>
-                  <Astrolabe size={400} />
-                </FadeUp>
-              </div>
-            </div>
+            </FadeUp>
           </div>
         </section>
 
         {/* ───────────────────── 6 · THE DOOR ───────────────────── */}
-        <section className="border-t border-white/[0.07]">
-          <div className="mx-auto max-w-4xl px-6 py-28 text-center md:py-36">
+        <section className="relative overflow-hidden border-t border-white/[0.07]">
+          <Aurora
+            blobs={[{ color: SHELF_COLOR.persia, x: '50%', y: '30%', size: 820, opacity: 0.15 }]}
+          />
+
+          <div className="relative mx-auto max-w-4xl px-6 py-24 text-center md:py-32">
             <FadeUp>
               <p
                 data-no-auto-case
@@ -291,8 +303,8 @@ export default function Home() {
               </p>
             </FadeUp>
             <FadeUp delay={0.1}>
-              <p data-no-auto-case className="mx-auto mt-7 max-w-md font-body text-[1.02rem] leading-[1.7] text-[#8A8A8E]">
-                Now something up there answers.
+              <p data-no-auto-case className="mx-auto mt-6 font-body text-[1.02rem] text-[#8A8A8E]">
+                Now something answers.
               </p>
             </FadeUp>
 
@@ -323,12 +335,11 @@ export default function Home() {
 /**
  * One tradition's verdict on the shared hour.
  *
- * Each card is set in a different face, and that is the argument made without
- * a sentence: these are not three skins on one engine, they are three ways of
- * thinking that do not share a vocabulary. `serif` is the voice of a text,
- * `mono` of an instrument, `mark` of a character older than either.
+ * Three faces and three colours, because these are not three skins on one
+ * engine — they are three ways of thinking that do not share a vocabulary. The
+ * colour is the shelf each one is filed on, the same hue its spine carries.
  */
-function Verdict({ lens, reading, verdict, voice, glyph }) {
+function Verdict({ lens, color, reading, verdict, voice, glyph }) {
   const body = {
     serif: 'font-editorial text-[1.32rem] leading-[1.5] italic',
     mono: 'font-mono text-[0.94rem] leading-[1.7] uppercase tracking-[0.06em]',
@@ -337,16 +348,22 @@ function Verdict({ lens, reading, verdict, voice, glyph }) {
 
   return (
     <div className="relative overflow-hidden bg-[#08080D] p-8 md:p-10">
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px"
+        style={{ background: `linear-gradient(90deg, ${color}, transparent)` }}
+      />
       {glyph ? (
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -right-10 top-1/2 -translate-y-1/2 select-none font-editorial text-[14rem] leading-none text-white/[0.045]"
+          className="pointer-events-none absolute -right-10 top-1/2 -translate-y-1/2 select-none font-editorial text-[14rem] leading-none"
+          style={{ color: `${color}14` }}
         >
           {glyph}
         </span>
       ) : null}
 
-      <p className="font-mono text-[0.62rem] uppercase tracking-[0.3em] text-[#D4AF37]/70">
+      <p className="font-mono text-[0.62rem] uppercase tracking-[0.3em]" style={{ color }}>
         {lens}
       </p>
 
@@ -354,7 +371,7 @@ function Verdict({ lens, reading, verdict, voice, glyph }) {
         {reading}
       </p>
 
-      <div className="my-7 h-px w-10 bg-white/20" />
+      <div className="my-7 h-px w-10" style={{ background: `${color}66` }} />
 
       <p data-no-auto-case className={`${body} text-[#F0F0F0]`}>{verdict}</p>
     </div>
@@ -362,21 +379,21 @@ function Verdict({ lens, reading, verdict, voice, glyph }) {
 }
 
 /** A large numeral and what it counts. */
-function Number({ n, label, note }) {
+function Number({ n, label, note, color }) {
   return (
     <div>
       <dt className="sr-only">{label}</dt>
       <dd>
         <span
-          className="block font-display tabular-nums text-[#F0F0F0]"
-          style={{ fontSize: 'clamp(2.4rem,5.4vw,3.6rem)', lineHeight: 1, letterSpacing: '-0.01em' }}
+          className="block font-display tabular-nums"
+          style={{ fontSize: 'clamp(2.4rem,5.4vw,3.6rem)', lineHeight: 1, color }}
         >
           {n}
         </span>
-        <span className="mt-4 block font-mono text-[0.66rem] uppercase tracking-[0.3em] text-[#D4AF37]/70">
+        <span className="mt-4 block font-mono text-[0.66rem] uppercase tracking-[0.3em] text-[#F0F0F0]">
           {label}
         </span>
-        <span data-no-auto-case className="mt-4 block max-w-[24ch] font-body text-[0.9rem] leading-[1.65] text-[#8A8A8E]">
+        <span data-no-auto-case className="mt-3 block font-body text-[0.9rem] leading-[1.65] text-[#8A8A8E]">
           {note}
         </span>
       </dd>

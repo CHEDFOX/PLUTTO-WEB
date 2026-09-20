@@ -21,6 +21,8 @@ import Starfield from '../../components/Starfield';
 import FadeUp from '../../components/FadeUp';
 import StoreBadges from '../../components/StoreBadges';
 import Astrolabe from '../../components/site/Astrolabe';
+import Aurora from '../../components/site/Aurora';
+import { SHELF_COLOR } from '../../lib/traditions';
 
 export const metadata = {
   title: 'How it works',
@@ -33,6 +35,7 @@ const MONO = 'font-mono uppercase text-[0.7rem] tracking-[0.32em] text-[#8A8A8E]
 const MOVEMENTS = [
   {
     n: '01',
+    color: SHELF_COLOR.south_asia,
     title: 'The moment',
     lead: 'A date, a time, a place. Nothing else.',
     body:
@@ -40,6 +43,7 @@ const MOVEMENTS = [
   },
   {
     n: '02',
+    color: SHELF_COLOR.china,
     title: 'The lens',
     lead: 'The same chart, read by whichever tradition you ask for.',
     body:
@@ -47,6 +51,7 @@ const MOVEMENTS = [
   },
   {
     n: '03',
+    color: SHELF_COLOR.sky,
     title: 'The voice',
     lead: 'It talks, and you can interrupt it.',
     body:
@@ -65,6 +70,13 @@ const REFUSALS = [
    'Every feature is a conversation first. The machinery is underneath when you want it.'],
 ];
 
+const REFUSAL_HUES = [
+  SHELF_COLOR.south_asia,
+  SHELF_COLOR.china,
+  SHELF_COLOR.pacific,
+  SHELF_COLOR.sky,
+];
+
 export default function AboutPage() {
   return (
     <>
@@ -72,8 +84,14 @@ export default function AboutPage() {
 
       <div className="relative z-10">
         {/* ───────────────────────── HEAD ───────────────────────── */}
-        <section className="mx-auto max-w-7xl px-6 pb-20 pt-10 md:pt-20">
-          <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-12 md:gap-10">
+        <section className="relative overflow-hidden pb-20 pt-10 md:pt-20">
+          <Aurora
+            blobs={[
+              { color: SHELF_COLOR.letters, x: '10%', y: '22%', size: 620, opacity: 0.18 },
+              { color: SHELF_COLOR.folk, x: '82%', y: '78%', size: 560, opacity: 0.14 },
+            ]}
+          />
+          <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-6 md:grid-cols-12 md:gap-10">
             <div className="md:col-span-7">
               <FadeUp>
                 <p className={MONO}>Information</p>
@@ -118,7 +136,10 @@ export default function AboutPage() {
                 <FadeUp key={m.n} delay={0.06 * i}>
                   <li className="grid grid-cols-1 gap-6 border-t border-white/[0.07] pt-10 md:grid-cols-12 md:gap-10">
                     <div className="md:col-span-3">
-                      <span className="block font-display text-[2.4rem] leading-none text-[#D4AF37]/60">
+                      <span
+                        className="block font-display text-[2.4rem] leading-none"
+                        style={{ color: m.color }}
+                      >
                         {m.n}
                       </span>
                       <span className="mt-4 block font-display uppercase text-[0.9rem] tracking-[0.28em] text-[#F0F0F0]">
@@ -167,7 +188,10 @@ export default function AboutPage() {
             <dl className="mt-16 grid grid-cols-1 gap-x-12 gap-y-12 md:grid-cols-2">
               {REFUSALS.map(([head, body], i) => (
                 <FadeUp key={head} delay={0.05 * i}>
-                  <div className="border-l border-[#D4AF37]/25 pl-6">
+                  <div
+                    className="border-l pl-6"
+                    style={{ borderColor: `${REFUSAL_HUES[i]}59` }}
+                  >
                     <dt
                       data-no-auto-case
                       className="font-editorial text-[1.32rem] leading-[1.35] text-[#F0F0F0]"
@@ -192,12 +216,12 @@ export default function AboutPage() {
             </FadeUp>
 
             <div className="mt-14 grid grid-cols-1 gap-x-12 gap-y-10 md:grid-cols-3">
-              <Fact k="Ephemeris" v="Swiss Ephemeris" note="Arc-second positions. What observatories run on." />
-              <Fact k="Voice" v="OpenAI Realtime" note="Spoken, interruptible, in the language you already use." />
-              <Fact k="Systems" v="Five, side by side" note="Vedic, Western, BaZi, Krishnamurti, numerology." />
-              <Fact k="Readings" v="79 of them" note="Daily to yearly, natal, electional, synastry." />
-              <Fact k="Traditions" v="102 on the globe" note="Named as their own people name them." />
-              <Fact k="Charts" v="19 vargas" note="Divisionals, yogas, dashās. The machinery itself." />
+              <Fact color={SHELF_COLOR.south_asia} k="Ephemeris" v="Swiss Ephemeris" note="Arc-second positions. What observatories run on." />
+              <Fact color={SHELF_COLOR.china} k="Voice" v="OpenAI Realtime" note="Spoken, interruptible, in the language you already use." />
+              <Fact color={SHELF_COLOR.east_asia} k="Systems" v="Five, side by side" note="Vedic, Western, BaZi, Krishnamurti, numerology." />
+              <Fact color={SHELF_COLOR.pacific} k="Readings" v="79 of them" note="Daily to yearly, natal, electional, synastry." />
+              <Fact color={SHELF_COLOR.sky} k="Traditions" v="102 on the globe" note="Named as their own people name them." />
+              <Fact color={SHELF_COLOR.americas} k="Charts" v="19 vargas" note="Divisionals, yogas, dashās. The machinery itself." />
             </div>
 
             <FadeUp delay={0.15}>
@@ -220,8 +244,11 @@ export default function AboutPage() {
         </section>
 
         {/* ───────────────────── THE DOOR ───────────────────── */}
-        <section className="border-t border-white/[0.07]">
-          <div className="mx-auto max-w-4xl px-6 py-24 text-center md:py-32">
+        <section className="relative overflow-hidden border-t border-white/[0.07]">
+          <Aurora
+            blobs={[{ color: SHELF_COLOR.persia, x: '50%', y: '32%', size: 780, opacity: 0.15 }]}
+          />
+          <div className="relative mx-auto max-w-4xl px-6 py-24 text-center md:py-32">
             <FadeUp>
               <p
                 data-no-auto-case
@@ -257,10 +284,10 @@ export default function AboutPage() {
 }
 
 /** One line of the specification: what it is, what it is called, why it matters. */
-function Fact({ k, v, note }) {
+function Fact({ k, v, note, color }) {
   return (
     <div>
-      <dt className="font-mono text-[0.62rem] uppercase tracking-[0.3em] text-[#D4AF37]/70">{k}</dt>
+      <dt className="font-mono text-[0.62rem] uppercase tracking-[0.3em]" style={{ color }}>{k}</dt>
       <dd>
         <span data-no-auto-case className="mt-4 block font-display text-[1.12rem] uppercase tracking-[0.16em] text-[#F0F0F0]">
           {v}
