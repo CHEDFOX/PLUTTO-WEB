@@ -1,29 +1,23 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+/**
+ * SITE CHROME — the things that sit over every marketing page.
+ *
+ * The drifting logo mark was removed: it wandered across the viewport and
+ * parked itself on top of whatever was being read, which on a page built out
+ * of headlines is a mark over a headline a good part of the time. The wordmark
+ * in the nav is the same identity, held still. `FloatingLogo.js` and the
+ * `LogoMark.js` it draws are left in the tree, unrendered, so bringing the
+ * piece back somewhere it does not cover text is one import.
+ */
+
+import { useEffect } from 'react';
 import CustomCursor from './CustomCursor';
 import PageLoader from './PageLoader';
 import BinaryHover from './BinaryHover';
-import FloatingLogo from './FloatingLogo';
 import { unlockAudio } from '../lib/sfx';
 
-const LOGO_SIZE = 72;
-
 export default function SiteChrome() {
-  const [anchor, setAnchor] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const compute = () => {
-      setAnchor({
-        x: window.innerWidth - LOGO_SIZE,
-        y: window.innerHeight - LOGO_SIZE,
-      });
-    };
-    compute();
-    window.addEventListener('resize', compute);
-    return () => window.removeEventListener('resize', compute);
-  }, []);
-
   useEffect(() => {
     unlockAudio();
   }, []);
@@ -34,7 +28,6 @@ export default function SiteChrome() {
       <CustomCursor />
       <PageLoader />
       <BinaryHover />
-      <FloatingLogo active anchor={anchor} size={LOGO_SIZE} />
     </>
   );
 }
