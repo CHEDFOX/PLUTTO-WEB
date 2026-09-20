@@ -123,17 +123,6 @@ export default function Shelf() {
         )}
       </div>
 
-      {/* The twelve shelves — legend and colour key at once. */}
-      <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-5 gap-y-3">
-        {SHELVES.map((s) => (
-          <li key={s.id} className="flex items-center gap-2">
-            <span className="h-[9px] w-[3px] rounded-sm" style={{ background: s.color }} />
-            <span className="font-mono text-[0.58rem] uppercase tracking-[0.22em] text-[#8A8A8E]">
-              {s.name}
-            </span>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }

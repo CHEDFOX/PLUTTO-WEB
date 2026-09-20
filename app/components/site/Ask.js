@@ -3,6 +3,11 @@
 /**
  * THE EXCHANGE — the product, demonstrated instead of described.
  *
+ * The three answers name no houses, no cusps and no planets in signs. A reader
+ * who already owns that vocabulary does not need convincing; a reader who does
+ * not owns nothing but the impression of a spreadsheet. What an oracle is for
+ * is the sentence at the end, so the sentence at the end is all that is shown.
+ *
  * A screenshot of a chat is a picture of someone else using an app. A question
  * that types itself, waits, and is answered while you watch is the app. It
  * costs nothing — no API call, no session, no key — because the three exchanges
@@ -25,18 +30,18 @@ import { useEffect, useRef, useState } from 'react';
 const EXCHANGES = [
   {
     q: 'Should I take the job?',
-    lens: 'VEDIC · BPHS',
-    a: 'Saturn sits on your tenth until March. Take it — read the contract twice, and do not judge it before spring. Saturn pays late. It pays.',
+    lens: 'VEDIC · VARANASI',
+    a: 'Take it. The first winter is cold and the money comes late — but it comes. Read the contract twice.',
   },
   {
     q: 'Why do I keep meeting the same person?',
-    lens: 'WESTERN · TROPICAL',
-    a: 'The ruler of your seventh also rules your twelfth — the house of what you cannot see yourself doing. It is not the same person. It is the same silence, and you keep calling it familiarity.',
+    lens: 'CARTOMANCY · PARIS',
+    a: 'You are not meeting the same person. You are recognising the same silence, and calling it familiarity.',
   },
   {
     q: '¿Es buen mes para mudarme?',
-    lens: 'CHINO · BAZI',
-    a: 'Metal sobre madera: un corte limpio, no una ruptura. Del 9 al 21 el terreno está firme. Firma dentro de esa ventana, o espera a la luna nueva.',
+    lens: 'BAZI · XI\'AN',
+    a: 'Un corte limpio, no una ruptura. Del 9 al 21 el suelo está firme. Múdate dentro de esa ventana.',
   },
 ];
 
@@ -110,12 +115,12 @@ export default function Ask() {
   const thinking = !calm && !asking && words === 0;
 
   return (
-    <div ref={box} className="rounded-2xl border border-white/10 bg-[#07070B]/70 p-7 backdrop-blur-sm md:p-11">
+    <div ref={box} className="border-t border-white/[0.09] pt-8">
       <div className="flex items-center justify-between gap-6">
-        <span className="font-mono text-[0.6rem] uppercase tracking-[0.34em] text-[#8A8A8E]">
+        <span className="font-mono text-[0.6rem] uppercase tracking-[0.34em] text-[#6E6E72]">
           You
         </span>
-        <span className="font-mono text-[0.6rem] uppercase tracking-[0.3em] text-[#D4AF37]/70">
+        <span className="font-mono text-[0.6rem] uppercase tracking-[0.3em] text-[#6E6E72]">
           {ex.lens}
         </span>
       </div>
@@ -125,7 +130,7 @@ export default function Ask() {
         {asking ? <span className="ask-caret ml-[2px] inline-block w-[0.55ch] bg-[#F0F0F0] align-middle">&nbsp;</span> : null}
       </p>
 
-      <div className="mt-8 h-px w-full bg-gradient-to-r from-[#D4AF37]/35 via-white/10 to-transparent" />
+      <div className="mt-9 h-px w-full bg-white/[0.09]" />
 
       <div className="mt-8 flex items-baseline gap-4">
         <span className="font-mono text-[0.6rem] uppercase tracking-[0.34em] text-[#8A8A8E]">

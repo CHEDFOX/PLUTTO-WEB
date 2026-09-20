@@ -20,8 +20,7 @@ import Link from 'next/link';
 import Starfield from '../../components/Starfield';
 import FadeUp from '../../components/FadeUp';
 import StoreBadges from '../../components/StoreBadges';
-import Astrolabe from '../../components/site/Astrolabe';
-import Aurora from '../../components/site/Aurora';
+import PlanetMark from '../../components/site/PlanetMark';
 import { SHELF_COLOR } from '../../lib/traditions';
 
 export const metadata = {
@@ -36,22 +35,25 @@ const MOVEMENTS = [
   {
     n: '01',
     color: SHELF_COLOR.south_asia,
+    planet: 'sun',
     title: 'The moment',
     lead: 'A date, a time, a place. Nothing else.',
     body:
-      'From those three, Swiss Ephemeris — the source observatories use — gives where every body actually stood, to the arc-second. Your ascendant, your houses, your vargas, the dashā you are standing in today. Not twelve paragraphs written last year.',
+      'From those three it works out exactly where the sky stood — with Swiss Ephemeris, the same source observatories use. Your own moment, not twelve paragraphs written last year for everybody born in a month.',
   },
   {
     n: '02',
     color: SHELF_COLOR.china,
-    title: 'The lens',
-    lead: 'The same chart, read by whichever tradition you ask for.',
+    planet: 'mars',
+    title: 'The oracle',
+    lead: 'Then you choose who reads it.',
     body:
-      'Parāśara, Western tropical, BaZi, Krishnamurti, numerology — and a hundred and two older traditions, pinned to the cities that wrote them. Plutto always names the lens, and you can change it mid-conversation. When two disagree you get both. That is the honest answer.',
+      'A hundred and two traditions, each pinned to the city that wrote it — cowries at Ile-Ife, a cup in London, a poet in Shiraz, the stars at Varanasi. Plutto always names which one is speaking, and you can change it mid-conversation.',
   },
   {
     n: '03',
     color: SHELF_COLOR.sky,
+    planet: 'venus',
     title: 'The voice',
     lead: 'It talks, and you can interrupt it.',
     body:
@@ -60,14 +62,14 @@ const MOVEMENTS = [
 ];
 
 const REFUSALS = [
-  ['It does not pick a tradition behind your back.',
-   'Every reading is labelled with the system that made it. Where systems disagree, you get both.'],
+  ['It never picks an oracle behind your back.',
+   'Every answer is signed by the tradition that gave it. Where two disagree, you get both.'],
   ['It does not pretend to be certain.',
-   'A chart describes a sky, not a life. When a question is not one astrology answers, it says so.'],
+   'An omen describes a sky, not a life. When a question is not one it can answer, it says so.'],
   ['It does not deal in fear.',
    'No death dates. No doom. No remedy sold for a curse it invented.'],
   ['It does not make you read.',
-   'Every feature is a conversation first. The machinery is underneath when you want it.'],
+   'Everything here is a conversation first. The working is underneath when you want it.'],
 ];
 
 const REFUSAL_HUES = [
@@ -84,14 +86,8 @@ export default function AboutPage() {
 
       <div className="relative z-10">
         {/* ───────────────────────── HEAD ───────────────────────── */}
-        <section className="relative overflow-hidden pb-20 pt-10 md:pt-20">
-          <Aurora
-            blobs={[
-              { color: SHELF_COLOR.letters, x: '10%', y: '22%', size: 620, opacity: 0.18 },
-              { color: SHELF_COLOR.folk, x: '82%', y: '78%', size: 560, opacity: 0.14 },
-            ]}
-          />
-          <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-6 md:grid-cols-12 md:gap-10">
+        <section className="mx-auto max-w-6xl px-6 pb-20 pt-8 md:pt-16">
+          <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-12">
             <div className="md:col-span-7">
               <FadeUp>
                 <p className={MONO}>Information</p>
@@ -103,22 +99,22 @@ export default function AboutPage() {
                   className="mt-7 font-editorial text-[#F0F0F0]"
                   style={{ fontSize: 'clamp(2.1rem,5.6vw,3.9rem)', lineHeight: 1.08, maxWidth: '16ch' }}
                 >
-                  An oracle with the arithmetic still attached.
+                  An oracle that shows its working.
                 </h1>
               </FadeUp>
 
               <FadeUp delay={0.2}>
                 <p data-no-auto-case className="mt-9 max-w-xl font-body text-[1.05rem] leading-[1.75] text-[#B4B4B8]">
                   Most astrology apps are a magazine column with a subscription
-                  attached. This one is the machinery — real ephemeris, real
-                  traditions, read aloud by something you can argue with.
+                  attached. This is a library — real traditions, real
+                  arithmetic, read aloud by something you can argue with.
                 </p>
               </FadeUp>
             </div>
 
             <div className="flex justify-center md:col-span-5">
               <FadeUp delay={0.14}>
-                <Astrolabe size={340} />
+                <PlanetMark name="neptune" size={330} />
               </FadeUp>
             </div>
           </div>
@@ -126,23 +122,24 @@ export default function AboutPage() {
 
         {/* ───────────────────── THE THREE MOVEMENTS ───────────────── */}
         <section className="border-t border-white/[0.07] bg-[#050509]/40">
-          <div className="mx-auto max-w-5xl px-6 py-24 md:py-32">
+          <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">
             <FadeUp>
               <p className={MONO}>What happens when you ask</p>
             </FadeUp>
 
-            <ol className="mt-16 space-y-16 md:space-y-24">
+            <ol className="mt-14 space-y-14 md:space-y-20">
               {MOVEMENTS.map((m, i) => (
                 <FadeUp key={m.n} delay={0.06 * i}>
                   <li className="grid grid-cols-1 gap-6 border-t border-white/[0.07] pt-10 md:grid-cols-12 md:gap-10">
                     <div className="md:col-span-3">
+                      <PlanetMark name={m.planet} size={150} />
                       <span
-                        className="block font-display text-[2.4rem] leading-none"
+                        className="mt-5 block font-display text-[2rem] leading-none"
                         style={{ color: m.color }}
                       >
                         {m.n}
                       </span>
-                      <span className="mt-4 block font-display uppercase text-[0.9rem] tracking-[0.28em] text-[#F0F0F0]">
+                      <span className="mt-3 block font-display uppercase text-[0.82rem] tracking-[0.28em] text-[#F0F0F0]">
                         {m.title}
                       </span>
                     </div>
@@ -167,7 +164,7 @@ export default function AboutPage() {
         </section>
 
         {/* ───────────────────── WHAT IT WILL NOT DO ───────────────── */}
-        <section className="py-24 md:py-32">
+        <section className="py-20 md:py-28">
           <div className="mx-auto max-w-5xl px-6">
             <FadeUp>
               <p className={MONO}>Four things it will not do</p>
@@ -210,18 +207,17 @@ export default function AboutPage() {
 
         {/* ───────────────────── THE MACHINERY, NAMED ───────────────── */}
         <section className="border-t border-white/[0.07] bg-[#050509]/40">
-          <div className="mx-auto max-w-5xl px-6 py-24 md:py-32">
+          <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">
             <FadeUp>
               <p className={MONO}>Under it</p>
             </FadeUp>
 
             <div className="mt-14 grid grid-cols-1 gap-x-12 gap-y-10 md:grid-cols-3">
-              <Fact color={SHELF_COLOR.south_asia} k="Ephemeris" v="Swiss Ephemeris" note="Arc-second positions. What observatories run on." />
+              <Fact color={SHELF_COLOR.south_asia} k="Ephemeris" v="Swiss Ephemeris" note="The sky, to the second of arc. What observatories run on." />
               <Fact color={SHELF_COLOR.china} k="Voice" v="OpenAI Realtime" note="Spoken, interruptible, in the language you already use." />
-              <Fact color={SHELF_COLOR.east_asia} k="Systems" v="Five, side by side" note="Vedic, Western, BaZi, Krishnamurti, numerology." />
-              <Fact color={SHELF_COLOR.pacific} k="Readings" v="79 of them" note="Daily to yearly, natal, electional, synastry." />
-              <Fact color={SHELF_COLOR.sky} k="Traditions" v="102 on the globe" note="Named as their own people name them." />
-              <Fact color={SHELF_COLOR.americas} k="Charts" v="19 vargas" note="Divisionals, yogas, dashās. The machinery itself." />
+              <Fact color={SHELF_COLOR.pacific} k="Shelves" v="Twelve" note="Cards, cowries, coins, letters, stars." />
+              <Fact color={SHELF_COLOR.sky} k="Traditions" v="102 of them" note="Named as their own people name them." />
+              <Fact color={SHELF_COLOR.americas} k="Languages" v="Over a hundred" note="It speaks the one your phone is in." />
             </div>
 
             <FadeUp delay={0.15}>
@@ -244,11 +240,8 @@ export default function AboutPage() {
         </section>
 
         {/* ───────────────────── THE DOOR ───────────────────── */}
-        <section className="relative overflow-hidden border-t border-white/[0.07]">
-          <Aurora
-            blobs={[{ color: SHELF_COLOR.persia, x: '50%', y: '32%', size: 780, opacity: 0.15 }]}
-          />
-          <div className="relative mx-auto max-w-4xl px-6 py-24 text-center md:py-32">
+        <section className="border-t border-white/[0.07]">
+          <div className="mx-auto max-w-4xl px-6 py-20 text-center md:py-28">
             <FadeUp>
               <p
                 data-no-auto-case
