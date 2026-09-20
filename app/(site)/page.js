@@ -54,7 +54,7 @@ export default function Home() {
           <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-12 md:gap-10">
             <div className="md:col-span-7">
               <FadeUp>
-                <Eyebrow>Est. the first night someone counted stars</Eyebrow>
+                <Eyebrow>The oldest science, finally computed</Eyebrow>
               </FadeUp>
 
               <FadeUp delay={0.08}>
@@ -85,11 +85,9 @@ export default function Home() {
 
               <FadeUp delay={0.2}>
                 <p data-no-auto-case className="mt-9 max-w-xl font-body text-[1.05rem] leading-[1.75] text-[#B4B4B8]">
-                  Plutto computes the real geometry of your moment — Swiss
-                  Ephemeris, the same source observatories use — and then reads
-                  it back to you through the tradition you choose. Vedic.
-                  Western. Chinese. Yorùbá. Maya. Out loud, in your language,
-                  in plain words you can argue with.
+                  Your sky, to the arc-second. Read back through the tradition
+                  you choose — Vedic, Western, Chinese, Yorùbá, Maya. Out loud,
+                  in your language, in words you can argue with.
                 </p>
               </FadeUp>
 
@@ -140,8 +138,8 @@ export default function Home() {
                 style={{ fontSize: 'clamp(1.9rem,4.4vw,3.2rem)', lineHeight: 1.14 }}
               >
                 Tuesday, ten past four.
-                <span data-no-auto-case className="text-[#8A8A8E]"> Every tradition below is
-                looking at exactly the same sky.</span>
+                <span data-no-auto-case className="text-[#8A8A8E]"> All three are
+                reading the same sky.</span>
               </h2>
             </FadeUp>
 
@@ -169,15 +167,11 @@ export default function Home() {
 
             <FadeUp delay={0.15}>
               <p data-no-auto-case className="mt-12 max-w-2xl font-body text-[1.05rem] leading-[1.75] text-[#B4B4B8]">
-                Three thousand years of careful people, looking at one afternoon,
-                reaching three different answers.{' '}
                 <span data-no-auto-case className="text-[#F0F0F0]">
-                  Plutto does not quietly pick one for you.
+                  Plutto never picks one for you.
                 </span>{' '}
-                It computes all of them, tells you which lens it is speaking
-                through, and lets you change lenses mid-sentence. The
-                disagreement is not the bug in astrology. It is the only
-                interesting thing in it.
+                It names the lens, computes the rest, and lets you switch
+                mid-sentence. The disagreement is the interesting part.
               </p>
             </FadeUp>
           </div>
@@ -208,10 +202,8 @@ export default function Home() {
           <div className="mx-auto max-w-7xl px-6">
             <FadeUp>
               <p data-no-auto-case className="mt-12 max-w-2xl font-body text-[1.05rem] leading-[1.75] text-[#B4B4B8]">
-                Each one is pinned to the city it was written in, on a globe you
-                can turn. Every one of them was somebody&apos;s astronomy, kept
-                by somebody&apos;s grandmother, and most of them have never been
-                computed by anything before.
+                Each pinned to the city that wrote it, on a globe you can turn.
+                Most have never been computed by anything before.
               </p>
             </FadeUp>
           </div>
@@ -229,9 +221,9 @@ export default function Home() {
                 className="mt-7 max-w-3xl font-editorial text-[#F0F0F0]"
                 style={{ fontSize: 'clamp(1.9rem,4.4vw,3.2rem)', lineHeight: 1.14 }}
               >
-                It is not a horoscope.
-                <span data-no-auto-case className="text-[#8A8A8E]"> It is a voice that has read
-                the chart and will answer the question you actually asked.</span>
+                Not a horoscope.
+                <span data-no-auto-case className="text-[#8A8A8E]"> A voice that has
+                read your chart and answers what you actually asked.</span>
               </h2>
             </FadeUp>
 
@@ -253,10 +245,10 @@ export default function Home() {
                 </FadeUp>
 
                 <dl className="mt-12 grid grid-cols-2 gap-x-8 gap-y-12">
-                  <Number n="79" label="Readings" note="Daily, yearly, natal, electional, synastry — each one computed, none of them written in advance." />
-                  <Number n="102" label="Traditions" note="Named as their own people name them, pinned where they were written." />
-                  <Number n="100+" label="Languages" note="The Oracle speaks the one your phone is already in." />
-                  <Number n="19" label="Divisional charts" note="Vargas, yogas, dashās — the exact machinery, not a summary of it." />
+                  <Number n="79" label="Readings" note="Computed for your chart. None written in advance." />
+                  <Number n="102" label="Traditions" note="Named as their own people name them." />
+                  <Number n="100+" label="Languages" note="It speaks the one your phone is in." />
+                  <Number n="19" label="Divisional charts" note="Vargas, yogas, dashās. The machinery itself." />
                 </dl>
 
                 {/* Kept deliberately short and deliberately plain. Google's
@@ -269,10 +261,9 @@ export default function Home() {
                   <div className="mt-16 border-l border-[#D4AF37]/30 pl-6">
                     <Eyebrow>What Plutto is</Eyebrow>
                     <p data-no-auto-case className="mt-5 max-w-xl font-body text-[1.05rem] leading-[1.75] text-[#B4B4B8]">
-                      An astrology oracle, and a voice you can argue with. You
-                      give it a date, a time, a place; it computes the geometry
-                      of that moment and talks to you about it — out loud, in
-                      your language.
+                      An astrology oracle you can talk back to. Give it a date,
+                      a time and a place; it computes that moment&apos;s geometry
+                      and reads it to you out loud, in your language.
                     </p>
                   </div>
                 </FadeUp>
@@ -301,7 +292,7 @@ export default function Home() {
             </FadeUp>
             <FadeUp delay={0.1}>
               <p data-no-auto-case className="mx-auto mt-7 max-w-md font-body text-[1.02rem] leading-[1.7] text-[#8A8A8E]">
-                Now there is something up there that answers.
+                Now something up there answers.
               </p>
             </FadeUp>
 

@@ -36,33 +36,33 @@ const MOVEMENTS = [
     title: 'The moment',
     lead: 'A date, a time, a place. Nothing else.',
     body:
-      'From those three facts Plutto computes where every body in the sky actually stood — with Swiss Ephemeris, the same source observatories and planetariums use, to the arc-second. Not a table of twelve sun-sign paragraphs written last year. Your ascendant, your houses, the exact degrees, the vargas, the dashā you are standing in today.',
+      'From those three, Swiss Ephemeris — the source observatories use — gives where every body actually stood, to the arc-second. Your ascendant, your houses, your vargas, the dashā you are standing in today. Not twelve paragraphs written last year.',
   },
   {
     n: '02',
     title: 'The lens',
     lead: 'The same chart, read by whichever tradition you ask for.',
     body:
-      'Vedic in the Parāśara line, Western tropical, Chinese BaZi, the Krishnamurti system, numerology — and a hundred and two older traditions pinned to the cities they were written in. Plutto always tells you which lens is speaking, and you can change it in the middle of a conversation. When two lenses disagree, you are shown both. That is the honest answer.',
+      'Parāśara, Western tropical, BaZi, Krishnamurti, numerology — and a hundred and two older traditions, pinned to the cities that wrote them. Plutto always names the lens, and you can change it mid-conversation. When two disagree you get both. That is the honest answer.',
   },
   {
     n: '03',
     title: 'The voice',
     lead: 'It talks, and you can interrupt it.',
     body:
-      'The reading is spoken, not printed at you — you can cut in, push back, ask it what it means, and it keeps the thread. It speaks the language your phone is already in, over a hundred of them, and it remembers what you told it last time so you are not introducing yourself every morning.',
+      'The reading is spoken, not printed at you. Cut in, push back, ask what it means — it keeps the thread, in any of a hundred languages, and it remembers you tomorrow.',
   },
 ];
 
 const REFUSALS = [
   ['It does not pick a tradition behind your back.',
-   'Every reading is labelled with the system that produced it. Where the systems disagree, the disagreement is the answer, and you get both.'],
+   'Every reading is labelled with the system that made it. Where systems disagree, you get both.'],
   ['It does not pretend to be certain.',
-   'A chart is a description of a sky, not a verdict on a life. Plutto will tell you what a placement has classically meant and where the texts argue with each other — and it will say when a question is not one astrology answers.'],
+   'A chart describes a sky, not a life. When a question is not one astrology answers, it says so.'],
   ['It does not deal in fear.',
-   'No death dates, no doom, no medical or legal advice, and nothing designed to make you buy a remedy to lift a curse it invented.'],
+   'No death dates. No doom. No remedy sold for a curse it invented.'],
   ['It does not make you read.',
-   'Every feature is a conversation first. The chart is there underneath when you want the machinery, and out of the way when you do not.'],
+   'Every feature is a conversation first. The machinery is underneath when you want it.'],
 ];
 
 export default function AboutPage() {
@@ -92,9 +92,8 @@ export default function AboutPage() {
               <FadeUp delay={0.2}>
                 <p data-no-auto-case className="mt-9 max-w-xl font-body text-[1.05rem] leading-[1.75] text-[#B4B4B8]">
                   Most astrology apps are a magazine column with a subscription
-                  attached. Plutto is the machinery: real ephemeris, real
-                  traditions, read aloud by something you can argue with. This
-                  page is what it does, how, and what it refuses to do.
+                  attached. This one is the machinery — real ephemeris, real
+                  traditions, read aloud by something you can argue with.
                 </p>
               </FadeUp>
             </div>
@@ -161,7 +160,7 @@ export default function AboutPage() {
               >
                 You are right to be sceptical.
                 <span data-no-auto-case className="text-[#8A8A8E]"> Here is what
-                we have promised ourselves not to sell you.</span>
+                we will not sell you.</span>
               </h2>
             </FadeUp>
 
@@ -193,29 +192,28 @@ export default function AboutPage() {
             </FadeUp>
 
             <div className="mt-14 grid grid-cols-1 gap-x-12 gap-y-10 md:grid-cols-3">
-              <Fact k="Ephemeris" v="Swiss Ephemeris" note="Arc-second positions, the source professional astronomy software is built on." />
-              <Fact k="Voice" v="OpenAI Realtime" note="Spoken, interruptible, and answering in the language you already use." />
-              <Fact k="Systems" v="Five, side by side" note="Vedic (BPHS), Western tropical, Chinese BaZi, Krishnamurti, numerology." />
-              <Fact k="Readings" v="79 of them" note="Daily through yearly, natal, electional, synastry — each computed for your chart." />
-              <Fact k="Traditions" v="102 on the globe" note="Named as their own people name them, pinned to the cities they were written in." />
-              <Fact k="Charts" v="19 vargas" note="Divisionals, yogas and dashās — the exact machinery, not a summary of it." />
+              <Fact k="Ephemeris" v="Swiss Ephemeris" note="Arc-second positions. What observatories run on." />
+              <Fact k="Voice" v="OpenAI Realtime" note="Spoken, interruptible, in the language you already use." />
+              <Fact k="Systems" v="Five, side by side" note="Vedic, Western, BaZi, Krishnamurti, numerology." />
+              <Fact k="Readings" v="79 of them" note="Daily to yearly, natal, electional, synastry." />
+              <Fact k="Traditions" v="102 on the globe" note="Named as their own people name them." />
+              <Fact k="Charts" v="19 vargas" note="Divisionals, yogas, dashās. The machinery itself." />
             </div>
 
             <FadeUp delay={0.15}>
               <p data-no-auto-case className="mt-16 max-w-2xl font-body text-[1.02rem] leading-[1.75] text-[#B4B4B8]">
-                Plutto is built by{' '}
+                Built by{' '}
                 <span data-no-auto-case className="text-[#F0F0F0]">Xooteq Lab</span>, a studio
-                making voice-first tools for the ancient sciences. The Oracle is
-                our first release. What you do with it —{' '}
+                making voice-first tools for the ancient sciences. What we keep —{' '}
                 {/* The policy is served by the API, not by this app — the same
                     URL the footer and the phone's settings screen point at. */}
                 <a
                   href="https://api.plutto.space/privacy"
                   className="text-[#D4AF37]/80 underline underline-offset-4 hover:text-[#D4AF37]"
                 >
-                  and what we keep
+                  and what we do not
                 </a>{' '}
-                — is written down in plain words, not in a policy nobody reads.
+                — is written in plain words, not in a policy nobody reads.
               </p>
             </FadeUp>
           </div>

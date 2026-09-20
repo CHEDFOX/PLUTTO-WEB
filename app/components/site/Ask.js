@@ -26,17 +26,17 @@ const EXCHANGES = [
   {
     q: 'Should I take the job?',
     lens: 'VEDIC · BPHS',
-    a: 'Saturn crosses your tenth house until March, so this is the year work asks more of you than it returns. Take it — but read the contract twice, and do not judge the decision before spring. Saturn pays late. It does pay.',
+    a: 'Saturn sits on your tenth until March. Take it — read the contract twice, and do not judge it before spring. Saturn pays late. It pays.',
   },
   {
     q: 'Why do I keep meeting the same person?',
     lens: 'WESTERN · TROPICAL',
-    a: 'Venus in your chart is ruled by the planet on your seventh cusp, which is the same planet that rules your twelfth — the house of what you do not see yourself doing. You are not meeting the same person. You are recognising the same silence and calling it familiarity.',
+    a: 'The ruler of your seventh also rules your twelfth — the house of what you cannot see yourself doing. It is not the same person. It is the same silence, and you keep calling it familiarity.',
   },
   {
     q: '¿Es buen mes para mudarme?',
     lens: 'CHINO · BAZI',
-    a: 'El mes es de metal sobre madera: un corte limpio, no una ruptura. Del 9 al 21 el terreno está firme. Si puedes firmar dentro de esa ventana, múdate; si no, espera a la luna nueva y vuelve a preguntar.',
+    a: 'Metal sobre madera: un corte limpio, no una ruptura. Del 9 al 21 el terreno está firme. Firma dentro de esa ventana, o espera a la luna nueva.',
   },
 ];
 
@@ -136,7 +136,7 @@ export default function Ask() {
         ) : null}
       </div>
 
-      <p data-no-auto-case className="mt-4 min-h-[9.5em] font-editorial text-[1.22rem] leading-[1.62] text-[#D8D8D8] md:min-h-[7.2em] md:text-[1.5rem]">
+      <p data-no-auto-case className="mt-4 min-h-[7.5em] font-editorial text-[1.22rem] leading-[1.62] text-[#D8D8D8] md:min-h-[5.4em] md:text-[1.5rem]">
         {shownA}
       </p>
 
