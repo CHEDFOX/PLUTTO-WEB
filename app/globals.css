@@ -174,7 +174,18 @@ body :where(h1, h2, h3, h4, h5, h6, p, a, button, label, span, li) {
   text-transform: capitalize;
 }
 body :where(.uppercase) { text-transform: uppercase; }
+/* …and everything inside it, for the same reason as the opt-out below: the
+   capitalize rule matches the <span class="bw"> that BinaryHover wraps each
+   word in, so an .uppercase eyebrow with wrapped words came out Title Case. */
+body :where(.uppercase) :where(span, em, strong, a, b, i) { text-transform: uppercase; }
 body :where(input, textarea, [data-no-auto-case]) { text-transform: none; }
+/* …and everything inside it. The rule above matches the element itself; the
+   capitalize rule still matches any span, link or emphasis INSIDE it — which
+   includes the per-word <span class="bw"> that BinaryHover wraps every word
+   in, so without this line the opt-out silently does nothing to prose. */
+body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
+  text-transform: inherit;
+}
 
 /* ───────────────────────── The Orb ─────────────────────────
    Recolored from gold to cool celestial blue. Same layered geometry:

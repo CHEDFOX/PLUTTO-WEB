@@ -53,6 +53,7 @@ export default {
         mark: ['var(--font-mark)', 'Josefin Sans', 'system-ui', 'sans-serif'],
         body: ['var(--font-body)', 'DM Sans', 'system-ui', 'sans-serif'],
         mono: ['var(--font-mono)', 'JetBrains Mono', 'ui-monospace', 'monospace'],
+        editorial: ['var(--font-editorial)', 'Instrument Serif', 'Georgia', 'serif'],
         serif: ['var(--font-reading)', 'Syne', 'system-ui', 'sans-serif'],
         sans: ['var(--font-body)', 'DM Sans', 'system-ui', 'sans-serif'],
       },

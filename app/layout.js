@@ -1,4 +1,4 @@
-import { Julius_Sans_One, Josefin_Sans, Syne, DM_Sans, JetBrains_Mono } from 'next/font/google';
+import { Julius_Sans_One, Josefin_Sans, Syne, DM_Sans, JetBrains_Mono, Instrument_Serif } from 'next/font/google';
 import './globals.css';
 
 // DISPLAY — thin geometric capitals, set wide. It only ever appears in caps and
@@ -36,6 +36,20 @@ const dmSans = DM_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '700'],
   variable: '--font-body',
+  display: 'swap',
+});
+
+// EDITORIAL — the one face on the site with real stroke contrast and a true
+// italic. Everything else here is geometric (Julius, Josefin, Syne) or
+// mechanical (JetBrains); a page made only of those reads as a product, and the
+// thing Plutto is selling is a voice that has been speaking for three thousand
+// years. This is the face the readings are quoted in, and it is used for
+// quotation only — never for chrome, never below about 18px.
+const instrument = Instrument_Serif({
+  subsets: ['latin'],
+  weight: ['400'],
+  style: ['normal', 'italic'],
+  variable: '--font-editorial',
   display: 'swap',
 });
 
@@ -84,7 +98,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${julius.variable} ${josefin.variable} ${syne.variable} ${dmSans.variable} ${jetbrains.variable}`}
+      className={`${julius.variable} ${josefin.variable} ${syne.variable} ${dmSans.variable} ${jetbrains.variable} ${instrument.variable}`}
     >
       {/* Root carries the document and the faces, and nothing else. The site's
           chrome moved into (site)/layout.js so that /app inherits none of it —
