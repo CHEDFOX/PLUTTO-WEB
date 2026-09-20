@@ -27,7 +27,11 @@ export default function Nav() {
   }, [open]);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 bg-transparent">
+    // A scrim rather than a bar. The header is fixed over a black page, so
+    // scrolled headlines used to pass straight under the wordmark and collide
+    // with it; a short gradient from black keeps the type clear of the chrome
+    // without putting a hard edge across the top of the page.
+    <header className="fixed top-0 left-0 right-0 z-40 bg-gradient-to-b from-black via-black/85 to-transparent pb-4">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <Link
           href="/"
