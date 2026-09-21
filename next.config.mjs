@@ -5,6 +5,12 @@ const SUPABASE = 'https://auth.plutto.space';
 // The realtime voice leg posts its SDP offer straight to OpenAI with a
 // short-lived token, so that origin has to be reachable from the page.
 const OPENAI = 'https://api.openai.com';
+// PADDLE — web checkout. Paddle.js is loaded from their CDN, the checkout runs
+// in an iframe from their origin, and both the live and sandbox hosts are named
+// because the sandbox is where this gets tested and a CSP that only works in
+// production is a CSP that gets discovered at the worst moment.
+const PADDLE_CDN = 'https://cdn.paddle.com https://sandbox-cdn.paddle.com';
+const PADDLE = 'https://*.paddle.com https://*.paddlejs.com';
 
 /**
  * Content-Security-Policy — the single most valuable header here: even if a
@@ -21,15 +27,18 @@ const OPENAI = 'https://api.openai.com';
 const csp = (dev) =>
   [
     "default-src 'self'",
-    `script-src 'self' 'unsafe-inline'${dev ? " 'unsafe-eval'" : ''}`,
+    `script-src 'self' 'unsafe-inline' ${PADDLE_CDN}${dev ? " 'unsafe-eval'" : ''}`,
     "style-src 'self' 'unsafe-inline'",
-    `img-src 'self' data: blob: ${API}`,
+    `img-src 'self' data: blob: ${API} ${PADDLE}`,
     `media-src 'self' data: blob: ${API}`,
     // The app screens are set in the same faces the phone downloads, served from
     // the backend — without this the browser refuses them and silently falls back
     // to the system font, which looks like a design choice rather than a block.
     `font-src 'self' data: ${API}`,
-    `connect-src 'self' ${API} ${SUPABASE} ${OPENAI} wss://*.openai.com${dev ? ' ws://localhost:*' : ''}`,
+    `connect-src 'self' ${API} ${SUPABASE} ${OPENAI} ${PADDLE} wss://*.openai.com${dev ? ' ws://localhost:*' : ''}`,
+    // The checkout is an iframe from Paddle's origin. Without this it falls back
+    // to default-src 'self' and the overlay opens empty — no error, no content.
+    `frame-src 'self' ${PADDLE}`,
     "frame-ancestors 'none'",   // clickjacking
     "object-src 'none'",
     "base-uri 'none'",          // stops a stray <base> retargeting every URL
@@ -46,7 +55,9 @@ const securityHeaders = (dev) => [
   // app does not need is switched off, so a compromised script cannot reach it.
   {
     key: 'Permissions-Policy',
-    value: 'camera=(), geolocation=(), payment=(), usb=(), microphone=(self)',
+    value:
+      'camera=(), geolocation=(), usb=(), microphone=(self), ' +
+      'payment=(self "https://checkout.paddle.com" "https://sandbox-checkout.paddle.com")',
   },
   { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
   { key: 'X-DNS-Prefetch-Control', value: 'off' },
