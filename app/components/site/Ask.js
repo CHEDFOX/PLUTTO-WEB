@@ -30,17 +30,14 @@ import { useEffect, useRef, useState } from 'react';
 const EXCHANGES = [
   {
     q: 'Should I take the job?',
-    lens: 'VEDIC · VARANASI',
     a: 'Take it. The first winter is cold and the money comes late — but it comes. Read the contract twice.',
   },
   {
     q: 'Why do I keep meeting the same person?',
-    lens: 'CARTOMANCY · PARIS',
     a: 'You are not meeting the same person. You are recognising the same silence, and calling it familiarity.',
   },
   {
     q: '¿Es buen mes para mudarme?',
-    lens: 'BAZI · XI\'AN',
     a: 'Un corte limpio, no una ruptura. Del 9 al 21 el suelo está firme. Múdate dentro de esa ventana.',
   },
 ];
@@ -119,9 +116,6 @@ export default function Ask() {
       <div className="flex items-center justify-between gap-6">
         <span className="font-mono text-[0.6rem] uppercase tracking-[0.34em] text-[#6E6E72]">
           You
-        </span>
-        <span className="font-mono text-[0.6rem] uppercase tracking-[0.3em] text-[#6E6E72]">
-          {ex.lens}
         </span>
       </div>
 

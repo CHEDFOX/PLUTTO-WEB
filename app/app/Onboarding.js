@@ -21,7 +21,10 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { getOnboarding, recommendSystem, searchPlaces, placeDetails } from '../lib/api';
 
-const STEPS = ['language', 'identity', 'when', 'place', 'system'];
+// No 'system' step. The phone never asks which tradition to read by — the engine
+// picks it from the birth place and locale (App.js, the auto-select effect) — so
+// the web asked a question the product does not have. It picks the same way now.
+const STEPS = ['language', 'identity', 'when', 'place'];
 const ROTATE_MS = 2500;
 const FADE_MS = 280;
 const ARRIVAL_HOLD_MS = 2500;
@@ -150,8 +153,6 @@ export default function Onboarding({ onComplete, busy, error }) {
   const [hour, setHour] = useState(null);
   const [minute, setMinute] = useState(null);
   const [place, setPlace] = useState(null);
-  const [system, setSystem] = useState(null);
-  const [recommended, setRecommended] = useState(null);
 
   // language screen animation state
   const [greetIdx, setGreetIdx] = useState(0);
@@ -202,16 +203,6 @@ export default function Onboarding({ onComplete, busy, error }) {
     return () => clearInterval(t);
   }, [step, languages.length]);
 
-  useEffect(() => {
-    if (step !== 'system' || !place) return;
-    let live = true;
-    recommendSystem({
-      birth_lat: place.lat, birth_lng: place.lng, birth_place: place.name,
-      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    }).then((r) => live && r?.recommended && setRecommended(r.recommended)).catch(() => {});
-    return () => { live = false; };
-  }, [step, place]);
-
   const onPlaceInput = (v) => {
     setQ(v); setPlace(null);
     clearTimeout(timer.current);
@@ -239,16 +230,38 @@ export default function Onboarding({ onComplete, busy, error }) {
     if (i > 0) setStep(STEPS[i - 1]);
   };
 
-  const finish = () =>
+  // THE SYSTEM IS CHOSEN FOR THEM — the same order the phone uses: the engine's
+  // recommendation from birth place + locale, then the backend's default, then
+  // the first system it offers, then Vedic. The recommendation is bounded so a
+  // slow answer can never hold someone on the last onboarding screen.
+  const [picking, setPicking] = useState(false);
+  const finish = async () => {
+    if (picking) return;
+    setPicking(true);
+    let chosen = null;
+    try {
+      const opts = Intl.DateTimeFormat().resolvedOptions();
+      const region = (opts.locale || '').split('-')[1] || '';
+      const rec = await Promise.race([
+        recommendSystem({
+          birth_lat: place.lat, birth_lng: place.lng, birth_place: place.name,
+          region, timezone: opts.timeZone,
+        }),
+        new Promise((r) => setTimeout(() => r(null), 4000)),
+      ]);
+      chosen = rec?.recommended || null;
+    } catch (_) { /* fall through to the defaults */ }
+    setPicking(false);
     onComplete({
       name: name.trim(),
       gender: gender || 'other',
       language: lang,
-      system: system || recommended || sysScreen.recommended || 'bphs',
+      system: chosen || sysScreen.recommended || sysScreen.systems?.[0]?.id || 'bphs',
       date: { day, month, year },
       time: { hour: hour ?? 12, minute: minute ?? 0 },
       place,
     });
+  };
 
   const dateReady = day && month && year;
   const timeReady = hour != null && minute != null;
@@ -444,55 +457,14 @@ export default function Onboarding({ onComplete, busy, error }) {
             )}
           </div>
 
-          <Continue disabled={!place} onClick={() => setStep('system')}>
-            {CONTINUE}
-          </Continue>
-        </>
-      )}
-
-      {step === 'system' && (
-        <>
-          <Title>{sysScreen.title || 'Choose your path'}</Title>
-          {sysScreen.subtitle && (
-            <p className="mx-auto mt-5 max-w-sm px-6 text-center text-[13px] font-light leading-relaxed text-white/45">
-              {sysScreen.subtitle}
-            </p>
-          )}
-
-          <div className="mx-auto mt-14 w-full max-w-md px-6 space-y-3">
-            {(sysScreen.systems || [
-              { id: 'bphs', label: 'Jyotish' },
-              { id: 'western', label: 'Hermetica' },
-              { id: 'chinese', label: 'BaZi' },
-            ]).map((s) => {
-              const rec = (recommended || sysScreen.recommended) === s.id;
-              const on = (system || recommended || sysScreen.recommended) === s.id;
-              return (
-                <button key={s.id} onClick={() => setSystem(s.id)}
-                  className={`w-full text-left px-5 py-4 rounded-2xl border-[0.5px] transition-colors ${
-                    on ? 'border-gold/70 bg-gold/[0.04]' : 'border-white/[0.12] hover:border-white/30'
-                  }`}>
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="text-[19px] font-light text-white">{s.label}</span>
-                    {rec && sysScreen.badge && (
-                      <span className="text-[9px] uppercase text-gold" style={{ letterSpacing: 2 }}>
-                        {sysScreen.badge}
-                      </span>
-                    )}
-                  </div>
-                  {s.blurb && <p className="mt-1 text-[12px] text-white/40">{s.blurb}</p>}
-                </button>
-              );
-            })}
-          </div>
-
           {error && <p className="mt-8 text-center text-[13px] text-red-300/80">{error}</p>}
 
-          <Continue disabled={busy} onClick={finish}>
-            {busy ? '…' : CONTINUE}
+          <Continue disabled={!place || busy || picking} onClick={finish}>
+            {busy || picking ? '…' : CONTINUE}
           </Continue>
         </>
       )}
+
     </div>
   );
 }

@@ -26,7 +26,7 @@ import { SHELF_COLOR } from '../../lib/traditions';
 export const metadata = {
   title: 'How it works',
   description:
-    'Plutto computes real charts with Swiss Ephemeris, reads them through the tradition you choose, and answers out loud in your language.',
+    'Plutto computes real charts with Swiss Ephemeris, reads them through the tradition that fits your question, and answers out loud in your language.',
 };
 
 const MONO = 'font-mono uppercase text-[0.7rem] tracking-[0.32em] text-[#8A8A8E]';
@@ -46,9 +46,9 @@ const MOVEMENTS = [
     color: SHELF_COLOR.china,
     planet: 'mars',
     title: 'The oracle',
-    lead: 'Then you choose who reads it.',
+    lead: 'Then the right oracle reads it.',
     body:
-      'A hundred and two traditions, each pinned to the city that wrote it — cowries at Ile-Ife, a cup in London, a poet in Shiraz, the stars at Varanasi. Plutto always names which one is speaking, and you can change it mid-conversation.',
+      'A hundred and two traditions, each pinned to the city that wrote it — cowries at Ile-Ife, a cup in London, a poet in Shiraz, the stars at Varanasi. Plutto picks the one that fits you and your question.',
   },
   {
     n: '03',
@@ -62,8 +62,6 @@ const MOVEMENTS = [
 ];
 
 const REFUSALS = [
-  ['It never picks an oracle behind your back.',
-   'Every answer is signed by the tradition that gave it. Where two disagree, you get both.'],
   ['It does not pretend to be certain.',
    'An omen describes a sky, not a life. When a question is not one it can answer, it says so.'],
   ['It does not deal in fear.',
@@ -167,7 +165,7 @@ export default function AboutPage() {
         <section className="py-20 md:py-28">
           <div className="mx-auto max-w-5xl px-6">
             <FadeUp>
-              <p className={MONO}>Four things it will not do</p>
+              <p className={MONO}>Three things it will not do</p>
             </FadeUp>
 
             <FadeUp delay={0.08}>

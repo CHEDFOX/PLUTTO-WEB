@@ -10,9 +10,8 @@
  * ONE THING PER SCREEN:
  *   1 · a fan of real cards, with the Moon, the Star and the Sun in colour
  *   2 · six decks face down — tap one and it turns over
- *   3 · the five sky systems, as the app's own round art
- *   4 · the Oracle answering
- *   5 · a door
+ *   3 · the Oracle answering
+ *   4 · a door
  *
  * THE PSYCHOLOGY is in section 2. A card turned over is a small reward that
  * varies, so people turn another; and it arrives with its name but not its
@@ -33,14 +32,6 @@ import Draw from '../components/site/Draw';
 import Ask from '../components/site/Ask';
 
 const MONO = 'font-mono uppercase text-[0.66rem] tracking-[0.34em] text-[#6E6E72]';
-
-const SYSTEMS = [
-  { id: 'vedic', name: 'Vedic' },
-  { id: 'western', name: 'Western' },
-  { id: 'chinese', name: 'Chinese' },
-  { id: 'kp', name: 'KP' },
-  { id: 'numerology', name: 'Numerology' },
-];
 
 function H2({ children }) {
   return (
@@ -122,48 +113,7 @@ export default function Home() {
           </FadeUp>
         </section>
 
-        {/* ─────────────────────── 3 · THE SKY ─────────────────────── */}
-        <section className="border-t border-white/[0.07] px-6 py-20 md:py-28">
-          <FadeUp>
-            <H2>
-              And the sky,
-              <span data-no-auto-case className="text-[#6E6E72]"> five ways.</span>
-            </H2>
-          </FadeUp>
-
-          <FadeUp delay={0.12}>
-            <ul className="mx-auto mt-14 grid max-w-[980px] grid-cols-3 gap-x-6 gap-y-10 md:grid-cols-5">
-              {SYSTEMS.map((s) => (
-                <li key={s.id} className="flex flex-col items-center">
-                  <img
-                    src={`/library/systems/system_${s.id}.png`}
-                    alt=""
-                    width={220}
-                    height={220}
-                    loading="lazy"
-                    className="aspect-square w-full max-w-[150px] object-contain"
-                    style={{
-                      mixBlendMode: 'screen',
-                      WebkitMaskImage: 'radial-gradient(circle, #000 58%, transparent 71%)',
-                      maskImage: 'radial-gradient(circle, #000 58%, transparent 71%)',
-                    }}
-                  />
-                  <p className="mt-4 font-mono text-[0.62rem] uppercase tracking-[0.3em] text-[#9A9AA0]">
-                    {s.name}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </FadeUp>
-
-          <FadeUp delay={0.2}>
-            <p className={`${MONO} mt-16 text-center`}>
-              102 traditions · 12 shelves · 100+ languages
-            </p>
-          </FadeUp>
-        </section>
-
-        {/* ─────────────────────── 4 · THE ANSWER ─────────────────────── */}
+        {/* ─────────────────────── 3 · THE ANSWER ─────────────────────── */}
         <section className="border-t border-white/[0.07] px-6 py-20 md:py-28">
           <FadeUp>
             <H2>Then ask it anything.</H2>
@@ -175,7 +125,7 @@ export default function Home() {
           </FadeUp>
         </section>
 
-        {/* ─────────────────────── 5 · THE DOOR ─────────────────────── */}
+        {/* ─────────────────────── 4 · THE DOOR ─────────────────────── */}
         <section className="border-t border-white/[0.07] px-6 py-20 text-center md:py-28">
           <FadeUp>
             <img
