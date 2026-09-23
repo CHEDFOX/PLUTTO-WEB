@@ -22,16 +22,21 @@
  */
 
 import Link from 'next/link';
+import Image from 'next/image';
 import FadeUp from '../components/FadeUp';
 import StoreBadges from '../components/StoreBadges';
 import Draw from '../components/site/Draw';
-import { Phone, ChatScreen, CardScreen, LockScreen } from '../components/site/Phone';
+import { Phone, CardScreen, LockScreen } from '../components/site/Phone';
+import LiveChat from '../components/site/LiveChat';
+import CountUp from '../components/site/CountUp';
+import Marquee from '../components/site/Marquee';
+import Story from '../components/site/Story';
 
 const STATS = [
-  ['102', 'traditions'],
-  ['6', 'card decks'],
-  ['100+', 'languages'],
-  ['Voice', 'and text'],
+  [102, '', 'traditions'],
+  [6, '', 'card decks'],
+  [182, '', 'cards to draw'],
+  [100, '+', 'languages'],
 ];
 
 const GREETINGS = ['Hello', 'Hola', 'Bonjour', 'مرحبا', 'Olá', 'Привет', '你好', 'こんにちは', '안녕하세요', 'नमस्ते', 'வணக்கம்', 'Merhaba', 'Ciao', 'Hallo', 'Xin chào', 'Jambo'];
@@ -71,75 +76,122 @@ function TileText({ title, body }) {
 export default function Home() {
   return (
     <div data-no-auto-case data-no-binary className="sentence-case relative z-10 font-ui">
-      {/* ─────────────────────────── HERO ─────────────────────────── */}
+      {/* ─────────────────────────── HERO ───────────────────────────
+          Text left, the product right — the product visible in the first
+          screen, and running. Neptune rises behind the phones: the brand's
+          best art, used as a horizon rather than a sticker. */}
       <section className="relative overflow-hidden">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-[-10%] h-[900px]"
-             style={{ background: 'radial-gradient(50% 45% at 50% 55%, rgba(124,92,255,0.35), transparent 70%), radial-gradient(30% 30% at 30% 70%, rgba(56,189,248,0.18), transparent 70%), radial-gradient(30% 30% at 72% 68%, rgba(244,114,182,0.16), transparent 70%)' }} />
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0"
+             style={{ background: 'radial-gradient(40% 50% at 72% 60%, rgba(56,120,255,0.22), transparent 70%), radial-gradient(35% 40% at 20% 30%, rgba(124,92,255,0.18), transparent 70%)' }} />
 
-        <div className="relative mx-auto max-w-6xl px-6 pt-14 text-center md:pt-16">
-          <FadeUp>
-            <Link href="/#draw" className="inline-flex items-center gap-2 rounded-full bg-white/[0.06] px-3.5 py-1.5 text-[13px] text-white/75 ring-1 ring-white/10 transition-colors hover:bg-white/[0.1]">
-              <span className="rounded-full bg-white px-2 py-0.5 text-[11px] font-semibold text-black">Try it</span>
-              Draw a card — no sign-up
-              <span aria-hidden="true">→</span>
-            </Link>
-          </FadeUp>
-
-          <FadeUp delay={0.06}>
-            <h1 className="mx-auto mt-7 max-w-[14ch] text-[clamp(2.75rem,8vw,5.75rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-white">
-              The oracle in your pocket.
-            </h1>
-          </FadeUp>
-
-          <FadeUp delay={0.12}>
-            <p className="mx-auto mt-6 max-w-[36ch] text-[clamp(1.05rem,1.8vw,1.3rem)] leading-relaxed text-white/60">
-              Tarot, runes, I Ching and your stars — read for you, out loud, in your language.
-            </p>
-          </FadeUp>
-
-          <FadeUp delay={0.18}>
-            <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <a href="#download" className="inline-flex h-12 items-center rounded-full bg-white px-7 text-[15px] font-semibold text-black transition-opacity hover:opacity-90">
-                Get the app
-              </a>
-              <Link href="/app" className="inline-flex h-12 items-center gap-1.5 rounded-full px-6 text-[15px] font-medium text-white ring-1 ring-white/20 transition-colors hover:bg-white/[0.06]">
-                Try it on the web <span aria-hidden="true">→</span>
+        <div className="relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-6 px-6 pt-12 lg:min-h-[calc(100svh-64px)] lg:grid-cols-[1.05fr_1fr] lg:gap-4 lg:pt-0">
+          <div className="text-center lg:text-left">
+            <FadeUp>
+              <Link href="/#draw" className="inline-flex items-center gap-2 rounded-full bg-white/[0.06] py-1.5 pl-1.5 pr-3.5 text-[13px] text-white/75 ring-1 ring-white/10 transition-colors hover:bg-white/[0.1]">
+                <span className="rounded-full bg-white px-2 py-0.5 text-[11px] font-semibold text-black">Try it</span>
+                Draw a card — no sign-up
+                <span aria-hidden="true">→</span>
               </Link>
-            </div>
-          </FadeUp>
+            </FadeUp>
 
-          {/* Three phones. The side two are desktop-only; on a phone one is enough. */}
-          <FadeUp delay={0.26} y={48}>
-            <div className="relative mx-auto mt-14 flex h-[560px] justify-center md:mt-16 md:h-[700px]">
-              <Phone floating className="left-1/2 top-16 hidden -translate-x-[118%] -rotate-[6deg] scale-[0.86] opacity-90 md:block">
-                <CardScreen />
-              </Phone>
-              <Phone floating className="left-1/2 top-16 hidden translate-x-[18%] rotate-[6deg] scale-[0.86] opacity-90 md:block">
-                <LockScreen />
-              </Phone>
-              <Phone className="relative z-10 origin-top scale-[0.84] md:scale-100">
-                <ChatScreen />
+            <FadeUp delay={0.06}>
+              <h1 className="mx-auto mt-7 max-w-[12ch] text-[clamp(2.9rem,6.6vw,5.4rem)] font-semibold leading-[0.96] tracking-[-0.05em] text-white lg:mx-0">
+                The oracle in your{' '}
+                <span className="bg-gradient-to-r from-sky-300 via-violet-300 to-pink-300 bg-clip-text text-transparent">pocket.</span>
+              </h1>
+            </FadeUp>
+
+            <FadeUp delay={0.12}>
+              <p className="mx-auto mt-6 max-w-[34ch] text-[clamp(1.05rem,1.6vw,1.25rem)] leading-relaxed text-white/60 lg:mx-0">
+                Tarot, runes, I Ching and your stars — read for you, out loud, in your language.
+              </p>
+            </FadeUp>
+
+            <FadeUp delay={0.18}>
+              <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
+                <a href="#download" className="inline-flex h-12 items-center rounded-full bg-white px-7 text-[15px] font-semibold text-black transition-transform hover:scale-[1.03]">
+                  Get the app
+                </a>
+                <Link href="/app" className="inline-flex h-12 items-center gap-1.5 rounded-full px-6 text-[15px] font-medium text-white ring-1 ring-white/20 transition-colors hover:bg-white/[0.06]">
+                  Try it on the web <span aria-hidden="true">→</span>
+                </Link>
+              </div>
+            </FadeUp>
+
+            <FadeUp delay={0.24}>
+              <p className="mt-10 text-[13px] text-white/35">
+                Tarot · Lenormand · Runes · Ogham · I Ching · Geomancy · Astrology
+              </p>
+            </FadeUp>
+          </div>
+
+          {/* The phones. The side two are desktop-only; on a phone one is enough. */}
+          <FadeUp delay={0.2} y={40}>
+            <div className="relative mx-auto flex h-[580px] justify-center lg:h-[720px] lg:items-center">
+              {/* Neptune, rising. The render is mostly black sky with the
+                  planet across its middle ~45%, so it is drawn far larger than
+                  the column and positioned so only its upper arc shows below
+                  the phones. Screen blend drops the black. */}
+              <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-[-90px] w-[1100px] max-w-none -translate-x-1/2 lg:top-[-250px] lg:w-[1600px]"
+                   style={{ mixBlendMode: 'screen' }}>
+                <Image src="/planets/Neptune.png" alt="" width={1600} height={2057} priority sizes="(min-width: 1024px) 1600px, 1100px" className="h-auto w-full" />
+              </div>
+              <div className="float-b absolute left-1/2 top-24 hidden lg:block" style={{ marginLeft: -310 }}>
+                <Phone className="-rotate-[7deg] scale-[0.8] opacity-95"><CardScreen /></Phone>
+              </div>
+              <div className="float-a absolute left-1/2 top-24 hidden lg:block" style={{ marginLeft: -10 }}>
+                <Phone className="rotate-[7deg] scale-[0.8] opacity-95"><LockScreen /></Phone>
+              </div>
+              <Phone className="z-10 origin-top scale-[0.84] lg:origin-center lg:scale-[0.92]">
+                <LiveChat />
               </Phone>
             </div>
           </FadeUp>
         </div>
-        <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-black" />
+        <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-12 bg-gradient-to-b from-transparent to-black lg:h-40" />
       </section>
 
       {/* ─────────────────────────── STATS ─────────────────────────── */}
-      <section className="border-y border-white/[0.08]">
+      <section className="relative border-y border-white/[0.08] bg-black">
         <dl className="mx-auto grid max-w-6xl grid-cols-2 md:grid-cols-4">
-          {STATS.map(([n, l], i) => (
-            <div key={l} className={`px-6 py-10 text-center ${i % 2 ? 'border-l border-white/[0.08]' : ''} ${i > 1 ? 'border-t border-white/[0.08] md:border-t-0' : ''} ${i === 2 ? 'md:border-l' : ''}`}>
-              <dt className="text-[clamp(2rem,4vw,3rem)] font-semibold tracking-[-0.04em] text-white">{n}</dt>
+          {STATS.map(([n, suffix, l], i) => (
+            <div key={l} className={`px-6 py-10 text-center md:py-12 ${i % 2 ? 'border-l border-white/[0.08]' : ''} ${i > 1 ? 'border-t border-white/[0.08] md:border-t-0' : ''} ${i === 2 ? 'md:border-l' : ''}`}>
+              <dt className="text-[clamp(2.2rem,4.4vw,3.4rem)] font-semibold tracking-[-0.045em] text-white">
+                <CountUp to={n} suffix={suffix} />
+              </dt>
               <dd className="mt-1 text-[14px] text-white/50">{l}</dd>
             </div>
           ))}
         </dl>
       </section>
 
+      {/* ─────────────────────────── THE LIBRARY ─────────────────────────── */}
+      <section className="py-24 md:py-32">
+        <FadeUp className="px-6 text-center">
+          <Eyebrow color="#F472B6">The library</Eyebrow>
+          <H2 className="mx-auto mt-3 max-w-[18ch]">Every oracle the world kept.</H2>
+          <p className="mx-auto mt-4 max-w-[40ch] text-[17px] text-white/55">Every card here is in the app — dealt for you, and read for you.</p>
+        </FadeUp>
+        <FadeUp delay={0.1}>
+          <div className="mt-14">
+            <Marquee />
+          </div>
+        </FadeUp>
+      </section>
+
+      {/* ─────────────────────────── HOW IT WORKS ─────────────────────────── */}
+      <section id="how" className="scroll-mt-20 border-t border-white/[0.08] pt-24 md:pt-32">
+        <FadeUp className="px-6 text-center">
+          <Eyebrow>How it works</Eyebrow>
+          <H2 className="mt-3">Ask. Listen. Know.</H2>
+        </FadeUp>
+        <div className="mt-6 md:mt-0">
+          <Story />
+        </div>
+      </section>
+
       {/* ─────────────────────────── FEATURES ─────────────────────────── */}
-      <section id="features" className="scroll-mt-20 px-6 py-24 md:py-32">
+      <section id="features" className="scroll-mt-20 border-t border-white/[0.08] px-6 py-24 md:py-32">
         <div className="mx-auto max-w-6xl">
           <FadeUp>
             <Eyebrow>Features</Eyebrow>
@@ -154,7 +206,7 @@ export default function Home() {
                 <div aria-hidden="true" className="mt-10 flex h-[120px] w-full items-center justify-between">
                   {Array.from({ length: 64 }).map((_, i) => {
                     const h = 14 + Math.round(Math.abs(Math.sin(i * 0.55) * Math.cos(i * 0.21)) * 96);
-                    return <span key={i} className="w-[4px] flex-none rounded-full bg-gradient-to-t from-violet-500 to-sky-300" style={{ height: h, opacity: 0.35 + (h / 110) * 0.65 }} />;
+                    return <span key={i} className="wave-bar w-[4px] flex-none rounded-full bg-gradient-to-t from-violet-500 to-sky-300" style={{ height: h, opacity: 0.35 + (h / 110) * 0.65, animationDelay: `${-(i % 9) * 0.16}s` }} />;
                   })}
                 </div>
               </Tile>

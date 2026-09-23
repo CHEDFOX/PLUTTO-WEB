@@ -10,6 +10,7 @@ const COLS = [
   {
     title: 'Product',
     links: [
+      { label: 'How it works', href: '/#how' },
       { label: 'Features', href: '/#features' },
       { label: 'Try a card', href: '/#draw' },
       { label: 'Web app', href: '/app' },
@@ -19,7 +20,7 @@ const COLS = [
   {
     title: 'Company',
     links: [
-      { label: 'How it works', href: '/about' },
+      { label: 'About', href: '/about' },
       { label: 'Contact', href: 'mailto:support@plutto.space' },
       { label: 'Support', href: 'https://api.plutto.space/support' },
     ],

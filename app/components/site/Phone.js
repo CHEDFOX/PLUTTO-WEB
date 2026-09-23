@@ -31,7 +31,7 @@ export function Phone({ children, className = '', style, floating = false }) {
   );
 }
 
-function StatusBar({ time = '9:41' }) {
+export function StatusBar({ time = '9:41' }) {
   return (
     <div className="relative z-10 flex h-[50px] items-end justify-between px-7 pb-1.5 font-ui text-[14px] font-semibold text-white">
       <span>{time}</span>
@@ -51,7 +51,7 @@ const STARS = [
   [58, 88, 1], [94, 92, 1], [38, 96, 1.2], [6, 18, 0.8], [34, 42, 0.8], [80, 44, 0.8],
 ];
 
-function Sky({ tint = 'rgba(88,70,200,0.28)' }) {
+export function Sky({ tint = 'rgba(88,70,200,0.28)' }) {
   return (
     <div className="absolute inset-0" aria-hidden="true">
       <div className="absolute inset-0" style={{ background: `radial-gradient(120% 60% at 50% 0%, ${tint}, transparent 70%), #04040a` }} />
@@ -159,6 +159,61 @@ export function LockScreen() {
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+/** Onboarding: the only setup there is. */
+export function WhenScreen() {
+  const rows = [['Date', '14 March 1996'], ['Time', '6:40 am'], ['Place', 'Mumbai, India']];
+  return (
+    <div className="absolute inset-0 flex flex-col text-left">
+      <Sky tint="rgba(120,90,255,0.3)" />
+      <StatusBar />
+      <div className="relative z-10 flex gap-1.5 px-6 pt-4" aria-hidden="true">
+        {[1, 1, 1, 0].map((on, i) => (
+          <span key={i} className={`h-[3px] flex-1 rounded-full ${on ? 'bg-white' : 'bg-white/20'}`} />
+        ))}
+      </div>
+      <div className="relative z-10 flex-1 px-6 pt-10">
+        <p className="font-app text-[28px] font-medium leading-[34px] text-white">When did you arrive?</p>
+        <p className="mt-2 font-ui text-[14px] text-white/50">The sky at that minute is where every reading starts.</p>
+        <div className="mt-8 space-y-3 font-ui">
+          {rows.map(([k, v]) => (
+            <div key={k} className="flex items-center justify-between rounded-2xl bg-white/[0.07] px-4 py-3.5 ring-1 ring-white/10">
+              <span className="text-[13px] text-white/50">{k}</span>
+              <span className="text-[15px] font-medium text-white">{v}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="relative z-10 px-6 pb-9">
+        <div className="flex h-[50px] items-center justify-center rounded-full bg-white font-ui text-[15px] font-semibold text-black">Continue</div>
+      </div>
+    </div>
+  );
+}
+
+/** Voice: it talks, and it listens while it talks. */
+export function VoiceScreen() {
+  return (
+    <div className="absolute inset-0 flex flex-col">
+      <Sky tint="rgba(56,140,255,0.26)" />
+      <StatusBar />
+      <div className="relative z-10 flex flex-1 flex-col items-center justify-center">
+        <div className="relative h-[190px] w-[190px]" aria-hidden="true">
+          <span className="orb-ring absolute inset-0 rounded-full ring-1 ring-sky-300/30" />
+          <span className="orb-ring absolute inset-0 rounded-full ring-1 ring-violet-300/30" style={{ animationDelay: '1.2s' }} />
+          <span className="orb-core absolute inset-[22px] rounded-full"
+                style={{ background: 'radial-gradient(circle at 35% 30%, #fff 0%, #a5d8ff 18%, #7c5cff 55%, #2a1b6b 100%)', boxShadow: '0 0 80px 10px rgba(124,92,255,0.55)' }} />
+        </div>
+        <p className="mt-10 px-8 text-center font-app text-[18px] leading-[27px] text-white/85">
+          …so read it twice. The second clause is the one that matters.
+        </p>
+      </div>
+      <div className="relative z-10 flex items-center justify-center gap-4 pb-10 font-ui">
+        <span className="rounded-full bg-white/10 px-4 py-2 text-[13px] text-white/75 ring-1 ring-white/10">Tap to interrupt</span>
       </div>
     </div>
   );

@@ -13,9 +13,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const LINKS = [
+  { href: '/#how', label: 'How it works' },
   { href: '/#features', label: 'Features' },
   { href: '/#draw', label: 'Try a card' },
-  { href: '/about', label: 'How it works' },
   { href: '/app', label: 'Web app' },
 ];
 
