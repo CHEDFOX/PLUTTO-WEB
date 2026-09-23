@@ -1,53 +1,30 @@
-// Coming-soon "store badges" — Apple + Google glyphs in pill shape.
-// Since the apps aren't listed publicly yet, these read as "Soon".
+/**
+ * STORE BADGES — shaped like the platforms' own, and honest about the date.
+ *
+ * Black, rounded, the platform mark on the left and two lines of text, which is
+ * the shape a visitor recognises as "an app store link" before they read it.
+ * The apps are not public yet, so the small line says so instead of "Download
+ * on the"; change `soon` to false (and give each an href) the day they are.
+ */
 
-export default function StoreBadges() {
+const soon = true;
+
+export default function StoreBadges({ className = '' }) {
   return (
-    <div className="flex flex-col items-center gap-6">
-      <p
-        className="uppercase text-[#F0F0F0]"
-        style={{
-          fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-          fontSize: '0.7rem',
-          letterSpacing: '0.32em',
-        }}
-      >
-        Download Plutto
-      </p>
-      <div className="flex flex-wrap items-center justify-center gap-4">
-        <Badge icon={<AppleGlyph />} label="App Store"  sub="Coming Soon" />
-        <Badge icon={<PlayGlyph />}  label="Google Play" sub="Coming Soon" />
-      </div>
+    <div className={`flex flex-wrap items-center justify-center gap-3 font-ui ${className}`}>
+      <Badge mark={<AppleGlyph />} small={soon ? 'Coming soon to the' : 'Download on the'} big="App Store" />
+      <Badge mark={<PlayGlyph />} small={soon ? 'Coming soon to' : 'Get it on'} big="Google Play" />
     </div>
   );
 }
 
-function Badge({ icon, label, sub }) {
+function Badge({ mark, small, big }) {
   return (
-    <div
-      className="flex items-center gap-3 rounded-md px-5 py-3 text-[#F0F0F0] transition-colors"
-      style={{
-        border: '1px solid rgba(255,255,255,0.25)',
-        background: 'linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))',
-      }}
-    >
-      <span className="opacity-80 text-[#F0F0F0]">{icon}</span>
-      <span className="flex flex-col leading-tight">
-        <span
-          className="uppercase text-[#888]"
-          style={{
-            fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-            fontSize: '0.6rem',
-            letterSpacing: '0.28em',
-          }}
-        >
-          {sub}
-        </span>
-        {/* The badge imitates a platform button, so it keeps the body face —
-            the display face is for headlines, not for chrome this small. */}
-        <span className="font-body text-[17px] font-medium tracking-tight">
-          {label}
-        </span>
+    <div className="flex h-[52px] items-center gap-2.5 rounded-xl border border-white/20 bg-black px-4 text-white">
+      <span className="text-white">{mark}</span>
+      <span className="flex flex-col leading-none">
+        <span className="text-[10px] text-white/70">{small}</span>
+        <span className="mt-1 text-[18px] font-semibold tracking-[-0.01em]">{big}</span>
       </span>
     </div>
   );
@@ -63,8 +40,11 @@ function AppleGlyph() {
 
 function PlayGlyph() {
   return (
-    <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M3.6 2.2v19.6c0 .55.61.87 1.06.57l14.43-9.8c.4-.27.4-.87 0-1.14L5.18 1.63c-.45-.3-1.06.02-1.06.57z" fill="currentColor" />
+    <svg width="20" height="22" viewBox="0 0 20 22" aria-hidden="true">
+      <path d="M1 1.2 11.4 11 1 20.8c-.3-.2-.5-.6-.5-1V2.2c0-.4.2-.8.5-1z" fill="#34A853" />
+      <path d="M14.8 7.6 11.4 11 1 1.2c.1-.1.3-.2.5-.2.2 0 .4.1.6.2l12.7 6.4z" fill="#FBBC04" />
+      <path d="M14.8 14.4 2.1 20.8c-.2.1-.4.2-.6.2-.2 0-.4-.1-.5-.2L11.4 11l3.4 3.4z" fill="#EA4335" />
+      <path d="M19 11c0 .4-.2.8-.6 1l-3.6 2.4L11.4 11l3.4-3.4L18.4 10c.4.2.6.6.6 1z" fill="#4285F4" />
     </svg>
   );
 }

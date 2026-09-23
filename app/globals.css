@@ -179,6 +179,12 @@ body :where(.uppercase) { text-transform: uppercase; }
    word in, so an .uppercase eyebrow with wrapped words came out Title Case. */
 body :where(.uppercase) :where(span, em, strong, a, b, i) { text-transform: uppercase; }
 body :where(input, textarea, [data-no-auto-case]) { text-transform: none; }
+/* SENTENCE CASE for a whole page. The rule above title-cases every heading,
+   paragraph and span on the site; a product page is written in sentence case.
+   Class specificity (0,1,0) beats the body-scoped rule (0,0,1), and .uppercase
+   is restored after it so labels that ask for capitals still get them. */
+.sentence-case :where(h1, h2, h3, h4, h5, h6, p, a, button, label, span, li, dt, dd) { text-transform: none; }
+.sentence-case :where(.uppercase), .sentence-case :where(.uppercase) * { text-transform: uppercase; }
 /* …and everything inside it. The rule above matches the element itself; the
    capitalize rule still matches any span, link or emphasis INSIDE it — which
    includes the per-word <span class="bw"> that BinaryHover wraps every word
@@ -401,3 +407,7 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
  * now uses) is set here rather than per component. */
 .app-shell p, .app-shell li { font-weight: 500; }
 .app-shell h1, .app-shell h2, .app-shell h3 { font-weight: 800; }
+
+/* The product pages set their headings in the UI face. The base layer gives
+   h1–h6 Syne by element; inside a .font-ui block they take the block's face. */
+.font-ui :where(h1, h2, h3, h4, h5, h6) { font-family: inherit; }

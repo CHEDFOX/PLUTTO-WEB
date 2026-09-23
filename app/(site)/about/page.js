@@ -17,7 +17,6 @@
  */
 
 import Link from 'next/link';
-import Starfield from '../../components/Starfield';
 import FadeUp from '../../components/FadeUp';
 import StoreBadges from '../../components/StoreBadges';
 import PlanetMark from '../../components/site/PlanetMark';
@@ -29,7 +28,7 @@ export const metadata = {
     'Plutto computes real charts with Swiss Ephemeris, reads them through the tradition that fits your question, and answers out loud in your language.',
 };
 
-const MONO = 'font-mono uppercase text-[0.7rem] tracking-[0.32em] text-[#8A8A8E]';
+const MONO = 'text-[14px] font-semibold text-[#A78BFA]';
 
 const MOVEMENTS = [
   {
@@ -80,9 +79,8 @@ const REFUSAL_HUES = [
 export default function AboutPage() {
   return (
     <>
-      <Starfield />
 
-      <div className="relative z-10">
+      <div data-no-auto-case data-no-binary className="sentence-case relative z-10 font-ui">
         {/* ───────────────────────── HEAD ───────────────────────── */}
         <section className="mx-auto max-w-6xl px-6 pb-20 pt-8 md:pt-16">
           <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-12">
@@ -94,7 +92,7 @@ export default function AboutPage() {
               <FadeUp delay={0.08}>
                 <h1
                   data-no-auto-case
-                  className="mt-7 font-editorial text-[#F0F0F0]"
+                  className="mt-5 font-semibold tracking-[-0.04em] text-white"
                   style={{ fontSize: 'clamp(2.1rem,5.6vw,3.9rem)', lineHeight: 1.08, maxWidth: '16ch' }}
                 >
                   An oracle that shows its working.
@@ -102,7 +100,7 @@ export default function AboutPage() {
               </FadeUp>
 
               <FadeUp delay={0.2}>
-                <p data-no-auto-case className="mt-9 max-w-xl font-body text-[1.05rem] leading-[1.75] text-[#B4B4B8]">
+                <p data-no-auto-case className="mt-9 max-w-xl text-[18px] leading-[1.65] text-white/60">
                   Most astrology apps are a magazine column with a subscription
                   attached. This is a library — real traditions, real
                   arithmetic, read aloud by something you can argue with.
@@ -132,12 +130,12 @@ export default function AboutPage() {
                     <div className="md:col-span-3">
                       <PlanetMark name={m.planet} size={150} />
                       <span
-                        className="mt-5 block font-display text-[2rem] leading-none"
+                        className="mt-5 block text-[2rem] font-semibold leading-none tracking-[-0.04em]"
                         style={{ color: m.color }}
                       >
                         {m.n}
                       </span>
-                      <span className="mt-3 block font-display uppercase text-[0.82rem] tracking-[0.28em] text-[#F0F0F0]">
+                      <span className="mt-2 block text-[17px] font-semibold text-white">
                         {m.title}
                       </span>
                     </div>
@@ -145,12 +143,12 @@ export default function AboutPage() {
                     <div className="md:col-span-9">
                       <p
                         data-no-auto-case
-                        className="font-editorial text-[#F0F0F0]"
+                        className="font-semibold tracking-[-0.03em] text-white"
                         style={{ fontSize: 'clamp(1.5rem,3.2vw,2.15rem)', lineHeight: 1.22 }}
                       >
                         {m.lead}
                       </p>
-                      <p data-no-auto-case className="mt-6 max-w-2xl font-body text-[1.02rem] leading-[1.75] text-[#B4B4B8]">
+                      <p data-no-auto-case className="mt-6 max-w-2xl text-[17px] leading-[1.65] text-white/60">
                         {m.body}
                       </p>
                     </div>
@@ -171,7 +169,7 @@ export default function AboutPage() {
             <FadeUp delay={0.08}>
               <h2
                 data-no-auto-case
-                className="mt-7 max-w-3xl font-editorial text-[#F0F0F0]"
+                className="mt-5 max-w-3xl font-semibold tracking-[-0.035em] text-white"
                 style={{ fontSize: 'clamp(1.8rem,4vw,2.9rem)', lineHeight: 1.16 }}
               >
                 You are right to be sceptical.
@@ -189,11 +187,11 @@ export default function AboutPage() {
                   >
                     <dt
                       data-no-auto-case
-                      className="font-editorial text-[1.32rem] leading-[1.35] text-[#F0F0F0]"
+                      className="text-[20px] font-semibold leading-[1.3] tracking-[-0.02em] text-white"
                     >
                       {head}
                     </dt>
-                    <dd data-no-auto-case className="mt-4 font-body text-[0.98rem] leading-[1.72] text-[#8A8A8E]">
+                    <dd data-no-auto-case className="mt-4 text-[16px] leading-[1.6] text-white/50">
                       {body}
                     </dd>
                   </div>
@@ -219,7 +217,7 @@ export default function AboutPage() {
             </div>
 
             <FadeUp delay={0.15}>
-              <p data-no-auto-case className="mt-16 max-w-2xl font-body text-[1.02rem] leading-[1.75] text-[#B4B4B8]">
+              <p data-no-auto-case className="mt-16 max-w-2xl text-[17px] leading-[1.65] text-white/60">
                 Built by{' '}
                 <span data-no-auto-case className="text-[#F0F0F0]">Xooteq Lab</span>, a studio
                 making voice-first tools for the ancient sciences. What we keep —{' '}
@@ -227,7 +225,7 @@ export default function AboutPage() {
                     URL the footer and the phone's settings screen point at. */}
                 <a
                   href="https://api.plutto.space/privacy"
-                  className="text-[#D4AF37]/80 underline underline-offset-4 hover:text-[#D4AF37]"
+                  className="text-white underline decoration-white/30 underline-offset-4 hover:decoration-white"
                 >
                   and what we do not
                 </a>{' '}
@@ -243,7 +241,7 @@ export default function AboutPage() {
             <FadeUp>
               <p
                 data-no-auto-case
-                className="font-editorial italic text-[#F0F0F0]"
+                className="font-semibold tracking-[-0.04em] text-white"
                 style={{ fontSize: 'clamp(1.9rem,5.4vw,3.4rem)', lineHeight: 1.1 }}
               >
                 Ask it something you actually want to know.
@@ -255,7 +253,7 @@ export default function AboutPage() {
                 <Link
                   href="/app"
                   data-no-binary
-                  className="cta-glow inline-flex items-center justify-center rounded-md bg-[#F0F0F0] px-9 py-4 font-body text-[0.78rem] font-semibold uppercase tracking-[0.22em] text-[#0A0A0A]"
+                  className="inline-flex h-12 items-center justify-center rounded-full bg-white px-7 text-[15px] font-semibold text-black transition-opacity hover:opacity-90"
                 >
                   Open it in this browser
                 </Link>
@@ -278,12 +276,12 @@ export default function AboutPage() {
 function Fact({ k, v, note, color }) {
   return (
     <div>
-      <dt className="font-mono text-[0.62rem] uppercase tracking-[0.3em]" style={{ color }}>{k}</dt>
+      <dt className="text-[13px] font-semibold" style={{ color }}>{k}</dt>
       <dd>
-        <span data-no-auto-case className="mt-4 block font-display text-[1.12rem] uppercase tracking-[0.16em] text-[#F0F0F0]">
+        <span data-no-auto-case className="mt-2 block text-[22px] font-semibold tracking-[-0.02em] text-white">
           {v}
         </span>
-        <span data-no-auto-case className="mt-4 block font-body text-[0.92rem] leading-[1.7] text-[#8A8A8E]">
+        <span data-no-auto-case className="mt-2 block text-[15px] leading-[1.6] text-white/50">
           {note}
         </span>
       </dd>

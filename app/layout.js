@@ -1,4 +1,4 @@
-import { Julius_Sans_One, Josefin_Sans, Syne, DM_Sans, JetBrains_Mono, Instrument_Serif } from 'next/font/google';
+import { Julius_Sans_One, Josefin_Sans, Syne, DM_Sans, JetBrains_Mono, Instrument_Serif, Inter, Baloo_2 } from 'next/font/google';
 import './globals.css';
 
 // DISPLAY — thin geometric capitals, set wide. It only ever appears in caps and
@@ -53,6 +53,26 @@ const instrument = Instrument_Serif({
   display: 'swap',
 });
 
+// THE SITE'S VOICE. One sans, set bold and tight, the way product companies set
+// their pages — the serif and the spaced capitals read as a boutique, and this
+// has to read as a company.
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-ui',
+  display: 'swap',
+});
+
+// THE APP'S OWN FACE — Baloo 2, which the phone registers as "Plutto". Used only
+// inside the phone frames on the landing page, so the screens there are set in
+// the type the app actually uses.
+const baloo = Baloo_2({
+  subsets: ['latin'],
+  weight: ['400', '500', '700'],
+  variable: '--font-app',
+  display: 'swap',
+});
+
 const jetbrains = JetBrains_Mono({
   subsets: ['latin'],
   weight: ['400', '500'],
@@ -98,7 +118,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${julius.variable} ${josefin.variable} ${syne.variable} ${dmSans.variable} ${jetbrains.variable} ${instrument.variable}`}
+      className={`${julius.variable} ${josefin.variable} ${syne.variable} ${dmSans.variable} ${jetbrains.variable} ${instrument.variable} ${inter.variable} ${baloo.variable}`}
     >
       {/* Root carries the document and the faces, and nothing else. The site's
           chrome moved into (site)/layout.js so that /app inherits none of it —

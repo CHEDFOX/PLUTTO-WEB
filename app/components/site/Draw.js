@@ -98,7 +98,7 @@ export default function Draw() {
                   </div>
                 </div>
               </button>
-              <p className="mt-3 font-mono text-[0.6rem] uppercase tracking-[0.28em] text-[#8A8A8E]">
+              <p className="mt-3 font-ui text-[13px] font-medium text-white/60">
                 {d.name}
               </p>
             </div>
@@ -111,23 +111,23 @@ export default function Draw() {
       <div className="mt-14 flex min-h-[8.5rem] flex-col items-center text-center" aria-live="polite">
         {last ? (
           <>
-            <p data-no-auto-case className="font-editorial text-[2rem] leading-tight text-[#F0F0F0] md:text-[2.6rem]">
+            <p data-no-auto-case className="font-ui text-[28px] font-semibold tracking-[-0.03em] text-white md:text-[36px]">
               {last.deck.nameOf(last.card)}
             </p>
-            <p className="mt-2 font-mono text-[0.62rem] uppercase tracking-[0.3em] text-[#6E6E72]">
+            <p className="mt-1 font-ui text-[14px] text-white/50">
               {last.deck.name}
             </p>
             <Link
               href="/app"
               data-no-binary
-              className="mt-6 font-body text-[0.8rem] uppercase tracking-[0.22em] text-[#F0F0F0] underline decoration-white/30 underline-offset-[7px] transition-colors hover:decoration-white"
+              className="mt-6 inline-flex items-center rounded-full bg-white/[0.08] px-5 py-2.5 font-ui text-[14px] font-medium text-white ring-1 ring-white/15 transition-colors hover:bg-white/[0.14]"
             >
               What does it mean for you →
             </Link>
           </>
         ) : (
-          <p className="pt-6 font-mono text-[0.64rem] uppercase tracking-[0.3em] text-[#6E6E72]">
-            Tap a deck
+          <p className="pt-6 font-ui text-[14px] text-white/40">
+            Tap a deck to turn a card
           </p>
         )}
       </div>

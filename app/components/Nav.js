@@ -1,120 +1,108 @@
 'use client';
 
+/**
+ * THE NAV — a product company's bar, not a portfolio's.
+ *
+ * Sticky, frosted, one hairline under it. The name set plainly on the left, a
+ * few real destinations in the middle, and the one action that matters on the
+ * right as a solid pill. On a phone the links fold into a sheet.
+ */
+
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const LINKS = [
-  { href: '/app', label: 'Open' },
-  { href: '/about', label: 'About' },
+  { href: '/#features', label: 'Features' },
+  { href: '/#draw', label: 'Try a card' },
+  { href: '/about', label: 'How it works' },
+  { href: '/app', label: 'Web app' },
 ];
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const path = usePathname();
 
-  useEffect(() => {
-    setOpen(false);
-  }, [path]);
+  useEffect(() => { setOpen(false); }, [path]);
 
   useEffect(() => {
-    if (!open) return;
+    const on = () => setScrolled(window.scrollY > 8);
+    on();
+    window.addEventListener('scroll', on, { passive: true });
+    return () => window.removeEventListener('scroll', on);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return undefined;
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = prev;
-    };
+    return () => { document.body.style.overflow = prev; };
   }, [open]);
 
   return (
-    // A scrim rather than a bar. The header is fixed over a black page, so
-    // scrolled headlines used to pass straight under the wordmark and collide
-    // with it; a short gradient from black keeps the type clear of the chrome
-    // without putting a hard edge across the top of the page.
-    <header className="fixed top-0 left-0 right-0 z-40 bg-gradient-to-b from-black via-black/85 to-transparent pb-4">
-      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-        <Link
-          href="/"
-          className="font-mark text-base font-thin tracking-mark pl-[0.72em] text-[#F0F0F0] transition-colors hover:text-[#F0F0F0]"
-          aria-label="Plutto home"
-        >
-          PLUTTO
+    <header
+      data-no-auto-case
+      className={`sentence-case fixed inset-x-0 top-0 z-40 transition-colors duration-300 ${
+        scrolled ? 'border-b border-white/[0.08] bg-black/70 backdrop-blur-xl' : 'border-b border-transparent'
+      }`}
+    >
+      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6 font-ui">
+        <Link href="/" aria-label="Plutto home" className="flex items-center gap-2.5">
+          <span aria-hidden="true" className="relative inline-block h-[22px] w-[22px] rounded-full bg-gradient-to-br from-white to-white/40">
+            <span className="absolute inset-[5px] rounded-full bg-black" />
+          </span>
+          <span className="text-[17px] font-semibold tracking-[-0.02em] text-white">Plutto</span>
         </Link>
 
-        <ul className="hidden md:flex items-center gap-8">
-          {LINKS.map((l) => {
-            const active = path === l.href;
-            return (
-              <li key={l.href}>
-                <Link
-                  href={l.href}
-                  className={
-                    'text-sm font-medium font-body transition-colors hover:text-[#F0F0F0] ' +
-                    (active ? 'text-[#F0F0F0]' : 'text-[#F0F0F0]/80')
-                  }
-                >
-                  {l.label}
-                </Link>
-              </li>
-            );
-          })}
+        <ul className="hidden items-center gap-8 md:flex">
+          {LINKS.map((l) => (
+            <li key={l.href}>
+              <Link href={l.href} className="text-[14px] text-white/60 transition-colors hover:text-white">
+                {l.label}
+              </Link>
+            </li>
+          ))}
         </ul>
 
-        <button
-          type="button"
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-          className="md:hidden inline-flex h-11 w-11 items-center justify-center rounded-md text-[#F0F0F0] hover:text-[#F0F0F0] transition-colors relative z-[55]"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-6 w-6"
+        <div className="flex items-center gap-2">
+          <Link
+            href="/#download"
+            className="hidden rounded-full bg-white px-4 py-2 text-[13px] font-semibold text-black transition-opacity hover:opacity-90 sm:inline-flex"
           >
-            {open ? (
-              <>
-                <path d="M18 6L6 18" />
-                <path d="M6 6l12 12" />
-              </>
-            ) : (
-              <>
-                <path d="M3 6h18" />
-                <path d="M3 12h18" />
-                <path d="M3 18h18" />
-              </>
-            )}
-          </svg>
-        </button>
+            Get the app
+          </Link>
+          <button
+            type="button"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+            className="relative z-[55] inline-flex h-10 w-10 items-center justify-center rounded-full text-white md:hidden"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className="h-5 w-5">
+              {open ? (<><path d="M18 6L6 18" /><path d="M6 6l12 12" /></>) : (<><path d="M4 8h16" /><path d="M4 16h16" /></>)}
+            </svg>
+          </button>
+        </div>
       </nav>
 
       {open && (
-        <div className="md:hidden fixed inset-0 z-50 bg-black flex items-center justify-center">
-          <ul className="flex flex-col items-center gap-8 px-6 text-center">
-            {LINKS.map((l) => {
-              const active = path === l.href;
-              return (
-                <li key={l.href}>
-                  <Link
-                    href={l.href}
-                    onClick={() => setOpen(false)}
-                    className={
-                      'font-display font-normal uppercase tracking-title transition-colors min-h-[44px] inline-flex items-center text-2xl ' +
-                      (active
-                        ? 'text-[#F0F0F0]'
-                        : 'text-[#F0F0F0] hover:text-[#F0F0F0]')
-                    }
-                  >
-                    {l.label}
-                  </Link>
-                </li>
-              );
-            })}
+        <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl md:hidden">
+          <ul className="flex flex-col gap-1 px-6 pt-20 font-ui">
+            {LINKS.map((l) => (
+              <li key={l.href}>
+                <Link href={l.href} onClick={() => setOpen(false)}
+                      className="block border-b border-white/[0.08] py-4 text-[22px] font-semibold tracking-[-0.02em] text-white">
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+            <li className="pt-8">
+              <Link href="/#download" onClick={() => setOpen(false)}
+                    className="inline-flex rounded-full bg-white px-6 py-3 text-[15px] font-semibold text-black">
+                Get the app
+              </Link>
+            </li>
           </ul>
         </div>
       )}
