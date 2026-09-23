@@ -430,24 +430,6 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
   .orb-core, .orb-ring, .float-a, .float-b, .wave-bar, .marquee-track { animation: none; }
 }
 
-/* The app's own micro-animations (components/site/app/Bits.js). */
-@keyframes app-spin { to { transform: rotate(360deg) } }
-@keyframes app-bob { from { transform: translate(calc(var(--bx) * .62), calc(var(--by) * .62)) } to { transform: translate(calc(var(--bx) * 1.06), calc(var(--by) * 1.06)) } }
-@keyframes app-pulse { from { transform: scale(.6); opacity: .55 } to { transform: scale(1.15); opacity: 1 } }
-@keyframes app-send { 0% { transform: translate(var(--r), 0) } 25% { transform: translate(0, var(--r)) } 50% { transform: translate(calc(var(--r) * -1), 0) } 75% { transform: translate(0, calc(var(--r) * -1)) } 100% { transform: translate(var(--r), 0) } }
-.app-orbit-spin { animation: app-spin 3.4s linear infinite; }
-.app-orbit-bob { animation: app-bob 1s cubic-bezier(.45,0,.55,1) infinite alternate; }
-.app-orbit-pulse { animation: app-pulse 1s cubic-bezier(.45,0,.55,1) infinite alternate; }
-.app-send-dot { animation: app-send 5.6s linear infinite; }
-@media (prefers-reduced-motion: reduce) {
-  .app-orbit-spin, .app-orbit-bob, .app-orbit-pulse, .app-send-dot { animation: none; }
-}
-@keyframes app-fade { from { opacity: 0 } to { opacity: 1 } }
-.app-fade-in { animation: app-fade 220ms ease-out both; }
-@keyframes app-blink { 0%, 49% { opacity: 1 } 50%, 100% { opacity: 0 } }
-.app-caret { animation: app-blink 1s step-end infinite; }
-.no-scrollbar { scrollbar-width: none; }
-.no-scrollbar::-webkit-scrollbar { display: none; }
 /* Inside a device the app's own strings are shown exactly as the app sets them. */
 .app-screen :where(*) { text-transform: none; -webkit-font-smoothing: antialiased; }
 .app-screen :where(p) { margin: 0; }

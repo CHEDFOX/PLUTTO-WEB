@@ -11,20 +11,23 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Device from './app/Device';
-import OnboardingApp from './app/OnboardingApp';
-import VoiceApp from './app/VoiceApp';
-import DivinationApp from './app/DivinationApp';
+import AppVideo from './app/AppVideo';
+import Shot from './app/Shot';
+
+const VoiceVideo = () => <AppVideo name="voice" poster="/app/screens/voice.png" label="Plutto's voice mode" />;
+const OnboardingShot = () => <Shot src="/app/screens/onboarding.png" alt="Plutto asking when you were born" />;
+const TarotShot = () => <Shot src="/app/screens/tarot.png" alt="A tarot card turned over in Plutto" />;
 
 const STEPS = [
   { n: '01', color: '#A78BFA', title: 'Tell it when you arrived.',
     body: 'A date, a time, a place. Thirty seconds, once — and every reading after is yours alone.',
-    Screen: OnboardingApp },
+    Screen: OnboardingShot },
   { n: '02', color: '#38BDF8', title: 'Ask out loud.',
     body: 'Tap the wave and talk. It answers in a voice, in your language.',
-    Screen: VoiceApp },
+    Screen: VoiceVideo },
   { n: '03', color: '#F472B6', title: 'Lay the cards yourself.',
     body: 'When a question wants a draw, it hands you the deck. You choose the cards; it reads them.',
-    Screen: DivinationApp },
+    Screen: TarotShot },
 ];
 
 export default function Story() {

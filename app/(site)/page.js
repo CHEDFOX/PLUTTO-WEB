@@ -27,8 +27,8 @@ import FadeUp from '../components/FadeUp';
 import StoreBadges from '../components/StoreBadges';
 import Draw from '../components/site/Draw';
 import Device from '../components/site/app/Device';
-import ChatApp from '../components/site/app/ChatApp';
-import DivinationApp from '../components/site/app/DivinationApp';
+import AppVideo from '../components/site/app/AppVideo';
+import Shot from '../components/site/app/Shot';
 import LockApp, { PUSH } from '../components/site/app/LockApp';
 import CountUp from '../components/site/CountUp';
 import Marquee from '../components/site/Marquee';
@@ -140,12 +140,12 @@ export default function Home() {
                 <Image src="/planets/Neptune.png" alt="" width={1600} height={2057} priority sizes="(min-width: 1024px) 1600px, 1100px" className="h-auto w-full" />
               </div>
               <div className="float-b absolute left-1/2 top-24 hidden lg:block" style={{ marginLeft: -300 }}>
-                <Device width={270} className="-rotate-[7deg] opacity-95"><DivinationApp /></Device>
+                <Device width={270} className="-rotate-[7deg] opacity-95"><Shot src="/app/screens/tarot.png" alt="A tarot card turned over in Plutto" /></Device>
               </div>
               <div className="float-a absolute left-1/2 top-24 hidden lg:block" style={{ marginLeft: 30 }}>
                 <Device width={270} statusTime="" className="rotate-[7deg] opacity-95"><LockApp /></Device>
               </div>
-              <Device width={300} className="relative z-10"><ChatApp /></Device>
+              <Device width={300} className="relative z-10"><AppVideo name="chat" poster="/app/screens/chat-empty.png" still="/app/screens/chat-poster.png" label="Plutto answering a question" /></Device>
             </div>
           </FadeUp>
         </div>

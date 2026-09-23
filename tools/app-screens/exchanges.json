@@ -1,0 +1,4 @@
+[
+ {"q": "Should I take the job?", "a": "Yes — but not for the reason you keep giving. It isn't the money. It's the room to be good at something without asking anyone's permission, and this one gives you that by spring. Take it, and bargain over the start date, not the salary.", "hooks": [{"id":"report","label":"Report","action":{"type":"open_url","url":"mailto:support@plutto.space"}}], "hold": 2600},
+ {"q": "Pull a card for my week", "a": "A week for finishing, not starting. Something you put down in the spring wants picking up again — lay the cards and see which thread it is.", "hooks": [{"label":"Draw your week","action":{"type":"open"}},{"id":"report","label":"Report","action":{"type":"open_url","url":"mailto:support@plutto.space"}}], "hold": 3200}
+]
