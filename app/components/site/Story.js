@@ -10,18 +10,21 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
-import { Phone, WhenScreen, VoiceScreen, CardScreen } from './Phone';
+import Device from './app/Device';
+import OnboardingApp from './app/OnboardingApp';
+import VoiceApp from './app/VoiceApp';
+import DivinationApp from './app/DivinationApp';
 
 const STEPS = [
   { n: '01', color: '#A78BFA', title: 'Tell it when you arrived.',
     body: 'A date, a time, a place. Thirty seconds, once — and every reading after is yours alone.',
-    Screen: WhenScreen },
+    Screen: OnboardingApp },
   { n: '02', color: '#38BDF8', title: 'Ask out loud.',
-    body: 'Talk to it like a person. Interrupt it, push back, ask why. It answers in your language.',
-    Screen: VoiceScreen },
-  { n: '03', color: '#F472B6', title: 'Get a straight answer.',
-    body: 'It picks the oracle that fits — a card, a rune, your stars — and tells you what it means for you.',
-    Screen: CardScreen },
+    body: 'Tap the wave and talk. It answers in a voice, in your language.',
+    Screen: VoiceApp },
+  { n: '03', color: '#F472B6', title: 'Lay the cards yourself.',
+    body: 'When a question wants a draw, it hands you the deck. You choose the cards; it reads them.',
+    Screen: DivinationApp },
 ];
 
 export default function Story() {
@@ -43,17 +46,17 @@ export default function Story() {
     <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-6 md:grid-cols-2 md:gap-16">
       {/* the pinned phone (wide screens only) */}
       <div className="hidden md:block">
-        <div className="sticky top-[calc(50vh-330px)] flex justify-center">
+        <div className="sticky top-[calc(50vh-340px)] flex justify-center">
           <div className="relative">
             <div aria-hidden="true" className="absolute -inset-24 rounded-full blur-3xl transition-colors duration-700"
                  style={{ background: `radial-gradient(closest-side, ${STEPS[active].color}40, transparent)` }} />
-            <Phone>
+            <Device width={320}>
               {STEPS.map(({ Screen, n }, i) => (
                 <div key={n} className={`absolute inset-0 transition-opacity duration-500 ${i === active ? 'opacity-100' : 'opacity-0'}`}>
                   <Screen />
                 </div>
               ))}
-            </Phone>
+            </Device>
           </div>
         </div>
       </div>
@@ -74,8 +77,8 @@ export default function Story() {
               <p className="mt-4 max-w-[34ch] text-[18px] leading-relaxed text-white/55">{body}</p>
             </div>
             {/* the phone for this step (narrow screens only) */}
-            <div className="mt-10 flex h-[500px] justify-center overflow-hidden md:hidden">
-              <Phone className="origin-top scale-[0.75]"><Screen /></Phone>
+            <div className="mt-10 flex justify-center md:hidden">
+              <Device width={250}><Screen /></Device>
             </div>
           </li>
         ))}

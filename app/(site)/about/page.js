@@ -54,9 +54,9 @@ const MOVEMENTS = [
     color: SHELF_COLOR.sky,
     planet: 'venus',
     title: 'The voice',
-    lead: 'It talks, and you can interrupt it.',
+    lead: 'It talks, and it listens.',
     body:
-      'The reading is spoken, not printed at you. Cut in, push back, ask what it means — it keeps the thread, in any of a hundred languages, and it remembers you tomorrow.',
+      'The reading is spoken, not printed at you. Push back, ask what it means — it keeps the thread, in any of 109 languages, and it remembers you tomorrow.',
   },
 ];
 
@@ -210,10 +210,10 @@ export default function AboutPage() {
 
             <div className="mt-14 grid grid-cols-1 gap-x-12 gap-y-10 md:grid-cols-3">
               <Fact color={SHELF_COLOR.south_asia} k="Ephemeris" v="Swiss Ephemeris" note="The sky, to the second of arc. What observatories run on." />
-              <Fact color={SHELF_COLOR.china} k="Voice" v="OpenAI Realtime" note="Spoken, interruptible, in the language you already use." />
+              <Fact color={SHELF_COLOR.china} k="Voice" v="OpenAI Realtime" note="Spoken, in the language you already use." />
               <Fact color={SHELF_COLOR.pacific} k="Shelves" v="Twelve" note="Cards, cowries, coins, letters, stars." />
               <Fact color={SHELF_COLOR.sky} k="Traditions" v="102 of them" note="Named as their own people name them." />
-              <Fact color={SHELF_COLOR.americas} k="Languages" v="Over a hundred" note="It speaks the one your phone is in." />
+              <Fact color={SHELF_COLOR.americas} k="Languages" v="109" note="Pick yours once; every reading arrives in it." />
             </div>
 
             <FadeUp delay={0.15}>

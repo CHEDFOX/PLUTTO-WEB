@@ -26,8 +26,10 @@ import Image from 'next/image';
 import FadeUp from '../components/FadeUp';
 import StoreBadges from '../components/StoreBadges';
 import Draw from '../components/site/Draw';
-import { Phone, CardScreen, LockScreen } from '../components/site/Phone';
-import LiveChat from '../components/site/LiveChat';
+import Device from '../components/site/app/Device';
+import ChatApp from '../components/site/app/ChatApp';
+import DivinationApp from '../components/site/app/DivinationApp';
+import LockApp, { PUSH } from '../components/site/app/LockApp';
 import CountUp from '../components/site/CountUp';
 import Marquee from '../components/site/Marquee';
 import Story from '../components/site/Story';
@@ -39,7 +41,8 @@ const STATS = [
   [100, '+', 'languages'],
 ];
 
-const GREETINGS = ['Hello', 'Hola', 'Bonjour', 'مرحبا', 'Olá', 'Привет', '你好', 'こんにちは', '안녕하세요', 'नमस्ते', 'வணக்கம்', 'Merhaba', 'Ciao', 'Hallo', 'Xin chào', 'Jambo'];
+// The greetings the app's own language screen cycles through (onboarding_content.LANGUAGES).
+const GREETINGS = ['Hello', 'Hola', 'Bonjour', 'مرحبا', 'Olá', 'Привет', '你好', 'こんにちは', '안녕하세요', 'Hallo', 'नमस्ते', 'নমস্কার', 'வணக்கம்', 'నమస్కారం', 'السلام علیکم', 'ආයුබෝවන්'];
 
 function Eyebrow({ children, color = '#A78BFA' }) {
   return <p className="text-[14px] font-semibold" style={{ color }}>{children}</p>;
@@ -127,7 +130,7 @@ export default function Home() {
 
           {/* The phones. The side two are desktop-only; on a phone one is enough. */}
           <FadeUp delay={0.2} y={40}>
-            <div className="relative mx-auto flex h-[580px] justify-center lg:h-[720px] lg:items-center">
+            <div className="relative mx-auto flex h-[650px] justify-center lg:h-[720px] lg:items-center">
               {/* Neptune, rising. The render is mostly black sky with the
                   planet across its middle ~45%, so it is drawn far larger than
                   the column and positioned so only its upper arc shows below
@@ -136,15 +139,13 @@ export default function Home() {
                    style={{ mixBlendMode: 'screen' }}>
                 <Image src="/planets/Neptune.png" alt="" width={1600} height={2057} priority sizes="(min-width: 1024px) 1600px, 1100px" className="h-auto w-full" />
               </div>
-              <div className="float-b absolute left-1/2 top-24 hidden lg:block" style={{ marginLeft: -310 }}>
-                <Phone className="-rotate-[7deg] scale-[0.8] opacity-95"><CardScreen /></Phone>
+              <div className="float-b absolute left-1/2 top-24 hidden lg:block" style={{ marginLeft: -300 }}>
+                <Device width={270} className="-rotate-[7deg] opacity-95"><DivinationApp /></Device>
               </div>
-              <div className="float-a absolute left-1/2 top-24 hidden lg:block" style={{ marginLeft: -10 }}>
-                <Phone className="rotate-[7deg] scale-[0.8] opacity-95"><LockScreen /></Phone>
+              <div className="float-a absolute left-1/2 top-24 hidden lg:block" style={{ marginLeft: 30 }}>
+                <Device width={270} statusTime="" className="rotate-[7deg] opacity-95"><LockApp /></Device>
               </div>
-              <Phone className="z-10 origin-top scale-[0.84] lg:origin-center lg:scale-[0.92]">
-                <LiveChat />
-              </Phone>
+              <Device width={300} className="relative z-10"><ChatApp /></Device>
             </div>
           </FadeUp>
         </div>
@@ -202,7 +203,7 @@ export default function Home() {
             {/* Talk to it */}
             <FadeUp className="md:col-span-4">
               <Tile className="h-full min-h-[340px]" glow="rgba(124,92,255,0.35)">
-                <TileText title="Talk to it. Out loud." body="Ask by voice or text. Interrupt it, push back, ask why. It keeps the thread — and remembers you tomorrow." />
+                <TileText title="Talk to it. Out loud." body="Ask by voice or text. Push back, ask why. It keeps the thread — and remembers you tomorrow." />
                 <div aria-hidden="true" className="mt-10 flex h-[120px] w-full items-center justify-between">
                   {Array.from({ length: 64 }).map((_, i) => {
                     const h = 14 + Math.round(Math.abs(Math.sin(i * 0.55) * Math.cos(i * 0.21)) * 96);
@@ -229,7 +230,7 @@ export default function Home() {
             {/* Languages */}
             <FadeUp className="md:col-span-3" delay={0.05}>
               <Tile className="h-full min-h-[300px]" glow="rgba(244,114,182,0.22)">
-                <TileText title="It speaks your language." body="Over a hundred of them. It answers in the one your phone is already in." />
+                <TileText title="It speaks your language." body="109 of them. Pick yours once and every reading arrives in it." />
                 <div aria-hidden="true" className="mt-8 flex flex-wrap gap-2">
                   {GREETINGS.map((g) => (
                     <span key={g} className="rounded-full bg-white/[0.06] px-3 py-1.5 text-[14px] text-white/80 ring-1 ring-white/10">{g}</span>
@@ -238,24 +239,18 @@ export default function Home() {
               </Tile>
             </FadeUp>
 
-            {/* Morning */}
+            {/* Morning — the real push, word for word */}
             <FadeUp className="md:col-span-3" delay={0.1}>
               <Tile className="h-full min-h-[300px]" glow="rgba(251,146,60,0.25)">
-                <TileText title="A reading every morning." body="One line, before the day starts. Short enough to remember at noon." />
-                <div aria-hidden="true" className="mt-8 rounded-[20px] bg-white/[0.08] p-4 ring-1 ring-white/10 backdrop-blur">
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-9 w-9 flex-none items-center justify-center rounded-[10px] bg-black ring-1 ring-white/10">
-                      <span className="relative inline-block h-[16px] w-[16px] rounded-full bg-gradient-to-br from-white to-white/40">
-                        <span className="absolute inset-[4px] rounded-full bg-black" />
-                      </span>
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex justify-between text-[13px]">
-                        <span className="font-semibold text-white">Your morning</span>
-                        <span className="text-white/45">7:30</span>
-                      </div>
-                      <p className="text-[14px] text-white/80">A quiet day for decisions. Say the hard thing before noon.</p>
+                <TileText title="A line every morning." body="At nine, wherever you are. One line about your day — short enough to remember at noon." />
+                <div aria-hidden="true" className="mt-8 flex items-start gap-3 rounded-[22px] bg-white/[0.1] p-3.5 ring-1 ring-white/10 backdrop-blur">
+                  <Image src="/app/icon.png" alt="" width={38} height={38} className="h-[38px] w-[38px] flex-none rounded-[9px]" />
+                  <div className="min-w-0 flex-1">
+                    <div className="flex justify-between text-[14px]">
+                      <span className="font-semibold text-white">{PUSH.title}</span>
+                      <span className="text-white/45">now</span>
                     </div>
+                    <p className="text-[14px] leading-snug text-white/85">{PUSH.body}</p>
                   </div>
                 </div>
               </Tile>
