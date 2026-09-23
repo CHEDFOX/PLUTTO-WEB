@@ -22,7 +22,7 @@ export default function LockApp() {
         <p style={{ fontSize: 108, fontWeight: 700, lineHeight: '112px', letterSpacing: -3, color: 'rgba(255,255,255,0.92)' }}>9:00</p>
       </div>
 
-      <div style={{ position: 'absolute', left: 10, right: 10, top: 560 }}>
+      <div className="push-loop" style={{ position: 'absolute', left: 10, right: 10, top: 560 }}>
         <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', padding: '13px 14px', borderRadius: 24, background: 'rgba(245,245,250,0.18)', backdropFilter: 'blur(30px) saturate(1.6)', WebkitBackdropFilter: 'blur(30px) saturate(1.6)' }}>
           <Image src="/app/icon.png" alt="" width={38} height={38} style={{ width: 38, height: 38, borderRadius: 9, flex: 'none', marginTop: 1 }} />
           <div style={{ flex: 1, minWidth: 0 }}>

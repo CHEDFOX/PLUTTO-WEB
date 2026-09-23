@@ -12,11 +12,10 @@
 import { useEffect, useRef, useState } from 'react';
 import Device from './app/Device';
 import AppVideo from './app/AppVideo';
-import Shot from './app/Shot';
 
 const VoiceVideo = () => <AppVideo name="voice" poster="/app/screens/voice.png" label="Plutto's voice mode" />;
-const OnboardingShot = () => <Shot src="/app/screens/onboarding.png" alt="Plutto asking when you were born" />;
-const TarotShot = () => <Shot src="/app/screens/tarot.png" alt="A tarot card turned over in Plutto" />;
+const OnboardingShot = () => <AppVideo name="when" poster="/app/screens/when-start.jpg" still="/app/screens/onboarding.png" label="Plutto asking your name and when you were born" />;
+const TarotShot = () => <AppVideo name="tarot" poster="/app/screens/tarot-start.jpg" still="/app/screens/tarot.png" label="Laying tarot cards in Plutto" />;
 
 const STEPS = [
   { n: '01', color: '#A78BFA', title: 'Tell it when you arrived.',
@@ -55,7 +54,7 @@ export default function Story() {
                  style={{ background: `radial-gradient(closest-side, ${STEPS[active].color}40, transparent)` }} />
             <Device width={320}>
               {STEPS.map(({ Screen, n }, i) => (
-                <div key={n} className={`absolute inset-0 transition-opacity duration-500 ${i === active ? 'opacity-100' : 'opacity-0'}`}>
+                <div key={n} className={`absolute inset-0 transition-all duration-700 ease-out ${i === active ? 'scale-100 opacity-100 blur-0' : i < active ? 'scale-[0.94] opacity-0 blur-md' : 'scale-[1.06] opacity-0 blur-md'}`}>
                   <Screen />
                 </div>
               ))}
@@ -72,7 +71,11 @@ export default function Story() {
             data-i={i}
             className="flex flex-col justify-center py-10 md:min-h-[80vh] md:py-0"
           >
-            <div className={`transition-opacity duration-500 ${i === active ? 'md:opacity-100' : 'md:opacity-30'}`}>
+            <div className={`relative transition-all duration-700 md:pl-8 ${i === active ? 'md:opacity-100 md:translate-x-0' : 'md:opacity-30 md:translate-x-2'}`}>
+              {/* the progress rail: fills while this step owns the phone */}
+              <span aria-hidden="true" className="absolute bottom-1 left-0 top-1 hidden w-[2px] overflow-hidden rounded-full bg-white/10 md:block">
+                <span className="block w-full rounded-full transition-all duration-700 ease-out" style={{ background: color, height: i <= active ? '100%' : '0%' }} />
+              </span>
               <span className="text-[15px] font-semibold tabular-nums" style={{ color }}>{n}</span>
               <h3 className="mt-3 text-[clamp(1.9rem,3.6vw,2.9rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-white">
                 {title}

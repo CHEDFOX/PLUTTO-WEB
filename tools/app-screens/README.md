@@ -19,7 +19,7 @@ look changes; never hand-edit the images.
    before any module imports it). Copy `canvaskit.wasm` next to each export and
    an Inter woff2 to `dist*/fonts/inter.woff2`.
    Serve `dist` on :3222 and `dist-orb` on :3223.
-3. **Capture.** `drive.mjs` (`MODE=chat|tarot|when|language|auth|orb`) renders the
+3. **Capture.** `drive.mjs` (`REC=<name>` records a screencast of the run; `MODE=chat|tarot|when|language|auth|orb`) renders the
    real components at 393 × 852 pt and 3×, faking the API from the catalog and
    the backend's `static/` folder. `record.mjs` (`VIDEO=1`) and `orbrec.mjs`
    capture screencast frames; encode them with ffmpeg as `chat.*` and `voice.*`.

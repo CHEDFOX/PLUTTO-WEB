@@ -433,3 +433,52 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
 /* Inside a device the app's own strings are shown exactly as the app sets them. */
 .app-screen :where(*) { text-transform: none; -webkit-font-smoothing: antialiased; }
 .app-screen :where(p) { margin: 0; }
+
+/* ── Landing-page motion, round two ── */
+.shimmer-text {
+  background: linear-gradient(90deg, #7dd3fc, #c4b5fd, #f9a8d4, #fcd34d, #7dd3fc);
+  background-size: 300% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: shimmer 7s linear infinite;
+}
+@keyframes shimmer { to { background-position: 300% 0; } }
+
+.spot { position: relative; }
+.spot::before, .spot::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .35s ease; }
+.spot::before { background: radial-gradient(460px circle at var(--mx, 50%) var(--my, 50%), var(--glow), transparent 60%); }
+.spot::after {
+  padding: 1px;
+  background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.5), transparent 60%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+.spot:hover::before, .spot:hover::after { opacity: 1; }
+
+@keyframes push-loop {
+  0%, 6% { opacity: 0; transform: translateY(-16px) scale(.95); }
+  13%, 84% { opacity: 1; transform: none; }
+  93%, 100% { opacity: 0; transform: translateY(8px) scale(.98); }
+}
+.push-loop { animation: push-loop 7s cubic-bezier(.2,.8,.2,1) infinite; }
+
+.aurora::before, .aurora::after {
+  content: ''; position: absolute; inset: -60%; pointer-events: none;
+  background: conic-gradient(from 0deg, rgba(124,92,255,.55), rgba(56,189,248,.3), rgba(244,114,182,.45), rgba(252,211,77,.18), rgba(124,92,255,.55));
+  filter: blur(70px); animation: aurora-spin 20s linear infinite; opacity: .55;
+}
+.aurora::after { animation-duration: 31s; animation-direction: reverse; opacity: .35; inset: -40%; }
+@keyframes aurora-spin { to { transform: rotate(360deg); } }
+
+.fan-card { transform: translateX(calc(-50% + var(--x))) rotate(var(--r)); transition: transform .7s cubic-bezier(.2,.8,.2,1); animation: fan-float 5s ease-in-out infinite; }
+.group:hover .fan-card { transform: translateX(calc(-50% + var(--x2))) rotate(var(--r2)) translateY(-8px); }
+@keyframes fan-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -6px; } }
+
+.neptune-breathe { animation: neptune 18s ease-in-out infinite; transform-origin: 50% 51%; }
+@keyframes neptune { 0%, 100% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.025) rotate(1.5deg); } }
+
+.greet-chip { animation: greet 9s ease-in-out infinite; }
+@keyframes greet { 0%, 8%, 100% { background: rgba(255,255,255,.06); color: rgba(255,255,255,.8); } 3% { background: rgba(244,114,182,.28); color: #fff; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .shimmer-text, .push-loop, .aurora::before, .aurora::after, .fan-card, .neptune-breathe, .greet-chip { animation: none; }
+}

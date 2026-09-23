@@ -11,13 +11,13 @@ const MODE = process.env.MODE || 'chat';
 const FONT_CSS = `
 @font-face { font-family: "-apple-system"; src: url(/fonts/inter.woff2) format("woff2"); font-weight: 100 900; }
 @font-face { font-family: "BlinkMacSystemFont"; src: url(/fonts/inter.woff2) format("woff2"); font-weight: 100 900; }
-textarea, input { outline: none !important; }
+*, *:focus, *:focus-visible { outline: none !important; }
 textarea { height: 20px !important; min-height: 20px !important; }
 @font-face { font-family: "System"; src: url(/fonts/inter.woff2) format("woff2"); font-weight: 100 900; }
 `;
 
 const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--use-gl=swiftshader', '--enable-webgl', '--ignore-gpu-blocklist'] });
-const ctx = await b.newContext({ viewport: { width: 393, height: 852 }, deviceScaleFactor: 3, isMobile: true, hasTouch: true,
+const ctx = await b.newContext({ viewport: { width: 393, height: 852 }, deviceScaleFactor: process.env.REC ? 2 : 3, isMobile: true, hasTouch: true,
   userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1' });
 const p = await ctx.newPage();
 p.on('pageerror', (e) => console.log('PAGEERROR', e.message));
@@ -66,6 +66,14 @@ await p.goto(`http://localhost:${MODE === 'orb' ? 3223 : 3222}/#${MODE === 'taro
 await p.waitForFunction(() => window.__ready || window.__err, null, { timeout: 30000 }).catch(() => {});
 console.log('err?', await p.evaluate(() => window.__err));
 await p.waitForTimeout(3500);
+const REC = process.env.REC;
+const frames = [];
+let cdpRec = null;
+if (REC) {
+  cdpRec = await ctx.newCDPSession(p);
+  cdpRec.on('Page.screencastFrame', async (f) => { frames.push({ t: f.metadata.timestamp, data: f.data }); try { await cdpRec.send('Page.screencastFrameAck', { sessionId: f.sessionId }); } catch (_) {} });
+  await cdpRec.send('Page.startScreencast', { format: 'jpeg', quality: 92, maxWidth: 786, maxHeight: 1704 });
+}
 const shot = async (name) => { await p.screenshot({ path: `${OUT}/${name}.png` }); console.log('shot', name); };
 if (MODE !== 'tarot') await shot(`${MODE}-0`);
 
@@ -94,14 +102,16 @@ if (MODE === 'tarot') {
   await p.evaluate((sec) => window.__openFeature(sec), hook.action.section);
   await p.waitForTimeout(3000);
   await shot('tarot-open');
-  for (const i of [1, 3, 4]) { await p.mouse.click(26 + 51.24 * i + 18, 680); await p.waitForTimeout(700); }
+  for (const i of [1, 3, 4]) { await p.mouse.click(26 + 51.24 * i + 18, 680); await p.waitForTimeout(REC ? 1000 : 700); }
   await shot('tarot-placed');
   globalThis.__cardBody = process.env.CARD_BODY || '';
   await p.mouse.click(157.5 + 39, 375); await p.waitForTimeout(2600);
   const txt = await p.evaluate(() => document.body.innerText);
   console.log('MODALTEXT', JSON.stringify(txt.slice(0, 400)));
   await shot('tarot-modal');
+  if (REC) { await p.waitForTimeout(2500); await p.mouse.click(344, 172); await p.waitForTimeout(1600); }
 }
+if (MODE === 'language' && REC) await p.waitForTimeout(12000);
 if (MODE === 'when') {
   const inp = p.locator('input, textarea').first();
   await p.mouse.click(196, 305); await p.waitForTimeout(400);
@@ -110,7 +120,24 @@ if (MODE === 'when') {
   await shot('when-identity');
   await p.mouse.click(196, 750); await p.waitForTimeout(1500);
   await p.waitForTimeout(3500);
+  if (REC) {
+    for (const [x, y, n] of [[120.5, 306, 9], [196.5, 306, 5], [272.5, 306, -5], [151.6, 522, 2], [241.4, 522, 30]]) {
+      await p.mouse.move(x, y);
+      for (let k = 0; k < Math.abs(n); k += 1) { await p.mouse.wheel(0, 32 * Math.sign(n)); await p.waitForTimeout(Math.max(28, 260 / Math.abs(n))); }
+      await p.waitForTimeout(700);
+    }
+    await p.waitForTimeout(2200);
+  }
   await p.waitForTimeout(1200);
   await shot('when-0');
+}
+if (REC) {
+  await cdpRec.send('Page.stopScreencast');
+  const dir = `${S}/rec-${REC}`; fs.rmSync(dir, { recursive: true, force: true }); fs.mkdirSync(dir);
+  let list = '';
+  frames.forEach((f, i) => { const n = `f${String(i).padStart(5, '0')}.jpg`; fs.writeFileSync(`${dir}/${n}`, Buffer.from(f.data, 'base64')); list += `file '${n}'\nduration ${(i + 1 < frames.length ? frames[i + 1].t - f.t : 0.05).toFixed(4)}\n`; });
+  list += `file 'f${String(frames.length - 1).padStart(5, '0')}.jpg'\n`;
+  fs.writeFileSync(`${dir}/list.txt`, list);
+  console.log('frames', frames.length);
 }
 await b.close();

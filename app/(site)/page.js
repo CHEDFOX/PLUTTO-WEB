@@ -33,6 +33,10 @@ import LockApp, { PUSH } from '../components/site/app/LockApp';
 import CountUp from '../components/site/CountUp';
 import Marquee from '../components/site/Marquee';
 import Story from '../components/site/Story';
+import Words from '../components/site/motion/Words';
+import Tilt from '../components/site/motion/Tilt';
+import Parallax from '../components/site/motion/Parallax';
+import Spotlight from '../components/site/motion/Spotlight';
 
 const STATS = [
   [102, '', 'traditions'],
@@ -51,19 +55,20 @@ function Eyebrow({ children, color = '#A78BFA' }) {
 function H2({ children, className = '' }) {
   return (
     <h2 className={`text-[clamp(2rem,4.6vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-white ${className}`}>
-      {children}
+      {typeof children === 'string' ? <Words text={children} stagger={0.06} /> : children}
     </h2>
   );
 }
 
 function Tile({ className = '', glow, children }) {
   return (
-    <div
-      className={`relative overflow-hidden rounded-[28px] bg-[#0c0c11] p-7 ring-1 ring-white/[0.08] md:p-8 ${className}`}
+    <Spotlight
+      glow={glow ? glow.replace(/0\.\d+\)$/, '0.22)') : 'rgba(255,255,255,0.08)'}
+      className={`relative overflow-hidden rounded-[28px] bg-[#0c0c11] p-7 ring-1 ring-white/[0.08] transition-transform duration-500 hover:-translate-y-1 md:p-8 ${className}`}
       style={glow ? { backgroundImage: `radial-gradient(90% 70% at 100% 0%, ${glow}, transparent 70%)` } : undefined}
     >
-      {children}
-    </div>
+      <div className="relative z-10 h-full">{children}</div>
+    </Spotlight>
   );
 }
 
@@ -99,8 +104,8 @@ export default function Home() {
 
             <FadeUp delay={0.06}>
               <h1 className="mx-auto mt-7 max-w-[12ch] text-[clamp(2.9rem,6.6vw,5.4rem)] font-semibold leading-[0.96] tracking-[-0.05em] text-white lg:mx-0">
-                The oracle in your{' '}
-                <span className="bg-gradient-to-r from-sky-300 via-violet-300 to-pink-300 bg-clip-text text-transparent">pocket.</span>
+                <Words text="The oracle in your" delay={0.1} />{' '}
+                <Words text="pocket." delay={0.38} wordClassName="shimmer-text pr-[0.06em]" />
               </h1>
             </FadeUp>
 
@@ -134,18 +139,26 @@ export default function Home() {
               {/* Neptune, rising. The render is mostly black sky with the
                   planet across its middle ~45%, so it is drawn far larger than
                   the column and positioned so only its upper arc shows below
-                  the phones. Screen blend drops the black. */}
-              <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-[-90px] w-[1100px] max-w-none -translate-x-1/2 lg:top-[-250px] lg:w-[1600px]"
-                   style={{ mixBlendMode: 'screen' }}>
-                <Image src="/planets/Neptune.png" alt="" width={1600} height={2057} priority sizes="(min-width: 1024px) 1600px, 1100px" className="h-auto w-full" />
+                  the phones. Screen blend drops the black. It climbs as the
+                  page scrolls, a little slower than the phones. */}
+              <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-[-90px] w-[1100px] max-w-none -translate-x-1/2 lg:top-[-250px] lg:w-[1600px]" style={{ mixBlendMode: 'screen' }}>
+                <Parallax y={220} scale={[1.06, 0.96]}>
+                  <div className="neptune-breathe">
+                    <Image src="/planets/Neptune.png" alt="" width={1600} height={2057} priority sizes="(min-width: 1024px) 1600px, 1100px" className="h-auto w-full" />
+                  </div>
+                </Parallax>
               </div>
-              <div className="float-b absolute left-1/2 top-24 hidden lg:block" style={{ marginLeft: -300 }}>
-                <Device width={270} className="-rotate-[7deg] opacity-95"><Shot src="/app/screens/tarot.png" alt="A tarot card turned over in Plutto" /></Device>
-              </div>
-              <div className="float-a absolute left-1/2 top-24 hidden lg:block" style={{ marginLeft: 30 }}>
-                <Device width={270} statusTime="" className="rotate-[7deg] opacity-95"><LockApp /></Device>
-              </div>
-              <Device width={300} className="relative z-10"><AppVideo name="chat" poster="/app/screens/chat-empty.png" still="/app/screens/chat-poster.png" label="Plutto answering a question" /></Device>
+              <Tilt className="absolute inset-0" innerClassName="relative flex h-full w-full justify-center lg:items-center">
+                <Parallax x={-120} y={60} rotate={-6} className="absolute left-1/2 top-24 hidden lg:block" style={{ marginLeft: -300 }}>
+                  <div className="float-b"><Device width={270} className="-rotate-[7deg] opacity-95"><AppVideo name="tarot" poster="/app/screens/tarot-start.jpg" still="/app/screens/tarot.png" label="Laying tarot cards in Plutto" /></Device></div>
+                </Parallax>
+                <Parallax x={120} y={60} rotate={6} className="absolute left-1/2 top-24 hidden lg:block" style={{ marginLeft: 30 }}>
+                  <div className="float-a"><Device width={270} statusTime="" className="rotate-[7deg] opacity-95"><LockApp /></Device></div>
+                </Parallax>
+                <div className="relative z-10" style={{ transform: 'translateZ(40px)' }}>
+                  <Device width={300}><AppVideo name="chat" poster="/app/screens/chat-empty.png" still="/app/screens/chat-poster.png" label="Plutto answering a question" /></Device>
+                </div>
+              </Tilt>
             </div>
           </FadeUp>
         </div>
@@ -218,10 +231,10 @@ export default function Home() {
               <Tile className="h-full min-h-[340px]" glow="rgba(56,189,248,0.25)">
                 <TileText title="Six real decks." body="Tarot, Lenormand, runes, ogham, I Ching, geomancy." />
                 <div aria-hidden="true" className="relative mt-8 h-[150px]">
-                  {[['tarot/the_sun', -14, -60], ['runes/sowilo', 0, 0], ['tarot/the_moon', 14, 60]].map(([src, r, x]) => (
+                  {[['tarot/the_sun', -14, -60, -26, -92], ['runes/sowilo', 0, 0, 0, 0], ['tarot/the_moon', 14, 60, 26, 92]].map(([src, r, x, r2, x2], i) => (
                     <img key={src} src={`/library/${src}.webp`} alt="" width={300} height={527} loading="lazy"
-                         className="absolute left-1/2 top-0 w-[84px] rounded-[6px] ring-1 ring-white/15 shadow-[0_20px_40px_-12px_rgba(0,0,0,0.9)]"
-                         style={{ transform: `translateX(calc(-50% + ${x}px)) rotate(${r}deg)`, transformOrigin: '50% 120%' }} />
+                         className="fan-card absolute left-1/2 top-0 w-[84px] rounded-[6px] ring-1 ring-white/15 shadow-[0_20px_40px_-12px_rgba(0,0,0,0.9)]"
+                         style={{ '--x': `${x}px`, '--r': `${r}deg`, '--x2': `${x2}px`, '--r2': `${r2}deg`, animationDelay: `${-i * 1.3}s`, transformOrigin: '50% 120%' }} />
                   ))}
                 </div>
               </Tile>
@@ -230,11 +243,17 @@ export default function Home() {
             {/* Languages */}
             <FadeUp className="md:col-span-3" delay={0.05}>
               <Tile className="h-full min-h-[300px]" glow="rgba(244,114,182,0.22)">
-                <TileText title="It speaks your language." body="109 of them. Pick yours once and every reading arrives in it." />
-                <div aria-hidden="true" className="mt-8 flex flex-wrap gap-2">
-                  {GREETINGS.map((g) => (
-                    <span key={g} className="rounded-full bg-white/[0.06] px-3 py-1.5 text-[14px] text-white/80 ring-1 ring-white/10">{g}</span>
-                  ))}
+                <div className="md:pr-[170px]">
+                  <TileText title="It speaks your language." body="109 of them. Pick yours once and every reading arrives in it." />
+                  <div aria-hidden="true" className="mt-8 flex flex-wrap gap-2">
+                    {GREETINGS.slice(0, 10).map((g, i) => (
+                      <span key={g} className="greet-chip rounded-full bg-white/[0.06] px-3 py-1.5 text-[14px] text-white/80 ring-1 ring-white/10" style={{ animationDelay: `${i * 0.9}s` }}>{g}</span>
+                    ))}
+                  </div>
+                </div>
+                {/* The app's own language screen, recorded: the greeting cycles through the languages. */}
+                <div className="pointer-events-none absolute -bottom-40 right-6 hidden md:block">
+                  <Device width={160}><AppVideo name="language" poster="/app/screens/language-start.jpg" still="/app/screens/language.png" label="Plutto's language screen" /></Device>
                 </div>
               </Tile>
             </FadeUp>
@@ -243,7 +262,7 @@ export default function Home() {
             <FadeUp className="md:col-span-3" delay={0.1}>
               <Tile className="h-full min-h-[300px]" glow="rgba(251,146,60,0.25)">
                 <TileText title="A line every morning." body="At nine, wherever you are. One line about your day — short enough to remember at noon." />
-                <div aria-hidden="true" className="mt-8 flex items-start gap-3 rounded-[22px] bg-white/[0.1] p-3.5 ring-1 ring-white/10 backdrop-blur">
+                <div aria-hidden="true" className="push-loop mt-8 flex items-start gap-3 rounded-[22px] bg-white/[0.1] p-3.5 ring-1 ring-white/10 backdrop-blur">
                   <Image src="/app/icon.png" alt="" width={38} height={38} className="h-[38px] w-[38px] flex-none rounded-[9px]" />
                   <div className="min-w-0 flex-1">
                     <div className="flex justify-between text-[14px]">
@@ -296,8 +315,9 @@ export default function Home() {
       {/* ─────────────────────────── DOWNLOAD ─────────────────────────── */}
       <section id="download" className="scroll-mt-20 px-6 pb-16 md:pb-20">
         <FadeUp>
-          <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[36px] px-6 py-20 text-center ring-1 ring-white/10 md:py-24"
-               style={{ background: 'radial-gradient(70% 90% at 50% 0%, rgba(124,92,255,0.45), transparent 70%), radial-gradient(50% 60% at 15% 100%, rgba(56,189,248,0.2), transparent 70%), radial-gradient(50% 60% at 85% 100%, rgba(244,114,182,0.2), transparent 70%), #0a0a10' }}>
+          <div className="aurora relative mx-auto max-w-6xl overflow-hidden rounded-[36px] px-6 py-20 text-center ring-1 ring-white/10 md:py-24"
+               style={{ background: '#0a0a10' }}>
+            <div className="relative z-10">
             <H2 className="mx-auto max-w-[16ch]">Your question is waiting.</H2>
             <p className="mx-auto mt-4 max-w-[38ch] text-[17px] text-white/60">Open it here in your browser, or get it on your phone.</p>
             <div className="mt-9 flex justify-center">
@@ -306,6 +326,7 @@ export default function Home() {
               </Link>
             </div>
             <StoreBadges className="mt-6" />
+            </div>
           </div>
         </FadeUp>
 
