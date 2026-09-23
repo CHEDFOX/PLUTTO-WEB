@@ -254,6 +254,20 @@ export default function Auth({ onDone }) {
               </button>
             ))}
           </div>
+
+          {/* Continuing is agreeing — the same line, links and pages as the
+              phone's auth screen, so App Review and a browser read one thing. */}
+          <p
+            data-no-auto-case
+            className="mt-8 max-w-[300px] text-center text-[11px] leading-[1.6] text-white/40"
+          >
+            Continuing means you agree to our{' '}
+            <a href="https://api.plutto.space/terms" target="_blank" rel="noreferrer"
+               className="text-white/70 underline underline-offset-2 hover:text-white">Terms</a>
+            {' '}and{' '}
+            <a href="https://api.plutto.space/privacy" target="_blank" rel="noreferrer"
+               className="text-white/70 underline underline-offset-2 hover:text-white">Privacy Policy</a>.
+          </p>
         </div>
       )}
 
