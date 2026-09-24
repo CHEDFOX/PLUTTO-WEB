@@ -11,6 +11,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import GetAppLink from './GetAppLink';
 
 const LINKS = [
   { href: '/#how', label: 'How it works' },
@@ -66,12 +67,9 @@ export default function Nav() {
         </ul>
 
         <div className="flex items-center gap-2">
-          <Link
-            href="/#download"
-            className="hidden rounded-full bg-white px-4 py-2 text-[13px] font-semibold text-black transition-opacity hover:opacity-90 sm:inline-flex"
-          >
+          <GetAppLink className="hidden rounded-full bg-white px-4 py-2 text-[13px] font-semibold text-black transition-opacity hover:opacity-90 sm:inline-flex">
             Get the app
-          </Link>
+          </GetAppLink>
           <button
             type="button"
             aria-label={open ? 'Close menu' : 'Open menu'}
@@ -98,10 +96,10 @@ export default function Nav() {
               </li>
             ))}
             <li className="pt-8">
-              <Link href="/#download" onClick={() => setOpen(false)}
+              <GetAppLink onClick={() => setOpen(false)}
                     className="inline-flex rounded-full bg-white px-6 py-3 text-[15px] font-semibold text-black">
                 Get the app
-              </Link>
+              </GetAppLink>
             </li>
           </ul>
         </div>

@@ -10,6 +10,17 @@
 
 const ANDROID_PACKAGE = 'space.plutto.app';
 
+/**
+ * WHICH STORES ARE LIVE. The Play listing is public; the App Store one is in
+ * review. Flip IOS_LIVE the day it lands (and put the id in DEFAULT_STORE.ios):
+ * the badge un-blurs and becomes a link, and "Get the app" on an iPhone goes
+ * straight to it. Until then an iPhone is sent to the download band, where the
+ * badge says so.
+ */
+export const ANDROID_LIVE = true;
+export const IOS_LIVE = false;
+export const PLAY_URL = `https://play.google.com/store/apps/details?id=${ANDROID_PACKAGE}`;
+
 export const DEFAULT_STORE = {
   // Filled in once the App Store id exists: https://apps.apple.com/app/id<ID>.
   // Until then we send iOS visitors to an App Store search for Plutto, which is
@@ -54,4 +65,14 @@ export function storeLabel(platform) {
   if (platform === 'ios') return 'Download on the App Store';
   if (platform === 'android') return 'Get it on Google Play';
   return 'Get the app';
+}
+
+/**
+ * Where "Get the app" goes for this visitor: the store that is live for the
+ * device in their hand, else the download band on the page.
+ */
+export function getAppHref(platform, store) {
+  if (platform === 'android' && ANDROID_LIVE) return storeUrl('android', store);
+  if (platform === 'ios' && IOS_LIVE) return storeUrl('ios', store);
+  return '/#download';
 }

@@ -1,33 +1,45 @@
+'use client';
+
 /**
  * STORE BADGES — shaped like the platforms' own, and honest about the date.
  *
- * Black, rounded, the platform mark on the left and two lines of text, which is
- * the shape a visitor recognises as "an app store link" before they read it.
- * The apps are not public yet, so the small line says so instead of "Download
- * on the"; change `soon` to false (and give each an href) the day they are.
+ * Black, rounded, the platform mark on the left and two lines of text: the
+ * shape a visitor recognises as "an app store link" before reading it.
+ *
+ *   Google Play  live. A link to the listing — except on an iPhone, where it is
+ *                shown but not a link (nothing to install there).
+ *   App Store    in review. Softly blurred and not a link, with "Coming soon".
+ *                IOS_LIVE in lib/appStore.js sharpens it and makes it a link.
  */
 
-const soon = true;
+import usePlatform from '../lib/usePlatform';
+import { ANDROID_LIVE, IOS_LIVE, PLAY_URL, storeUrl } from '../lib/appStore';
 
 export default function StoreBadges({ className = '' }) {
+  const platform = usePlatform();
+  const play = ANDROID_LIVE && platform !== 'ios' ? PLAY_URL : null;
+  const apple = IOS_LIVE ? storeUrl('ios') : null;
   return (
     <div className={`flex flex-wrap items-center justify-center gap-3 font-ui ${className}`}>
-      <Badge mark={<AppleGlyph />} small={soon ? 'Coming soon to the' : 'Download on the'} big="App Store" />
-      <Badge mark={<PlayGlyph />} small={soon ? 'Coming soon to' : 'Get it on'} big="Google Play" />
+      <Badge href={apple} soft={!IOS_LIVE} mark={<AppleGlyph />} small={IOS_LIVE ? 'Download on the' : 'Coming soon to the'} big="App Store" label="Plutto on the App Store" />
+      <Badge href={play} mark={<PlayGlyph />} small={ANDROID_LIVE ? 'Get it on' : 'Coming soon to'} big="Google Play" label="Plutto on Google Play" />
     </div>
   );
 }
 
-function Badge({ mark, small, big }) {
-  return (
-    <div className="flex h-[52px] items-center gap-2.5 rounded-xl border border-white/20 bg-black px-4 text-white">
+function Badge({ href, soft, mark, small, big, label }) {
+  const cls = `flex h-[52px] items-center gap-2.5 rounded-xl border border-white/20 bg-black px-4 text-white ${soft ? 'badge-soft' : ''} ${href ? 'transition-transform hover:scale-[1.03]' : 'cursor-default'}`;
+  const inner = (
+    <>
       <span className="text-white">{mark}</span>
       <span className="flex flex-col leading-none">
         <span className="text-[10px] text-white/70">{small}</span>
         <span className="mt-1 text-[18px] font-semibold tracking-[-0.01em]">{big}</span>
       </span>
-    </div>
+    </>
   );
+  if (href) return <a href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className={cls}>{inner}</a>;
+  return <div aria-disabled="true" className={cls}>{inner}</div>;
 }
 
 function AppleGlyph() {

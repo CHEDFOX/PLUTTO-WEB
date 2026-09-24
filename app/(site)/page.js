@@ -16,14 +16,15 @@
  * app's type, not the site's.
  *
  * Kept from before: the six decks you can turn over (#draw) — the one thing on
- * the page that is play rather than description — and the plain sentence that
- * Google's OAuth brand verification needs (see the note at the bottom).
+ * the page that is play rather than description. The plain sentence Google's
+ * OAuth brand verification needs is the page description (see `metadata`).
  */
 
 import Link from 'next/link';
 import Image from 'next/image';
 import FadeUp from '../components/FadeUp';
 import StoreBadges from '../components/StoreBadges';
+import GetAppLink from '../components/GetAppLink';
 import Draw from '../components/site/Draw';
 import Device from '../components/site/app/Device';
 import AppVideo from '../components/site/app/AppVideo';
@@ -72,6 +73,15 @@ function TileText({ title, body }) {
   );
 }
 
+// The sentence Google's OAuth brand verification needs (it once rejected this
+// page for not saying what the app does) lives in the description now, not on
+// the page. Do not remove it without checking the consent screen still reads
+// "Plutto" rather than the raw Supabase host.
+export const metadata = {
+  description:
+    'Plutto is an astrology oracle you can talk back to. Give it a date, a time and a place; it works out where the sky stood and reads it to you out loud, in your language.',
+};
+
 export default function Home() {
   return (
     <div data-no-auto-case data-no-binary className="sentence-case relative z-10 font-ui">
@@ -106,9 +116,9 @@ export default function Home() {
 
             <FadeUp delay={0.18}>
               <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
-                <a href="#download" className="inline-flex h-12 items-center rounded-full bg-white px-7 text-[15px] font-semibold text-black transition-transform hover:scale-[1.03]">
+                <GetAppLink className="inline-flex h-12 items-center rounded-full bg-white px-7 text-[15px] font-semibold text-black transition-transform hover:scale-[1.03]">
                   Get the app
-                </a>
+                </GetAppLink>
                 <Link href="/app" className="inline-flex h-12 items-center gap-1.5 rounded-full px-6 text-[15px] font-medium text-white ring-1 ring-white/20 transition-colors hover:bg-white/[0.06]">
                   Try it on the web <span aria-hidden="true">→</span>
                 </Link>
@@ -263,7 +273,7 @@ export default function Home() {
                style={{ background: '#0a0a10' }}>
             <div className="relative z-10">
             <H2 className="mx-auto max-w-[16ch]">Your question is waiting.</H2>
-            <p className="mx-auto mt-4 max-w-[38ch] text-[17px] text-white/60">Open it here in your browser, or get it on your phone.</p>
+            <p className="mx-auto mt-4 max-w-[34ch] text-[17px] text-white/60">Ask it here, free. Or take it with you.</p>
             <div className="mt-9 flex justify-center">
               <Link href="/app" className="inline-flex h-12 items-center rounded-full bg-white px-7 text-[15px] font-semibold text-black transition-opacity hover:opacity-90">
                 Open Plutto on the web
@@ -274,16 +284,6 @@ export default function Home() {
           </div>
         </FadeUp>
 
-        {/* Kept deliberately plain. Google's OAuth brand verification
-            rejected this page once for not saying what the app does; this
-            sentence is the anchor that keeps it from happening again if the
-            brand is re-audited. Do not remove without checking the consent
-            screen still reads "Plutto" rather than the raw Supabase host. */}
-        <p className="mx-auto mt-16 max-w-[60ch] text-center text-[14px] leading-relaxed text-white/40">
-          Plutto is an astrology oracle you can talk back to. Give it a
-          date, a time and a place; it works out where the sky stood and
-          reads it to you out loud, in your language.
-        </p>
       </section>
     </div>
   );

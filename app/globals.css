@@ -496,3 +496,5 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
    the marquee, the deck fan, the greeting chips — and their animations
    cost style and paint work on every frame while the hero is on screen. */
 .lazy-section { content-visibility: auto; contain-intrinsic-size: auto 900px; }
+/* A store badge that is not live yet: softly blurred, a little dimmed. */
+.badge-soft { filter: blur(1.2px); opacity: .62; }
