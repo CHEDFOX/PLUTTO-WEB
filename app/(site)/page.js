@@ -34,8 +34,7 @@ import CountUp from '../components/site/CountUp';
 import Marquee from '../components/site/Marquee';
 import Story from '../components/site/Story';
 import Words from '../components/site/motion/Words';
-import Tilt from '../components/site/motion/Tilt';
-import Parallax from '../components/site/motion/Parallax';
+import HeroStage from '../components/site/HeroStage';
 import Spotlight from '../components/site/motion/Spotlight';
 
 const STATS = [
@@ -88,12 +87,10 @@ export default function Home() {
           Text left, the product right — the product visible in the first
           screen, and running. Neptune rises behind the phones: the brand's
           best art, used as a horizon rather than a sticker. */}
-      <section className="relative overflow-hidden">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0"
-             style={{ background: 'radial-gradient(40% 50% at 72% 60%, rgba(56,120,255,0.22), transparent 70%), radial-gradient(35% 40% at 20% 30%, rgba(124,92,255,0.18), transparent 70%)' }} />
-
-        <div className="relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-6 px-6 pt-12 lg:min-h-[calc(100svh-64px)] lg:grid-cols-[1.05fr_1fr] lg:gap-4 lg:pt-0">
-          <div className="text-center lg:text-left">
+      <HeroStage
+        neptune={<Image src="/planets/Neptune.png" alt="" width={1600} height={2057} priority sizes="(min-width: 1024px) 1600px, 1100px" className="h-auto w-full" />}
+        copy={(
+          <>
             <FadeUp>
               <Link href="/#draw" className="inline-flex items-center gap-2 rounded-full bg-white/[0.06] py-1.5 pl-1.5 pr-3.5 text-[13px] text-white/75 ring-1 ring-white/10 transition-colors hover:bg-white/[0.1]">
                 <span className="rounded-full bg-white px-2 py-0.5 text-[11px] font-semibold text-black">Try it</span>
@@ -127,43 +124,23 @@ export default function Home() {
             </FadeUp>
 
             <FadeUp delay={0.24}>
-              <p className="mt-10 text-[13px] text-white/35">
+              <p className="mt-10 text-[13px] text-white/35 lg:hidden">
                 Tarot · Lenormand · Runes · Ogham · I Ching · Geomancy · Astrology
               </p>
             </FadeUp>
-          </div>
-
-          {/* The phones. The side two are desktop-only; on a phone one is enough. */}
-          <FadeUp delay={0.2} y={40}>
-            <div className="relative mx-auto flex h-[650px] justify-center lg:h-[720px] lg:items-center">
-              {/* Neptune, rising. The render is mostly black sky with the
-                  planet across its middle ~45%, so it is drawn far larger than
-                  the column and positioned so only its upper arc shows below
-                  the phones. Screen blend drops the black. It climbs as the
-                  page scrolls, a little slower than the phones. */}
-              <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-[-90px] w-[1100px] max-w-none -translate-x-1/2 lg:top-[-250px] lg:w-[1600px]" style={{ mixBlendMode: 'screen' }}>
-                <Parallax y={220} scale={[1.06, 0.96]}>
-                  <div className="neptune-breathe">
-                    <Image src="/planets/Neptune.png" alt="" width={1600} height={2057} priority sizes="(min-width: 1024px) 1600px, 1100px" className="h-auto w-full" />
-                  </div>
-                </Parallax>
-              </div>
-              <Tilt className="absolute inset-0" innerClassName="relative flex h-full w-full justify-center lg:items-center">
-                <Parallax x={-120} y={60} rotate={-6} className="absolute left-1/2 top-24 hidden lg:block" style={{ marginLeft: -300 }}>
-                  <div className="float-b"><Device width={270} className="-rotate-[7deg] opacity-95"><AppVideo name="tarot" poster="/app/screens/tarot-start.jpg" still="/app/screens/tarot.png" label="Laying tarot cards in Plutto" /></Device></div>
-                </Parallax>
-                <Parallax x={120} y={60} rotate={6} className="absolute left-1/2 top-24 hidden lg:block" style={{ marginLeft: 30 }}>
-                  <div className="float-a"><Device width={270} statusTime="" className="rotate-[7deg] opacity-95"><LockApp /></Device></div>
-                </Parallax>
-                <div className="relative z-10" style={{ transform: 'translateZ(40px)' }}>
-                  <Device width={300}><AppVideo name="chat" poster="/app/screens/chat-empty.png" still="/app/screens/chat-poster.png" label="Plutto answering a question" /></Device>
-                </div>
-              </Tilt>
-            </div>
-          </FadeUp>
-        </div>
-        <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-12 bg-gradient-to-b from-transparent to-black lg:h-40" />
-      </section>
+          </>
+        )}
+        phones={[
+          { key: 'chat', caption: 'Ask it anything — it answers.',
+            node: <Device width={300}><AppVideo name="chat" poster="/app/screens/chat-empty.png" still="/app/screens/chat-poster.png" label="Plutto answering a question" /></Device> },
+          { key: 'tarot', caption: 'Lay the cards — it reads them.',
+            node: <Device width={300}><AppVideo name="tarot" poster="/app/screens/tarot-start.jpg" still="/app/screens/tarot.png" label="Laying tarot cards in Plutto" /></Device>,
+            small: <Device width={270}><Shot src="/app/screens/tarot.png" alt="A tarot card turned over in Plutto" /></Device> },
+          { key: 'push', caption: 'A line about your day, every morning at nine.',
+            node: <Device width={300} statusTime=""><LockApp /></Device>,
+            small: <Device width={270} statusTime=""><LockApp /></Device> },
+        ]}
+      />
 
       {/* ─────────────────────────── STATS ─────────────────────────── */}
       <section className="relative border-y border-white/[0.08] bg-black">
