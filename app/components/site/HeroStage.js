@@ -25,20 +25,20 @@
  */
 
 import { useRef, useState } from 'react';
-import { motion, useScroll, useTransform, useMotionValueEvent, useReducedMotion, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useSpring, useTransform, useMotionValueEvent, useReducedMotion, AnimatePresence } from 'framer-motion';
 import Tilt from './motion/Tilt';
 
 // Scroll progress → carousel turns. Each phone holds the front for a stretch
 // before the next turn begins.
-const P = [0, 0.1, 0.4, 0.55, 0.85, 1];
+const P = [0, 0.06, 0.42, 0.52, 0.9, 1];
 const R = [0, 0, 1, 1, 2, 2];
 
 // Where a phone sits for its distance `d` from the front (d = index − turn):
 //   d = 0  front      d = 1, 2  behind, fanned up and right      d = −1  gone
 const SLOTS = [
   // d   x     y    scale  rotate  opacity  bright
-  [-1, -230,  40, 0.8,  -11,    0,     0.5],
-  [-0.5,-120, 22, 0.9,  -6,     0.12,  0.7],
+  [-1, -330,  36, 0.9,  -14,    0,     1],
+  [-0.5,-190, 18, 0.95, -8,     0.4,   1],
   [ 0,    0,   0, 1,     0,     1,     1],
   [ 1,   74, -30, 0.9,   5,     1,     0.5],
   [ 2,  140, -58, 0.8,   9,     1,     0.32],
@@ -61,13 +61,18 @@ function Phone({ turn, index, children }) {
   const scale = useTransform(turn, (t) => at(t).scale);
   const rotate = useTransform(turn, (t) => at(t).rotate);
   const opacity = useTransform(turn, (t) => at(t).opacity);
-  const filter = useTransform(turn, (t) => `brightness(${at(t).bright})`);
-  // The leaving phone drops BEHIND everything as it slides away, so the phone
-  // stepping forward is always the crisp one on top — no double exposure.
-  const zIndex = useTransform(turn, (t) => { const d = index - t; return d < 0 ? 1 : 30 - Math.round(d * 10); });
+  // Darkening is a black veil fading in and out, not a CSS brightness filter:
+  // a filter repaints the playing video under it on every frame.
+  const shade = useTransform(turn, (t) => 1 - at(t).bright);
+  // The leaving phone stays ON TOP and is flicked away to the left, like a card
+  // off the top of a hand; it is far enough out of the way by the time the next
+  // phone is prominent that nothing reads as overlapping. Keeping one fixed
+  // order (leaving > front > stack) means no phone ever changes layer mid-move.
+  const zIndex = useTransform(turn, (t) => { const d = index - t; return d < 0 ? 40 : 30 - Math.round(d * 10); });
   return (
-    <motion.div className="absolute will-change-transform" style={{ x, y, scale, rotate, opacity, zIndex, filter }}>
+    <motion.div className="absolute will-change-transform" style={{ x, y, scale, rotate, opacity, zIndex }}>
       {children}
+      <motion.div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[46px] bg-black" style={{ opacity: shade }} />
     </motion.div>
   );
 }
@@ -79,15 +84,14 @@ export default function HeroStage({ copy, phones, neptune }) {
   // The pin is a wide-screen affair and the breakpoint is CSS's (lg), so the
   // server render and the first paint already agree with the device.
   const pinned = !calm;
-  const { scrollYProgress } = useScroll({ target: stage, offset: ['start start', 'end end'] });
-  // Each turn eases in and out (smootherstep) instead of moving at one speed.
-  const ease = (v) => { const k = Math.floor(v), f = v - k; return k + f * f * f * (f * (f * 6 - 15) + 10); };
-  const turn = useTransform(scrollYProgress, (p) => {
-    for (let i = 0; i < P.length - 1; i += 1) {
-      if (p <= P[i + 1]) { const f = (p - P[i]) / (P[i + 1] - P[i] || 1); return ease(R[i] + (R[i + 1] - R[i]) * Math.max(0, Math.min(1, f))); }
-    }
-    return R[R.length - 1];
-  });
+  const { scrollYProgress: rawProgress } = useScroll({ target: stage, offset: ['start start', 'end end'] });
+  // A mouse wheel scrolls in notches; tied straight to the scroll, the phones
+  // jumped once per notch. The spring lets them glide between notches instead.
+  const scrollYProgress = useSpring(rawProgress, { stiffness: 70, damping: 22, mass: 0.6, restDelta: 0.0002 });
+  // The turn follows the scroll one-to-one (no easing curve: an ease-in-out
+  // squeezes the move into the middle of the band and reads as a snap); the
+  // spring above is what makes it glide.
+  const turn = useTransform(scrollYProgress, P, R);
   const rise = useTransform(scrollYProgress, [0, 1], [0, -140]);
   const grow = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
   useMotionValueEvent(turn, 'change', (t) => setFront(((Math.round(t) % 3) + 3) % 3));
@@ -97,14 +101,14 @@ export default function HeroStage({ copy, phones, neptune }) {
     if (!el) return;
     const top = el.getBoundingClientRect().top + window.scrollY;
     const span = el.offsetHeight - window.innerHeight;
-    const at = [0.05, 0.47, 0.92][i];
+    const at = [0.03, 0.47, 0.95][i];
     window.scrollTo({ top: top + span * at, behavior: 'smooth' });
   };
 
   const current = phones[front] || phones[0];
 
   return (
-    <section ref={stage} className={`relative ${pinned ? 'lg:h-[300vh]' : ''}`}>
+    <section ref={stage} className={`relative ${pinned ? 'lg:h-[360vh]' : ''}`}>
       <div className={`${pinned ? 'lg:sticky lg:top-16 lg:h-[calc(100svh-64px)]' : ''} relative overflow-hidden`}>
         <div aria-hidden="true" className="pointer-events-none absolute inset-0"
              style={{ background: 'radial-gradient(40% 50% at 72% 60%, rgba(56,120,255,0.22), transparent 70%), radial-gradient(35% 40% at 20% 30%, rgba(124,92,255,0.18), transparent 70%)' }} />
@@ -140,7 +144,7 @@ export default function HeroStage({ copy, phones, neptune }) {
           <div className="relative mx-auto flex h-[650px] w-full justify-center lg:h-[720px] lg:items-center">
             <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-[-90px] w-[1100px] max-w-none -translate-x-1/2 lg:top-[-250px] lg:w-[1600px]" style={{ mixBlendMode: 'screen' }}>
               <motion.div style={pinned ? { y: rise, scale: grow } : undefined} className="max-lg:!transform-none">
-                <div className="neptune-breathe">{neptune}</div>
+                <div className={pinned ? 'neptune-breathe neptune-still-lg' : 'neptune-breathe'}>{neptune}</div>
               </motion.div>
             </div>
 
