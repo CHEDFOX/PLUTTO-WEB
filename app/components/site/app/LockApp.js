@@ -13,7 +13,8 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 
-export const PUSH = { title: 'Quiet luck', body: 'It’s tilted your way today — come see how far ›' };
+import { PUSH } from './push';
+export { PUSH };
 
 /**
  * `live` — whether the push has arrived. Off, the lock screen is just the

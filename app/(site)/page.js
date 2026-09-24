@@ -28,7 +28,8 @@ import Draw from '../components/site/Draw';
 import Device from '../components/site/app/Device';
 import AppVideo from '../components/site/app/AppVideo';
 import Shot from '../components/site/app/Shot';
-import LockApp, { PUSH } from '../components/site/app/LockApp';
+import LockApp from '../components/site/app/LockApp';
+import { PUSH } from '../components/site/app/push';
 import Marquee from '../components/site/Marquee';
 import Story from '../components/site/Story';
 import Words from '../components/site/motion/Words';
@@ -165,14 +166,14 @@ export default function Home() {
         <div className="mx-auto max-w-6xl">
           <FadeUp>
             <Eyebrow>Features</Eyebrow>
-            <H2 className="mt-3 max-w-[18ch]">Every oracle. One conversation.</H2>
+            <H2 className="mt-3 max-w-[18ch]">Ask. It already knows you.</H2>
           </FadeUp>
 
           <div className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-6">
             {/* Decks */}
             <FadeUp className="md:col-span-2">
               <Tile className="h-full min-h-[340px]" glow="rgba(56,189,248,0.25)">
-                <TileText title="Six real decks." body="Tarot, Lenormand, runes, ogham, I Ching, geomancy." />
+                <TileText title="Real cards. Your hand." body="You pick. It reads. Never the same draw twice." />
                 <div aria-hidden="true" className="relative mt-8 h-[150px]">
                   {[['tarot/the_sun', -14, -60, -26, -92], ['runes/sowilo', 0, 0, 0, 0], ['tarot/the_moon', 14, 60, 26, 92]].map(([src, r, x, r2, x2], i) => (
                     <img key={src} src={`/library/${src}.webp`} alt="" width={300} height={527} loading="lazy"
@@ -187,7 +188,7 @@ export default function Home() {
             <FadeUp className="md:col-span-4" delay={0.05}>
               <Tile className="h-full min-h-[300px]" glow="rgba(244,114,182,0.22)">
                 <div className="md:pr-[170px]">
-                  <TileText title="It speaks your language." body="109 of them. Pick yours once and every reading arrives in it." />
+                  <TileText title="It speaks yours." body="109 languages. Every reading arrives in the one you think in." />
                   <div aria-hidden="true" className="mt-8 flex flex-wrap gap-2">
                     {GREETINGS.slice(0, 10).map((g, i) => (
                       <span key={g} className="greet-chip rounded-full bg-white/[0.06] px-3 py-1.5 text-[14px] text-white/80 ring-1 ring-white/10" style={{ animationDelay: `${i * 0.9}s` }}>{g}</span>
@@ -204,7 +205,7 @@ export default function Home() {
             {/* Morning — the real push, word for word */}
             <FadeUp className="md:col-span-2">
               <Tile className="h-full min-h-[300px]" glow="rgba(251,146,60,0.25)">
-                <TileText title="A line every morning." body="At nine, wherever you are. One line about your day — short enough to remember at noon." />
+                <TileText title="Before the day begins." body="One line at nine. You’ll remember it at noon." />
                 <div aria-hidden="true" className="push-loop mt-8 flex items-start gap-3 rounded-[22px] bg-white/[0.1] p-3.5 ring-1 ring-white/10 backdrop-blur">
                   <Image src="/app/icon.png" alt="" width={38} height={38} className="h-[38px] w-[38px] flex-none rounded-[9px]" />
                   <div className="min-w-0 flex-1">
@@ -221,7 +222,7 @@ export default function Home() {
             {/* Traditions */}
             <FadeUp className="md:col-span-2" delay={0.05}>
               <Tile className="h-full min-h-[260px]" glow="rgba(52,211,153,0.2)">
-                <TileText title="102 traditions." body="From Ile-Ife to Varanasi, each named as its own people name it. Plutto picks the one that fits your question." />
+                <TileText title="102 ways to read a life." body="Whichever fits your question, it already knows." />
                 <div aria-hidden="true" className="mt-7 flex flex-wrap gap-x-4 gap-y-1 text-[13px] text-white/35">
                   {['Ifá', 'Jyotiṣa', 'I Ching', 'Tarot', 'Norse runes', 'Ogham', 'Geomancy', 'Lenormand', 'Hafez', 'Tasseography'].map((t) => <span key={t}>{t}</span>)}
                 </div>
@@ -234,7 +235,7 @@ export default function Home() {
                 <svg aria-hidden="true" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" className="mb-6 opacity-80">
                   <rect x="4" y="10.5" width="16" height="10" rx="3" /><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3" /><circle cx="12" cy="15.5" r="1.3" fill="white" />
                 </svg>
-                <TileText title="Private by design." body="Your birth details and your questions stay yours. Delete your account, and everything with it, in one tap." />
+                <TileText title="Yours. Only yours." body="What you ask stays with you. Gone in one tap, whenever you say." />
               </Tile>
             </FadeUp>
           </div>
