@@ -23,7 +23,7 @@ export default function LockApp() {
       </div>
 
       <div className="push-loop" style={{ position: 'absolute', left: 10, right: 10, top: 560 }}>
-        <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', padding: '13px 14px', borderRadius: 24, background: 'rgba(245,245,250,0.18)', backdropFilter: 'blur(30px) saturate(1.6)', WebkitBackdropFilter: 'blur(30px) saturate(1.6)' }}>
+        <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', padding: '13px 14px', borderRadius: 24, background: 'rgba(245,245,250,0.2)' }}>
           <Image src="/app/icon.png" alt="" width={38} height={38} style={{ width: 38, height: 38, borderRadius: 9, flex: 'none', marginTop: 1 }} />
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8 }}>
@@ -36,7 +36,7 @@ export default function LockApp() {
       </div>
 
       {[{ left: 46 }, { right: 46 }].map((pos, i) => (
-        <div key={i} style={{ position: 'absolute', bottom: 58, width: 50, height: 50, borderRadius: 25, background: 'rgba(0,0,0,0.35)', backdropFilter: 'blur(20px)', display: 'flex', alignItems: 'center', justifyContent: 'center', ...pos }}>
+        <div key={i} style={{ position: 'absolute', bottom: 58, width: 50, height: 50, borderRadius: 25, background: 'rgba(0,0,0,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', ...pos }}>
           {i === 0 ? (
             <svg width="16" height="22" viewBox="0 0 16 22" fill="white" aria-hidden="true"><path d="M3 0h10v4.5L10.5 9v11a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2V9L3 4.5z" /></svg>
           ) : (

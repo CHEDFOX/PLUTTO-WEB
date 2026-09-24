@@ -40,7 +40,7 @@ import Tilt from './motion/Tilt';
 // every joint and each turn read as several small stop-and-go moves. The only
 // place the curve is allowed to stop is the front, where the phone holds.
 const PATH = [
-  // u     x     y    scale  rotate  rotY  bright
+  // u     x     y    scale  rotate  (unused)  bright
   [0,      0,    0,   1,     0,      0,    1],
   [1,     74,  -30,   0.9,   5,     -5,    0.5],
   [2,    140,  -58,   0.8,   9,     -8,    0.32],
@@ -84,19 +84,21 @@ function Phone({ turn, index, isFront, children }) {
   const y = useTransform(turn, (t) => at(t).y);
   const scale = useTransform(turn, (t) => at(t).scale);
   const rotate = useTransform(turn, (t) => at(t).rotate);
-  const rotateY = useTransform(turn, (t) => at(t).rotateY);
   // Darkening is a black veil, not a CSS brightness filter: a filter repaints
   // the playing video under it on every frame.
   const shade = useTransform(turn, (t) => 1 - at(t).bright);
   const zIndex = useTransform(turn, (t) => layer(wrap(index - t)));
   return (
-    <motion.div className="absolute will-change-transform" style={{ x, y, scale, rotate, rotateY, zIndex }}>
+    <motion.div className="absolute will-change-transform" style={{ x, y, scale, rotate, zIndex }}>
       {children}
-      <motion.div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[46px] bg-black" style={{ opacity: shade }} />
+      {/* will-change: opacity keeps this on the compositor. Without it every
+          per-frame opacity write repainted and re-rasterised the veil — three
+          280×587 repaints a frame, the largest cost left in a turn. */}
+      <motion.div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[46px] bg-black" style={{ opacity: shade, willChange: 'opacity' }} />
       {/* a sheen crosses the glass as the phone settles at the front */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden rounded-[46px]">
         <motion.div
-          className="absolute inset-y-0 w-[70%]"
+          className="absolute inset-y-0 w-[70%] will-change-transform"
           style={{ background: 'linear-gradient(105deg, transparent 38%, rgba(255,255,255,0.13) 50%, transparent 62%)' }}
           initial={false}
           animate={isFront ? { x: ['-120%', '190%'] } : { x: '-120%' }}
@@ -196,7 +198,10 @@ export default function HeroStage({ copy, phones, neptune }) {
           </div>
 
           <div className="relative mx-auto flex h-[650px] w-full justify-center lg:h-[720px] lg:items-center">
-            <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-[-90px] w-[1100px] max-w-none -translate-x-1/2 lg:top-[-250px] lg:w-[1600px]" style={{ mixBlendMode: 'screen' }}>
+            {/* The render's black sky is baked to transparency (neptune-alpha.png),
+                so no blend mode: a blended layer under moving phones is
+                recomposited on every frame, and Safari does that slowly. */}
+            <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-[-90px] w-[1100px] max-w-none -translate-x-1/2 lg:top-[-250px] lg:w-[1600px]">
               <motion.div style={pinned ? { y: rise, scale: grow } : undefined} className="max-lg:!transform-none">
                 <div className={pinned ? 'neptune-breathe neptune-still-lg' : 'neptune-breathe'}>{neptune}</div>
               </motion.div>
@@ -208,10 +213,15 @@ export default function HeroStage({ copy, phones, neptune }) {
                 {/* the glow: a soft pool of the front screen's colour, behind the stack */}
                 {GLOW.map((c, i) => (
                   <motion.div key={c} aria-hidden="true" className="pointer-events-none absolute h-[560px] w-[560px] rounded-full"
-                              style={{ background: `radial-gradient(closest-side, ${c}, transparent)`, filter: 'blur(40px)', translateZ: -60 }}
+                              style={{ background: `radial-gradient(closest-side, ${c}b3 0%, ${c}66 38%, ${c}1f 70%, ${c}00 100%)` }}
                               initial={false} animate={{ opacity: front === i ? 0.42 : 0 }} transition={{ duration: 1.4, ease: 'easeInOut' }} />
                 ))}
-                <div className="stack-bob relative flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
+                {/* Flat, on purpose. A 3D rotation on a phone (rotateY) made the
+                    browser re-rasterise it on every frame of a turn, in Chrome and
+                    worse in Safari; position, scale, tilt and dimming carry the
+                    depth, and a flat layer keeps one cached raster for the whole
+                    move. Ordered by z-index, so nothing is sorted or sliced in 3D. */}
+                <div className="stack-bob relative flex items-center justify-center">
                   {phones.map((ph, i) => (
                     <Phone key={ph.key} turn={turn} index={i} isFront={front === i}>{ph.node}</Phone>
                   ))}

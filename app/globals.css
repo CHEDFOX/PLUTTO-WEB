@@ -436,7 +436,10 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
   background: linear-gradient(90deg, #7dd3fc, #c4b5fd, #f9a8d4, #fcd34d, #7dd3fc);
   background-size: 300% 100%;
   -webkit-background-clip: text; background-clip: text; color: transparent;
-  animation: shimmer 7s linear infinite;
+  /* One sweep as the word arrives, then still: a moving text gradient is
+     repainted on every frame for as long as it runs, and that repaint was
+     stealing the frame budget from the phones for the life of the page. */
+  animation: shimmer 2.6s ease-in-out 0.7s 1 both;
 }
 @keyframes shimmer { to { background-position: 300% 0; } }
 
@@ -473,11 +476,14 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
 .neptune-breathe { animation: neptune 18s ease-in-out infinite; transform-origin: 50% 51%; }
 @keyframes neptune { 0%, 100% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.025) rotate(1.5deg); } }
 
-.greet-chip { animation: greet 9s ease-in-out infinite; }
-@keyframes greet { 0%, 8%, 100% { background: rgba(255,255,255,.06); color: rgba(255,255,255,.8); } 3% { background: rgba(244,114,182,.28); color: #fff; } }
+.greet-chip { position: relative; }
+/* The highlight is an overlay fading in and out (compositor work), not a
+   background-colour animation, which is repainted on every frame it runs. */
+.greet-chip::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: rgba(244,114,182,.3); opacity: 0; animation: greet 9s ease-in-out infinite; animation-delay: inherit; pointer-events: none; }
+@keyframes greet { 0%, 8%, 100% { opacity: 0; } 3% { opacity: 1; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .shimmer-text, .push-loop, .aurora::before, .aurora::after, .fan-card, .neptune-breathe, .greet-chip { animation: none; }
+  .shimmer-text, .push-loop, .aurora::before, .aurora::after, .fan-card, .neptune-breathe, .greet-chip::after { animation: none; }
 }
 /* While the hero is pinned, Neptune holds still: a looping transform on a huge
    screen-blended image re-composites everything above it every frame. */
@@ -486,3 +492,9 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
 .stack-bob { animation: stack-bob 7s ease-in-out infinite; }
 @keyframes stack-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
 @media (prefers-reduced-motion: reduce) { .stack-bob { animation: none; } }
+
+/* Sections below the hero are not rendered until they are near the viewport.
+   Without this the browser keeps everything within ~4000px of the fold live —
+   the waveform's 64 bars, the marquee, the deck fan — and their animations
+   cost style and paint work on every frame while the hero is on screen. */
+.lazy-section { content-visibility: auto; contain-intrinsic-size: auto 900px; }

@@ -88,7 +88,7 @@ export default function Home() {
           screen, and running. Neptune rises behind the phones: the brand's
           best art, used as a horizon rather than a sticker. */}
       <HeroStage
-        neptune={<Image src="/planets/Neptune.png" alt="" width={1600} height={2057} priority sizes="(min-width: 1024px) 1600px, 1100px" className="h-auto w-full" />}
+        neptune={<Image src="/planets/neptune-alpha.png" alt="" width={1600} height={2057} priority sizes="(min-width: 1024px) 1600px, 1100px" className="h-auto w-full" />}
         copy={(
           <>
             <FadeUp>
@@ -144,7 +144,7 @@ export default function Home() {
       />
 
       {/* ─────────────────────────── STATS ─────────────────────────── */}
-      <section className="relative border-y border-white/[0.08] bg-black">
+      <section className="lazy-section relative border-y border-white/[0.08] bg-black">
         <dl className="mx-auto grid max-w-6xl grid-cols-2 md:grid-cols-4">
           {STATS.map(([n, suffix, l], i) => (
             <div key={l} className={`px-6 py-10 text-center md:py-12 ${i % 2 ? 'border-l border-white/[0.08]' : ''} ${i > 1 ? 'border-t border-white/[0.08] md:border-t-0' : ''} ${i === 2 ? 'md:border-l' : ''}`}>
@@ -158,7 +158,7 @@ export default function Home() {
       </section>
 
       {/* ─────────────────────────── THE LIBRARY ─────────────────────────── */}
-      <section className="py-24 md:py-32">
+      <section className="lazy-section py-24 md:py-32">
         <FadeUp className="px-6 text-center">
           <Eyebrow color="#F472B6">The library</Eyebrow>
           <H2 className="mx-auto mt-3 max-w-[18ch]">Every oracle the world kept.</H2>
@@ -172,7 +172,7 @@ export default function Home() {
       </section>
 
       {/* ─────────────────────────── HOW IT WORKS ─────────────────────────── */}
-      <section id="how" className="scroll-mt-20 border-t border-white/[0.08] pt-24 md:pt-32">
+      <section id="how" className="lazy-section scroll-mt-20 border-t border-white/[0.08] pt-24 md:pt-32">
         <FadeUp className="px-6 text-center">
           <Eyebrow>How it works</Eyebrow>
           <H2 className="mt-3">Ask. Listen. Know.</H2>
@@ -183,7 +183,7 @@ export default function Home() {
       </section>
 
       {/* ─────────────────────────── FEATURES ─────────────────────────── */}
-      <section id="features" className="scroll-mt-20 border-t border-white/[0.08] px-6 py-24 md:py-32">
+      <section id="features" className="lazy-section scroll-mt-20 border-t border-white/[0.08] px-6 py-24 md:py-32">
         <div className="mx-auto max-w-6xl">
           <FadeUp>
             <Eyebrow>Features</Eyebrow>
@@ -277,7 +277,7 @@ export default function Home() {
       </section>
 
       {/* ─────────────────────────── TRY A CARD ─────────────────────────── */}
-      <section id="draw" className="scroll-mt-20 border-t border-white/[0.08] px-6 py-24 md:py-32">
+      <section id="draw" className="lazy-section scroll-mt-20 border-t border-white/[0.08] px-6 py-24 md:py-32">
         <FadeUp className="text-center">
           <Eyebrow color="#38BDF8">Try it now</Eyebrow>
           <H2 className="mt-3">Pick a deck.</H2>
@@ -291,7 +291,7 @@ export default function Home() {
       </section>
 
       {/* ─────────────────────────── DOWNLOAD ─────────────────────────── */}
-      <section id="download" className="scroll-mt-20 px-6 pb-16 md:pb-20">
+      <section id="download" className="lazy-section scroll-mt-20 px-6 pb-16 md:pb-20">
         <FadeUp>
           <div className="aurora relative mx-auto max-w-6xl overflow-hidden rounded-[36px] px-6 py-20 text-center ring-1 ring-white/10 md:py-24"
                style={{ background: '#0a0a10' }}>

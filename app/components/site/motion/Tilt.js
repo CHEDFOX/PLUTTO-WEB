@@ -27,7 +27,7 @@ export default function Tilt({ children, max = 8, className = '', innerClassName
   return (
     <div className={className} style={{ perspective: 1400 }}
          onPointerEnter={onHover ? () => onHover(true) : undefined} onPointerLeave={onHover ? () => onHover(false) : undefined}>
-      <motion.div style={{ rotateX: rx, rotateY: ry, transformStyle: 'preserve-3d' }} className={innerClassName}>
+      <motion.div style={{ rotateX: rx, rotateY: ry, willChange: 'transform' }} className={innerClassName}>
         {children}
       </motion.div>
     </div>
