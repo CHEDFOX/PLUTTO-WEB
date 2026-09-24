@@ -9,7 +9,7 @@
 import { useEffect } from 'react';
 import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-motion';
 
-export default function Tilt({ children, max = 8, className = '', innerClassName = 'h-full w-full' }) {
+export default function Tilt({ children, max = 8, className = '', innerClassName = 'h-full w-full', onHover }) {
   const calm = useReducedMotion();
   const rx = useSpring(useMotionValue(0), { stiffness: 90, damping: 18, mass: 0.6 });
   const ry = useSpring(useMotionValue(0), { stiffness: 90, damping: 18, mass: 0.6 });
@@ -25,7 +25,8 @@ export default function Tilt({ children, max = 8, className = '', innerClassName
     return () => window.removeEventListener('pointermove', on);
   }, [calm, max, rx, ry]);
   return (
-    <div className={className} style={{ perspective: 1400 }}>
+    <div className={className} style={{ perspective: 1400 }}
+         onPointerEnter={onHover ? () => onHover(true) : undefined} onPointerLeave={onHover ? () => onHover(false) : undefined}>
       <motion.div style={{ rotateX: rx, rotateY: ry, transformStyle: 'preserve-3d' }} className={innerClassName}>
         {children}
       </motion.div>
