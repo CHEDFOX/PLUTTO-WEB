@@ -132,12 +132,13 @@ export default function Home() {
         )}
         phones={[
           { key: 'chat', caption: 'Ask it anything — it answers.',
-            node: <Device width={300}><AppVideo name="chat" poster="/app/screens/chat-empty.png" still="/app/screens/chat-poster.png" label="Plutto answering a question" /></Device> },
+            mobile: <Device width={300}><AppVideo name="chat" poster="/app/screens/chat-empty.png" still="/app/screens/chat-poster.png" label="Plutto answering a question" /></Device>,
+            node: <Device width={280}><AppVideo name="chat" poster="/app/screens/chat-empty.png" still="/app/screens/chat-poster.png" label="Plutto answering a question" /></Device> },
           { key: 'tarot', caption: 'Lay the cards — it reads them.',
-            node: <Device width={300}><AppVideo name="tarot" poster="/app/screens/tarot-start.jpg" still="/app/screens/tarot.png" label="Laying tarot cards in Plutto" /></Device>,
+            node: <Device width={280}><AppVideo name="tarot" poster="/app/screens/tarot-start.jpg" still="/app/screens/tarot.png" label="Laying tarot cards in Plutto" /></Device>,
             small: <Device width={270}><Shot src="/app/screens/tarot.png" alt="A tarot card turned over in Plutto" /></Device> },
           { key: 'push', caption: 'A line about your day, every morning at nine.',
-            node: <Device width={300} statusTime=""><LockApp /></Device>,
+            node: <Device width={280} statusTime=""><LockApp /></Device>,
             small: <Device width={270} statusTime=""><LockApp /></Device> },
         ]}
       />

@@ -11,17 +11,20 @@
  * normally. Nothing hijacks the wheel — it is ordinary scrolling past a tall
  * section whose contents stay put.
  *
- * The carousel is real 3D arithmetic, not three canned states: each phone sits
- * on a circle (120° apart) and the scroll turns the circle, so a phone moving
- * from the left to the right passes behind, smaller and dimmer, rather than
- * jumping. A caption and three dots under the buttons say which phone is in
- * front; a dot scrolls straight to its phone.
+ * The phones are a fanned stack, not a carousel. The front phone stands in the
+ * middle; the next two wait behind it, each a step up, to the right and a
+ * little smaller and darker, like a hand of cards. A turn slides the front phone
+ * out, down and to the left, fading, while the next steps forward out of the
+ * stack. Nothing ever passes through anything else (a circular carousel made
+ * the incoming and outgoing phones cross mid-turn), and scrolling back up plays
+ * the same moves in reverse. A caption and three dots under the buttons say
+ * which phone is in front; a dot scrolls straight to its phone.
  *
  * Phones (narrow screens) and reduced motion get the unpinned hero: the chat
  * alone on a phone, the still three-up arrangement on a desktop.
  */
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useMotionValueEvent, useReducedMotion, AnimatePresence } from 'framer-motion';
 import Tilt from './motion/Tilt';
 
@@ -30,31 +33,40 @@ import Tilt from './motion/Tilt';
 const P = [0, 0.1, 0.4, 0.55, 0.85, 1];
 const R = [0, 0, 1, 1, 2, 2];
 
-function place(theta) {
-  const c = Math.cos(theta), s = Math.sin(theta);
-  const depth = (1 + c) / 2;            // 1 at the front, 0 straight behind
-  return {
-    x: s * 215,
-    scale: 0.7 + 0.3 * depth,
-    rotate: s * 8,
-    rotateY: -s * 22,
-    opacity: 0.25 + 0.75 * depth,
-    zIndex: Math.round(depth * 30),
-    filter: `brightness(${0.45 + 0.55 * depth})`,
-  };
+// Where a phone sits for its distance `d` from the front (d = index − turn):
+//   d = 0  front      d = 1, 2  behind, fanned up and right      d = −1  gone
+const SLOTS = [
+  // d   x     y    scale  rotate  opacity  bright
+  [-1, -230,  40, 0.8,  -11,    0,     0.5],
+  [-0.5,-120, 22, 0.9,  -6,     0.12,  0.7],
+  [ 0,    0,   0, 1,     0,     1,     1],
+  [ 1,   74, -30, 0.9,   5,     1,     0.5],
+  [ 2,  140, -58, 0.8,   9,     1,     0.32],
+];
+function lerpSlots(d) {
+  const c = Math.max(-1, Math.min(2, d));
+  let k = 0;
+  while (k < SLOTS.length - 2 && c > SLOTS[k + 1][0]) k += 1;
+  const [d0, ...a] = SLOTS[k];
+  const [d1, ...b] = SLOTS[k + 1];
+  const f = (c - d0) / (d1 - d0);
+  const v = a.map((x, i) => x + (b[i] - x) * f);
+  return { x: v[0], y: v[1], scale: v[2], rotate: v[3], opacity: v[4], bright: v[5] };
 }
 
 function Phone({ turn, index, children }) {
-  const theta = (t) => ((index - t) * 2 * Math.PI) / 3;
-  const x = useTransform(turn, (t) => place(theta(t)).x);
-  const scale = useTransform(turn, (t) => place(theta(t)).scale);
-  const rotate = useTransform(turn, (t) => place(theta(t)).rotate);
-  const rotateY = useTransform(turn, (t) => place(theta(t)).rotateY);
-  const opacity = useTransform(turn, (t) => place(theta(t)).opacity);
-  const zIndex = useTransform(turn, (t) => place(theta(t)).zIndex);
-  const filter = useTransform(turn, (t) => place(theta(t)).filter);
+  const at = (t) => lerpSlots(index - t);
+  const x = useTransform(turn, (t) => at(t).x);
+  const y = useTransform(turn, (t) => at(t).y);
+  const scale = useTransform(turn, (t) => at(t).scale);
+  const rotate = useTransform(turn, (t) => at(t).rotate);
+  const opacity = useTransform(turn, (t) => at(t).opacity);
+  const filter = useTransform(turn, (t) => `brightness(${at(t).bright})`);
+  // The leaving phone drops BEHIND everything as it slides away, so the phone
+  // stepping forward is always the crisp one on top — no double exposure.
+  const zIndex = useTransform(turn, (t) => { const d = index - t; return d < 0 ? 1 : 30 - Math.round(d * 10); });
   return (
-    <motion.div className="absolute" style={{ x, scale, rotate, rotateY, opacity, zIndex, filter }}>
+    <motion.div className="absolute will-change-transform" style={{ x, y, scale, rotate, opacity, zIndex, filter }}>
       {children}
     </motion.div>
   );
@@ -68,7 +80,14 @@ export default function HeroStage({ copy, phones, neptune }) {
   // server render and the first paint already agree with the device.
   const pinned = !calm;
   const { scrollYProgress } = useScroll({ target: stage, offset: ['start start', 'end end'] });
-  const turn = useTransform(scrollYProgress, P, R);
+  // Each turn eases in and out (smootherstep) instead of moving at one speed.
+  const ease = (v) => { const k = Math.floor(v), f = v - k; return k + f * f * f * (f * (f * 6 - 15) + 10); };
+  const turn = useTransform(scrollYProgress, (p) => {
+    for (let i = 0; i < P.length - 1; i += 1) {
+      if (p <= P[i + 1]) { const f = (p - P[i]) / (P[i + 1] - P[i] || 1); return ease(R[i] + (R[i + 1] - R[i]) * Math.max(0, Math.min(1, f))); }
+    }
+    return R[R.length - 1];
+  });
   const rise = useTransform(scrollYProgress, [0, 1], [0, -140]);
   const grow = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
   useMotionValueEvent(turn, 'change', (t) => setFront(((Math.round(t) % 3) + 3) % 3));
@@ -127,7 +146,7 @@ export default function HeroStage({ copy, phones, neptune }) {
 
             {/* wide + motion: the carousel */}
             {pinned ? (
-              <Tilt className="absolute inset-0 hidden lg:block" innerClassName="relative flex h-full w-full items-center justify-center" max={5}>
+              <Tilt className="absolute inset-0 hidden lg:block" innerClassName="relative flex h-full w-full items-center justify-center pt-10 pr-20" max={4}>
                 {phones.map((ph, i) => (
                   <Phone key={ph.key} turn={turn} index={i}>{ph.node}</Phone>
                 ))}
