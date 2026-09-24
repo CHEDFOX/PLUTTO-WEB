@@ -3,13 +3,15 @@
 /**
  * THE HERO STAGE — the first scrolls turn the phones, then the page moves on.
  *
- * On a wide screen the hero is pinned (position: sticky inside a section three
- * screens tall). While it is pinned, the scroll does not move the page; it turns
- * the three phones like a carousel: the chat, then the Tarot draw, then the
- * morning notification, each coming to the front in turn and holding there for a
- * beat. When the third has had its turn the section ends and the page scrolls on
- * normally. Nothing hijacks the wheel — it is ordinary scrolling past a tall
- * section whose contents stay put.
+ * On a wide screen the hero is pinned (position: sticky inside a tall section)
+ * until every screen has been at the front — by the cycle, by scrolling, by the
+ * wheel over the phones or by a dot. Then the pin is released: the section
+ * drops to its natural height and the next scroll moves the page at once.
+ *
+ * While pinned, the wheel OVER THE PHONES turns them instead of scrolling the
+ * page; anywhere else it scrolls the page into the pin, which turns them too.
+ * Nothing can hold a visitor: once all three are seen, the wheel scrolls the
+ * page again wherever it is.
  *
  * The phones are a fanned stack that keeps cycling. The front phone stands in
  * the middle; the next two wait behind it, each a step up, to the right and a
@@ -24,7 +26,7 @@
  * alone on a phone, the still three-up arrangement on a desktop.
  */
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { motion, animate, useMotionValue, useScroll, useSpring, useTransform, useMotionValueEvent, useReducedMotion, AnimatePresence } from 'framer-motion';
 import Tilt from './motion/Tilt';
 
@@ -121,18 +123,55 @@ export default function HeroStage({ copy, phones, neptune }) {
   const stage = useRef(null);
   const calm = useReducedMotion();
   const [front, setFront] = useState(0);
-  // The pin is a wide-screen affair and the breakpoint is CSS's (lg), so the
-  // server render and the first paint already agree with the device.
-  const pinned = !calm;
+  // The stack, dots and glow run whenever motion is allowed. The PIN (the tall
+  // sticky section that turns scrolling into turns) lasts only until all three
+  // screens have been at the front; after that the page scrolls straight away.
+  // The breakpoint is CSS's (lg), so the server render and the first paint
+  // already agree with the device.
+  const motionOn = !calm;
+  const [released, setReleased] = useState(false);
+  const pinned = motionOn && !released;
+
   const { scrollYProgress: rawProgress } = useScroll({ target: stage, offset: ['start start', 'end end'] });
   // A mouse wheel scrolls in notches; the spring lets the phones glide between them.
   const scrollYProgress = useSpring(rawProgress, { stiffness: 70, damping: 22, mass: 0.6, restDelta: 0.0002 });
-  const scrollTurn = useTransform(scrollYProgress, [0.04, 0.96], [0, SCROLL_TURNS], { clamp: true });
+  // Once released, the scroll's contribution is frozen at its last value, so
+  // collapsing the pin moves nothing on screen.
+  const releasedMV = useMotionValue(0);
+  const bakedP = useMotionValue(0);
+  const effP = useTransform([scrollYProgress, releasedMV, bakedP], ([p, r, b]) => (r ? b : p));
+  const scrollTurn = useTransform(effP, [0.04, 0.96], [0, SCROLL_TURNS], { clamp: true });
   const auto = useMotionValue(0);
   const turn = useTransform([auto, scrollTurn], ([a, b]) => a + b);
-  const rise = useTransform(scrollYProgress, [0, 1], [0, -140]);
-  const grow = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
+  const rise = useTransform(effP, [0, 1], [0, -140]);
+  const grow = useTransform(effP, [0, 1], [1, 1.08]);
   useMotionValueEvent(turn, 'change', (t) => setFront(wrap(Math.round(t))));
+
+  // RELEASE. The pinned hero looked the same at every scroll position inside
+  // the pin (it was stuck to the top), so the section can drop to its natural
+  // height and the scroll be set to the hero's top with nothing visibly moving.
+  const seen = useRef(new Set([0]));
+  const pendingTop = useRef(null);
+  const release = () => {
+    if (released || !stage.current) return;
+    bakedP.set(scrollYProgress.get());
+    releasedMV.set(1);
+    const el = stage.current;
+    const top = el.getBoundingClientRect().top + window.scrollY;
+    const inside = window.scrollY > top - 64 && window.scrollY < top + el.offsetHeight - window.innerHeight;
+    pendingTop.current = inside ? Math.max(0, top - 64) : null;
+    setReleased(true);
+  };
+  useLayoutEffect(() => {
+    if (released && pendingTop.current != null) {
+      window.scrollTo({ top: pendingTop.current, behavior: 'instant' });
+      pendingTop.current = null;
+    }
+  }, [released]);
+  useEffect(() => {
+    seen.current.add(front);
+    if (seen.current.size >= phones.length) release();
+  }, [front]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // The endless cycle. It rests while the pointer is on the phones, while the
   // hero is off screen or the tab hidden, and for a moment after a scroll so
@@ -141,7 +180,7 @@ export default function HeroStage({ copy, phones, neptune }) {
   const lastScroll = useRef(0);
   useMotionValueEvent(rawProgress, 'change', () => { lastScroll.current = performance.now(); });
   useEffect(() => {
-    if (!pinned) return undefined;
+    if (!motionOn) return undefined;
     let visible = true;
     const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; });
     if (stage.current) io.observe(stage.current);
@@ -152,7 +191,39 @@ export default function HeroStage({ copy, phones, neptune }) {
       animate(auto, Math.round(auto.get()) + 1, SPRING);
     }, HOLD + MOVE * 1000);
     return () => { clearInterval(id); io.disconnect(); };
-  }, [pinned, auto]);
+  }, [motionOn, auto]);
+
+  // THE WHEEL OVER THE PHONES turns them instead of scrolling the page — while
+  // the hero is pinned on screen and not every screen has been seen. Once all
+  // three have, the wheel scrolls the page again, even over the phones, so no
+  // one is ever held here. Wheel deltas are accumulated (a trackpad sends many
+  // small ones) and one turn is taken per NOTCH, with a rest between turns.
+  const stackRef = useRef(null);
+  const releasedRef = useRef(false);
+  releasedRef.current = released;
+  useEffect(() => {
+    const el = stackRef.current;
+    if (!el || !motionOn) return undefined;
+    let acc = 0, lastTurn = 0, lastWheel = 0;
+    const NOTCH = 80, REST = 650;
+    const onWheel = (e) => {
+      if (releasedRef.current) return;
+      const r = stage.current.getBoundingClientRect();
+      const pinnedOnScreen = r.top <= 66 && r.bottom > window.innerHeight + 2;
+      if (!pinnedOnScreen) return;
+      e.preventDefault();
+      const now = performance.now();
+      if (now - lastWheel > 300) acc = 0;
+      lastWheel = now;
+      acc += e.deltaY;
+      if (Math.abs(acc) < NOTCH || now - lastTurn < REST) return;
+      const dir = acc > 0 ? 1 : -1;
+      acc = 0; lastTurn = now;
+      animate(auto, Math.round(auto.get()) + dir, SPRING);
+    };
+    el.addEventListener('wheel', onWheel, { passive: false });
+    return () => el.removeEventListener('wheel', onWheel);
+  }, [motionOn, auto]);
 
   // A dot turns the stack forward to its phone.
   const goTo = (i) => {
@@ -173,7 +244,7 @@ export default function HeroStage({ copy, phones, neptune }) {
           <div className="text-center lg:text-left">
             {copy}
 
-            {pinned ? (
+            {motionOn ? (
               <div className="mt-10 hidden items-center gap-4 lg:flex">
                 <div className="flex gap-2">
                   {phones.map((ph, i) => (
@@ -202,14 +273,15 @@ export default function HeroStage({ copy, phones, neptune }) {
                 so no blend mode: a blended layer under moving phones is
                 recomposited on every frame, and Safari does that slowly. */}
             <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-[-90px] w-[1100px] max-w-none -translate-x-1/2 lg:top-[-250px] lg:w-[1600px]">
-              <motion.div style={pinned ? { y: rise, scale: grow } : undefined} className="max-lg:!transform-none">
-                <div className={pinned ? 'neptune-breathe neptune-still-lg' : 'neptune-breathe'}>{neptune}</div>
+              <motion.div style={motionOn ? { y: rise, scale: grow } : undefined} className="max-lg:!transform-none">
+                <div className={motionOn ? 'neptune-breathe neptune-still-lg' : 'neptune-breathe'}>{neptune}</div>
               </motion.div>
             </div>
 
             {/* wide + motion: the carousel */}
-            {pinned ? (
-              <Tilt className="absolute inset-0 hidden lg:block" onHover={(v) => { hover.current = v; }} innerClassName="relative flex h-full w-full items-center justify-center pt-10 pr-20" max={4}>
+            {motionOn ? (
+              <div ref={stackRef} className="absolute inset-0 hidden lg:block">
+              <Tilt className="absolute inset-0" onHover={(v) => { hover.current = v; }} innerClassName="relative flex h-full w-full items-center justify-center pt-10 pr-20" max={4}>
                 {/* the glow: a soft pool of the front screen's colour, behind the stack */}
                 {GLOW.map((c, i) => (
                   <motion.div key={c} aria-hidden="true" className="pointer-events-none absolute h-[560px] w-[560px] rounded-full"
@@ -223,10 +295,16 @@ export default function HeroStage({ copy, phones, neptune }) {
                     move. Ordered by z-index, so nothing is sorted or sliced in 3D. */}
                 <div className="stack-bob relative flex items-center justify-center">
                   {phones.map((ph, i) => (
-                    <Phone key={ph.key} turn={turn} index={i} isFront={front === i}>{ph.node}</Phone>
+                    <Phone key={ph.key} turn={turn} index={i} isFront={front === i}>
+                      {/* `idle` is the screen before its turn (the lock screen with
+                          no banner yet); the same element type, so switching to
+                          `node` is a prop change and its arrival animates. */}
+                      {front === i || !ph.idle ? ph.node : ph.idle}
+                    </Phone>
                   ))}
                 </div>
               </Tilt>
+              </div>
             ) : (
               /* wide + reduced motion: the still three-up */
               <div className="relative hidden w-full justify-center lg:flex">

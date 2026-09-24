@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * THE MORNING PUSH, on the lock screen.
  *
@@ -9,10 +11,17 @@
  */
 
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 export const PUSH = { title: 'Quiet luck', body: 'It’s tilted your way today — come see how far ›' };
 
-export default function LockApp() {
+/**
+ * `live` — whether the push has arrived. Off, the lock screen is just the
+ * clock; on, the banner drops in the way iOS delivers one (down from above,
+ * settling on a spring) and stays. The hero passes it once the phone is at the
+ * front, so a visitor sees the notification ARRIVE rather than find it there.
+ */
+export default function LockApp({ live = true }) {
   return (
     <div className="absolute inset-0" style={{
       background: 'radial-gradient(120% 70% at 50% 110%, #1b3a6b 0%, #0b1426 45%, #05070d 100%)', color: '#fff',
@@ -22,7 +31,12 @@ export default function LockApp() {
         <p style={{ fontSize: 108, fontWeight: 700, lineHeight: '112px', letterSpacing: -3, color: 'rgba(255,255,255,0.92)' }}>9:00</p>
       </div>
 
-      <div className="push-loop" style={{ position: 'absolute', left: 10, right: 10, top: 560 }}>
+      <motion.div
+        style={{ position: 'absolute', left: 10, right: 10, top: 560 }}
+        initial={false}
+        animate={live ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: -28, scale: 0.96 }}
+        transition={live ? { type: 'spring', stiffness: 260, damping: 24, mass: 0.8, delay: 0.9 } : { duration: 0.25 }}
+      >
         <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', padding: '13px 14px', borderRadius: 24, background: 'rgba(245,245,250,0.2)' }}>
           <Image src="/app/icon.png" alt="" width={38} height={38} style={{ width: 38, height: 38, borderRadius: 9, flex: 'none', marginTop: 1 }} />
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -33,7 +47,7 @@ export default function LockApp() {
             <p style={{ fontSize: 15, lineHeight: '20px', color: 'rgba(255,255,255,0.92)' }}>{PUSH.body}</p>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {[{ left: 46 }, { right: 46 }].map((pos, i) => (
         <div key={i} style={{ position: 'absolute', bottom: 58, width: 50, height: 50, borderRadius: 25, background: 'rgba(0,0,0,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', ...pos }}>

@@ -129,7 +129,8 @@ export default function Home() {
             node: <Device width={280}><AppVideo name="tarot" poster="/app/screens/tarot-start.jpg" still="/app/screens/tarot.png" label="Laying tarot cards in Plutto" /></Device>,
             small: <Device width={270}><Shot src="/app/screens/tarot.png" alt="A tarot card turned over in Plutto" /></Device> },
           { key: 'push', caption: 'A line about your day, every morning at nine.',
-            node: <Device width={280} statusTime=""><LockApp /></Device>,
+            node: <Device width={280} statusTime=""><LockApp live /></Device>,
+            idle: <Device width={280} statusTime=""><LockApp live={false} /></Device>,
             small: <Device width={270} statusTime=""><LockApp /></Device> },
         ]}
       />
