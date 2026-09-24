@@ -8,10 +8,10 @@
  * wheel over the phones or by a dot. Then the pin is released: the section
  * drops to its natural height and the next scroll moves the page at once.
  *
- * While pinned, the wheel OVER THE PHONES turns them instead of scrolling the
- * page; anywhere else it scrolls the page into the pin, which turns them too.
- * Nothing can hold a visitor: once all three are seen, the wheel scrolls the
- * page again wherever it is.
+ * The wheel OVER THE PHONES turns them instead of scrolling the page, before
+ * and after the release, as long as the hero is up at the top of the window.
+ * Anywhere else it scrolls the page (into the pin while pinned, which turns
+ * them too). Scrolled past the hero, the wheel is the page's again everywhere.
  *
  * The phones are a fanned stack that keeps cycling. The front phone stands in
  * the middle; the next two wait behind it, each a step up, to the right and a
@@ -193,24 +193,22 @@ export default function HeroStage({ copy, phones, neptune }) {
     return () => { clearInterval(id); io.disconnect(); };
   }, [motionOn, auto]);
 
-  // THE WHEEL OVER THE PHONES turns them instead of scrolling the page — while
-  // the hero is pinned on screen and not every screen has been seen. Once all
-  // three have, the wheel scrolls the page again, even over the phones, so no
-  // one is ever held here. Wheel deltas are accumulated (a trackpad sends many
-  // small ones) and one turn is taken per NOTCH, with a rest between turns.
+  // THE WHEEL OVER THE PHONES always turns them instead of scrolling the page,
+  // before and after the release, for as long as the hero is up at the top of
+  // the window (the hero's own top at or above the nav, its bottom below the
+  // fold). Scrolled past it, the wheel is the page's again, so no one is held.
+  // Wheel deltas are accumulated (a trackpad sends many small ones) and one
+  // turn is taken per NOTCH, with a rest between turns.
   const stackRef = useRef(null);
-  const releasedRef = useRef(false);
-  releasedRef.current = released;
   useEffect(() => {
     const el = stackRef.current;
     if (!el || !motionOn) return undefined;
     let acc = 0, lastTurn = 0, lastWheel = 0;
     const NOTCH = 80, REST = 650;
     const onWheel = (e) => {
-      if (releasedRef.current) return;
       const r = stage.current.getBoundingClientRect();
-      const pinnedOnScreen = r.top <= 66 && r.bottom > window.innerHeight + 2;
-      if (!pinnedOnScreen) return;
+      const heroUp = r.top <= 66 && r.bottom > window.innerHeight * 0.6;
+      if (!heroUp) return;
       e.preventDefault();
       const now = performance.now();
       if (now - lastWheel > 300) acc = 0;
