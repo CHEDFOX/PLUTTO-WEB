@@ -40,10 +40,6 @@ import Spotlight from '../components/site/motion/Spotlight';
 // The greetings the app's own language screen cycles through (onboarding_content.LANGUAGES).
 const GREETINGS = ['Hello', 'Hola', 'Bonjour', 'مرحبا', 'Olá', 'Привет', '你好', 'こんにちは', '안녕하세요', 'Hallo', 'नमस्ते', 'নমস্কার', 'வணக்கம்', 'నమస్కారం', 'السلام علیکم', 'ආයුබෝවන්'];
 
-function Eyebrow({ children, color = '#A78BFA' }) {
-  return <p className="text-[14px] font-semibold" style={{ color }}>{children}</p>;
-}
-
 function H2({ children, className = '' }) {
   return (
     <h2 className={`text-[clamp(2rem,4.6vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-white ${className}`}>
@@ -149,9 +145,8 @@ export default function Home() {
       {/* ─────────────────────────── THE LIBRARY ─────────────────────────── */}
       <section className="lazy-section py-24 md:py-32">
         <FadeUp className="px-6 text-center">
-          <Eyebrow color="#F472B6">The library</Eyebrow>
-          <H2 className="mx-auto mt-3 max-w-[18ch]">Every oracle the world kept.</H2>
-          <p className="mx-auto mt-4 max-w-[40ch] text-[17px] text-white/55">Every card here is in the app — dealt for you, and read for you.</p>
+          <H2 className="mx-auto max-w-[18ch]">Every oracle the world ever kept.</H2>
+          <p className="mx-auto mt-4 max-w-[40ch] text-[17px] text-white/55">All of it in the app. Dealt to you, read for you.</p>
         </FadeUp>
         <FadeUp delay={0.1}>
           <div className="mt-14">
@@ -163,8 +158,7 @@ export default function Home() {
       {/* ─────────────────────────── HOW IT WORKS ─────────────────────────── */}
       <section id="how" className="lazy-section scroll-mt-20 border-t border-white/[0.08] pt-24 md:pt-32">
         <FadeUp className="px-6 text-center">
-          <Eyebrow>How it works</Eyebrow>
-          <H2 className="mt-3">Ask. Listen. Know.</H2>
+          <H2>Ask. Listen. Know.</H2>
         </FadeUp>
         <div className="mt-6 md:mt-0">
           <Story />
@@ -175,8 +169,7 @@ export default function Home() {
       <section id="features" className="lazy-section scroll-mt-20 border-t border-white/[0.08] px-6 py-24 md:py-32">
         <div className="mx-auto max-w-6xl">
           <FadeUp>
-            <Eyebrow>Features</Eyebrow>
-            <H2 className="mt-3 max-w-[18ch]">Ask. It already knows you.</H2>
+            <H2 className="max-w-[18ch]">Ask. It already knows you.</H2>
           </FadeUp>
 
           <div className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-6">
@@ -255,9 +248,8 @@ export default function Home() {
       {/* ─────────────────────────── TRY A CARD ─────────────────────────── */}
       <section id="draw" className="lazy-section scroll-mt-20 border-t border-white/[0.08] px-6 py-24 md:py-32">
         <FadeUp className="text-center">
-          <Eyebrow color="#38BDF8">Try it now</Eyebrow>
-          <H2 className="mt-3">Pick a deck.</H2>
-          <p className="mx-auto mt-4 max-w-[40ch] text-[17px] text-white/55">Tap one to turn a card. Tap again to draw another.</p>
+          <H2>Turn a card.</H2>
+          <p className="mx-auto mt-4 max-w-[40ch] text-[17px] text-white/55">Tap a deck. Tap again for another.</p>
         </FadeUp>
         <FadeUp delay={0.1}>
           <div className="mt-14">

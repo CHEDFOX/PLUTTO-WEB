@@ -19,13 +19,13 @@ const TarotShot = () => <AppVideo name="tarot" poster="/app/screens/tarot-start.
 
 const STEPS = [
   { n: '01', color: '#A78BFA', title: 'Tell it when you arrived.',
-    body: 'A date, a time, a place. Thirty seconds, once — and every reading after is yours alone.',
+    body: 'A date, a time, a place. Once. Every reading after is yours alone.',
     Screen: OnboardingShot },
   { n: '02', color: '#38BDF8', title: 'Ask out loud.',
-    body: 'Tap the wave and talk. It answers in a voice, in your language.',
+    body: 'Tap the wave and talk. It answers back, in your language.',
     Screen: VoiceVideo },
   { n: '03', color: '#F472B6', title: 'Lay the cards yourself.',
-    body: 'When a question wants a draw, it hands you the deck. You choose the cards; it reads them.',
+    body: 'It hands you the deck. You choose. It reads.',
     Screen: TarotShot },
 ];
 
