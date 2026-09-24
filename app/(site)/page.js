@@ -9,7 +9,6 @@
  *
  *   · one sans face, heavy and tightly tracked for headlines (Inter)
  *   · the product, on a phone, in the first screen
- *   · a row of hard numbers
  *   · a bento of features, each tile one claim with its own picture
  *   · a closing band with the store badges
  *
@@ -30,19 +29,11 @@ import Device from '../components/site/app/Device';
 import AppVideo from '../components/site/app/AppVideo';
 import Shot from '../components/site/app/Shot';
 import LockApp, { PUSH } from '../components/site/app/LockApp';
-import CountUp from '../components/site/CountUp';
 import Marquee from '../components/site/Marquee';
 import Story from '../components/site/Story';
 import Words from '../components/site/motion/Words';
 import HeroStage from '../components/site/HeroStage';
 import Spotlight from '../components/site/motion/Spotlight';
-
-const STATS = [
-  [102, '', 'traditions'],
-  [6, '', 'card decks'],
-  [182, '', 'cards to draw'],
-  [100, '+', 'languages'],
-];
 
 // The greetings the app's own language screen cycles through (onboarding_content.LANGUAGES).
 const GREETINGS = ['Hello', 'Hola', 'Bonjour', 'مرحبا', 'Olá', 'Привет', '你好', 'こんにちは', '안녕하세요', 'Hallo', 'नमस्ते', 'নমস্কার', 'வணக்கம்', 'నమస్కారం', 'السلام علیکم', 'ආයුබෝවන්'];
@@ -142,20 +133,6 @@ export default function Home() {
             small: <Device width={270} statusTime=""><LockApp /></Device> },
         ]}
       />
-
-      {/* ─────────────────────────── STATS ─────────────────────────── */}
-      <section className="lazy-section relative border-y border-white/[0.08] bg-black">
-        <dl className="mx-auto grid max-w-6xl grid-cols-2 md:grid-cols-4">
-          {STATS.map(([n, suffix, l], i) => (
-            <div key={l} className={`px-6 py-10 text-center md:py-12 ${i % 2 ? 'border-l border-white/[0.08]' : ''} ${i > 1 ? 'border-t border-white/[0.08] md:border-t-0' : ''} ${i === 2 ? 'md:border-l' : ''}`}>
-              <dt className="text-[clamp(2.2rem,4.4vw,3.4rem)] font-semibold tracking-[-0.045em] text-white">
-                <CountUp to={n} suffix={suffix} />
-              </dt>
-              <dd className="mt-1 text-[14px] text-white/50">{l}</dd>
-            </div>
-          ))}
-        </dl>
-      </section>
 
       {/* ─────────────────────────── THE LIBRARY ─────────────────────────── */}
       <section className="lazy-section py-24 md:py-32">
