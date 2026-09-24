@@ -168,21 +168,8 @@ export default function Home() {
           </FadeUp>
 
           <div className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-6">
-            {/* Talk to it */}
-            <FadeUp className="md:col-span-4">
-              <Tile className="h-full min-h-[340px]" glow="rgba(124,92,255,0.35)">
-                <TileText title="Talk to it. Out loud." body="Ask by voice or text. Push back, ask why. It keeps the thread — and remembers you tomorrow." />
-                <div aria-hidden="true" className="mt-10 flex h-[120px] w-full items-center justify-between">
-                  {Array.from({ length: 64 }).map((_, i) => {
-                    const h = 14 + Math.round(Math.abs(Math.sin(i * 0.55) * Math.cos(i * 0.21)) * 96);
-                    return <span key={i} className="wave-bar w-[4px] flex-none rounded-full bg-gradient-to-t from-violet-500 to-sky-300" style={{ height: h, opacity: 0.35 + (h / 110) * 0.65, animationDelay: `${-(i % 9) * 0.16}s` }} />;
-                  })}
-                </div>
-              </Tile>
-            </FadeUp>
-
             {/* Decks */}
-            <FadeUp className="md:col-span-2" delay={0.05}>
+            <FadeUp className="md:col-span-2">
               <Tile className="h-full min-h-[340px]" glow="rgba(56,189,248,0.25)">
                 <TileText title="Six real decks." body="Tarot, Lenormand, runes, ogham, I Ching, geomancy." />
                 <div aria-hidden="true" className="relative mt-8 h-[150px]">
@@ -196,7 +183,7 @@ export default function Home() {
             </FadeUp>
 
             {/* Languages */}
-            <FadeUp className="md:col-span-3" delay={0.05}>
+            <FadeUp className="md:col-span-4" delay={0.05}>
               <Tile className="h-full min-h-[300px]" glow="rgba(244,114,182,0.22)">
                 <div className="md:pr-[170px]">
                   <TileText title="It speaks your language." body="109 of them. Pick yours once and every reading arrives in it." />
@@ -214,7 +201,7 @@ export default function Home() {
             </FadeUp>
 
             {/* Morning — the real push, word for word */}
-            <FadeUp className="md:col-span-3" delay={0.1}>
+            <FadeUp className="md:col-span-2">
               <Tile className="h-full min-h-[300px]" glow="rgba(251,146,60,0.25)">
                 <TileText title="A line every morning." body="At nine, wherever you are. One line about your day — short enough to remember at noon." />
                 <div aria-hidden="true" className="push-loop mt-8 flex items-start gap-3 rounded-[22px] bg-white/[0.1] p-3.5 ring-1 ring-white/10 backdrop-blur">
@@ -231,7 +218,7 @@ export default function Home() {
             </FadeUp>
 
             {/* Traditions */}
-            <FadeUp className="md:col-span-3" delay={0.05}>
+            <FadeUp className="md:col-span-2" delay={0.05}>
               <Tile className="h-full min-h-[260px]" glow="rgba(52,211,153,0.2)">
                 <TileText title="102 traditions." body="From Ile-Ife to Varanasi, each named as its own people name it. Plutto picks the one that fits your question." />
                 <div aria-hidden="true" className="mt-7 flex flex-wrap gap-x-4 gap-y-1 text-[13px] text-white/35">
@@ -241,7 +228,7 @@ export default function Home() {
             </FadeUp>
 
             {/* Private */}
-            <FadeUp className="md:col-span-3" delay={0.1}>
+            <FadeUp className="md:col-span-2" delay={0.1}>
               <Tile className="h-full min-h-[260px]">
                 <svg aria-hidden="true" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" className="mb-6 opacity-80">
                   <rect x="4" y="10.5" width="16" height="10" rx="3" /><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3" /><circle cx="12" cy="15.5" r="1.3" fill="white" />

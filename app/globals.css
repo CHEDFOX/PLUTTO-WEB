@@ -415,16 +415,14 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
 /* Landing-page motion. Every one of these stops under reduced motion. */
 @keyframes orb-breathe { 0%,100% { transform: scale(1) } 50% { transform: scale(1.06) } }
 @keyframes orb-ripple { 0% { transform: scale(.7); opacity: .9 } 100% { transform: scale(1.35); opacity: 0 } }
-@keyframes wave { 0%,100% { transform: scaleY(.35) } 50% { transform: scaleY(1) } }
 @keyframes marquee { to { transform: translateX(-50%) } }
 .orb-core { animation: orb-breathe 3.2s ease-in-out infinite; }
 .orb-ring { animation: orb-ripple 2.4s ease-out infinite; }
-.wave-bar { animation: wave 1.4s ease-in-out infinite; transform-origin: center; }
 .marquee-track { animation: marquee var(--dur, 60s) linear infinite; }
 .marquee:hover .marquee-track { animation-play-state: paused; }
 .marquee { -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
 @media (prefers-reduced-motion: reduce) {
-  .orb-core, .orb-ring, .wave-bar, .marquee-track { animation: none; }
+  .orb-core, .orb-ring, .marquee-track { animation: none; }
 }
 
 /* Inside a device the app's own strings are shown exactly as the app sets them. */
@@ -495,6 +493,6 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
 
 /* Sections below the hero are not rendered until they are near the viewport.
    Without this the browser keeps everything within ~4000px of the fold live —
-   the waveform's 64 bars, the marquee, the deck fan — and their animations
+   the marquee, the deck fan, the greeting chips — and their animations
    cost style and paint work on every frame while the hero is on screen. */
 .lazy-section { content-visibility: auto; contain-intrinsic-size: auto 900px; }
