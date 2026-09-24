@@ -482,3 +482,7 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
 /* While the hero is pinned, Neptune holds still: a looping transform on a huge
    screen-blended image re-composites everything above it every frame. */
 @media (min-width: 1024px) { .neptune-still-lg { animation: none; } }
+/* The pinned stack breathes very slightly while it holds. */
+.stack-bob { animation: stack-bob 7s ease-in-out infinite; }
+@keyframes stack-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+@media (prefers-reduced-motion: reduce) { .stack-bob { animation: none; } }
