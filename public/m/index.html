@@ -45,6 +45,17 @@
      input or textarea is not part of the design */
   input, textarea, select, button, [tabindex] { outline: none !important; }
   input:focus, textarea:focus, *:focus, *:focus-visible { outline: none !important; box-shadow: none !important; }
+  /* the pale stripe on a remembered e-mail is Chrome's autofill fill: keep the
+     field's own (transparent) background and the app's white text */
+  input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, textarea:-webkit-autofill {
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: #fff; caret-color: #fff;
+    transition: background-color 999999s ease-in-out 0s;
+  }
+  input:autofill { background: transparent; color: #fff; }
+  /* a phone shows no scrollbar tracks; Windows draws a pale one on every
+     scrolling list and on a multi-line box — hidden, the lists still scroll */
+  * { scrollbar-width: none; }
+  *::-webkit-scrollbar { width: 0; height: 0; display: none; }
 </style>
 <script>
   // The app reads its width ONCE at startup (react-native-web's Dimensions).
@@ -74,6 +85,6 @@
     </noscript>
     <!-- The root element for your Expo app. -->
     <div id="root"></div>
-  <script src="/m/_expo/static/js/web/index-123f621babbc9ce8c568392fe75f5c0e.js" defer></script>
+  <script src="/m/_expo/static/js/web/index-ec20a9419d0b077b9305dadc48a25337.js" defer></script>
 </body>
 </html>
