@@ -44,6 +44,14 @@ export const auth = {
   verifyEmailCode: (email, token) =>
     supabase.auth.verifyOtp({ email, token, type: 'email' }),
 
+  // Phone goes to Supabase directly (Twilio Verify sits behind the project), the
+  // same two calls the app makes. `phone` is the full E.164 number: dial + digits.
+  sendPhoneCode: (phone) =>
+    supabase.auth.signInWithOtp({ phone }),
+
+  verifyPhoneCode: (phone, token) =>
+    supabase.auth.verifyOtp({ phone, token, type: 'sms' }),
+
   signInWithGoogle: (redirectTo) =>
     supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo } }),
 

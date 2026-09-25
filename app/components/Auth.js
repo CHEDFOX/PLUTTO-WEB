@@ -33,6 +33,15 @@ function EnvelopeGlyph() {
   );
 }
 
+function PhoneGlyph() {
+  return (
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="7" y="2.5" width="10" height="19" rx="2.5" />
+      <path d="M11 18.5h2" />
+    </svg>
+  );
+}
+
 function ArrowGlyph() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="1.8" strokeLinecap="round">
@@ -72,6 +81,16 @@ function ResendGlyph() {
 export default function Auth({ onDone }) {
   const [phase, setPhase] = useState('entry');   // entry | sending | verify | verifying
   const [email, setEmail] = useState('');
+  // PHONE — the second pill the app has (screens.auth.fields[].type === 'phone').
+  // No default country: the browser's locale is a guess, and a wrong dial code
+  // beside a right number is a valid-looking value that never gets a code. The
+  // circle asks before it assumes, exactly as the phone's does.
+  const [digits, setDigits] = useState('');
+  const [country, setCountry] = useState(null);
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [search, setSearch] = useState('');
+  const [method, setMethod] = useState('email');   // which pill sent the code
+  const phoneRef = useRef(null);
   const [code, setCode] = useState('');
   const [codeError, setCodeError] = useState(false);
   const [error, setError] = useState('');
@@ -79,6 +98,7 @@ export default function Auth({ onDone }) {
   const codeRef = useRef(null);
 
   const valid = EMAIL_RX.test(email.trim());
+  const fullPhone = country ? `${country.dial}${digits}` : '';
 
   useEffect(() => {
     if (phase === 'verify') codeRef.current?.focus();
@@ -89,7 +109,9 @@ export default function Auth({ onDone }) {
     if (phase !== 'verify' || code.length !== CODE_LEN) return;
     (async () => {
       setPhase('verifying');
-      const { error } = await auth.verifyEmailCode(email.trim(), code);
+      const { error } = method === 'phone'
+        ? await auth.verifyPhoneCode(fullPhone, code)
+        : await auth.verifyEmailCode(email.trim(), code);
       if (error) {
         setCodeError(true);
         setCode('');
@@ -102,11 +124,14 @@ export default function Auth({ onDone }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code, phase]);
 
-  const send = async () => {
-    if (!valid) return;
+  const send = async (via = method) => {
+    if (via === 'phone' ? !phoneValid : !valid) return;
+    setMethod(via);
     setError('');
     setPhase('sending');
-    const { error } = await auth.sendEmailCode(email.trim());
+    const { error } = via === 'phone'
+      ? await auth.sendPhoneCode(fullPhone)
+      : await auth.sendEmailCode(email.trim());
     if (error) {
       setError(error.message || 'Could not send the code.');
       setPhase('entry');
@@ -174,26 +199,40 @@ export default function Auth({ onDone }) {
     return () => { live = false; };
   }, [gate?.eclipse]);
 
+  // The methods and the dial codes are the backend's (onboarding-content →
+  // screens.auth), so withdrawing phone there withdraws it here too.
+  const fields = Array.isArray(gate?.fields) && gate.fields.length ? gate.fields : [{ id: 'email', type: 'email', placeholder: 'you@plutto.space' }];
+  const phoneField = fields.find((f) => f.type === 'phone');
+  const emailField = fields.find((f) => f.type === 'email') || fields[0];
+  const countries = Array.isArray(gate?.countries) && gate.countries.length ? gate.countries : [{ iso: 'US', name: 'United States', dial: '+1', flag: '🇺🇸' }];
+  const minD = Number(phoneField?.minDigits) || 6;
+  const maxD = Number(phoneField?.maxDigits) || 14;
+  const phoneValid = !!country && digits.length >= minD && digits.length <= maxD;
+  const term = search.trim().toLowerCase();
+  const shown = term ? countries.filter((c) => (c.name || '').toLowerCase().includes(term) || String(c.dial || '').includes(term)) : countries;
+  const chooseCountry = (c) => { setCountry(c); setPickerOpen(false); setSearch(''); setTimeout(() => phoneRef.current?.focus(), 80); };
+
   const circle =
     'flex items-center justify-center rounded-full transition-colors ' +
     'border-[0.5px] border-white/[0.18] bg-white/[0.03] hover:bg-white/[0.07]';
 
   return (
-    <div className="relative min-h-[70vh] flex flex-col items-center justify-center w-full px-7">
-      {/* Anchored to the bottom and pushed past the edge by `eclipseDrop`, the
-          way the phone places it — it is a horizon, not a picture on a page. */}
+    <div className="relative flex w-full flex-col items-center px-7 pt-[10vh] md:pt-[14vh]">
+      {/* THE HORIZON. Fixed to the foot of the viewport and sunk past it, so it
+          is the ground the gate stands on — never a picture behind the buttons.
+          It used to sit at the bottom of the form's own box, which on a tall
+          screen put the planet straight over the Google button. */}
       {eclipse ? (
         <img
           src={eclipse}
           alt=""
           aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 w-[min(520px,92vw)] max-w-none -translate-x-1/2 select-none opacity-90"
-          style={{ bottom: -(Number(gate?.eclipseDrop) || 90),
-                   aspectRatio: `1 / ${Number(gate?.eclipseRatio) || 0.863}` }}
+          className="pointer-events-none fixed left-1/2 bottom-0 z-0 w-[min(520px,92vw)] max-w-none -translate-x-1/2 translate-y-[46%] select-none opacity-90"
+          style={{ aspectRatio: `1 / ${Number(gate?.eclipseRatio) || 0.863}` }}
         />
       ) : null}
       {phase === 'entry' && (
-        <div className="w-full max-w-[420px] flex flex-col items-center">
+        <div className="relative z-10 w-full max-w-[420px] flex flex-col items-center gap-4">
           {/* the pill */}
           <div
             className="relative w-full bg-white/[0.06] border-[0.5px] border-white/[0.14] backdrop-blur-sm"
@@ -211,7 +250,7 @@ export default function Auth({ onDone }) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && send()}
-              placeholder="you@plutto.space"
+              placeholder={emailField?.placeholder || 'you@plutto.space'}
               autoComplete="email"
               autoCapitalize="none"
               autoCorrect="off"
@@ -227,7 +266,7 @@ export default function Auth({ onDone }) {
             />
 
             <button
-              onClick={send}
+              onClick={() => send('email')}
               aria-label="Continue"
               className={`absolute flex items-center justify-center rounded-full bg-white transition-opacity ${
                 valid ? 'opacity-100' : 'opacity-0 pointer-events-none'
@@ -238,7 +277,61 @@ export default function Auth({ onDone }) {
             </button>
           </div>
 
-          <div className="h-px bg-white/[0.15] my-12" style={{ width: '66%' }} />
+          {/* the phone pill: the circle IS the country control */}
+          {phoneField ? (
+            <div
+              className="relative w-full bg-white/[0.06] border-[0.5px] border-white/[0.14] backdrop-blur-sm"
+              style={{ height: PILL_H, borderRadius: PILL_H / 2 }}
+            >
+              <button
+                type="button"
+                onClick={() => setPickerOpen(true)}
+                aria-label={country ? `${country.name}, ${country.dial}. Change country` : 'Choose your country'}
+                className="absolute flex items-center justify-center rounded-full bg-white/[0.10] border-[0.5px] border-white/[0.18] hover:bg-white/[0.16] transition-colors"
+                style={{ left: PILL_PAD, top: PILL_PAD, width: ENV, height: ENV }}
+              >
+                {country ? <span className="text-[20px] leading-none">{country.flag}</span> : <PhoneGlyph />}
+              </button>
+
+              {country ? (
+                <span className="absolute top-0 bottom-0 flex items-center text-[15px] font-light text-white/50"
+                      style={{ left: PILL_PAD + ENV + 10 }}>{country.dial}</span>
+              ) : null}
+
+              <input
+                ref={phoneRef}
+                type="tel"
+                inputMode="tel"
+                value={digits}
+                onChange={(e) => setDigits(e.target.value.replace(/\D/g, '').slice(0, maxD))}
+                onFocus={() => { if (!country) setPickerOpen(true); }}
+                onKeyDown={(e) => e.key === 'Enter' && send('phone')}
+                placeholder={phoneField.placeholder || '0000000000'}
+                autoComplete="tel-national"
+                className="absolute bg-transparent outline-none text-[15px] font-light text-white placeholder:text-white/[0.32]"
+                style={{
+                  left: PILL_PAD + ENV + 10 + (country ? country.dial.length * 9 + 8 : 0),
+                  right: PILL_PAD + ENV + 10,
+                  top: 0,
+                  bottom: 0,
+                  letterSpacing: '0.3px',
+                }}
+              />
+
+              <button
+                onClick={() => send('phone')}
+                aria-label="Continue"
+                className={`absolute flex items-center justify-center rounded-full bg-white transition-opacity ${
+                  phoneValid ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                }`}
+                style={{ right: PILL_PAD, top: PILL_PAD, width: ENV, height: ENV }}
+              >
+                <ArrowGlyph />
+              </button>
+            </div>
+          ) : null}
+
+          <div className="h-px bg-white/[0.15] my-8" style={{ width: '66%' }} />
 
           <div className="flex gap-4">
             {SOCIAL_PROVIDERS.map((prov) => (
@@ -320,7 +413,10 @@ export default function Auth({ onDone }) {
             aria-label="Verification code"
           />
 
-          <div className="h-6 mt-6 flex items-center">
+          <p className="mt-6 text-[12px] text-white/40">
+            {method === 'phone' ? fullPhone : email.trim()}
+          </p>
+          <div className="h-6 mt-2 flex items-center">
             {phase === 'verifying' && (
               <span className="inline-block h-2 w-2 rounded-full bg-gold/70 animate-pulse" />
             )}
@@ -335,14 +431,45 @@ export default function Auth({ onDone }) {
             >
               <span className="text-white/70 text-xl leading-none">‹</span>
             </button>
-            <button onClick={send} className={circle} style={{ width: 48, height: 48 }} aria-label="Resend code">
+            <button onClick={() => send()} className={circle} style={{ width: 48, height: 48 }} aria-label="Resend code">
               <ResendGlyph />
             </button>
           </div>
         </div>
       )}
 
-      {error && <p className="mt-10 text-[13px] text-red-300/80 text-center">{error}</p>}
+      {error && <p className="relative z-10 mt-10 text-[13px] text-red-300/80 text-center">{error}</p>}
+
+      {/* THE COUNTRY PICKER — the app's sheet, as a sheet: search on top, the
+          list under it, tap to choose and the number field takes focus. */}
+      {pickerOpen ? (
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 backdrop-blur-sm sm:items-center" onClick={() => setPickerOpen(false)}>
+          <div className="flex max-h-[78vh] w-full max-w-[420px] flex-col rounded-t-[28px] bg-[#0c0c11] ring-1 ring-white/[0.1] sm:rounded-[28px]" onClick={(e) => e.stopPropagation()}>
+            <div className="p-4 pb-2">
+              <input
+                autoFocus
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder={gate?.countrySearch || 'Search'}
+                className="w-full rounded-full bg-white/[0.06] px-5 py-3 text-[15px] font-light text-white outline-none ring-[0.5px] ring-white/[0.14] placeholder:text-white/[0.32]"
+              />
+            </div>
+            <ul className="overflow-y-auto px-2 pb-4">
+              {shown.map((c) => (
+                <li key={`${c.iso}-${c.dial}`}>
+                  <button type="button" onClick={() => chooseCountry(c)}
+                          className="flex w-full items-center gap-4 rounded-2xl px-3 py-3 text-left hover:bg-white/[0.06]">
+                    <span className="text-[22px] leading-none">{c.flag}</span>
+                    <span className="flex-1 text-[15px] text-white/90">{c.name}</span>
+                    <span className="text-[14px] tabular-nums text-white/50">{c.dial}</span>
+                  </button>
+                </li>
+              ))}
+              {!shown.length ? <li className="px-5 py-6 text-center text-[13px] text-white/40">Nothing matches.</li> : null}
+            </ul>
+          </div>
+        </div>
+      ) : null}
 
     </div>
   );
