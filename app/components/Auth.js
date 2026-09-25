@@ -42,6 +42,32 @@ function PhoneGlyph() {
   );
 }
 
+/**
+ * A FLAG THAT DRAWS EVERYWHERE. The backend sends the emoji flag, which the
+ * phone renders and Windows does not (Chrome and Edge there show "IN" for 🇮🇳,
+ * since Windows ships no flag glyphs). So the web draws the country's ISO code
+ * as an SVG from /public/flags (3:2, ~500 bytes each) and keeps the emoji only
+ * as the fallback if a code has no file.
+ */
+function Flag({ country, size = 22 }) {
+  const [broken, setBroken] = useState(false);
+  if (!country) return null;
+  const iso = String(country.iso || '').toLowerCase();
+  if (!iso || broken) return <span style={{ fontSize: size - 2, lineHeight: 1 }}>{country.flag}</span>;
+  return (
+    <img
+      src={`/flags/${iso}.svg`}
+      alt=""
+      width={size}
+      height={Math.round(size * 2 / 3)}
+      onError={() => setBroken(true)}
+      className="rounded-[2px] ring-[0.5px] ring-white/[0.15]"
+      style={{ width: size, height: Math.round(size * 2 / 3), objectFit: 'cover' }}
+      draggable={false}
+    />
+  );
+}
+
 function ArrowGlyph() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="1.8" strokeLinecap="round">
@@ -290,7 +316,7 @@ export default function Auth({ onDone }) {
                 className="absolute flex items-center justify-center rounded-full bg-white/[0.10] border-[0.5px] border-white/[0.18] hover:bg-white/[0.16] transition-colors"
                 style={{ left: PILL_PAD, top: PILL_PAD, width: ENV, height: ENV }}
               >
-                {country ? <span className="text-[20px] leading-none">{country.flag}</span> : <PhoneGlyph />}
+                {country ? <Flag country={country} size={22} /> : <PhoneGlyph />}
               </button>
 
               {/* Until a country is chosen there is nothing sensible to type: a
@@ -462,7 +488,7 @@ export default function Auth({ onDone }) {
                 <li key={`${c.iso}-${c.dial}`} className="border-b border-white/[0.06] last:border-b-0">
                   <button type="button" onClick={() => chooseCountry(c)}
                           className="flex w-full items-center gap-4 px-3 py-3.5 text-left hover:bg-white/[0.04]">
-                    <span className="text-[22px] leading-none">{c.flag}</span>
+                    <Flag country={c} size={26} />
                     <span className={`flex-1 text-[15px] font-light ${country?.iso === c.iso ? 'text-[#D4AF37]' : 'text-white/90'}`}>{c.name}</span>
                     <span className="text-[14px] tabular-nums text-white/50">{c.dial}</span>
                   </button>
