@@ -56,6 +56,7 @@ export default {
         editorial: ['var(--font-editorial)', 'Instrument Serif', 'Georgia', 'serif'],
         ui: ['var(--font-ui)', 'Inter', 'system-ui', 'sans-serif'],
         app: ['var(--font-app)', '"Baloo 2"', 'system-ui', 'sans-serif'],
+        hand: ['var(--font-hand)', 'Caveat', 'cursive'],
         serif: ['var(--font-reading)', 'Syne', 'system-ui', 'sans-serif'],
         sans: ['var(--font-body)', 'DM Sans', 'system-ui', 'sans-serif'],
       },

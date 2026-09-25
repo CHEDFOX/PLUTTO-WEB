@@ -1,4 +1,4 @@
-import { Julius_Sans_One, Josefin_Sans, Syne, DM_Sans, JetBrains_Mono, Instrument_Serif, Inter, Baloo_2 } from 'next/font/google';
+import { Julius_Sans_One, Josefin_Sans, Syne, DM_Sans, JetBrains_Mono, Instrument_Serif, Inter, Baloo_2, Caveat } from 'next/font/google';
 import './globals.css';
 
 // DISPLAY — thin geometric capitals, set wide. It only ever appears in caps and
@@ -73,6 +73,15 @@ const baloo = Baloo_2({
   display: 'swap',
 });
 
+// THE HAND IN THE MARGINS — Caveat, for the handwritten asides and the word
+// under a drawn line (components/site/ink). Latin only; it is never body text.
+const caveat = Caveat({
+  subsets: ['latin'],
+  weight: ['500', '600'],
+  variable: '--font-hand',
+  display: 'swap',
+});
+
 const jetbrains = JetBrains_Mono({
   subsets: ['latin'],
   weight: ['400', '500'],
@@ -87,12 +96,12 @@ export const metadata = {
     template: '%s — Plutto',
   },
   description:
-    'Plutto is a voice-first astrology Oracle. Vedic, Western, Chinese, KP, Numerology — one home for every reading.',
+    'Plutto is astrology you can talk back to. Vedic, Western, Chinese, KP, Numerology — one home for every reading.',
   applicationName: 'Plutto',
   openGraph: {
     title: 'Plutto — Every reading. Every system.',
     description:
-      'Voice-first astrology Oracle. Vedic, Western, Chinese, KP, Numerology — one home for every reading.',
+      'Astrology you can talk back to. Vedic, Western, Chinese, KP, Numerology — one home for every reading.',
     url: 'https://plutto.space',
     siteName: 'Plutto',
     type: 'website',
@@ -101,7 +110,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Plutto — Every reading. Every system.',
     description:
-      'Voice-first astrology Oracle. Vedic, Western, Chinese, KP, Numerology.',
+      'Astrology you can talk back to. Vedic, Western, Chinese, KP, Numerology.',
   },
   icons: {
     icon: '/icon.svg',
@@ -118,7 +127,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${julius.variable} ${josefin.variable} ${syne.variable} ${dmSans.variable} ${jetbrains.variable} ${instrument.variable} ${inter.variable} ${baloo.variable}`}
+      className={`${julius.variable} ${josefin.variable} ${syne.variable} ${dmSans.variable} ${jetbrains.variable} ${instrument.variable} ${inter.variable} ${baloo.variable} ${caveat.variable}`}
     >
       {/* Root carries the document and the faces, and nothing else. The site's
           chrome moved into (site)/layout.js so that /app inherits none of it —

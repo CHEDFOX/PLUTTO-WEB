@@ -498,3 +498,23 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
 .lazy-section { content-visibility: auto; contain-intrinsic-size: auto 900px; }
 /* A store badge that is not live yet: softly blurred, a little dimmed. */
 .badge-soft { filter: blur(1.2px); opacity: .62; }
+
+/* ── THE ANCIENT SCRIPTS (components/site/Ancient.js) ─────────────────────────
+   A phone has no face for hieroglyphs, cuneiform, runes or ogham. These are
+   Google's Noto fonts cut down to the handful of signs the page shows (under
+   3 KB each), served from this origin so the CSP's font-src 'self' holds. */
+@font-face { font-family: 'Plutto Hiero'; src: url('/fonts/ancient/hieroglyphs.woff2') format('woff2'); font-display: swap; }
+@font-face { font-family: 'Plutto Cunei'; src: url('/fonts/ancient/cuneiform.woff2') format('woff2'); font-display: swap; }
+@font-face { font-family: 'Plutto Runic'; src: url('/fonts/ancient/runic.woff2') format('woff2'); font-display: swap; }
+@font-face { font-family: 'Plutto Ogham'; src: url('/fonts/ancient/ogham.woff2') format('woff2'); font-display: swap; }
+.script-hiero { font-family: 'Plutto Hiero', 'Noto Sans Egyptian Hieroglyphs', sans-serif; }
+.script-cunei { font-family: 'Plutto Cunei', 'Noto Sans Cuneiform', sans-serif; }
+.script-runic { font-family: 'Plutto Runic', 'Noto Sans Runic', 'Segoe UI Historic', sans-serif; letter-spacing: 0.08em; }
+.script-ogham { font-family: 'Plutto Ogham', 'Noto Sans Ogham', 'Segoe UI Historic', sans-serif; }
+.script-cjk { font-family: 'Noto Serif CJK SC', 'Songti SC', 'SimSun', 'PingFang SC', serif; }
+/* a glyph breathes in, one after the other, once */
+.ancient-glyph { animation: glyph-in 1.2s cubic-bezier(.22,1,.36,1) both; animation-delay: inherit; }
+@keyframes glyph-in { from { opacity: 0; filter: blur(8px); transform: translateY(6px); } to { opacity: 1; filter: blur(0); transform: none; } }
+/* the faint sign behind a section: a watermark, not a picture */
+.watermark { position: absolute; left: 50%; top: 50%; translate: -50% -50%; pointer-events: none; user-select: none; line-height: 1; color: rgba(255,255,255,0.05); }
+@media (prefers-reduced-motion: reduce) { .ancient-glyph { animation: none; } }

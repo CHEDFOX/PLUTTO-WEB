@@ -44,8 +44,8 @@ const MOVEMENTS = [
     n: '02',
     color: SHELF_COLOR.china,
     planet: 'mars',
-    title: 'The oracle',
-    lead: 'Then the right oracle reads it.',
+    title: 'The reading',
+    lead: 'Then the right tradition reads it.',
     body:
       'A hundred and two traditions, each pinned to the city that wrote it — cowries at Ile-Ife, a cup in London, a poet in Shiraz, the stars at Varanasi. Plutto picks the one that fits you and your question.',
   },
@@ -95,7 +95,7 @@ export default function AboutPage() {
                   className="mt-5 font-semibold tracking-[-0.04em] text-white"
                   style={{ fontSize: 'clamp(2.1rem,5.6vw,3.9rem)', lineHeight: 1.08, maxWidth: '16ch' }}
                 >
-                  An oracle that shows its working.
+                  Ancient ways, shown working.
                 </h1>
               </FadeUp>
 

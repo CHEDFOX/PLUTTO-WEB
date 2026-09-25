@@ -3,7 +3,7 @@
 /**
  * GET THE APP — what the Chart and Explore tabs show on the web.
  *
- * The browser carries the Oracle; everything else — the charts, the wheels, the
+ * The browser carries the conversation; everything else — the charts, the wheels, the
  * readings across every tradition — lives in the app. Rather than half-render
  * those here, the tab states the trade honestly and sends the visitor to the
  * right store for the device in their hand.
@@ -39,7 +39,7 @@ export default function GetTheApp({ store, title, body, points }) {
 
       <p className="mt-6 mx-auto max-w-md text-[15px] leading-relaxed text-white/50">
         {body ||
-          'The Oracle speaks here. Everything else — your full chart, the wheels of time, and every reading across every tradition — waits in the app.'}
+          'Plutto speaks here. Everything else — your full chart, the wheels of time, and every reading across every tradition — waits in the app.'}
       </p>
 
       {points?.length > 0 && (

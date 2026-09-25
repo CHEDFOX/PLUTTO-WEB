@@ -36,6 +36,8 @@ import Story from '../components/site/Story';
 import Words from '../components/site/motion/Words';
 import HeroStage from '../components/site/HeroStage';
 import Spotlight from '../components/site/motion/Spotlight';
+import Ancient from '../components/site/Ancient';
+import { Note, Arrow, Underline } from '../components/site/ink/Ink';
 
 // The greetings the app's own language screen cycles through (onboarding_content.LANGUAGES).
 const GREETINGS = ['Hello', 'Hola', 'Bonjour', 'مرحبا', 'Olá', 'Привет', '你好', 'こんにちは', '안녕하세요', 'Hallo', 'नमस्ते', 'নমস্কার', 'வணக்கம்', 'నమస్కారం', 'السلام علیکم', 'ආයුබෝවන්'];
@@ -75,7 +77,7 @@ function TileText({ title, body }) {
 // "Plutto" rather than the raw Supabase host.
 export const metadata = {
   description:
-    'Plutto is an astrology oracle you can talk back to. Give it a date, a time and a place; it works out where the sky stood and reads it to you out loud, in your language.',
+    'Plutto is an astrology reader you can talk back to. Give it a date, a time and a place; it works out where the sky stood and reads it to you out loud, in your language.',
 };
 
 export default function Home() {
@@ -99,8 +101,8 @@ export default function Home() {
 
             <FadeUp delay={0.06}>
               <h1 className="mx-auto mt-7 max-w-[12ch] text-[clamp(2.9rem,6.6vw,5.4rem)] font-semibold leading-[0.96] tracking-[-0.05em] text-white lg:mx-0">
-                <Words text="The oracle in your" delay={0.1} />{' '}
-                <Words text="pocket." delay={0.38} wordClassName="shimmer-text pr-[0.06em]" />
+                <Words text="Ancient answers, in your" delay={0.1} />{' '}
+                <Underline delay={1.1}><Words text="pocket." delay={0.5} wordClassName="shimmer-text pr-[0.06em]" /></Underline>
               </h1>
             </FadeUp>
 
@@ -126,6 +128,12 @@ export default function Home() {
                 Tarot · Lenormand · Runes · Ogham · I Ching · Geomancy · Astrology
               </p>
             </FadeUp>
+
+            {/* the hand: what the phones on the right are, in case anyone wonders */}
+            <div className="mt-12 hidden items-center gap-3 lg:flex">
+              <Note tilt={-4} delay={1.2}>the real app, recorded — not mockups</Note>
+              <Arrow dir="right" width={56} className="mt-2" delay={1.6} />
+            </div>
           </>
         )}
         phones={[
@@ -145,7 +153,7 @@ export default function Home() {
       {/* ─────────────────────────── THE LIBRARY ─────────────────────────── */}
       <section className="lazy-section py-24 md:py-32">
         <FadeUp className="px-6 text-center">
-          <H2 className="mx-auto max-w-[18ch]">Every oracle the world ever kept.</H2>
+          <H2 className="mx-auto max-w-[18ch]">Every ancient way of knowing.</H2>
           <p className="mx-auto mt-4 max-w-[40ch] text-[17px] text-white/55">All of it in the app. Dealt to you, read for you.</p>
         </FadeUp>
         <FadeUp delay={0.1}>
@@ -153,6 +161,14 @@ export default function Home() {
             <Marquee />
           </div>
         </FadeUp>
+        {/* the oldest question, in the scripts that first asked it */}
+        <div className="relative mt-20 md:mt-28">
+          {/* 𒀭 — the Sumerian sign for sky, and for god: a star */}
+          <span aria-hidden="true" className="watermark script-cunei text-[40vw] md:text-[24vw]">𒀭</span>
+          <FadeUp delay={0.05} className="relative">
+            <Ancient />
+          </FadeUp>
+        </div>
       </section>
 
       {/* ─────────────────────────── HOW IT WORKS ─────────────────────────── */}
@@ -225,7 +241,10 @@ export default function Home() {
             {/* Traditions */}
             <FadeUp className="md:col-span-2" delay={0.05}>
               <Tile className="h-full min-h-[260px]" glow="rgba(52,211,153,0.2)">
-                <TileText title="102 ways to read a life." body="Whichever fits your question, it already knows." />
+                <div className="flex flex-wrap items-baseline gap-x-3">
+                  <TileText title="102 ways to read a life." body="Whichever fits your question, it already knows." />
+                </div>
+                <Note tilt={-5} size="text-[20px]" className="absolute right-6 top-7 md:right-8 md:top-8">and counting</Note>
                 <div aria-hidden="true" className="mt-7 flex flex-wrap gap-x-4 gap-y-1 text-[13px] text-white/35">
                   {['Ifá', 'Jyotiṣa', 'I Ching', 'Tarot', 'Norse runes', 'Ogham', 'Geomancy', 'Lenormand', 'Hafez', 'Tasseography'].map((t) => <span key={t}>{t}</span>)}
                 </div>
@@ -246,12 +265,18 @@ export default function Home() {
       </section>
 
       {/* ─────────────────────────── TRY A CARD ─────────────────────────── */}
-      <section id="draw" className="lazy-section scroll-mt-20 border-t border-white/[0.08] px-6 py-24 md:py-32">
-        <FadeUp className="text-center">
+      <section id="draw" className="lazy-section relative scroll-mt-20 overflow-hidden border-t border-white/[0.08] px-6 py-24 md:py-32">
+        {/* 𓂀 — the eye, watching the card turn */}
+        <span aria-hidden="true" className="watermark script-hiero text-[70vw] md:text-[36vw]">𓂀</span>
+        <FadeUp className="relative text-center">
           <H2>Turn a card.</H2>
           <p className="mx-auto mt-4 max-w-[40ch] text-[17px] text-white/55">Tap a deck. Tap again for another.</p>
+          <div className="mt-6 flex items-end justify-center gap-2">
+            <Note tilt={-6} delay={0.3}>go on.</Note>
+            <Arrow dir="down" width={26} className="mb-1" delay={0.7} />
+          </div>
         </FadeUp>
-        <FadeUp delay={0.1}>
+        <FadeUp delay={0.1} className="relative">
           <div className="mt-14">
             <Draw />
           </div>
@@ -272,6 +297,7 @@ export default function Home() {
               </Link>
             </div>
             <StoreBadges className="mt-6" />
+            <div className="mt-8"><Note tilt={-3} delay={0.4}>we’ll wait.</Note></div>
             </div>
           </div>
         </FadeUp>

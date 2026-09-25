@@ -100,7 +100,7 @@ const PageLoader = () => {
             animationDelay: '900ms',
           }}
         >
-          An Oracle That Speaks Back
+          The Sky That Speaks Back
         </span>
       </div>
 
