@@ -25,42 +25,60 @@
     </style>
   <link rel="icon" href="/m/favicon.ico" />
 <style>
-  /* THE STAGE. On a phone the app is the page. On anything wider it stands in a
-     phone-shaped column, dark around it, the way it is designed to be held —
-     the app's layout is a phone's, and stretched to a desktop it is not the
-     app. The column is 430pt wide (a large phone) and as tall as the window.
+  /* THE APP FILLS THE WINDOW. On a phone it is the page, at the phone's own
+     size. On anything larger it still fills the window edge to edge, but it is
+     laid out at a LOGICAL size and scaled up by a ratio taken from the screen
+     (see the script), so a desktop gets the whole app — its type, its spacing,
+     its cards — at a size that suits a desktop, not a phone's pixels stretched
+     across a monitor and not a phone-shaped column in the middle of it.
 
-     The BODY is the stage, not a div inside it: the app's sheets, the paywall
+     The BODY is what scales, not a div inside it: the app's sheets, the paywall
      and the voice screen are modals, and react-native-web mounts a modal as a
-     child of <body>, outside #root. A transform on body makes it the containing
-     block for their position:fixed, so they open over the column and not over
-     the whole window. */
-  html { background: #07070a; }
-  body { background: #000; }
-  @media (min-width: 560px) {
-    html { display: flex; justify-content: center; }
-    body { position: relative; width: 430px; height: 100vh; margin: 0; overflow: hidden; transform: translateZ(0);
-           box-shadow: 0 0 0 1px rgba(255,255,255,.08), 0 40px 120px -30px rgba(0,0,0,.9); }
-    #root { height: 100%; }
-  }
+     child of <body>, outside #root. A transform on body makes it their
+     containing block, so they scale and fill exactly as the app does. */
+  html { background: #000; overflow: hidden; height: 100%; }
+  body { background: #000; margin: 0; overflow: hidden; transform-origin: 0 0; }
+  #root { height: 100%; }
 </style>
 <script>
-  // The app reads its width and height ONCE at startup (react-native-web's
-  // Dimensions), from the document and the visual viewport. On a wide screen
-  // pin both to the stage, so every screen lays out for the column it draws in.
+  // THE RATIO. The app reads its width and height ONCE at startup (react-native-
+  // web's Dimensions) and lays everything out from them. On a large screen the
+  // window is pinned to a logical size — the window divided by k — and the body
+  // is scaled back up by k, so the app fills the window at k times its natural
+  // size. k grows with the screen and is bounded so a wide window never becomes
+  // a short, squat one: it is the smaller of width/1100 and height/700, between
+  // 1 and 1.6. A phone or a small tablet gets k = 1 and no pinning at all.
   (function () {
     window.__PLUTTO_BASE = '/m';
-    if (window.innerWidth < 560) return;
-    var W = 430, H = window.innerHeight;
+    var W = window.innerWidth, H = window.innerHeight;
+    if (W < 560) return;
+    var k = Math.min(W / 1100, H / 700, 1.6);
+    if (k <= 1.02) return;
+    var LW = Math.round(W / k), LH = Math.round(H / k);
     var el = document.documentElement;
     try {
-      Object.defineProperty(el, 'clientWidth', { get: function () { return W; }, configurable: true });
-      Object.defineProperty(el, 'clientHeight', { get: function () { return H; }, configurable: true });
-      Object.defineProperty(window, 'innerWidth', { get: function () { return W; }, configurable: true });
-      var vv = { width: W, height: H, scale: 1, offsetLeft: 0, offsetTop: 0, pageLeft: 0, pageTop: 0,
+      Object.defineProperty(el, 'clientWidth', { get: function () { return LW; }, configurable: true });
+      Object.defineProperty(el, 'clientHeight', { get: function () { return LH; }, configurable: true });
+      Object.defineProperty(window, 'innerWidth', { get: function () { return LW; }, configurable: true });
+      Object.defineProperty(window, 'innerHeight', { get: function () { return LH; }, configurable: true });
+      var vv = { width: LW, height: LH, scale: 1, offsetLeft: 0, offsetTop: 0, pageLeft: 0, pageTop: 0,
                  addEventListener: function () {}, removeEventListener: function () {}, dispatchEvent: function () { return true; } };
       Object.defineProperty(window, 'visualViewport', { get: function () { return vv; }, configurable: true });
     } catch (e) {}
+    var apply = function () {
+      var b = document.body; if (!b) return;
+      b.style.width = LW + 'px'; b.style.height = LH + 'px';
+      // keep filling the window if it is resized: the logical size stays what
+      // the app laid out for, the scale follows the window
+      b.style.transform = 'scale(' + k + ')';
+    };
+    if (document.body) apply(); else document.addEventListener('DOMContentLoaded', apply);
+    window.addEventListener('resize', function () {
+      // innerWidth is pinned above; read the real window from the root element
+      var r = document.documentElement.getBoundingClientRect();
+      var kw = r.width / LW, kh = r.height / LH;
+      document.body.style.transform = 'scale(' + Math.min(kw, kh) + ')';
+    });
   })();
 </script>
 </head>

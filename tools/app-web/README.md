@@ -29,12 +29,17 @@ Metro swaps a few native-only packages for browser shims when the platform is
 `web` (`Plutto-Frontend/metro.config.js` → `src/web/shims`): WebRTC is the
 browser's own; the Supabase session sits in localStorage; Google sign-in is the
 Supabase redirect; push, OTA, Apple sign-in, alternate icons and the in-call
-audio router are quiet no-ops; RevenueCat resolves to not-pro (fail closed) with
-no packages to buy here.
+audio router are quiet no-ops; purchases go through Paddle (the catalog's
+`subscription.paddle`) with RevenueCat still the entitlement brain, read from
+the API's /billing/entitlement.
 
-On a screen wider than 560px the app stands in a 430pt column; on a phone it is
-the page. The app reads its size once at startup, so the stage pins the
-viewport it sees before the bundle runs (see `STAGE` in `build-web.mjs`).
+The app fills the window on every screen. On a phone it is the page at the
+phone's own size. On anything larger it is laid out at a logical size and
+scaled up by a ratio taken from the screen (the smaller of width/1100 and
+height/700, between 1 and 1.6), so a desktop gets the whole app, edge to edge,
+with its type, spacing and cards at a size that suits a desktop. The app reads
+its size once at startup, so that ratio is applied before the bundle runs (see
+`STAGE` in `build-web.mjs`).
 
 ## Updating
 
