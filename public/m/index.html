@@ -45,14 +45,16 @@
   // web's Dimensions) and lays everything out from them. On a large screen the
   // window is pinned to a logical size — the window divided by k — and the body
   // is scaled back up by k, so the app fills the window at k times its natural
-  // size. k grows with the screen and is bounded so a wide window never becomes
-  // a short, squat one: it is the smaller of width/1100 and height/700, between
-  // 1 and 1.6. A phone or a small tablet gets k = 1 and no pinning at all.
+  // size. k grows SLOWLY with the screen and tops out low, so a big monitor
+  // gets the app's proportions without its elements turning huge: it is the
+  // smaller of width/1440 and height/900, between 1 and 1.25 — a laptop gets
+  // 1 (its own pixels), a 1080p monitor 1.2, anything larger 1.25. A phone or a
+  // tablet gets k = 1 and no pinning at all.
   (function () {
     window.__PLUTTO_BASE = '/m';
     var W = window.innerWidth, H = window.innerHeight;
     if (W < 560) return;
-    var k = Math.min(W / 1100, H / 700, 1.6);
+    var k = Math.min(W / 1440, H / 900, 1.25);
     if (k <= 1.02) return;
     var LW = Math.round(W / k), LH = Math.round(H / k);
     var el = document.documentElement;

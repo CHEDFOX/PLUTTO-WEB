@@ -35,9 +35,10 @@ the API's /billing/entitlement.
 
 The app fills the window on every screen. On a phone it is the page at the
 phone's own size. On anything larger it is laid out at a logical size and
-scaled up by a ratio taken from the screen (the smaller of width/1100 and
-height/700, between 1 and 1.6), so a desktop gets the whole app, edge to edge,
-with its type, spacing and cards at a size that suits a desktop. The app reads
+scaled up by a ratio taken from the screen (the smaller of width/1440 and
+height/900, between 1 and 1.25: a laptop keeps its own pixels, a 1080p monitor
+gets 1.2), so a desktop gets the whole app, edge to edge, with its type, spacing
+and cards at a size that suits a desktop without turning huge. The app reads
 its size once at startup, so that ratio is applied before the bundle runs (see
 `STAGE` in `build-web.mjs`).
 
