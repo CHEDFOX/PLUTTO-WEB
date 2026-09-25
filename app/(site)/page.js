@@ -30,7 +30,6 @@ import Device from '../components/site/app/Device';
 import AppVideo from '../components/site/app/AppVideo';
 import Shot from '../components/site/app/Shot';
 import LockApp from '../components/site/app/LockApp';
-import { PUSH } from '../components/site/app/push';
 import Marquee from '../components/site/Marquee';
 import Story from '../components/site/Story';
 import Words from '../components/site/motion/Words';
@@ -106,12 +105,6 @@ export default function Home() {
               </h1>
             </FadeUp>
 
-            <FadeUp delay={0.12}>
-              <p className="mx-auto mt-6 max-w-[34ch] text-[clamp(1.05rem,1.6vw,1.25rem)] leading-relaxed text-white/60 lg:mx-0">
-                Tarot, runes, I Ching and your stars, read to you out loud in your language. Ask it why. It tells you.
-              </p>
-            </FadeUp>
-
             <FadeUp delay={0.18}>
               <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
                 <GetAppLink className="inline-flex h-12 items-center rounded-full bg-white px-7 text-[15px] font-semibold text-black transition-transform hover:scale-[1.03]">
@@ -129,9 +122,9 @@ export default function Home() {
               </p>
             </FadeUp>
 
-            {/* the hand: what the phones on the right are, in case anyone wonders */}
+            {/* the hand: a nudge toward the phones, in the voice of a friend */}
             <div className="mt-12 hidden items-center gap-3 lg:flex">
-              <Note tilt={-4} delay={1.2}>the real app, recorded — not mockups</Note>
+              <Note tilt={-4} delay={1.2}>ask about the job. or the ex. it’s heard worse.</Note>
               <Arrow dir="right" width={56} className="mt-2" delay={1.6} />
             </div>
           </>
@@ -174,7 +167,7 @@ export default function Home() {
       {/* ─────────────────────────── HOW IT WORKS ─────────────────────────── */}
       <section id="how" className="lazy-section scroll-mt-20 border-t border-white/[0.08] pt-24 md:pt-32">
         <FadeUp className="px-6 text-center">
-          <H2>Ask. Listen. Know.</H2>
+          <H2>How it gets to know you.</H2>
         </FadeUp>
         <div className="mt-6 md:mt-0">
           <Story />
@@ -221,19 +214,19 @@ export default function Home() {
               </Tile>
             </FadeUp>
 
-            {/* Morning — the real push, word for word */}
+            {/* Exact — the arithmetic under it all */}
             <FadeUp className="md:col-span-2">
               <Tile className="h-full min-h-[300px]" glow="rgba(251,146,60,0.25)">
-                <TileText title="Before the day begins." body="One line at nine. You’ll remember it at noon." />
-                <div aria-hidden="true" className="push-loop mt-8 flex items-start gap-3 rounded-[22px] bg-white/[0.1] p-3.5 ring-1 ring-white/10 backdrop-blur">
-                  <Image src="/app/icon.png" alt="" width={38} height={38} className="h-[38px] w-[38px] flex-none rounded-[9px]" />
-                  <div className="min-w-0 flex-1">
-                    <div className="flex justify-between text-[14px]">
-                      <span className="font-semibold text-white">{PUSH.title}</span>
-                      <span className="text-white/45">now</span>
+                <TileText title="Your minute, not your month." body="Swiss Ephemeris, the same arithmetic observatories use. The sky exactly as it stood when you arrived." />
+                <div aria-hidden="true" data-no-auto-case className="mt-8 space-y-1.5 font-mono text-[13px] text-white/60">
+                  {[['☉', 'Sun', '14°32′', 'Gemini'], ['☽', 'Moon', '02°08′', 'Scorpio'], ['↑', 'Rising', '27°51′', 'Leo'], ['♄', 'Saturn', '19°44′', 'Pisces']].map(([g, n, d, sgn]) => (
+                    <div key={n} className="flex items-center gap-3">
+                      <span className="w-4 text-center text-white/85">{g}</span>
+                      <span className="w-14 text-white/45">{n}</span>
+                      <span className="tabular-nums text-white/85">{d}</span>
+                      <span className="text-white/45">{sgn}</span>
                     </div>
-                    <p className="text-[14px] leading-snug text-white/85">{PUSH.body}</p>
-                  </div>
+                  ))}
                 </div>
               </Tile>
             </FadeUp>

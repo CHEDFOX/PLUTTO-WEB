@@ -12,21 +12,22 @@
 import { useEffect, useRef, useState } from 'react';
 import Device from './app/Device';
 import AppVideo from './app/AppVideo';
+import LockApp from './app/LockApp';
 
 const VoiceVideo = () => <AppVideo name="voice" poster="/app/screens/voice.png" label="Plutto's voice mode" />;
 const OnboardingShot = () => <AppVideo name="when" poster="/app/screens/when-start.jpg" still="/app/screens/onboarding.png" label="Plutto asking your name and when you were born" />;
-const TarotShot = () => <AppVideo name="tarot" poster="/app/screens/tarot-start.jpg" still="/app/screens/tarot.png" label="Laying tarot cards in Plutto" />;
+const Morning = () => <LockApp live />;
 
 const STEPS = [
   { n: '01', color: '#A78BFA', title: 'Tell it when you arrived.',
     body: 'A date, a time, a place. Once. From then on every reading is about you, and nobody else.',
     Screen: OnboardingShot },
   { n: '02', color: '#38BDF8', title: 'Ask out loud.',
-    body: 'Tap the wave and talk. It answers in your language, and remembers what you said yesterday.',
+    body: 'Tap the wave and talk. It answers back, in your language, and you can argue with it.',
     Screen: VoiceVideo },
-  { n: '03', color: '#F472B6', title: 'Lay the cards yourself.',
-    body: 'It hands you the deck. You choose. It reads what you drew, not what it planned.',
-    Screen: TarotShot },
+  { n: '03', color: '#FBBF24', title: 'Wake up already knowing.',
+    body: 'Every morning at nine, one line written for the day you’re about to have.',
+    Screen: Morning, lock: true },
 ];
 
 export default function Story() {
@@ -52,7 +53,7 @@ export default function Story() {
           <div className="relative">
             <div aria-hidden="true" className="absolute -inset-24 rounded-full blur-3xl transition-colors duration-700"
                  style={{ background: `radial-gradient(closest-side, ${STEPS[active].color}40, transparent)` }} />
-            <Device width={320}>
+            <Device width={320} statusTime={STEPS[active].lock ? '' : '9:41'}>
               {STEPS.map(({ Screen, n }, i) => (
                 <div key={n} className={`absolute inset-0 transition-all duration-700 ease-out ${i === active ? 'scale-100 opacity-100 blur-0' : i < active ? 'scale-[0.94] opacity-0 blur-md' : 'scale-[1.06] opacity-0 blur-md'}`}>
                   <Screen />
@@ -64,7 +65,7 @@ export default function Story() {
       </div>
 
       <ol>
-        {STEPS.map(({ n, color, title, body, Screen }, i) => (
+        {STEPS.map(({ n, color, title, body, Screen, lock }, i) => (
           <li
             key={n}
             ref={(el) => { refs.current[i] = el; }}
@@ -84,7 +85,7 @@ export default function Story() {
             </div>
             {/* the phone for this step (narrow screens only) */}
             <div className="mt-10 flex justify-center md:hidden">
-              <Device width={250}><Screen /></Device>
+              <Device width={250} statusTime={lock ? '' : '9:41'}><Screen /></Device>
             </div>
           </li>
         ))}
