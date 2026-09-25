@@ -293,30 +293,33 @@ export default function Auth({ onDone }) {
                 {country ? <span className="text-[20px] leading-none">{country.flag}</span> : <PhoneGlyph />}
               </button>
 
-              {country ? (
-                <span className="absolute top-0 bottom-0 flex items-center text-[15px] font-light text-white/50"
-                      style={{ left: PILL_PAD + ENV + 10 }}>{country.dial}</span>
-              ) : null}
-
-              <input
-                ref={phoneRef}
-                type="tel"
-                inputMode="tel"
-                value={digits}
-                onChange={(e) => setDigits(e.target.value.replace(/\D/g, '').slice(0, maxD))}
-                onFocus={() => { if (!country) setPickerOpen(true); }}
-                onKeyDown={(e) => e.key === 'Enter' && send('phone')}
-                placeholder={phoneField.placeholder || '0000000000'}
-                autoComplete="tel-national"
-                className="absolute bg-transparent outline-none text-[15px] font-light text-white placeholder:text-white/[0.32]"
-                style={{
-                  left: PILL_PAD + ENV + 10 + (country ? country.dial.length * 9 + 8 : 0),
-                  right: PILL_PAD + ENV + 10,
-                  top: 0,
-                  bottom: 0,
-                  letterSpacing: '0.3px',
-                }}
-              />
+              {/* Until a country is chosen there is nothing sensible to type: a
+                  bare national number means nothing without its code. So the
+                  field is a tap that asks the first question, not an input that
+                  accepts an answer to the second. Same as the phone. */}
+              {!country ? (
+                <button
+                  type="button"
+                  onClick={() => setPickerOpen(true)}
+                  className="absolute top-0 bottom-0 flex items-center text-left text-[15px] font-light text-white/[0.32]"
+                  style={{ left: PILL_PAD + ENV + 10, right: PILL_PAD + ENV + 10, letterSpacing: '0.3px' }}
+                >
+                  {phoneField.placeholder || '0000000000'}
+                </button>
+              ) : (
+                <input
+                  ref={phoneRef}
+                  type="tel"
+                  inputMode="tel"
+                  value={digits}
+                  onChange={(e) => setDigits(e.target.value.replace(/\D/g, '').slice(0, maxD))}
+                  onKeyDown={(e) => e.key === 'Enter' && send('phone')}
+                  placeholder={phoneField.placeholder || '0000000000'}
+                  autoComplete="tel-national"
+                  className="absolute bg-transparent outline-none text-[15px] font-light text-white placeholder:text-white/[0.32]"
+                  style={{ left: PILL_PAD + ENV + 10, right: PILL_PAD + ENV + 10, top: 0, bottom: 0, letterSpacing: '0.3px' }}
+                />
+              )}
 
               <button
                 onClick={() => send('phone')}
@@ -456,11 +459,11 @@ export default function Auth({ onDone }) {
             </div>
             <ul className="overflow-y-auto px-2 pb-4">
               {shown.map((c) => (
-                <li key={`${c.iso}-${c.dial}`}>
+                <li key={`${c.iso}-${c.dial}`} className="border-b border-white/[0.06] last:border-b-0">
                   <button type="button" onClick={() => chooseCountry(c)}
-                          className="flex w-full items-center gap-4 rounded-2xl px-3 py-3 text-left hover:bg-white/[0.06]">
+                          className="flex w-full items-center gap-4 px-3 py-3.5 text-left hover:bg-white/[0.04]">
                     <span className="text-[22px] leading-none">{c.flag}</span>
-                    <span className="flex-1 text-[15px] text-white/90">{c.name}</span>
+                    <span className={`flex-1 text-[15px] font-light ${country?.iso === c.iso ? 'text-[#D4AF37]' : 'text-white/90'}`}>{c.name}</span>
                     <span className="text-[14px] tabular-nums text-white/50">{c.dial}</span>
                   </button>
                 </li>
