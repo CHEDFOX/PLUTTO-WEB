@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Plutto</title>
+    <!-- The `react-native-web` recommended style reset: https://necolas.github.io/react-native-web/docs/setup/#root-element -->
+    <style id="expo-reset">
+      /* These styles make the body full-height */
+      html,
+      body {
+        height: 100%;
+      }
+      /* These styles disable body scrolling if you are using <ScrollView> */
+      body {
+        overflow: hidden;
+      }
+      /* These styles make the root element full-height */
+      #root {
+        display: flex;
+        height: 100%;
+        flex: 1;
+      }
+    </style>
+  <link rel="icon" href="/m/favicon.ico" />
+<style>
+  /* THE STAGE. On a phone the app is the page. On anything wider it stands in a
+     phone-shaped column, dark around it, the way it is designed to be held —
+     the app's layout is a phone's, and stretched to a desktop it is not the
+     app. The column is 430pt wide (a large phone) and as tall as the window.
+
+     The BODY is the stage, not a div inside it: the app's sheets, the paywall
+     and the voice screen are modals, and react-native-web mounts a modal as a
+     child of <body>, outside #root. A transform on body makes it the containing
+     block for their position:fixed, so they open over the column and not over
+     the whole window. */
+  html { background: #07070a; }
+  body { background: #000; }
+  @media (min-width: 560px) {
+    html { display: flex; justify-content: center; }
+    body { position: relative; width: 430px; height: 100vh; margin: 0; overflow: hidden; transform: translateZ(0);
+           box-shadow: 0 0 0 1px rgba(255,255,255,.08), 0 40px 120px -30px rgba(0,0,0,.9); }
+    #root { height: 100%; }
+  }
+</style>
+<script>
+  // The app reads its width and height ONCE at startup (react-native-web's
+  // Dimensions), from the document and the visual viewport. On a wide screen
+  // pin both to the stage, so every screen lays out for the column it draws in.
+  (function () {
+    window.__PLUTTO_BASE = '/m';
+    if (window.innerWidth < 560) return;
+    var W = 430, H = window.innerHeight;
+    var el = document.documentElement;
+    try {
+      Object.defineProperty(el, 'clientWidth', { get: function () { return W; }, configurable: true });
+      Object.defineProperty(el, 'clientHeight', { get: function () { return H; }, configurable: true });
+      Object.defineProperty(window, 'innerWidth', { get: function () { return W; }, configurable: true });
+      var vv = { width: W, height: H, scale: 1, offsetLeft: 0, offsetTop: 0, pageLeft: 0, pageTop: 0,
+                 addEventListener: function () {}, removeEventListener: function () {}, dispatchEvent: function () { return true; } };
+      Object.defineProperty(window, 'visualViewport', { get: function () { return vv; }, configurable: true });
+    } catch (e) {}
+  })();
+</script>
+</head>
+
+  <body>
+    <!-- Use static rendering with Expo Router to support running without JavaScript. -->
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+    <!-- The root element for your Expo app. -->
+    <div id="root"></div>
+  <script src="/m/_expo/static/js/web/index-123f621babbc9ce8c568392fe75f5c0e.js" defer></script>
+</body>
+</html>

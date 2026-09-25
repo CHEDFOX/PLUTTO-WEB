@@ -27,7 +27,10 @@ const PADDLE = 'https://*.paddle.com https://*.paddlejs.com';
 const csp = (dev) =>
   [
     "default-src 'self'",
-    `script-src 'self' 'unsafe-inline' ${PADDLE_CDN}${dev ? " 'unsafe-eval'" : ''}`,
+    // 'wasm-unsafe-eval' is CanvasKit (Skia) — the orb, the globe and the maps
+    // in the app at /app are drawn with it. It permits WebAssembly only, not eval.
+    `script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' ${PADDLE_CDN}${dev ? " 'unsafe-eval'" : ''}`,
+    "worker-src 'self' blob:",
     "style-src 'self' 'unsafe-inline'",
     `img-src 'self' data: blob: ${API} ${PADDLE}`,
     `media-src 'self' data: blob: ${API}`,
@@ -35,7 +38,7 @@ const csp = (dev) =>
     // the backend — without this the browser refuses them and silently falls back
     // to the system font, which looks like a design choice rather than a block.
     `font-src 'self' data: ${API}`,
-    `connect-src 'self' ${API} ${SUPABASE} ${OPENAI} ${PADDLE} wss://*.openai.com${dev ? ' ws://localhost:*' : ''}`,
+    `connect-src 'self' blob: data: ${API} ${SUPABASE} ${OPENAI} ${PADDLE} wss://*.openai.com${dev ? ' ws://localhost:*' : ''}`,
     // The checkout is an iframe from Paddle's origin. Without this it falls back
     // to default-src 'self' and the overlay opens empty — no error, no content.
     `frame-src 'self' ${PADDLE}`,
@@ -83,6 +86,12 @@ const nextConfig = {
   async headers() {
     const dev = process.env.NODE_ENV !== 'production';
     return [{ source: '/:path*', headers: securityHeaders(dev) }];
+  },
+  // THE APP. /app is the phone's own app built for the browser (Plutto-Frontend,
+  // scripts/build-web.mjs), placed in public/m. `beforeFiles` so nothing under
+  // app/ can shadow it. The bundle's own asset URLs already start with /m.
+  async rewrites() {
+    return { beforeFiles: [{ source: '/app', destination: '/m/index.html' }, { source: '/app/', destination: '/m/index.html' }] };
   },
 };
 
