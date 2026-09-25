@@ -33,11 +33,11 @@ audio router are quiet no-ops; purchases go through Paddle (the catalog's
 `subscription.paddle`) with RevenueCat still the entitlement brain, read from
 the API's /billing/entitlement.
 
-The app fills the window on every screen at its own pixel size: no column and
-no scaling. A phone gets a phone's layout; a monitor gets the same app laid out
-across the whole window with its elements small and its construction spread by
-the app's own ratio-based layouts. Scaling it up by the screen's ratio was tried
-and rejected: on a big screen every element became too big.
+No scaling: a monitor gets the app at its own pixel size. On a screen wider
+than 1000px the app is given a 1000px canvas, centred, full height, black on
+black on either side, so a sign-in field or a wheel sits at the size it was
+designed for instead of stretching across the window. Below that width the app
+is the page. The browser's focus outline on inputs is switched off.
 
 ## Updating
 

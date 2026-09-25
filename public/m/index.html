@@ -25,17 +25,46 @@
     </style>
   <link rel="icon" href="/m/favicon.ico" />
 <style>
-  /* THE APP FILLS THE WINDOW, AT ITS OWN SIZE. On every screen the app is the
-     page: no column, no scaling. A phone gets a phone's layout; a monitor gets
-     the same app laid out across the whole window at its own pixel size — the
-     elements stay small and the construction spreads with the screen, which is
-     how the app's own ratio-based layouts are meant to behave on a large
-     canvas. */
+  /* THE APP ON A LARGE SCREEN. No scaling — a monitor gets the app at its own
+     pixel size, so nothing turns huge. But the app lays itself out from the
+     width it is given, and given 1900px a sign-in field becomes 1850px wide
+     and a wheel 900px across, which is not the app; it is the app stretched.
+     So on a large screen the app is given a reading-width canvas — up to
+     1000px — centred in the window, full height, with the same black on either
+     side. There is no edge to it: black on black, the page IS the app, and its
+     elements sit at the size they were designed for.
+
+     The BODY is that canvas, not a div inside it: the app's sheets, the paywall
+     and the voice screen are modals, and react-native-web mounts a modal as a
+     child of <body>, outside #root. A transform on body makes it their
+     containing block, so they open over the canvas exactly as the app does. */
   html { background: #000; overflow: hidden; height: 100%; }
-  body { background: #000; margin: 0; overflow: hidden; }
+  body { background: #000; margin: 0 auto; overflow: hidden; height: 100%; max-width: 1000px; transform: translateZ(0); }
   #root { height: 100%; }
+  /* a native app draws no focus ring: the browser's white outline on a focused
+     input or textarea is not part of the design */
+  input, textarea, select, button, [tabindex] { outline: none !important; }
+  input:focus, textarea:focus, *:focus, *:focus-visible { outline: none !important; box-shadow: none !important; }
 </style>
-<script>window.__PLUTTO_BASE = '/m';</script>
+<script>
+  // The app reads its width ONCE at startup (react-native-web's Dimensions).
+  // On a large screen, pin it to the canvas, so every screen lays out for the
+  // width it actually draws in; a phone or a small window is left untouched.
+  (function () {
+    window.__PLUTTO_BASE = '/m';
+    var W = window.innerWidth;
+    if (W <= 1000) return;
+    var el = document.documentElement;
+    try {
+      Object.defineProperty(el, 'clientWidth', { get: function () { return 1000; }, configurable: true });
+      Object.defineProperty(window, 'innerWidth', { get: function () { return 1000; }, configurable: true });
+      var vv = window.visualViewport;
+      var fake = { width: 1000, height: window.innerHeight, scale: 1, offsetLeft: 0, offsetTop: 0, pageLeft: 0, pageTop: 0,
+                   addEventListener: function () {}, removeEventListener: function () {}, dispatchEvent: function () { return true; } };
+      Object.defineProperty(window, 'visualViewport', { get: function () { return fake; }, configurable: true });
+    } catch (e) {}
+  })();
+</script>
 </head>
 
   <body>
