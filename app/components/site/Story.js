@@ -19,13 +19,13 @@ const TarotShot = () => <AppVideo name="tarot" poster="/app/screens/tarot-start.
 
 const STEPS = [
   { n: '01', color: '#A78BFA', title: 'Tell it when you arrived.',
-    body: 'A date, a time, a place. Once. Every reading after is yours alone.',
+    body: 'A date, a time, a place. Once. From then on every reading is about you, and nobody else.',
     Screen: OnboardingShot },
   { n: '02', color: '#38BDF8', title: 'Ask out loud.',
-    body: 'Tap the wave and talk. It answers back, in your language.',
+    body: 'Tap the wave and talk. It answers in your language, and remembers what you said yesterday.',
     Screen: VoiceVideo },
   { n: '03', color: '#F472B6', title: 'Lay the cards yourself.',
-    body: 'It hands you the deck. You choose. It reads.',
+    body: 'It hands you the deck. You choose. It reads what you drew, not what it planned.',
     Screen: TarotShot },
 ];
 
@@ -69,7 +69,7 @@ export default function Story() {
             key={n}
             ref={(el) => { refs.current[i] = el; }}
             data-i={i}
-            className="flex flex-col justify-center py-10 md:min-h-[80vh] md:py-0"
+            className="flex flex-col justify-center py-10 md:min-h-[68vh] md:py-0"
           >
             <div className={`relative transition-all duration-700 md:pl-8 ${i === active ? 'md:opacity-100 md:translate-x-0' : 'md:opacity-30 md:translate-x-2'}`}>
               {/* the progress rail: fills while this step owns the phone */}

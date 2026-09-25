@@ -94,21 +94,21 @@ export default function Home() {
             <FadeUp>
               <Link href="/#draw" className="inline-flex items-center gap-2 rounded-full bg-white/[0.06] py-1.5 pl-1.5 pr-3.5 text-[13px] text-white/75 ring-1 ring-white/10 transition-colors hover:bg-white/[0.1]">
                 <span className="rounded-full bg-white px-2 py-0.5 text-[11px] font-semibold text-black">Try it</span>
-                Draw a card — no sign-up
+                Draw a card, no sign-up
                 <span aria-hidden="true">→</span>
               </Link>
             </FadeUp>
 
             <FadeUp delay={0.06}>
-              <h1 className="mx-auto mt-7 max-w-[12ch] text-[clamp(2.9rem,6.6vw,5.4rem)] font-semibold leading-[0.96] tracking-[-0.05em] text-white lg:mx-0">
-                <Words text="Ancient answers, in your" delay={0.1} />{' '}
-                <Underline delay={1.1}><Words text="pocket." delay={0.5} wordClassName="shimmer-text pr-[0.06em]" /></Underline>
+              <h1 className="mx-auto mt-7 max-w-[13ch] text-[clamp(2.9rem,6.6vw,5.4rem)] font-semibold leading-[0.96] tracking-[-0.05em] text-white lg:mx-0">
+                <Words text="Five thousand years old." delay={0.1} />{' '}
+                <Underline delay={1.2}><Words text="Talks back." delay={0.55} wordClassName="shimmer-text pr-[0.06em]" /></Underline>
               </h1>
             </FadeUp>
 
             <FadeUp delay={0.12}>
               <p className="mx-auto mt-6 max-w-[34ch] text-[clamp(1.05rem,1.6vw,1.25rem)] leading-relaxed text-white/60 lg:mx-0">
-                Tarot, runes, I Ching and your stars — read for you, out loud, in your language.
+                Tarot, runes, I Ching and your stars, read to you out loud in your language. Ask it why. It tells you.
               </p>
             </FadeUp>
 
@@ -153,8 +153,8 @@ export default function Home() {
       {/* ─────────────────────────── THE LIBRARY ─────────────────────────── */}
       <section className="lazy-section py-24 md:py-32">
         <FadeUp className="px-6 text-center">
-          <H2 className="mx-auto max-w-[18ch]">Every ancient way of knowing.</H2>
-          <p className="mx-auto mt-4 max-w-[40ch] text-[17px] text-white/55">All of it in the app. Dealt to you, read for you.</p>
+          <H2 className="mx-auto max-w-[18ch]">Every way the world ever asked.</H2>
+          <p className="mx-auto mt-4 max-w-[44ch] text-[17px] text-white/55">The oldest decks on earth, dealt to you and read for you. Not a horoscope column. The real thing.</p>
         </FadeUp>
         <FadeUp delay={0.1}>
           <div className="mt-14">
@@ -162,9 +162,9 @@ export default function Home() {
           </div>
         </FadeUp>
         {/* the oldest question, in the scripts that first asked it */}
-        <div className="relative mt-20 md:mt-28">
+        <div className="relative mt-24 md:mt-32">
           {/* 𒀭 — the Sumerian sign for sky, and for god: a star */}
-          <span aria-hidden="true" className="watermark script-cunei text-[40vw] md:text-[24vw]">𒀭</span>
+          <span aria-hidden="true" className="watermark script-cunei hidden text-[24vw] md:block">𒀭</span>
           <FadeUp delay={0.05} className="relative">
             <Ancient />
           </FadeUp>
@@ -185,14 +185,14 @@ export default function Home() {
       <section id="features" className="lazy-section scroll-mt-20 border-t border-white/[0.08] px-6 py-24 md:py-32">
         <div className="mx-auto max-w-6xl">
           <FadeUp>
-            <H2 className="max-w-[18ch]">Ask. It already knows you.</H2>
+            <H2 className="max-w-[20ch]">Made for the question you keep to yourself.</H2>
           </FadeUp>
 
           <div className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-6">
             {/* Decks */}
             <FadeUp className="md:col-span-2">
               <Tile className="h-full min-h-[340px]" glow="rgba(56,189,248,0.25)">
-                <TileText title="Real cards. Your hand." body="You pick. It reads. Never the same draw twice." />
+                <TileText title="Real cards. Your hand." body="You shuffle, you choose, it reads what you drew. Never the same draw twice." />
                 <div aria-hidden="true" className="relative mt-8 h-[150px]">
                   {[['tarot/the_sun', -14, -60, -26, -92], ['runes/sowilo', 0, 0, 0, 0], ['tarot/the_moon', 14, 60, 26, 92]].map(([src, r, x, r2, x2], i) => (
                     <img key={src} src={`/library/${src}.webp`} alt="" width={300} height={527} loading="lazy"
@@ -207,7 +207,7 @@ export default function Home() {
             <FadeUp className="md:col-span-4" delay={0.05}>
               <Tile className="h-full min-h-[300px]" glow="rgba(244,114,182,0.22)">
                 <div className="md:pr-[170px]">
-                  <TileText title="It speaks yours." body="109 languages. Every reading arrives in the one you think in." />
+                  <TileText title="It speaks yours." body="109 languages. The reading arrives in the one you dream in." />
                   <div aria-hidden="true" className="mt-8 flex flex-wrap gap-2">
                     {GREETINGS.slice(0, 10).map((g, i) => (
                       <span key={g} className="greet-chip rounded-full bg-white/[0.06] px-3 py-1.5 text-[14px] text-white/80 ring-1 ring-white/10" style={{ animationDelay: `${i * 0.9}s` }}>{g}</span>
@@ -241,10 +241,10 @@ export default function Home() {
             {/* Traditions */}
             <FadeUp className="md:col-span-2" delay={0.05}>
               <Tile className="h-full min-h-[260px]" glow="rgba(52,211,153,0.2)">
-                <div className="flex flex-wrap items-baseline gap-x-3">
-                  <TileText title="102 ways to read a life." body="Whichever fits your question, it already knows." />
-                </div>
-                <Note tilt={-5} size="text-[20px]" className="absolute right-6 top-7 md:right-8 md:top-8">and counting</Note>
+                <h3 className="text-[22px] font-semibold leading-tight tracking-[-0.02em] text-white md:text-[24px]">
+                  102 ways to read a life. <Note tilt={-5} size="text-[21px]" className="ml-1 align-baseline">and counting</Note>
+                </h3>
+                <p className="mt-2 max-w-[38ch] text-[15px] leading-relaxed text-white/55">It picks the tradition that fits the question. You just ask.</p>
                 <div aria-hidden="true" className="mt-7 flex flex-wrap gap-x-4 gap-y-1 text-[13px] text-white/35">
                   {['Ifá', 'Jyotiṣa', 'I Ching', 'Tarot', 'Norse runes', 'Ogham', 'Geomancy', 'Lenormand', 'Hafez', 'Tasseography'].map((t) => <span key={t}>{t}</span>)}
                 </div>
@@ -267,7 +267,7 @@ export default function Home() {
       {/* ─────────────────────────── TRY A CARD ─────────────────────────── */}
       <section id="draw" className="lazy-section relative scroll-mt-20 overflow-hidden border-t border-white/[0.08] px-6 py-24 md:py-32">
         {/* 𓂀 — the eye, watching the card turn */}
-        <span aria-hidden="true" className="watermark script-hiero text-[70vw] md:text-[36vw]">𓂀</span>
+        <span aria-hidden="true" className="watermark script-hiero hidden text-[36vw] md:block">𓂀</span>
         <FadeUp className="relative text-center">
           <H2>Turn a card.</H2>
           <p className="mx-auto mt-4 max-w-[40ch] text-[17px] text-white/55">Tap a deck. Tap again for another.</p>

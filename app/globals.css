@@ -518,3 +518,6 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
 /* the faint sign behind a section: a watermark, not a picture */
 .watermark { position: absolute; left: 50%; top: 50%; translate: -50% -50%; pointer-events: none; user-select: none; line-height: 1; color: rgba(255,255,255,0.05); }
 @media (prefers-reduced-motion: reduce) { .ancient-glyph { animation: none; } }
+/* the frieze scrolls sideways on a phone without a visible bar */
+.frieze ol { scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.frieze ol::-webkit-scrollbar { display: none; }
