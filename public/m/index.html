@@ -25,22 +25,20 @@
     </style>
   <link rel="icon" href="/m/favicon.ico" />
 <style>
-  /* THE APP ON A LARGE SCREEN. No scaling — a monitor gets the app at its own
-     pixel size, so nothing turns huge. But the app lays itself out from the
-     width it is given, and given 1900px a sign-in field becomes 1850px wide
-     and a wheel 900px across, which is not the app; it is the app stretched.
-     So on a large screen the app is given a reading-width canvas — up to
-     1000px — centred in the window, full height, with the same black on either
-     side. There is no edge to it: black on black, the page IS the app, and its
-     elements sit at the size they were designed for.
-
-     The BODY is that canvas, not a div inside it: the app's sheets, the paywall
-     and the voice screen are modals, and react-native-web mounts a modal as a
-     child of <body>, outside #root. A transform on body makes it their
-     containing block, so they open over the canvas exactly as the app does. */
-  html { background: #000; overflow: hidden; height: 100%; }
-  body { background: #000; margin: 0 auto; overflow: hidden; height: 100%; max-width: 1000px; transform: translateZ(0); }
+  /* THE APP ON A COMPUTER: the whole window, everything smaller.
+     A phone app at its own pixel sizes is phone-sized type and phone-sized
+     controls on a monitor, which reads as big. So on a desktop-width window
+     the page is zoomed to 0.8: every type size, control and gap is drawn at
+     that fraction.
+     The app itself sits in a centred column (1200 of its own pixels) and is
+     told that is its screen width, so nothing is stretched across a monitor.
+     Full-screen views — readings, the voice screen, the paywall's dimming —
+     are mounted on <body>, not in the column, so they reach the window's
+     edges; src/render/webStage.js centres their content. A phone or a small
+     window is left untouched. The script below sets the zoom and the sizes. */
+  html, body { background: #000; overflow: hidden; height: 100%; margin: 0; }
   #root { height: 100%; }
+  html.desk #root { max-width: 1200px; margin: 0 auto; }
   /* a native app draws no focus ring: the browser's white outline on a focused
      input or textarea is not part of the design */
   input, textarea, select, button, [tabindex] { outline: none !important; }
@@ -58,21 +56,49 @@
   *::-webkit-scrollbar { width: 0; height: 0; display: none; }
 </style>
 <script>
-  // The app reads its width ONCE at startup (react-native-web's Dimensions).
-  // On a large screen, pin it to the canvas, so every screen lays out for the
-  // width it actually draws in; a phone or a small window is left untouched.
   (function () {
     window.__PLUTTO_BASE = '/m';
-    var W = window.innerWidth;
-    if (W <= 1000) return;
+    var W = window.innerWidth, H = window.innerHeight;
+    if (W < 1024) return;
+    var Z = 0.8, LW = Math.round(W / Z), LH = Math.round(H / Z), AW = Math.min(LW, 1200);
+    window.__PLUTTO_ZOOM = Z;
     var el = document.documentElement;
+    el.classList.add('desk');
+    el.style.zoom = String(Z);
+    el.style.width = LW + 'px'; el.style.height = LH + 'px';
     try {
-      Object.defineProperty(el, 'clientWidth', { get: function () { return 1000; }, configurable: true });
-      Object.defineProperty(window, 'innerWidth', { get: function () { return 1000; }, configurable: true });
-      var vv = window.visualViewport;
-      var fake = { width: 1000, height: window.innerHeight, scale: 1, offsetLeft: 0, offsetTop: 0, pageLeft: 0, pageTop: 0,
+      // The app reads its size ONCE at startup (react-native-web's Dimensions):
+      // its width is the column, its height the window, both in its own pixels.
+      Object.defineProperty(el, 'clientWidth', { get: function () { return AW; }, configurable: true });
+      Object.defineProperty(el, 'clientHeight', { get: function () { return LH; }, configurable: true });
+      Object.defineProperty(window, 'innerWidth', { get: function () { return AW; }, configurable: true });
+      Object.defineProperty(window, 'innerHeight', { get: function () { return LH; }, configurable: true });
+      var fake = { width: AW, height: LH, scale: 1, offsetLeft: 0, offsetTop: 0, pageLeft: 0, pageTop: 0,
                    addEventListener: function () {}, removeEventListener: function () {}, dispatchEvent: function () { return true; } };
       Object.defineProperty(window, 'visualViewport', { get: function () { return fake; }, configurable: true });
+
+      // ONE COORDINATE SPACE. Under CSS zoom the browser reports element rects
+      // and pointer positions in screen pixels while the layout is in the
+      // app's own, so "where in this view was I touched" — the hit test of
+      // every wheel, the globe and the solar system — came out 1/Z off. Both
+      // are converted here, once, before any library reads them.
+      var rect = Element.prototype.getBoundingClientRect;
+      Element.prototype.getBoundingClientRect = function () {
+        var r = rect.call(this);
+        return new DOMRect(r.x / Z, r.y / Z, r.width / Z, r.height / Z);
+      };
+      var wrap = function (proto, keys) {
+        keys.forEach(function (k) {
+          var d = Object.getOwnPropertyDescriptor(proto, k);
+          if (!d || !d.get) return;
+          Object.defineProperty(proto, k, { configurable: true, enumerable: d.enumerable,
+            get: function () { return d.get.call(this) / Z; } });
+        });
+      };
+      wrap(MouseEvent.prototype, ['clientX', 'clientY', 'pageX', 'pageY', 'x', 'y', 'offsetX', 'offsetY']);
+      if (window.Touch) wrap(Touch.prototype, ['clientX', 'clientY', 'pageX', 'pageY']);
+      var hit = document.elementFromPoint.bind(document);
+      document.elementFromPoint = function (x, y) { return hit(x * Z, y * Z); };
     } catch (e) {}
   })();
 </script>
@@ -85,6 +111,6 @@
     </noscript>
     <!-- The root element for your Expo app. -->
     <div id="root"></div>
-  <script src="/m/_expo/static/js/web/index-4ba2b2b255a6f4a69b76c87f0683ea89.js" defer></script>
+  <script src="/m/_expo/static/js/web/index-720a2345a327f7af559f49928db81a2a.js" defer></script>
 </body>
 </html>
