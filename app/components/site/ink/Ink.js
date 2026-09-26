@@ -12,14 +12,15 @@
  * the type around it. Reduced motion shows everything at rest.
  */
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
+import useCalm from '../motion/useCalm';
 
 const EASE = [0.22, 1, 0.36, 1];
 export const INK = '#EFE6D2';
 
 /** A handwritten aside. `tilt` is degrees; a note is never perfectly straight. */
 export function Note({ children, className = '', tilt = -3, delay = 0, size = 'text-[22px] md:text-[26px]' }) {
-  const calm = useReducedMotion();
+  const calm = useCalm();
   return (
     <motion.span
       className={`font-hand inline-block font-medium leading-none ${size} ${className}`}
@@ -36,7 +37,7 @@ export function Note({ children, className = '', tilt = -3, delay = 0, size = 't
 
 /** One or more strokes drawn on when seen. `d` may hold several subpaths. */
 export function Stroke({ d, box = '0 0 100 100', className = '', delay = 0, duration = 1, strokeWidth = 2.4, style }) {
-  const calm = useReducedMotion();
+  const calm = useCalm();
   return (
     <svg viewBox={box} fill="none" aria-hidden="true" className={className} style={{ overflow: 'visible', color: INK, ...style }}>
       <motion.path

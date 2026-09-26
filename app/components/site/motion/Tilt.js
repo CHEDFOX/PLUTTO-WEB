@@ -7,10 +7,11 @@
  */
 
 import { useEffect } from 'react';
-import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-motion';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
+import useCalm from './useCalm';
 
 export default function Tilt({ children, max = 8, className = '', innerClassName = 'h-full w-full', onHover }) {
-  const calm = useReducedMotion();
+  const calm = useCalm();
   const rx = useSpring(useMotionValue(0), { stiffness: 90, damping: 18, mass: 0.6 });
   const ry = useSpring(useMotionValue(0), { stiffness: 90, damping: 18, mass: 0.6 });
   useEffect(() => {

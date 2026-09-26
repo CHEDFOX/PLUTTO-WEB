@@ -7,10 +7,11 @@
  * untouched; reduced motion shows the line at rest.
  */
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
+import useCalm from './useCalm';
 
 export default function Words({ text, className = '', wordClassName = '', delay = 0, stagger = 0.07, as = 'span', children }) {
-  const calm = useReducedMotion();
+  const calm = useCalm();
   const Tag = as;
   const parts = String(text).split(' ');
   if (calm) return <Tag className={className}>{text}{children}</Tag>;

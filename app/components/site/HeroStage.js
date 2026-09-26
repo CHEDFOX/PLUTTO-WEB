@@ -27,7 +27,8 @@
  */
 
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { motion, animate, useMotionValue, useScroll, useSpring, useTransform, useMotionValueEvent, useReducedMotion, AnimatePresence } from 'framer-motion';
+import { motion, animate, useMotionValue, useScroll, useSpring, useTransform, useMotionValueEvent, AnimatePresence } from 'framer-motion';
+import useCalm from './motion/useCalm';
 import Tilt from './motion/Tilt';
 
 // THE PATH. A phone's place in the stack is u = (index − turn) mod 3:
@@ -121,7 +122,7 @@ const SPRING = { type: 'spring', stiffness: 52, damping: 14, mass: 1, restDelta:
 
 export default function HeroStage({ copy, phones, neptune }) {
   const stage = useRef(null);
-  const calm = useReducedMotion();
+  const calm = useCalm();
   const [front, setFront] = useState(0);
   // The stack, dots and glow run whenever motion is allowed. The PIN (the tall
   // sticky section that turns scrolling into turns) lasts only until all three
