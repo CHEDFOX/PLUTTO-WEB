@@ -70,7 +70,7 @@ export default function Story() {
             key={n}
             ref={(el) => { refs.current[i] = el; }}
             data-i={i}
-            className="flex flex-col justify-center py-10 md:min-h-[68vh] md:py-0"
+            className="flex flex-col justify-center py-10 md:min-h-[calc(var(--screen-h)*0.68)] md:py-0"
           >
             <div className={`relative transition-all duration-700 md:pl-8 ${i === active ? 'md:opacity-100 md:translate-x-0' : 'md:opacity-30 md:translate-x-2'}`}>
               {/* the progress rail: fills while this step owns the phone */}

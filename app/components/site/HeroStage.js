@@ -234,12 +234,12 @@ export default function HeroStage({ copy, phones, neptune }) {
   const current = phones[front] || phones[0];
 
   return (
-    <section ref={stage} className={`relative ${pinned ? 'lg:h-[260vh]' : ''}`}>
-      <div className={`${pinned ? 'lg:sticky lg:top-16 lg:h-[calc(100svh-64px)]' : ''} relative overflow-hidden`}>
+    <section ref={stage} className={`hero-pin relative ${pinned ? 'lg:h-[calc(var(--screen-h)*2.6)]' : ''}`}>
+      <div className={`hero-pin-sticky ${pinned ? 'lg:sticky lg:top-16 lg:h-[calc(var(--screen-h)-64px)]' : ''} relative overflow-hidden`}>
         <div aria-hidden="true" className="pointer-events-none absolute inset-0"
              style={{ background: 'radial-gradient(40% 50% at 72% 60%, rgba(56,120,255,0.22), transparent 70%), radial-gradient(35% 40% at 20% 30%, rgba(124,92,255,0.18), transparent 70%)' }} />
 
-        <div className="relative mx-auto grid h-full max-w-6xl grid-cols-1 items-center gap-6 px-6 pt-12 lg:min-h-[calc(100svh-64px)] lg:grid-cols-[1.05fr_1fr] lg:gap-4 lg:pt-0">
+        <div className="relative mx-auto grid h-full max-w-6xl grid-cols-1 items-center gap-6 px-6 pt-12 lg:min-h-[calc(var(--screen-h)-64px)] lg:grid-cols-[1.05fr_1fr] lg:gap-4 lg:pt-0">
           <div className="text-center lg:text-left">
             {copy}
 

@@ -80,7 +80,17 @@ input, textarea, [contenteditable="true"] {
     scroll-behavior: smooth;
     background-color: #000;
     overflow-x: hidden;
+    /* the height a "full screen" section fills: the screen, except on a
+       scaled tablet (see layout.js), where an upright screen is far taller
+       than the monitor the composition was drawn for — there it is capped at
+       the PC's own proportions (1440×900 → 62.5% of the width) */
+    --screen-h: 100svh;
   }
+  html.scaled-tab { --screen-h: min(100svh, 62.5vw); }
+  /* the pinned hero turns the phones as the page scrolls past it; on a tall
+     tablet the pin would leave a screen of black under it, so it scrolls */
+  html.scaled-tab .hero-pin { height: auto !important; }
+  html.scaled-tab .hero-pin-sticky { position: relative !important; top: auto !important; height: auto !important; }
 
   body {
     @apply bg-black text-foreground antialiased;

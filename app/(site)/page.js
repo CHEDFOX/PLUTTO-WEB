@@ -99,14 +99,14 @@ export default function Home() {
             </FadeUp>
 
             <FadeUp delay={0.06}>
-              <h1 className="mx-auto mt-7 max-w-[13ch] text-[clamp(2.9rem,6.6vw,5.4rem)] font-semibold leading-[0.96] tracking-[-0.05em] text-white lg:mx-0">
+              <h1 className="mx-auto mt-7 max-w-[13ch] text-[clamp(2.1rem,6.6vw,5.4rem)] font-semibold leading-[0.96] tracking-[-0.05em] text-white lg:mx-0">
                 <Words text="Five thousand years old." delay={0.1} />{' '}
                 <Underline delay={1.2}><Words text="Talks back." delay={0.55} wordClassName="shimmer-text pr-[0.06em]" /></Underline>
               </h1>
             </FadeUp>
 
             <FadeUp delay={0.18}>
-              <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
+              <div className="mt-9 flex flex-row flex-wrap items-center justify-center gap-3 lg:justify-start">
                 <GetAppLink className="inline-flex h-12 items-center rounded-full bg-white px-7 text-[15px] font-semibold text-black transition-transform hover:scale-[1.03]">
                   Get the app
                 </GetAppLink>
@@ -131,7 +131,7 @@ export default function Home() {
         )}
         phones={[
           { key: 'chat', caption: 'Ask it anything — it answers.',
-            mobile: <Device width={300}><AppVideo name="chat" poster="/app/screens/chat-empty.png" still="/app/screens/chat-poster.png" label="Plutto answering a question" /></Device>,
+            mobile: <Device width={260}><AppVideo name="chat" poster="/app/screens/chat-empty.png" still="/app/screens/chat-poster.png" label="Plutto answering a question" /></Device>,
             node: <Device width={280}><AppVideo name="chat" poster="/app/screens/chat-empty.png" still="/app/screens/chat-poster.png" label="Plutto answering a question" /></Device> },
           { key: 'tarot', caption: 'Lay the cards — it reads them.',
             node: <Device width={280}><AppVideo name="tarot" poster="/app/screens/tarot-start.jpg" still="/app/screens/tarot.png" label="Laying tarot cards in Plutto" /></Device>,

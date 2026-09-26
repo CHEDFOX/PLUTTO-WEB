@@ -129,12 +129,48 @@ export const viewport = {
   initialScale: 1,
 };
 
+// ONE PICTURE, SCALED BY RATIO. The site is designed at the PC's composition;
+// every other screen gets a scaled copy of a layout rather than its own sizes:
+//   · a tablet (touch, short side ≥ 600) is given a layout viewport TABLET_W
+//     wide — the PC composition — drawn to fit its width;
+//   · a phone held upright is given PHONE_W — the one-column layout, the same
+//     proportions on every phone, never oversized; turned sideways it is its
+//     own width.
+// The browser does the scaling (the viewport tag), so taps land where they
+// look on every engine. Next renders the tag as device-width and may set it
+// again while hydrating, so it is re-asserted whenever it changes.
+// `html.scaled-tab` caps the screen-height sections at the PC's proportions
+// (globals.css), since a tablet held upright is far taller than a monitor.
+const TABLET_W = 1280;
+const PHONE_W = 450;
+const SCALE_SCRIPT = `(function(){try{
+var el=document.documentElement,mm=function(q){try{return matchMedia(q).matches}catch(e){return false}};
+var touch=mm('(pointer: coarse)')||(navigator.maxTouchPoints>1&&mm('(hover: none)'));
+if(!touch)return;
+var kind=Math.min(screen.width,screen.height)<600?'phone':'tab';
+el.classList.add(kind==='tab'?'scaled-tab':'scaled-phone');
+var want=function(){
+  if(kind==='tab')return 'width=${TABLET_W}';
+  var up=(screen.orientation&&screen.orientation.type)?screen.orientation.type.indexOf('portrait')===0:(innerHeight>=innerWidth);
+  return up?'width=${PHONE_W}':'width=device-width, initial-scale=1';
+};
+var apply=function(){var c=want(),ms=document.querySelectorAll('meta[name="viewport"]');if(!ms.length){var m=document.createElement('meta');m.name='viewport';m.setAttribute('content',c);document.head.appendChild(m);return;}for(var i=0;i<ms.length;i++){if(ms[i].getAttribute('content')!==c)ms[i].setAttribute('content',c);}};
+apply();
+new MutationObserver(apply).observe(document.head,{subtree:true,childList:true,attributes:true,attributeFilter:['content']});
+var turn=function(){setTimeout(apply,50)};
+if(screen.orientation&&screen.orientation.addEventListener)screen.orientation.addEventListener('change',turn);else addEventListener('orientationchange',turn);
+}catch(e){}})();`;
+
 export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
       className={`${julius.variable} ${josefin.variable} ${syne.variable} ${dmSans.variable} ${jetbrains.variable} ${instrument.variable} ${inter.variable} ${baloo.variable} ${caveat.variable}`}
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: SCALE_SCRIPT }} />
+      </head>
       {/* Root carries the document and the faces, and nothing else. The site's
           chrome moved into (site)/layout.js so that /app inherits none of it —
           see the note there. */}
