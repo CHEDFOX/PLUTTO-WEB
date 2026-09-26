@@ -33,19 +33,27 @@ audio router are quiet no-ops; purchases go through Paddle (the catalog's
 `subscription.paddle`) with RevenueCat still the entitlement brain, read from
 the API's /billing/entitlement.
 
-On a computer (a window at least 1024px wide) the page is drawn at 80%, so
-type, controls and gaps are desktop-sized rather than phone-sized, and the app
-fills the whole window. Its content sits in a centred column (1200 of its own
-pixels, 960 real ones) that the app treats as its screen width, so wheels,
-cards and lines keep their designed proportions instead of stretching across a
-monitor. Full-screen views are mounted on the page itself, not the column:
-readings, the voice screen and the paywall's dimming reach the window's
-edges, and `src/render/webStage.js` centres their content. The paywall is a
-small card there, not a full screen. Below 1024px the app is the page, unscaled.
-The browser's focus outline on inputs is switched off.
+Three kinds of screen, chosen when the page loads:
 
-The zoom, the column and the 1024px threshold are the constants at the top of
-`Plutto-Frontend/scripts/build-web.mjs`.
+- **Phone** (a touch screen whose short side is under 600px, or a narrow
+  window): the app exactly as the phone build draws it. Device width, no
+  zoom, no column, nothing web-only. The app is portrait-only, which a page
+  cannot enforce, so a phone turned sideways shows "Turn your phone upright."
+- **Tablet** (larger touch screens): the whole screen drawn at 80%, with the
+  app in a centred column that it treats as its screen width. The browser's
+  own viewport scaling does this, so touches land correctly on every engine.
+- **Computer**: the same picture by CSS zoom. Pointer positions and element
+  rects are converted to the app's own pixels once, at load.
+
+On tablets and computers, full-screen views (readings, the voice screen, the
+paywall's dimming) reach the screen's edges while their content stays in the
+column (`src/render/webStage.js`). The paywall is a small card there, the Home
+wheels switch by their names, arrows, arrow keys or a trackpad swipe, and the
+sign-in eclipse hangs from the top. Turning a tablet or resizing a window lays
+the app out again.
+
+The zoom, the column width and the phone threshold are the constants at the
+top of `Plutto-Frontend/scripts/build-web.mjs`.
 
 ## Updating
 

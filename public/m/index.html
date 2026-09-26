@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
     <title>Plutto</title>
     <!-- The `react-native-web` recommended style reset: https://necolas.github.io/react-native-web/docs/setup/#root-element -->
     <style id="expo-reset">
@@ -24,21 +24,27 @@
       }
     </style>
   <link rel="icon" href="/m/favicon.ico" />
+<meta name="theme-color" content="#000000" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no" />
 <style>
-  /* THE APP ON A COMPUTER: the whole window, everything smaller.
-     A phone app at its own pixel sizes is phone-sized type and phone-sized
-     controls on a monitor, which reads as big. So on a desktop-width window
-     the page is zoomed to 0.8: every type size, control and gap is drawn at
-     that fraction.
-     The app itself sits in a centred column (1200 of its own pixels) and is
-     told that is its screen width, so nothing is stretched across a monitor.
-     Full-screen views — readings, the voice screen, the paywall's dimming —
-     are mounted on <body>, not in the column, so they reach the window's
-     edges; src/render/webStage.js centres their content. A phone or a small
-     window is left untouched. The script below sets the zoom and the sizes. */
+  /* THE PAGE AROUND THE APP. Three kinds of screen, set by the script below:
+       phone  — nothing here changes the app: it is drawn exactly as on a phone.
+       tablet / desk — the whole screen, everything at 0.8, the app in a
+       centred column (1200 of its own pixels) that it treats as its screen
+       width, so nothing stretches. Full-screen views — readings, the voice
+       screen, the paywall's dimming — are mounted on the page body, not the column,
+       so they reach the edges; src/render/webStage.js centres their content. */
   html, body { background: #000; overflow: hidden; height: 100%; margin: 0; }
+  /* an app, not a page: no rubber-band or pull-to-refresh, no grey flash on a
+     tap, no long-press callout or text selection (inputs keep theirs) */
+  html, body { overscroll-behavior: none; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  * { -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+  input, textarea, [contenteditable] { -webkit-user-select: text; user-select: text; -webkit-touch-callout: default; }
   #root { height: 100%; }
-  html.desk #root { max-width: 1200px; margin: 0 auto; }
+  html.wide #root { max-width: 1200px; margin: 0 auto; }
   /* a native app draws no focus ring: the browser's white outline on a focused
      input or textarea is not part of the design */
   input, textarea, select, button, [tabindex] { outline: none !important; }
@@ -54,21 +60,58 @@
      scrolling list and on a multi-line box — hidden, the lists still scroll */
   * { scrollbar-width: none; }
   *::-webkit-scrollbar { width: 0; height: 0; display: none; }
+  /* THE APP IS PORTRAIT, as it is on a phone, which cannot be locked from a
+     page: turned sideways, a phone gets this instead of a squashed app. */
+  #plutto-rotate { display: none; }
+  @media (orientation: landscape) {
+    html.phone.touch #plutto-rotate { display: flex; position: fixed; inset: 0; z-index: 2147483647; background: #000;
+      color: rgba(255,255,255,0.7); align-items: center; justify-content: center; text-align: center;
+      font: 400 15px/1.5 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; letter-spacing: 0.3px; }
+  }
 </style>
 <script>
   (function () {
     window.__PLUTTO_BASE = '/m';
-    var W = window.innerWidth, H = window.innerHeight;
-    if (W < 1024) return;
-    var Z = 0.8, LW = Math.round(W / Z), LH = Math.round(H / Z), AW = Math.min(LW, 1200);
-    window.__PLUTTO_ZOOM = Z;
     var el = document.documentElement;
-    el.classList.add('desk');
-    el.style.zoom = String(Z);
-    el.style.width = LW + 'px'; el.style.height = LH + 'px';
-    try {
-      // The app reads its size ONCE at startup (react-native-web's Dimensions):
-      // its width is the column, its height the window, both in its own pixels.
+    var mm = function (q) { try { return window.matchMedia(q).matches; } catch (e) { return false; } };
+    var touch = mm('(pointer: coarse)') || (navigator.maxTouchPoints > 1 && mm('(hover: none)'));
+    var W = window.innerWidth, H = window.innerHeight;
+    var shortSide = Math.min(screen.width || W, screen.height || H);
+    var kind = touch ? (shortSide < 600 ? 'phone' : 'tablet') : (W < 600 ? 'phone' : 'desk');
+    window.__PLUTTO_STAGE = kind;
+    window.__PLUTTO_ZOOM = 1;
+    el.classList.add(kind);
+    if (touch) el.classList.add('touch');
+    var meta = document.querySelector('meta[name="viewport"]');
+    if (!meta) { meta = document.createElement('meta'); meta.name = 'viewport'; document.head.appendChild(meta); }
+
+    // The app lays itself out ONCE, from the size it reads at startup (the
+    // modules keep it), so a new shape of screen is a new layout: turning a
+    // tablet, or resizing a window on a computer, starts it again. A phone's
+    // keyboard resizes the window too and must not, so touch screens listen to
+    // turning only.
+    var relaid = false;
+    var relay = function () { if (!relaid) { relaid = true; location.reload(); } };
+    var o0 = (screen.orientation && screen.orientation.type) || (W > H ? 'l' : 'p');
+    var onTurn = function () {
+      var o = (screen.orientation && screen.orientation.type) || (window.innerWidth > window.innerHeight ? 'l' : 'p');
+      if (o !== o0) setTimeout(relay, 250);
+    };
+    if (screen.orientation && screen.orientation.addEventListener) screen.orientation.addEventListener('change', onTurn);
+    else window.addEventListener('orientationchange', onTurn);
+
+    if (kind === 'phone') {
+      // exactly the phone: the device's width, no zoom, and no zoom on a tap
+      // into a field either (iOS zooms any input under 16px otherwise)
+      meta.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover');
+      return;
+    }
+
+    var Z = 0.8, LW = Math.round(W / Z), LH = Math.round(H / Z), AW = Math.min(LW, 1200);
+    el.classList.add('wide');
+    var pin = function () {
+      // what the app reads at startup: its width is the column, its height the
+      // screen, both in its own pixels
       Object.defineProperty(el, 'clientWidth', { get: function () { return AW; }, configurable: true });
       Object.defineProperty(el, 'clientHeight', { get: function () { return LH; }, configurable: true });
       Object.defineProperty(window, 'innerWidth', { get: function () { return AW; }, configurable: true });
@@ -76,22 +119,49 @@
       var fake = { width: AW, height: LH, scale: 1, offsetLeft: 0, offsetTop: 0, pageLeft: 0, pageTop: 0,
                    addEventListener: function () {}, removeEventListener: function () {}, dispatchEvent: function () { return true; } };
       Object.defineProperty(window, 'visualViewport', { get: function () { return fake; }, configurable: true });
+    };
 
-      // ONE COORDINATE SPACE. Under CSS zoom the browser reports element rects
-      // and pointer positions in screen pixels while the layout is in the
-      // app's own, so "where in this view was I touched" — the hit test of
-      // every wheel, the globe and the solar system — came out 1/Z off. Both
-      // are converted here, once, before any library reads them.
+    if (kind === 'tablet') {
+      // THE BROWSER DOES THE SCALING: a layout viewport 1/Z as wide as the
+      // screen, drawn to fit it. Every coordinate a touch or a rect reports is
+      // already in the app's own pixels — nothing to convert, on any engine.
+      meta.setAttribute('content', 'width=' + LW + ', user-scalable=no, viewport-fit=cover');
+      try { pin(); } catch (e) {}
+      return;
+    }
+
+    // desk: a computer ignores the viewport tag, so the page is zoomed instead
+    window.__PLUTTO_ZOOM = Z;
+    meta.setAttribute('content', 'width=device-width, initial-scale=1');
+    el.style.zoom = String(Z);
+    el.style.width = LW + 'px'; el.style.height = LH + 'px';
+    try {
+      pin();
+      // ONE COORDINATE SPACE. Under CSS zoom a browser reports pointer
+      // positions in screen pixels while the layout is in the app's own, so
+      // "where in this view was I touched" — the hit test of every wheel, the
+      // globe, the solar system — would come out 1/Z off. Pointer positions are
+      // converted here, once, before any library reads them. Element rects are
+      // converted too, but only where the browser reports them in screen pixels
+      // (current Chrome, Edge, Firefox): measured, not assumed, so an engine
+      // that already reports them in layout pixels is left alone.
       var rect = Element.prototype.getBoundingClientRect;
-      Element.prototype.getBoundingClientRect = function () {
-        var r = rect.call(this);
-        return new DOMRect(r.x / Z, r.y / Z, r.width / Z, r.height / Z);
-      };
+      var probe = document.createElement('div');
+      probe.style.cssText = 'position:absolute;left:100px;top:0;width:100px;height:1px;visibility:hidden;pointer-events:none';
+      el.appendChild(probe);
+      var k = rect.call(probe).width / 100;
+      el.removeChild(probe);
+      if (Math.abs(k - Z) < 0.05) {
+        Element.prototype.getBoundingClientRect = function () {
+          var r = rect.call(this);
+          return new DOMRect(r.x / Z, r.y / Z, r.width / Z, r.height / Z);
+        };
+      }
       var wrap = function (proto, keys) {
-        keys.forEach(function (k) {
-          var d = Object.getOwnPropertyDescriptor(proto, k);
+        keys.forEach(function (key) {
+          var d = Object.getOwnPropertyDescriptor(proto, key);
           if (!d || !d.get) return;
-          Object.defineProperty(proto, k, { configurable: true, enumerable: d.enumerable,
+          Object.defineProperty(proto, key, { configurable: true, enumerable: d.enumerable,
             get: function () { return d.get.call(this) / Z; } });
         });
       };
@@ -100,17 +170,25 @@
       var hit = document.elementFromPoint.bind(document);
       document.elementFromPoint = function (x, y) { return hit(x * Z, y * Z); };
     } catch (e) {}
+    // a resized window is a new layout (debounced, and only for a real change)
+    var w0 = window.outerWidth, h0 = window.outerHeight, rt = null;
+    window.addEventListener('resize', function () {
+      clearTimeout(rt);
+      rt = setTimeout(function () {
+        if (Math.abs(window.outerWidth - w0) > 40 || Math.abs(window.outerHeight - h0) > 40) relay();
+      }, 500);
+    });
   })();
 </script>
 </head>
 
-  <body>
+  <body><div id="plutto-rotate">Turn your phone upright.</div>
     <!-- Use static rendering with Expo Router to support running without JavaScript. -->
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
     <!-- The root element for your Expo app. -->
     <div id="root"></div>
-  <script src="/m/_expo/static/js/web/index-f3ac0a9837b0860c2db78e47d95f633b.js" defer></script>
+  <script src="/m/_expo/static/js/web/index-1c55def77f4fa4c98358bc5f4de9afc6.js" defer></script>
 </body>
 </html>
