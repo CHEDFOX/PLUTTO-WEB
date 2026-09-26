@@ -22,8 +22,9 @@
  * pin), on top of the cycle. A caption and three dots under the buttons say
  * which phone is in front; a dot turns the stack to its phone.
  *
- * Phones (narrow screens) and reduced motion get the unpinned hero: the chat
- * alone on a phone, the still three-up arrangement on a desktop.
+ * Phones and tablets get the same stack and the same cycle, unpinned (a swipe
+ * over the phones turns them too). Reduced motion gets the still version: the
+ * chat alone on a phone, the three-up arrangement on a desktop.
  */
 
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
@@ -143,7 +144,18 @@ export default function HeroStage({ copy, phones, neptune }) {
   const effP = useTransform([scrollYProgress, releasedMV, bakedP], ([p, r, b]) => (r ? b : p));
   const scrollTurn = useTransform(effP, [0.04, 0.96], [0, SCROLL_TURNS], { clamp: true });
   const auto = useMotionValue(0);
-  const turn = useTransform([auto, scrollTurn], ([a, b]) => a + b);
+  // Scrolling turns the stack only where the hero is PINNED (a monitor): there
+  // the scroll is spent inside the pin. Unpinned — a phone, a tablet — the
+  // hero is short, the same two turns would whip past in a flick, and the
+  // cycle, a swipe or a dot turn it instead.
+  const scrollOn = useMotionValue(0);
+  useEffect(() => {
+    const el = document.documentElement;
+    const on = () => scrollOn.set(window.matchMedia('(min-width: 1024px)').matches && !el.classList.contains('scaled-tab') ? 1 : 0);
+    on(); window.addEventListener('resize', on);
+    return () => window.removeEventListener('resize', on);
+  }, [scrollOn]);
+  const turn = useTransform([auto, scrollTurn, scrollOn], ([a, b, on]) => a + b * on);
   const rise = useTransform(effP, [0, 1], [0, -140]);
   const grow = useTransform(effP, [0, 1], [1, 1.08]);
   useMotionValueEvent(turn, 'change', (t) => setFront(wrap(Math.round(t))));
@@ -188,7 +200,6 @@ export default function HeroStage({ copy, phones, neptune }) {
     const id = setInterval(() => {
       if (!visible || hover.current || document.hidden) return;
       if (performance.now() - lastScroll.current < 1200) return;
-      if (!window.matchMedia('(min-width: 1024px)').matches) return;
       animate(auto, Math.round(auto.get()) + 1, SPRING);
     }, HOLD + MOVE * 1000);
     return () => { clearInterval(id); io.disconnect(); };
@@ -224,6 +235,24 @@ export default function HeroStage({ copy, phones, neptune }) {
     return () => el.removeEventListener('wheel', onWheel);
   }, [motionOn, auto]);
 
+  // A SWIPE over the phones turns them on a touch screen: sideways, one turn,
+  // either way. A mostly vertical move is the page scrolling and is left alone.
+  useEffect(() => {
+    const el = stackRef.current;
+    if (!el || !motionOn) return undefined;
+    let x0 = 0, y0 = 0, t0 = 0;
+    const down = (e) => { const t = e.touches[0]; x0 = t.clientX; y0 = t.clientY; t0 = performance.now(); };
+    const up = (e) => {
+      const t = e.changedTouches[0]; const dx = t.clientX - x0, dy = t.clientY - y0;
+      if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy) * 1.2 || performance.now() - t0 > 800) return;
+      lastScroll.current = performance.now();   // the cycle waits a beat after a hand
+      animate(auto, Math.round(auto.get()) + (dx < 0 ? 1 : -1), SPRING);
+    };
+    el.addEventListener('touchstart', down, { passive: true });
+    el.addEventListener('touchend', up, { passive: true });
+    return () => { el.removeEventListener('touchstart', down); el.removeEventListener('touchend', up); };
+  }, [motionOn, auto]);
+
   // A dot turns the stack forward to its phone.
   const goTo = (i) => {
     const steps = wrap(i - front);
@@ -244,19 +273,23 @@ export default function HeroStage({ copy, phones, neptune }) {
             {copy}
 
             {motionOn ? (
-              <div className="mt-10 hidden items-center gap-4 lg:flex">
+              <div className="mt-8 flex items-center justify-center gap-4 lg:mt-10 lg:justify-start">
                 <div className="flex gap-2">
                   {phones.map((ph, i) => (
+                    // The button is the tap area (touch screens give every button
+                    // 44px, globals.css); the dot is drawn inside it at its own size.
                     <button key={ph.key} type="button" onClick={() => goTo(i)} aria-label={`Show ${ph.caption}`}
-                            className="group relative h-2 overflow-hidden rounded-full bg-white/15 transition-all duration-500"
+                            className="group relative flex items-center">
+                      <span className="relative block h-2 overflow-hidden rounded-full bg-white/15 transition-all duration-500"
                             style={{ width: i === front ? 28 : 8 }}>
-                      <span className="absolute inset-0 rounded-full bg-white transition-opacity duration-500" style={{ opacity: i === front ? 1 : 0 }} />
+                        <span className="absolute inset-0 rounded-full bg-white transition-opacity duration-500" style={{ opacity: i === front ? 1 : 0 }} />
+                      </span>
                     </button>
                   ))}
                 </div>
-                <div className="relative h-5 min-w-[16rem] overflow-hidden">
+                <div className="relative h-5 min-w-[15rem] overflow-hidden lg:min-w-[16rem]">
                   <AnimatePresence mode="wait" initial={false}>
-                    <motion.p key={current.key} className="absolute text-[14px] text-white/60"
+                    <motion.p key={current.key} className="absolute whitespace-nowrap text-[13px] text-white/60 lg:text-[14px]"
                               initial={{ y: 14, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -14, opacity: 0 }}
                               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}>
                       {current.caption}
@@ -267,7 +300,7 @@ export default function HeroStage({ copy, phones, neptune }) {
             ) : null}
           </div>
 
-          <div className="relative mx-auto flex h-[650px] w-full justify-center lg:h-[720px] lg:items-center">
+          <div className="relative mx-auto flex h-[500px] w-full justify-center lg:h-[720px] lg:items-center">
             {/* The render's black sky is baked to transparency (neptune-alpha.png),
                 so no blend mode: a blended layer under moving phones is
                 recomposited on every frame, and Safari does that slowly. */}
@@ -279,7 +312,7 @@ export default function HeroStage({ copy, phones, neptune }) {
 
             {/* wide + motion: the carousel */}
             {motionOn ? (
-              <div ref={stackRef} className="absolute inset-0 hidden lg:block">
+              <div ref={stackRef} className="absolute inset-0 origin-top max-lg:-translate-x-[4%] max-lg:scale-[0.74]">
               <Tilt className="absolute inset-0" onHover={(v) => { hover.current = v; }} innerClassName="relative flex h-full w-full items-center justify-center pt-10 pr-20" max={4}>
                 {/* the glow: a soft pool of the front screen's colour, behind the stack */}
                 {GLOW.map((c, i) => (
@@ -316,8 +349,10 @@ export default function HeroStage({ copy, phones, neptune }) {
                 <div className="relative z-10">{phones[0].node}</div>
               </div>
             )}
-            {/* narrow: the chat alone */}
-            <div className="relative flex w-full justify-center lg:hidden">{phones[0].mobile || phones[0].node}</div>
+            {/* narrow + reduced motion: the chat alone (with motion, the stack above runs here too) */}
+            {!motionOn ? (
+              <div className="relative flex w-full justify-center lg:hidden">{phones[0].mobile || phones[0].node}</div>
+            ) : null}
           </div>
         </div>
         <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 z-40 h-12 bg-gradient-to-b from-transparent to-black lg:h-32" />
