@@ -90,13 +90,24 @@ const nextConfig = {
   },
   async headers() {
     const dev = process.env.NODE_ENV !== 'production';
-    return [{ source: '/:path*', headers: securityHeaders(dev) }];
+    return [
+      { source: '/:path*', headers: securityHeaders(dev) },
+      // A worker that is cached keeps an old copy running; always revalidate it.
+      { source: '/plutto-sw.js', headers: [{ key: 'Cache-Control', value: 'no-cache' }] },
+    ];
   },
   // THE APP. /app is the phone's own app built for the browser (Plutto-Frontend,
   // scripts/build-web.mjs), placed in public/m. `beforeFiles` so nothing under
   // app/ can shadow it. The bundle's own asset URLs already start with /m.
   async rewrites() {
-    return { beforeFiles: [{ source: '/app', destination: '/m/index.html' }, { source: '/app/', destination: '/m/index.html' }] };
+    // /plutto-sw.js is the app's notification worker (built beside the bundle).
+    // Served from the root so its scope is the whole site — the same scope as
+    // the manifest — which is what an iPhone's Home Screen app needs to receive.
+    return { beforeFiles: [
+      { source: '/app', destination: '/m/index.html' },
+      { source: '/app/', destination: '/m/index.html' },
+      { source: '/plutto-sw.js', destination: '/m/plutto-sw.js' },
+    ] };
   },
 };
 
