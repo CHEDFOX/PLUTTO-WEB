@@ -232,6 +232,26 @@ export default function AboutPage() {
                 — is written in plain words, not in a policy nobody reads.
               </p>
             </FadeUp>
+
+            <FadeUp delay={0.2}>
+              <p data-no-auto-case className="mt-6 max-w-2xl text-[17px] leading-[1.65] text-white/60">
+                It is free to start; Plutto Star opens every reading.{' '}
+                <Link
+                  href="/pricing"
+                  className="text-white underline decoration-white/30 underline-offset-4 hover:decoration-white"
+                >
+                  What it costs
+                </Link>
+                , and our{' '}
+                <a
+                  href="https://api.plutto.space/refunds"
+                  className="text-white underline decoration-white/30 underline-offset-4 hover:decoration-white"
+                >
+                  refund policy
+                </a>
+                .
+              </p>
+            </FadeUp>
           </div>
         </section>
 
