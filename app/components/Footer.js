@@ -1,12 +1,15 @@
 /**
  * THE FOOTER — one line, three parts: the copyright, the studio and its
- * mission, and the two legal pages App Review and Google's brand verification
- * look for (the backend's own pages, the same ones the phone opens).
+ * mission, and the legal pages App Review, Google's brand verification and
+ * Paddle's website approval look for (the backend's own pages, the same ones
+ * the phone opens).
  */
 
 const LEGAL = [
   { label: 'Privacy Policy', href: 'https://api.plutto.space/privacy' },
   { label: 'Terms of Use', href: 'https://api.plutto.space/terms' },
+  // Paddle approves a selling domain only if it links to a refund policy too.
+  { label: 'Refund Policy', href: 'https://api.plutto.space/refunds' },
 ];
 
 export default function Footer() {
