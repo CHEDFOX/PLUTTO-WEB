@@ -112,14 +112,10 @@ export const metadata = {
     description:
       'Astrology you can talk back to. Vedic, Western, Chinese, KP, Numerology.',
   },
-  // The home-screen icon is the app's own, the same file the phone app ships
-  // (Plutto-Frontend/assets/icon.png, resized by its build-web script into
-  // public/m/icons), so the site added to a home screen and the app sit side by
-  // side with one face.
-  icons: {
-    icon: '/icon.svg',
-    apple: [{ url: '/m/icons/icon-180.png', sizes: '180x180', type: 'image/png' }],
-  },
+  // The favicon and the home-screen icon are the app's own: app/icon.png and
+  // app/apple-icon.png are Plutto-Frontend/assets/icon.png resized (Next's
+  // file-based icons, which it links on every page), so the tab, a search
+  // result and a home screen all wear the face the phone app has.
   appleWebApp: { title: 'Plutto', statusBarStyle: 'black' },
 };
 
