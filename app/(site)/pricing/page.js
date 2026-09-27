@@ -1,10 +1,10 @@
 /**
  * THE PRICING PAGE — what Plutto Star costs, and what a reader gets for free.
  *
- * Quiet on purpose: nothing in the nav points here. It is reached from the
- * information page (/about), and it exists because Paddle approves a selling
- * domain only when the site says what is sold and at what price before the
- * checkout does.
+ * Quiet on purpose: not in the nav, but in the footer on every page (beside the
+ * legal links) and on the information page (/about). It exists because Paddle
+ * approves a selling domain only when the site says what is sold and at what
+ * price before the checkout does.
  *
  * The prices are the Paddle prices the web paywall sells (the catalog's
  * `subscription.paddle.prices`), in US dollars. They are written here by hand:

@@ -6,6 +6,9 @@
  */
 
 const LEGAL = [
+  // What Plutto Star costs — Paddle approves a selling domain only when its
+  // prices can be found from the site, so it sits on every page with the rest.
+  { label: 'Pricing', href: '/pricing' },
   { label: 'Privacy Policy', href: 'https://api.plutto.space/privacy' },
   { label: 'Terms of Use', href: 'https://api.plutto.space/terms' },
   // Paddle approves a selling domain only if it links to a refund policy too.
@@ -21,7 +24,7 @@ export default function Footer() {
             after the patterns around us, the written ones and the ones still
             to be found. */}
         <p className="md:text-center">A <span className="text-white/70">Xooteq Lab</span> Expedition</p>
-        <ul className="flex justify-center gap-6 md:justify-end">
+        <ul className="flex flex-wrap justify-center gap-x-6 gap-y-2 md:justify-end">
           {LEGAL.map((l) => (
             <li key={l.label}>
               <a href={l.href} className="transition-colors hover:text-white">{l.label}</a>
