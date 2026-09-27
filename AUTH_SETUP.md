@@ -16,11 +16,19 @@ with a `redirect_uri_mismatch` or simply return to the page signed-out.
 | Field | Value |
 |---|---|
 | **Site URL** | `https://plutto.space` |
-| **Redirect URLs** | `https://plutto.space/app`<br>`https://plutto.space/**`<br>`http://localhost:3000/**` *(local dev)*<br>`https://plutto-web-*.vercel.app/**` *(previews)* |
+| **Redirect URLs** | `https://plutto.space/app`<br>`https://plutto.space/**` |
 
 The app sends `redirect_to = <origin>/app`. If that exact URL is not on the
 list, Supabase refuses the redirect — this is the single most common cause of
 "the button does nothing".
+
+**Never add a wildcard on a domain someone else can register.** Every address
+on this list is somewhere Supabase will deliver a signed-in user's tokens.
+`https://plutto-web-*.vercel.app/**` matched ANY Vercel project whose name
+starts with `plutto-web-` — which anyone can create — so a link to Google
+sign-in with `redirect_to` pointed there handed the attacker the victim's
+session. The same goes for `http://localhost:3000/**` on the production
+project. Test previews and local dev against a separate Supabase project.
 
 ## 2. Google Cloud Console → project **PLUTTO** → Credentials → the **Web** OAuth client
 `750110530601-3f3toctgrlte3itflov4o4idoronoahn.apps.googleusercontent.com`

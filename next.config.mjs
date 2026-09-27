@@ -60,9 +60,14 @@ const securityHeaders = (dev) => [
     key: 'Permissions-Policy',
     value:
       'camera=(), geolocation=(), usb=(), microphone=(self), ' +
-      'payment=(self "https://checkout.paddle.com" "https://sandbox-checkout.paddle.com")',
+      // Paddle Billing's checkout iframe is buy.paddle.com (checkout.* was
+      // Paddle Classic); Apple Pay / Google Pay inside it need this permission.
+      'payment=(self "https://buy.paddle.com" "https://sandbox-buy.paddle.com" ' +
+      '"https://checkout.paddle.com" "https://sandbox-checkout.paddle.com")',
   },
-  { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
+  // allow-popups: Paddle's PayPal option opens a window that has to report
+  // back to the checkout; plain same-origin severs that link.
+  { key: 'Cross-Origin-Opener-Policy', value: 'same-origin-allow-popups' },
   { key: 'X-DNS-Prefetch-Control', value: 'off' },
   ...(dev
     ? []
