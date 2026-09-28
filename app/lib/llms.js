@@ -10,7 +10,7 @@ import { SITE } from './seo';
 import { FAQS } from './faq';
 import { GUIDES } from './guides';
 import ATLAS from './atlas.json';
-import { SECTIONS, refPath } from './refpages';
+import { SECTIONS, refPath, flat } from './refpages';
 import { TOOLS, toolPath } from './tools';
 
 const url = (p) => `${SITE.url}${p}`;
@@ -67,7 +67,8 @@ export function llmsFullTxt() {
     out.push('---', '', `# ${s.hubTitle}`, '', `Source: ${url(s.base)}`, '');
     for (const x of s.items) {
       const p = s.page(x);
-      out.push(`## ${p.h1}`, '', `Source: ${url(refPath(key, x.slug))}`, '', p.answer, '', ...p.facts.map(([k, v]) => `- ${k}: ${v}`), '');
+      out.push(`## ${p.h1}`, '', `Source: ${url(refPath(key, x.slug))}`, '', p.answer, '', ...p.facts.map(([k, v]) => `- ${k}: ${flat(v)}`), '');
+      for (const t of p.tables || []) out.push(`${t.caption}:`, '', `| ${t.head.join(' | ')} |`, `|${t.head.map(() => '---').join('|')}|`, ...t.rows.map((row) => `| ${row.map(flat).join(' | ')} |`), '');
     }
   }
   for (const t of TOOLS) {

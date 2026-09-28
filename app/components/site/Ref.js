@@ -4,14 +4,21 @@
  * every word in the HTML as sent.
  */
 import Link from 'next/link';
-import { SECTIONS, refPath } from '../../lib/refpages';
+import { SECTIONS, refPath, flat } from '../../lib/refpages';
 import { UPDATED } from '../../lib/guides';
 import { pageMeta, breadcrumbLd, faqLd, articleLd, JsonLd, abs } from '../../lib/seo';
 import { Doc, DocDoor, MONO, LINK } from './Doc';
+import { cardPath } from '../../lib/cards';
+
+/** A fact's value: plain text, or segments where some are links. */
+function Val({ v }) {
+  if (!Array.isArray(v)) return v;
+  return v.map((x, i) => (typeof x === 'string' ? x : <Link key={i} href={x.href} className={LINK}>{x.t}</Link>));
+}
 
 export function hubMeta(key) {
   const s = SECTIONS[key];
-  return pageMeta({ title: s.hubTitle, description: s.hubDescription, path: s.base });
+  return pageMeta({ title: s.hubTitle, description: s.hubDescription, path: s.base, image: cardPath(s.base.slice(1)) });
 }
 
 export function detailMeta(key, slug) {
@@ -19,14 +26,14 @@ export function detailMeta(key, slug) {
   const x = s.items.find((i) => i.slug === slug);
   if (!x) return {};
   const p = s.page(x);
-  return pageMeta({ title: p.title, description: p.description, path: refPath(key, slug), type: 'article' });
+  return pageMeta({ title: p.title, description: p.description, path: refPath(key, slug), type: 'article', image: cardPath(s.base.slice(1), slug) });
 }
 
 export function RefHub({ keyName }) {
   const s = SECTIONS[keyName];
   const set = {
     '@context': 'https://schema.org', '@type': 'DefinedTermSet', '@id': abs(s.base), name: s.hubTitle,
-    hasDefinedTerm: s.items.map((x) => ({ '@type': 'DefinedTerm', name: x.name, url: abs(refPath(keyName, x.slug)), description: s.page(x).answer })),
+    hasDefinedTerm: s.items.map((x) => ({ '@type': 'DefinedTerm', name: x.name, url: abs(refPath(keyName, x.slug)), description: s.page(x).answer, inDefinedTermSet: abs(s.base) })),
   };
   return (
     <>
@@ -39,7 +46,7 @@ export function RefHub({ keyName }) {
             return (
               <li key={x.slug} className="py-5">
                 <Link href={refPath(keyName, x.slug)} className="text-[18px] font-semibold text-white hover:underline hover:decoration-white/40 hover:underline-offset-4">{p.h1}</Link>
-                <p className="!mt-2 text-[14px] text-white/50">{p.facts.slice(0, 4).map(([k, v]) => `${k}: ${v}`).join(' · ')}</p>
+                <p className="!mt-2 text-[14px] text-white/50">{p.facts.slice(0, 4).map(([k, v]) => `${k}: ${flat(v)}`).join(' · ')}</p>
               </li>
             );
           })}
@@ -61,7 +68,7 @@ export function RefDetail({ keyName, slug }) {
   const next = s.items[(i + 1) % s.items.length];
   return (
     <>
-      <JsonLd data={articleLd({ title: p.title, description: p.description, path, updated: UPDATED })} />
+      <JsonLd data={articleLd({ title: p.title, description: p.description, path, updated: UPDATED, image: cardPath(s.base.slice(1), slug) })} />
       <JsonLd data={faqLd(p.faqs)} />
       <JsonLd data={breadcrumbLd([{ name: s.label, path: s.base }, { name: x.name, path }])} />
       <Doc eyebrow={s.label} title={p.h1} crumbs={[{ name: s.label, path: s.base }, { name: x.name, path }]}>
@@ -72,13 +79,27 @@ export function RefDetail({ keyName, slug }) {
             {p.facts.map(([k, v]) => (
               <tr key={k}>
                 <th scope="row" className="w-2/5 py-3 pr-4 align-top font-normal text-white/45">{k}</th>
-                <td className="py-3 text-white/85">{v}</td>
+                <td className="py-3 text-white/85"><Val v={v} /></td>
               </tr>
             ))}
           </tbody>
         </table>
 
         {p.body.map((t, k) => <p key={k}>{t}</p>)}
+
+        {(p.tables || []).map((t) => (
+          <div key={t.caption} className="mt-10 max-w-2xl overflow-x-auto">
+            <table className="w-full border-y border-white/[0.07] text-left text-[15px]">
+              <caption className="pb-3 text-left text-[18px] font-semibold text-white">{t.caption}</caption>
+              <thead><tr className="text-white/45">{t.head.map((h) => <th key={h} scope="col" className="py-2 pr-4 font-normal">{h}</th>)}</tr></thead>
+              <tbody className="divide-y divide-white/[0.06]">
+                {t.rows.map((row, i) => (
+                  <tr key={i}>{row.map((c, j) => <td key={j} className="py-2.5 pr-4 text-white/85"><Val v={c} /></td>)}</tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ))}
 
         <h2>Questions</h2>
         {p.faqs.map((f) => (

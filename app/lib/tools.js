@@ -5,6 +5,29 @@
  */
 export const TOOLS = [
   {
+    slug: 'moon-sign-nakshatra',
+    name: 'Moon sign, nakshatra and dasha calculator',
+    short: 'Moon sign & nakshatra',
+    title: 'Moon Sign & Nakshatra Calculator — Rashi, Pada, Dasha',
+    description: 'Find your Moon sign (rashi), janma nakshatra and pada, and your Vimshottari dasha dates from your birth date and time. Vedic and Western, computed in your browser.',
+    answer: 'Your Moon sign is the sign the Moon occupied at the moment you were born. Vedic astrology reads it in the sidereal zodiac as your rashi, together with your janma nakshatra — the lunar mansion the Moon was in — which also sets your Vimshottari dasha, the sequence of planetary periods through life. Western astrology uses the tropical zodiac, so the two often differ by a sign.',
+    method: [
+      'Your local birth time is converted to UTC using your birthplace’s time-zone history for that date — summer time, war time and, before standard time, local mean time.',
+      'The Moon’s apparent geocentric longitude is computed for that instant. That is your Western (tropical) Moon.',
+      'For Vedic astrology the Lahiri ayanamsa (24°13′ in 2026) is subtracted, giving the sidereal longitude: each 30° is a rashi, each 13°20′ a nakshatra, each 3°20′ a pada.',
+      'The nakshatra’s lord opens the Vimshottari dasha. Its balance at birth is that lord’s years times the share of the nakshatra the Moon had still to cross; the rest follow in order — Ketu 7, Venus 20, Sun 6, Moon 10, Mars 7, Rahu 18, Jupiter 16, Saturn 19, Mercury 17 — with years of 365.25 days.',
+    ],
+    note: 'Accuracy: in a test of 5,000 random moments from 1900 to 2100, the Moon computed here was within 4.2 arcseconds of Swiss Ephemeris — the engine the Plutto app uses — and the dasha arithmetic is the app’s own. 4 arcseconds is how far the Moon moves in about 7 seconds, so the birth time matters far more: a birth recorded one minute out shifts a dasha date by up to five days. Without a time, the calculator checks the whole day and tells you whether it changes the answer. Nothing you enter leaves your browser.',
+    faqs: [
+      { q: 'Why is my Vedic Moon sign different from my Western one?', a: 'Vedic astrology measures the zodiac against the stars (sidereal); Western astrology measures it from the March equinox (tropical). The two are now about 24° apart, so a Moon in the first 24° of a Western sign is in the previous sign in Vedic astrology.' },
+      { q: 'What if I don’t know my birth time?', a: 'The Moon moves about 13° a day — roughly one nakshatra — so for many dates the nakshatra and Moon sign are the same all day. The calculator checks the whole day: if they change, it tells you the minute they changed, so you can decide from what you know about your birth.' },
+      { q: 'What is a pada?', a: 'A quarter of a nakshatra, 3°20′ wide. There are 108 in the zodiac. The pada sets your Moon’s navamsa sign and the syllable a name traditionally begins with.' },
+      { q: 'What is the Vimshottari dasha?', a: 'The 120-year cycle of planetary periods (mahadashas) Vedic astrology reads a life by. Where it starts, and how much of the first period is left, depends on the Moon’s nakshatra and how far through it the Moon was at birth. Each mahadasha divides into nine antardashas.' },
+      { q: 'Why doesn’t this give my ascendant (lagna)?', a: 'The ascendant changes sign about every two hours and depends on the exact latitude and longitude of the birthplace, not only its time zone. Plutto computes it, with the houses, from your place of birth.' },
+    ],
+    guide: '/guides/vedic-astrology',
+  },
+  {
     slug: 'life-path-number',
     name: 'Life path number calculator',
     short: 'Life path number',
@@ -42,7 +65,7 @@ export const TOOLS = [
     note: 'Popular horoscopes often turn the year at Chinese New Year, which moves between 21 January and 20 February. BaZi — the Four Pillars, which is how Plutto reads a Chinese chart — uses Li Chun, a fixed point in the solar year. The two agree for everyone born outside that window.',
     faqs: [
       { q: 'Why does my animal differ from a website that uses only the year?', a: 'The Chinese year does not start on 1 January. If you were born in January or early February, your animal is the previous year’s. BaZi turns the year at Li Chun (3–5 February); popular calendars at the lunar new year.' },
-      { q: 'What if I was born on 3, 4 or 5 February?', a: 'Li Chun falls on one of those days at a specific minute that changes each year. Only a full BaZi chart, computed from the time and place of birth, settles which side of it you were born on.' },
+      { q: 'What if I was born on 3, 4 or 5 February?', a: 'Li Chun falls on one of those days at a specific minute that changes each year — the moment the Sun reaches 315° of ecliptic longitude. Add your birth time and time zone and the calculator computes that moment for your year and tells you which side of it you were born on.' },
       { q: 'What does the element add?', a: 'Each animal year also carries one of the five elements — Wood, Fire, Earth, Metal, Water — so the full cycle is 60 years. A Fire Horse and a Water Horse are read differently.' },
       { q: 'Is the year animal my whole Chinese chart?', a: 'No. It is one of four pillars — year, month, day and hour. BaZi reads the day pillar as the self; the year is the outermost layer, family and generation.' },
     ],

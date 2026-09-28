@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { GUIDES, GUIDE_BY_SLUG, UPDATED } from '../../../lib/guides';
 import { pageMeta, breadcrumbLd, faqLd, articleLd, JsonLd } from '../../../lib/seo';
+import { cardPath } from '../../../lib/cards';
 import { Doc, DocDoor, MONO, LINK } from '../../../components/site/Doc';
 
 export const dynamicParams = false;
@@ -18,8 +19,17 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const g = GUIDE_BY_SLUG[slug];
   if (!g) return {};
-  return pageMeta({ title: g.title, description: g.description, path: `/guides/${g.slug}`, type: 'article' });
+  return pageMeta({ title: g.title, description: g.description, path: `/guides/${g.slug}`, type: 'article', image: cardPath('guides', g.slug) });
 }
+
+// From each guide into the reference pages and calculators it explains.
+const DEEPER = {
+  'vedic-astrology': [['/tools/moon-sign-nakshatra', 'Find your Moon sign, nakshatra and dasha'], ['/nakshatras', 'The 27 nakshatras'], ['/grahas', 'The 9 grahas'], ['/zodiac-signs', 'The 12 signs (rashis)']],
+  'kp-astrology': [['/nakshatras', 'The 27 nakshatras — KP’s star lords'], ['/grahas', 'The 9 grahas'], ['/tools/moon-sign-nakshatra', 'Find your Moon’s nakshatra']],
+  'western-astrology': [['/zodiac-signs', 'The 12 zodiac signs'], ['/tools/moon-sign-nakshatra', 'Find your Moon sign (Western and Vedic)']],
+  'chinese-astrology': [['/tools/chinese-zodiac', 'Find your Chinese zodiac animal'], ['/chinese-zodiac', 'The 12 animals, with every year from 1924 to 2043']],
+  numerology: [['/tools/life-path-number', 'Life path number calculator'], ['/tools/name-numerology', 'Name numerology calculator (Pythagorean and Chaldean)']],
+};
 
 export default async function GuidePage({ params }) {
   const { slug } = await params;
@@ -28,7 +38,7 @@ export default async function GuidePage({ params }) {
   const path = `/guides/${g.slug}`;
   return (
     <>
-      <JsonLd data={articleLd({ title: g.title, description: g.description, path, updated: UPDATED })} />
+      <JsonLd data={articleLd({ title: g.title, description: g.description, path, updated: UPDATED, image: cardPath('guides', g.slug) })} />
       <JsonLd data={faqLd(g.faqs)} />
       <JsonLd data={breadcrumbLd([{ name: 'Guides', path: '/guides' }, { name: g.name, path }])} />
       <Doc
@@ -67,6 +77,15 @@ export default async function GuidePage({ params }) {
             </div>
           ))}
         </section>
+
+        {DEEPER[g.slug] ? (
+          <section className="mt-14">
+            <p className={MONO}>Look it up</p>
+            <ul className="mt-4 space-y-2">
+              {DEEPER[g.slug].map(([href, label]) => <li key={href}><Link href={href} className={LINK}>{label}</Link></li>)}
+            </ul>
+          </section>
+        ) : null}
 
         <section className="mt-14">
           <p className={MONO}>Read next</p>

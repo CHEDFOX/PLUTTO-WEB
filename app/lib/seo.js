@@ -45,7 +45,7 @@ export const SITE = {
 export const abs = (path = '/') => `${SITE.url}${path === '/' ? '' : path}`;
 
 /** Per-page metadata with a canonical, OpenGraph and Twitter card that agree. */
-export function pageMeta({ title, description, path = '/', type = 'website' }) {
+export function pageMeta({ title, description, path = '/', type = 'website', image }) {
   return {
     title,
     description,
@@ -53,8 +53,8 @@ export function pageMeta({ title, description, path = '/', type = 'website' }) {
     // The card image is named here because a page's own openGraph REPLACES the
     // inherited one in Next — without it every page but the home shared bare.
     openGraph: { title: `${title} — Plutto`, description, url: abs(path), siteName: 'Plutto', type,
-      images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Plutto — astrology you can talk to' }] },
-    twitter: { card: 'summary_large_image', title: `${title} — Plutto`, description, images: ['/twitter-image'] },
+      images: [{ url: image || '/opengraph-image', width: 1200, height: 630, alt: image ? title : 'Plutto — astrology you can talk to' }] },
+    twitter: { card: 'summary_large_image', title: `${title} — Plutto`, description, images: [image || '/twitter-image'] },
   };
 }
 
@@ -161,7 +161,10 @@ export function faqLd(faqs) {
   };
 }
 
-export function articleLd({ title, description, path, updated }) {
+// The day the guides and reference pages first went up; dateModified moves.
+const PUBLISHED = '2026-09-28';
+
+export function articleLd({ title, description, path, updated, image }) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -169,7 +172,10 @@ export function articleLd({ title, description, path, updated }) {
     description,
     mainEntityOfPage: abs(path),
     url: abs(path),
+    image: abs(image || '/opengraph-image'),
+    datePublished: PUBLISHED,
     dateModified: updated,
+    isPartOf: { '@id': SITE_ID },
     author: { '@id': ORG_ID },
     publisher: { '@id': ORG_ID },
     about: { '@id': APP_ID },
