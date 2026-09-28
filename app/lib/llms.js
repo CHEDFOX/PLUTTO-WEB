@@ -10,6 +10,8 @@ import { SITE } from './seo';
 import { FAQS } from './faq';
 import { GUIDES } from './guides';
 import ATLAS from './atlas.json';
+import { SECTIONS, refPath } from './refpages';
+import { TOOLS, toolPath } from './tools';
 
 const url = (p) => `${SITE.url}${p}`;
 
@@ -30,6 +32,14 @@ export function llmsTxt() {
     '',
     '## Guides',
     ...GUIDES.map((g) => `- [${g.title}](${url(`/guides/${g.slug}`)}): ${g.description}`),
+    '',
+    '## Reference',
+    ...Object.values(SECTIONS).map((s) => `- [${s.hubTitle}](${url(s.base)}): ${s.hubDescription}`),
+    '',
+    '## Free calculators',
+    ...TOOLS.map((t) => `- [${t.name}](${url(toolPath(t.slug))}): ${t.description}`),
+    '',
+    `- [Editorial standards and sources](${url('/editorial-standards')}): how these pages are written and checked, and how to report a correction`,
     '',
     '## Optional',
     `- [Full text](${url('/llms-full.txt')}): every answer and guide on this site in one file`,
@@ -52,6 +62,16 @@ export function llmsFullTxt() {
     const items = ATLAS.traditions.filter((t) => t.region === r.id);
     if (!items.length) continue;
     out.push(`## ${r.title}`, '', ...items.map((t) => `- **${t.name}** (${t.place}): ${t.note}`), '');
+  }
+  for (const [key, s] of Object.entries(SECTIONS)) {
+    out.push('---', '', `# ${s.hubTitle}`, '', `Source: ${url(s.base)}`, '');
+    for (const x of s.items) {
+      const p = s.page(x);
+      out.push(`## ${p.h1}`, '', `Source: ${url(refPath(key, x.slug))}`, '', p.answer, '', ...p.facts.map(([k, v]) => `- ${k}: ${v}`), '');
+    }
+  }
+  for (const t of TOOLS) {
+    out.push('---', '', `# ${t.name}`, '', `Source: ${url(toolPath(t.slug))}`, '', t.answer, '', ...t.method.map((m, i) => `${i + 1}. ${m}`), '', t.note, '');
   }
   return out.join('\n');
 }

@@ -37,7 +37,7 @@ export default async function GuidePage({ params }) {
         crumbs={[{ name: 'Guides', path: '/guides' }, { name: g.name, path }]}
       >
         <section aria-label="In short">
-          <p className="!mt-0 max-w-2xl text-[19px] leading-[1.65] text-white/85">{g.answer}</p>
+          <p className="speakable !mt-0 max-w-2xl text-[19px] leading-[1.65] text-white/85">{g.answer}</p>
         </section>
 
         {g.sections.map((s) => (

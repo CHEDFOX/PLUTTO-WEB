@@ -74,6 +74,7 @@ export function organizationLd() {
     logo: `${SITE.url}/icon.png`,
     email: SITE.email,
     brand: { '@type': 'Brand', name: SITE.name, url: SITE.url },
+    publishingPrinciples: `${SITE.url}/editorial-standards`,
     sameAs: [SITE.companyUrl, SITE.playUrl],
   };
 }
@@ -173,6 +174,9 @@ export function articleLd({ title, description, path, updated }) {
     publisher: { '@id': ORG_ID },
     about: { '@id': APP_ID },
     inLanguage: 'en',
+    // The one paragraph that answers the page's question, marked for voice
+    // assistants (every article page gives its answer paragraph this class).
+    speakable: { '@type': 'SpeakableSpecification', cssSelector: ['.speakable'] },
   };
 }
 

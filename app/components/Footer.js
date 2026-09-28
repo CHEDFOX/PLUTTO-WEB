@@ -20,6 +20,12 @@ const READ = [
   { label: 'Numerology', href: '/guides/numerology' },
   { label: 'Tarot', href: '/guides/tarot' },
   { label: 'Astrocartography', href: '/guides/astrocartography' },
+  { label: 'Nakshatras', href: '/nakshatras' },
+  { label: 'Chinese zodiac', href: '/chinese-zodiac' },
+  { label: 'Grahas', href: '/grahas' },
+  { label: 'Zodiac signs', href: '/zodiac-signs' },
+  { label: 'Free calculators', href: '/tools' },
+  { label: 'Editorial standards', href: '/editorial-standards' },
 ];
 
 const LEGAL = [

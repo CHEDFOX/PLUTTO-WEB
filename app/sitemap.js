@@ -5,6 +5,8 @@
  */
 import { GUIDES, UPDATED } from './lib/guides';
 import { abs } from './lib/seo';
+import { SECTIONS, refPath } from './lib/refpages';
+import { TOOLS, toolPath } from './lib/tools';
 
 export default function sitemap() {
   const at = new Date(UPDATED);
@@ -17,5 +19,12 @@ export default function sitemap() {
     page('/traditions', 0.8),
     page('/guides', 0.8),
     ...GUIDES.map((g) => page(`/guides/${g.slug}`, 0.7)),
+    ...Object.entries(SECTIONS).flatMap(([key, s]) => [
+      page(s.base, 0.7),
+      ...s.items.map((x) => page(refPath(key, x.slug), 0.6)),
+    ]),
+    page('/tools', 0.7),
+    ...TOOLS.map((t) => page(toolPath(t.slug), 0.7)),
+    page('/editorial-standards', 0.4, 'yearly'),
   ];
 }

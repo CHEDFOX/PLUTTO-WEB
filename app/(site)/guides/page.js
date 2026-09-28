@@ -4,7 +4,15 @@
 import Link from 'next/link';
 import { GUIDES } from '../../lib/guides';
 import { pageMeta, breadcrumbLd, JsonLd, SITE, abs } from '../../lib/seo';
-import { Doc, DocDoor } from '../../components/site/Doc';
+import { Doc, DocDoor, LINK } from '../../components/site/Doc';
+
+const REFERENCE = [
+  ['/nakshatras', 'The 27 nakshatras — the lunar mansions of Vedic astrology'],
+  ['/grahas', 'The 9 grahas — the planets of Vedic astrology'],
+  ['/zodiac-signs', 'The 12 zodiac signs'],
+  ['/chinese-zodiac', 'The 12 Chinese zodiac animals, with every year from 1924 to 2043'],
+  ['/tools', 'Free calculators: life path number, Chinese zodiac, name numerology'],
+];
 
 const TITLE = 'Astrology Guides: Vedic, KP, Western, Chinese';
 const DESC = 'Plain-language guides to every system Plutto reads — Vedic (Jyotish), KP, Western, Chinese BaZi, numerology, tarot and astrocartography: how each works and what it reads.';
@@ -36,6 +44,12 @@ export default function GuidesIndex() {
               </h2>
               <p className="!mt-3 text-[15px] text-white/55">{g.description}</p>
             </li>
+          ))}
+        </ul>
+        <h2>Reference and calculators</h2>
+        <ul className="mt-4 space-y-2">
+          {REFERENCE.map(([href, label]) => (
+            <li key={href}><Link href={href} className={LINK}>{label}</Link></li>
           ))}
         </ul>
         <DocDoor links={[{ href: '/traditions', label: `All ${SITE.counts.traditions} traditions` }, { href: '/faq', label: 'FAQ' }]} />
