@@ -17,16 +17,18 @@
  */
 
 import Link from 'next/link';
+import { pageMeta } from '../../lib/seo';
 import FadeUp from '../../components/FadeUp';
 import StoreBadges from '../../components/StoreBadges';
 import PlanetMark from '../../components/site/PlanetMark';
 import { SHELF_COLOR } from '../../lib/traditions';
 
-export const metadata = {
-  title: 'How it works',
+export const metadata = pageMeta({
+  title: 'How Plutto Works',
   description:
-    'Plutto computes real charts with Swiss Ephemeris, reads them through the tradition that fits your question, and answers out loud in your language.',
-};
+    'Plutto computes real charts with Swiss Ephemeris, reads them through the tradition that fits your question — 102 traditions in all — and answers out loud in your language.',
+  path: '/about',
+});
 
 const MONO = 'text-[14px] font-semibold text-[#A78BFA]';
 

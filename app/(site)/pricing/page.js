@@ -14,13 +14,15 @@
  */
 
 import Link from 'next/link';
+import { pageMeta } from '../../lib/seo';
 import FadeUp from '../../components/FadeUp';
 
-export const metadata = {
+export const metadata = pageMeta({
   title: 'Pricing',
   description:
-    'Plutto is free to start. Plutto Star unlocks every reading in every tradition — weekly, quarterly or annually.',
-};
+    'Plutto is free to start. Plutto Star unlocks every reading in every tradition: $5.99 a week, $19.99 a quarter or $29.99 a year.',
+  path: '/pricing',
+});
 
 const MONO = 'text-[14px] font-semibold text-[#A78BFA]';
 const LINK = 'text-white underline decoration-white/30 underline-offset-4 hover:decoration-white';

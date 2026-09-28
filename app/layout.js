@@ -89,28 +89,49 @@ const jetbrains = JetBrains_Mono({
   display: 'swap',
 });
 
+// SEARCH: the title leads with what people type ("astrology app"), the brand
+// stays first, and the description is the entity sentence answer engines lift
+// (app/lib/seo.js). No canonical here on purpose — a root canonical is inherited
+// by every page that forgets its own and tells Google they are all the home
+// page; each page sets its own (pageMeta).
 export const metadata = {
   metadataBase: new URL('https://plutto.space'),
   title: {
-    default: 'Plutto — Every reading. Every system.',
+    default: 'Plutto — Astrology App You Can Talk To | Vedic, Western, Chinese',
     template: '%s — Plutto',
   },
   description:
-    'Plutto is astrology you can talk back to. Vedic, Western, Chinese, KP, Numerology — one home for every reading.',
+    'Plutto is an astrology app you can talk to: Vedic, Western, Chinese, KP and numerology readings from your real birth chart, spoken in 109 languages. Free to start.',
   applicationName: 'Plutto',
+  keywords: [
+    'astrology app', 'AI astrology', 'Vedic astrology', 'Jyotish', 'kundli', 'birth chart', 'KP astrology',
+    'Western astrology', 'Chinese astrology', 'BaZi', 'Four Pillars', 'numerology', 'tarot',
+    'horoscope', 'dasha', 'compatibility', 'Guna Milan', 'synastry', 'astrocartography',
+  ],
+  authors: [{ name: 'Xooteq Lab', url: 'https://xooteq.com' }],
+  creator: 'Xooteq Lab',
+  publisher: 'XOOTEQ LAB PRIVATE LIMITED',
+  category: 'lifestyle',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 },
+  },
+  formatDetection: { telephone: false, email: false, address: false },
   openGraph: {
-    title: 'Plutto — Every reading. Every system.',
+    title: 'Plutto — the astrology app you can talk to',
     description:
-      'Astrology you can talk back to. Vedic, Western, Chinese, KP, Numerology — one home for every reading.',
+      'Vedic, Western, Chinese, KP and numerology readings from your real birth chart — computed with Swiss Ephemeris, spoken in your language.',
     url: 'https://plutto.space',
     siteName: 'Plutto',
     type: 'website',
+    locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Plutto — Every reading. Every system.',
+    title: 'Plutto — the astrology app you can talk to',
     description:
-      'Astrology you can talk back to. Vedic, Western, Chinese, KP, Numerology.',
+      'Vedic, Western, Chinese, KP and numerology readings from your real birth chart, spoken in your language.',
   },
   // The favicon and the home-screen icon are the app's own: app/icon.png and
   // app/apple-icon.png are Plutto-Frontend/assets/icon.png resized (Next's

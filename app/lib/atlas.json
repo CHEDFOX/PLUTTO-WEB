@@ -1,0 +1,871 @@
+{
+ "source": "Plutto backend, library_map.build_map — the globe in the app. Regenerate from there, do not edit by hand.",
+ "regions": [
+  {
+   "id": "south_asia",
+   "title": "South Asia"
+  },
+  {
+   "id": "china",
+   "title": "China"
+  },
+  {
+   "id": "east_asia",
+   "title": "East Asia"
+  },
+  {
+   "id": "himalaya",
+   "title": "The Himalaya"
+  },
+  {
+   "id": "persia",
+   "title": "Persia & Arabia"
+  },
+  {
+   "id": "sky",
+   "title": "Europe · Sky"
+  },
+  {
+   "id": "letters",
+   "title": "Europe · Letters"
+  },
+  {
+   "id": "folk",
+   "title": "Europe · Folk"
+  },
+  {
+   "id": "africa",
+   "title": "Africa"
+  },
+  {
+   "id": "americas",
+   "title": "The Americas"
+  },
+  {
+   "id": "pacific",
+   "title": "Southeast Asia & Oceania"
+  },
+  {
+   "id": "body",
+   "title": "The Body"
+  }
+ ],
+ "traditions": [
+  {
+   "id": "akan",
+   "name": "Akan day names",
+   "region": "africa",
+   "kind": "birth",
+   "place": "Kumasi",
+   "note": "The Akan day names."
+  },
+  {
+   "id": "merindinlogun",
+   "name": "Mérìndínlógún",
+   "region": "africa",
+   "kind": "cast",
+   "place": "Ile-Ife",
+   "note": "Sixteen cowries, in the Yoruba homeland."
+  },
+  {
+   "id": "african_held",
+   "name": "Ngombo, Bamana, bone throwing",
+   "region": "africa",
+   "kind": "practice",
+   "place": "Bamako",
+   "note": "Bamana sand-work, and the basket and bone traditions beside it."
+  },
+  {
+   "id": "sikidy",
+   "name": "Sikidy",
+   "region": "africa",
+   "kind": "cast",
+   "place": "Antananarivo",
+   "note": "Malagasy seed geomancy."
+  },
+  {
+   "id": "andean",
+   "name": "Andean / Inca wata",
+   "region": "americas",
+   "kind": "birth",
+   "place": "Cusco",
+   "note": "The Inca year and its festivals."
+  },
+  {
+   "id": "aztec",
+   "name": "Aztec",
+   "region": "americas",
+   "kind": "birth",
+   "place": "Tenochtitlan",
+   "note": "The tonalpohualli."
+  },
+  {
+   "id": "mayan",
+   "name": "Mayan",
+   "region": "americas",
+   "kind": "birth",
+   "place": "Tikal",
+   "note": "The tzolk'in count, still kept in the highlands."
+  },
+  {
+   "id": "native",
+   "name": "Native totem",
+   "region": "americas",
+   "kind": "birth",
+   "place": "The Plains",
+   "note": "A modern pan-tribal construct; the book says whose imagery it borrows."
+  },
+  {
+   "id": "oaxacan",
+   "name": "Zapotec / Mixtec count",
+   "region": "americas",
+   "kind": "birth",
+   "place": "Monte Albán",
+   "note": "The Zapotec and Mixtec version of the same count."
+  },
+  {
+   "id": "chiromancy",
+   "name": "Chiromancy (palmistry)",
+   "region": "body",
+   "kind": "body",
+   "place": "Athens",
+   "note": "Palmistry arose in China, India and Europe independently; the mounts read here are the Greek planetary set."
+  },
+  {
+   "id": "mianxiang",
+   "name": "Mian Xiang (face reading)",
+   "region": "body",
+   "kind": "body",
+   "place": "Xi'an",
+   "note": "Chinese face reading and its twelve palaces."
+  },
+  {
+   "id": "moleosophy",
+   "name": "Moleosophy",
+   "region": "body",
+   "kind": "body",
+   "place": "London",
+   "note": "Named and tabulated in 17th-century England, though moles are read in Indian and Chinese traditions too."
+  },
+  {
+   "id": "physiognomy",
+   "name": "Physiognomy (European)",
+   "region": "body",
+   "kind": "body",
+   "place": "Athens",
+   "note": "The European tradition, from the Greek treatises."
+  },
+  {
+   "id": "shouxiang",
+   "name": "Shou Xiang",
+   "region": "body",
+   "kind": "body",
+   "place": "Xi'an",
+   "note": "Chinese palm reading."
+  },
+  {
+   "id": "svara",
+   "name": "Svara Śāstra",
+   "region": "body",
+   "kind": "body",
+   "place": "Varanasi",
+   "note": "Svara yoga, the breath as an oracle."
+  },
+  {
+   "id": "samudrika",
+   "name": "Sāmudrika Śāstra",
+   "region": "body",
+   "kind": "body",
+   "place": "Varanasi",
+   "note": "The Indian science of body marks."
+  },
+  {
+   "id": "bazhai",
+   "name": "Ba Zhai (Eight Mansions)",
+   "region": "china",
+   "kind": "birth",
+   "place": "Xi'an",
+   "note": "Eight Mansions, from the Tang compass schools."
+  },
+  {
+   "id": "chenggu",
+   "name": "Cheng Gu (bone weight)",
+   "region": "china",
+   "kind": "birth",
+   "place": "Xi'an",
+   "note": "Attributed to the Tang astrologer Yuan Tiangang."
+  },
+  {
+   "id": "chinese",
+   "name": "Chinese (BaZi)",
+   "region": "china",
+   "kind": "birth",
+   "place": "Xi'an",
+   "note": "Chang'an, where the court codified the calendar the pillars run on."
+  },
+  {
+   "id": "daliuren",
+   "name": "Da Liu Ren (this moment)",
+   "region": "china",
+   "kind": "moment",
+   "place": "Luoyang",
+   "note": "One of the three Han arts, read from the minute."
+  },
+  {
+   "id": "flyingstar",
+   "name": "Flying Star feng shui",
+   "region": "china",
+   "kind": "moment",
+   "place": "Guangzhou",
+   "note": "Xuan Kong Fei Xing, elaborated in the Qing south."
+  },
+  {
+   "id": "guolao",
+   "name": "Guo Lao Xing Zong",
+   "region": "china",
+   "kind": "birth",
+   "place": "Xi'an",
+   "note": "The Tang star-astrology of Zhang Guo's tradition."
+  },
+  {
+   "id": "kauchim",
+   "name": "Kau Chim (temple lots)",
+   "region": "china",
+   "kind": "cast",
+   "place": "Quanzhou",
+   "note": "Temple lot sticks, from the Fujian coast temples."
+  },
+  {
+   "id": "lingqi",
+   "name": "Ling Qi Jing",
+   "region": "china",
+   "kind": "cast",
+   "place": "Nanjing",
+   "note": "A board oracle of the Six Dynasties south."
+  },
+  {
+   "id": "loshu",
+   "name": "Lo Shu grid",
+   "region": "china",
+   "kind": "birth",
+   "place": "Luoyang",
+   "note": "The magic square the Luo river is said to have carried."
+  },
+  {
+   "id": "meihua",
+   "name": "Plum Blossom (this moment)",
+   "region": "china",
+   "kind": "moment",
+   "place": "Luoyang",
+   "note": "Shao Yong's plum-blossom method, Northern Song."
+  },
+  {
+   "id": "qimen",
+   "name": "Qi Men Dun Jia (this moment)",
+   "region": "china",
+   "kind": "moment",
+   "place": "Luoyang",
+   "note": "Systematised as a Han court art of timing and direction."
+  },
+  {
+   "id": "sanhe",
+   "name": "San He feng shui",
+   "region": "china",
+   "kind": "moment",
+   "place": "Ganzhou",
+   "note": "The Jiangxi landform school of feng shui."
+  },
+  {
+   "id": "taiyi",
+   "name": "Tai Yi Shen Shu (era)",
+   "region": "china",
+   "kind": "moment",
+   "place": "Luoyang",
+   "note": "The third, read for eras and the fate of states."
+  },
+  {
+   "id": "taoist",
+   "name": "Taoist phase",
+   "region": "china",
+   "kind": "practice",
+   "place": "Mount Qingcheng",
+   "note": "One of the founding seats of religious Daoism."
+  },
+  {
+   "id": "tieban",
+   "name": "Tie Ban Shen Shu",
+   "region": "china",
+   "kind": "birth",
+   "place": "Luoyang",
+   "note": "The Iron Plate numbers, from the same Song lineage."
+  },
+  {
+   "id": "xiaoliuren",
+   "name": "Xiao Liu Ren",
+   "region": "china",
+   "kind": "moment",
+   "place": "Central China",
+   "note": "A folk hand-count, carried by practice rather than a text."
+  },
+  {
+   "id": "gunghap",
+   "name": "Gunghap (Korean compatibility)",
+   "region": "east_asia",
+   "kind": "birth",
+   "place": "Seoul",
+   "note": "Korean marriage compatibility, read at two depths."
+  },
+  {
+   "id": "ninestar",
+   "name": "Nine Star Ki",
+   "region": "east_asia",
+   "kind": "birth",
+   "place": "Tokyo",
+   "note": "Chinese nine-star, developed into kyūsei-kigaku in Japan."
+  },
+  {
+   "id": "omikuji",
+   "name": "Omikuji",
+   "region": "east_asia",
+   "kind": "cast",
+   "place": "Kyoto",
+   "note": "The shrine fortune slip."
+  },
+  {
+   "id": "onmyodo",
+   "name": "Onmyōdō (Japanese almanac)",
+   "region": "east_asia",
+   "kind": "birth",
+   "place": "Kyoto",
+   "note": "The Heian court's bureau of yin-yang."
+  },
+  {
+   "id": "saju",
+   "name": "Saju Palja (Korean)",
+   "region": "east_asia",
+   "kind": "birth",
+   "place": "Seoul",
+   "note": "The Korean reading of the four pillars."
+  },
+  {
+   "id": "sanmei",
+   "name": "Sanmei-gaku",
+   "region": "east_asia",
+   "kind": "birth",
+   "place": "Tokyo",
+   "note": "Sanmei-gaku, systematised in the 20th century."
+  },
+  {
+   "id": "seimei",
+   "name": "Seimei Handan",
+   "region": "east_asia",
+   "kind": "practice",
+   "place": "Tokyo",
+   "note": "Name divination by the stroke counts of the written name."
+  },
+  {
+   "id": "suimei",
+   "name": "Shichū Suimei (Japanese)",
+   "region": "east_asia",
+   "kind": "birth",
+   "place": "Kyoto",
+   "note": "Shichū Suimei, the Japanese four pillars."
+  },
+  {
+   "id": "tojeong",
+   "name": "Tojeong Bigyeol (Korean almanac)",
+   "region": "east_asia",
+   "kind": "birth",
+   "place": "Boryeong",
+   "note": "Yi Ji-ham's new-year almanac, still consulted every January."
+  },
+  {
+   "id": "tutru",
+   "name": "Tứ Trụ (Vietnamese)",
+   "region": "east_asia",
+   "kind": "birth",
+   "place": "Hanoi",
+   "note": "The Vietnamese four pillars."
+  },
+  {
+   "id": "tuvi",
+   "name": "Tử Vi Đẩu Số (Vietnamese)",
+   "region": "east_asia",
+   "kind": "birth",
+   "place": "Hanoi",
+   "note": "Tử Vi Đẩu Số as Vietnam kept it."
+  },
+  {
+   "id": "futhorc",
+   "name": "Anglo-Saxon Futhorc",
+   "region": "folk",
+   "kind": "cast",
+   "place": "York",
+   "note": "The Anglo-Saxon rune row, thirty-three staves."
+  },
+  {
+   "id": "baltic",
+   "name": "Baltic and Finnic folk",
+   "region": "folk",
+   "kind": "practice",
+   "place": "The Baltic",
+   "note": "Baltic and Finnic folk practice."
+  },
+  {
+   "id": "bibliomancy",
+   "name": "Bibliomancy",
+   "region": "folk",
+   "kind": "cast",
+   "place": "Rome",
+   "note": "Opening a book at random needs only a book — the sortes Virgilianae are the oldest named form."
+  },
+  {
+   "id": "celtic",
+   "name": "Celtic tree",
+   "region": "folk",
+   "kind": "birth",
+   "place": "Tara",
+   "note": "The tree calendar and the ogham letters."
+  },
+  {
+   "id": "cleromancy",
+   "name": "Cleromancy (lots)",
+   "region": "folk",
+   "kind": "cast",
+   "place": "Babylon",
+   "note": "Casting lots belongs to everyone; the oldest attested practice is Mesopotamian."
+  },
+  {
+   "id": "dowsing",
+   "name": "Dowsing / pendulum",
+   "region": "folk",
+   "kind": "practice",
+   "place": "The Harz",
+   "note": "German mining, where the rod was first written about."
+  },
+  {
+   "id": "goralot",
+   "name": "Goralot",
+   "region": "folk",
+   "kind": "cast",
+   "place": "Kraków",
+   "note": "Polish lot-casting."
+  },
+  {
+   "id": "kipper",
+   "name": "Kipper cards",
+   "region": "folk",
+   "kind": "cast",
+   "place": "Munich",
+   "note": "The 19th-century German deck."
+  },
+  {
+   "id": "cartomancy",
+   "name": "Playing-card cartomancy",
+   "region": "folk",
+   "kind": "cast",
+   "place": "Paris",
+   "note": "Reading an ordinary deck, after Etteilla."
+  },
+  {
+   "id": "scrying",
+   "name": "Scrying",
+   "region": "folk",
+   "kind": "practice",
+   "place": "Memphis",
+   "note": "Ink poured into the palm, in Egypt, is the earliest recorded form of the practice."
+  },
+  {
+   "id": "sibilla",
+   "name": "Sibilla deck",
+   "region": "folk",
+   "kind": "cast",
+   "place": "Milan",
+   "note": "The Italian fortune-telling pack."
+  },
+  {
+   "id": "slavic",
+   "name": "Slavic folk divination",
+   "region": "folk",
+   "kind": "practice",
+   "place": "Kyiv",
+   "note": "The Slavic seasonal divinations."
+  },
+  {
+   "id": "tasseography",
+   "name": "Tasseography",
+   "region": "folk",
+   "kind": "practice",
+   "place": "London",
+   "note": "Tea leaves, once the tea arrived."
+  },
+  {
+   "id": "younger_futhark",
+   "name": "Younger Futhark",
+   "region": "folk",
+   "kind": "cast",
+   "place": "Uppsala",
+   "note": "The Viking-age sixteen."
+  },
+  {
+   "id": "zurhai",
+   "name": "Mongolian Zurhai",
+   "region": "himalaya",
+   "kind": "birth",
+   "place": "Ulaanbaatar",
+   "note": "The Mongolian branch of the same calendrical tradition."
+  },
+  {
+   "id": "tibetan",
+   "name": "Tibetan",
+   "region": "himalaya",
+   "kind": "birth",
+   "place": "Lhasa",
+   "note": "Tibetan astrology, half Indian and half Chinese by its own account."
+  },
+  {
+   "id": "kartsi",
+   "name": "Tibetan Kar-tsi",
+   "region": "himalaya",
+   "kind": "birth",
+   "place": "Lhasa",
+   "note": "The Tibetan calendar and its doubled and omitted days."
+  },
+  {
+   "id": "angel",
+   "name": "Angel numbers",
+   "region": "letters",
+   "kind": "moment",
+   "place": "Sedona",
+   "note": "Native to the modern American New Age rather than to any old tradition."
+  },
+  {
+   "id": "gematria",
+   "name": "Gematria (all methods)",
+   "region": "letters",
+   "kind": "birth",
+   "place": "Jerusalem",
+   "note": "Hebrew letter-value reading."
+  },
+  {
+   "id": "isopsephy",
+   "name": "Isopsephy (Greek)",
+   "region": "letters",
+   "kind": "birth",
+   "place": "Athens",
+   "note": "The Greek counterpart, older in the inscriptions."
+  },
+  {
+   "id": "kabbalah",
+   "name": "Kabbalah",
+   "region": "letters",
+   "kind": "birth",
+   "place": "Safed",
+   "note": "Where Lurianic kabbalah was taught."
+  },
+  {
+   "id": "mazalot",
+   "name": "Mazalot",
+   "region": "letters",
+   "kind": "birth",
+   "place": "Jerusalem",
+   "note": "The Hebrew zodiac and the planetary hours."
+  },
+  {
+   "id": "aboriginal",
+   "name": "Aboriginal Australian sky knowledge",
+   "region": "pacific",
+   "kind": "practice",
+   "place": "Central Australia",
+   "note": "Sky knowledge held in seasonal calendars."
+  },
+  {
+   "id": "khmer",
+   "name": "Khmer Horasastra",
+   "region": "pacific",
+   "kind": "birth",
+   "place": "Angkor",
+   "note": "Khmer horasastra."
+  },
+  {
+   "id": "lao",
+   "name": "Lao calendar",
+   "region": "pacific",
+   "kind": "birth",
+   "place": "Luang Prabang",
+   "note": "The Lao calendar."
+  },
+  {
+   "id": "mahabote",
+   "name": "Mahabote",
+   "region": "pacific",
+   "kind": "birth",
+   "place": "Bagan",
+   "note": "Burmese astrology, from the temple city."
+  },
+  {
+   "id": "pawukon",
+   "name": "Pawukon (Bali)",
+   "region": "pacific",
+   "kind": "birth",
+   "place": "Bali",
+   "note": "The two-hundred-and-ten day calendar."
+  },
+  {
+   "id": "polynesian",
+   "name": "Polynesian moon nights",
+   "region": "pacific",
+   "kind": "birth",
+   "place": "Aotearoa",
+   "note": "The thirty moon nights, as the Māori kept them."
+  },
+  {
+   "id": "tahitian",
+   "name": "Tahitian moon nights",
+   "region": "pacific",
+   "kind": "birth",
+   "place": "Tahiti",
+   "note": "The same nights, under their Tahitian names."
+  },
+  {
+   "id": "thai",
+   "name": "Thai Horasat",
+   "region": "pacific",
+   "kind": "birth",
+   "place": "Ayutthaya",
+   "note": "Thai horasat, at the old capital."
+  },
+  {
+   "id": "weton",
+   "name": "Weton (Java)",
+   "region": "pacific",
+   "kind": "birth",
+   "place": "Yogyakarta",
+   "note": "The Javanese birth day and its numeric weight."
+  },
+  {
+   "id": "abjad",
+   "name": "Abjad (Arabic)",
+   "region": "persia",
+   "kind": "birth",
+   "place": "Kufa",
+   "note": "Letter-value arithmetic in the old Semitic alphabet order."
+  },
+  {
+   "id": "firdaria",
+   "name": "Firdaria (Persian time-lords)",
+   "region": "persia",
+   "kind": "birth",
+   "place": "Isfahan",
+   "note": "Persian time-lords, inherited from Hellenistic Greece."
+  },
+  {
+   "id": "hafez",
+   "name": "Fāl-e Ḥāfeẓ",
+   "region": "persia",
+   "kind": "cast",
+   "place": "Shiraz",
+   "note": "The tomb people still open the Divan at."
+  },
+  {
+   "id": "ikhtiyarat",
+   "name": "Ikhtiyārāt",
+   "region": "persia",
+   "kind": "moment",
+   "place": "Baghdad",
+   "note": "Electional astrology at the Abbasid court."
+  },
+  {
+   "id": "istikhara",
+   "name": "Istikhāra",
+   "region": "persia",
+   "kind": "cast",
+   "place": "Medina",
+   "note": "The prayer for guidance, and how its answer is read."
+  },
+  {
+   "id": "jafr",
+   "name": "Jafr",
+   "region": "persia",
+   "kind": "birth",
+   "place": "Medina",
+   "note": "The letter science attributed to Ja'far al-Ṣādiq."
+  },
+  {
+   "id": "mansions",
+   "name": "Lunar mansions (manazil)",
+   "region": "persia",
+   "kind": "birth",
+   "place": "Hejaz",
+   "note": "The twenty-eight manāzil, named by Arabian astronomers."
+  },
+  {
+   "id": "zairja",
+   "name": "Zāʾirja",
+   "region": "persia",
+   "kind": "moment",
+   "place": "Fez",
+   "note": "The Maghrebi letter-device Ibn Khaldūn described."
+  },
+  {
+   "id": "alchemy",
+   "name": "Alchemy",
+   "region": "sky",
+   "kind": "birth",
+   "place": "Alexandria",
+   "note": "Where the operations were first written down."
+  },
+  {
+   "id": "mandala",
+   "name": "Astrocartography",
+   "region": "sky",
+   "kind": "birth",
+   "place": "San Francisco",
+   "note": "Jim Lewis built astrocartography here in the 1970s."
+  },
+  {
+   "id": "barbault",
+   "name": "Barbault cyclic index (world)",
+   "region": "sky",
+   "kind": "moment",
+   "place": "Paris",
+   "note": "André Barbault's cyclic index of world events."
+  },
+  {
+   "id": "bradley",
+   "name": "Bradley siderograph (markets)",
+   "region": "sky",
+   "kind": "moment",
+   "place": "Los Angeles",
+   "note": "Donald Bradley's siderograph, 1940s."
+  },
+  {
+   "id": "egyptian",
+   "name": "Egyptian decan",
+   "region": "sky",
+   "kind": "birth",
+   "place": "Thebes",
+   "note": "The decans, on the ceilings of the tombs."
+  },
+  {
+   "id": "evolutionary",
+   "name": "Evolutionary astrology",
+   "region": "sky",
+   "kind": "birth",
+   "place": "Boulder",
+   "note": "Jeffrey Wolf Green's school, late 20th century."
+  },
+  {
+   "id": "hermetic",
+   "name": "Hermetic law",
+   "region": "sky",
+   "kind": "birth",
+   "place": "Alexandria",
+   "note": "The Hermetic corpus, Greco-Egyptian."
+  },
+  {
+   "id": "humandesign",
+   "name": "Human Design",
+   "region": "sky",
+   "kind": "birth",
+   "place": "Ibiza",
+   "note": "Received there in 1987, by its author's account."
+  },
+  {
+   "id": "sacred",
+   "name": "Sacred geometry",
+   "region": "sky",
+   "kind": "birth",
+   "place": "Athens",
+   "note": "The Platonic solids and the ratios."
+  },
+  {
+   "id": "landscheidt",
+   "name": "Solar barycentric (Landscheidt)",
+   "region": "sky",
+   "kind": "moment",
+   "place": "Hamburg",
+   "note": "Theodor Landscheidt's solar-cycle research."
+  },
+  {
+   "id": "medical",
+   "name": "Traditional medical astrology",
+   "region": "sky",
+   "kind": "birth",
+   "place": "Kos",
+   "note": "The humoral tradition, from the Hippocratic school."
+  },
+  {
+   "id": "western",
+   "name": "Western",
+   "region": "sky",
+   "kind": "birth",
+   "place": "Alexandria",
+   "note": "Hellenistic astrology took its form in Roman Egypt."
+  },
+  {
+   "id": "ashtamangala",
+   "name": "Aṣṭamaṅgala Praśna",
+   "region": "south_asia",
+   "kind": "cast",
+   "place": "Thrissur",
+   "note": "The Kerala temple praśna, still practised there."
+  },
+  {
+   "id": "kp",
+   "name": "KP (Krishnamurti)",
+   "region": "south_asia",
+   "kind": "birth",
+   "place": "Chennai",
+   "note": "K.S. Krishnamurti worked and published here."
+  },
+  {
+   "id": "numerology",
+   "name": "Numerology",
+   "region": "south_asia",
+   "kind": "birth",
+   "place": "Varanasi",
+   "note": "Aṅka jyotiṣa, the number-planet tradition."
+  },
+  {
+   "id": "ramala",
+   "name": "Ramala",
+   "region": "south_asia",
+   "kind": "cast",
+   "place": "Delhi",
+   "note": "Arabic geomancy remade in Sanskrit at the sultanate courts."
+  },
+  {
+   "id": "sarvatobhadra",
+   "name": "Sarvatobhadra Chakra",
+   "region": "south_asia",
+   "kind": "birth",
+   "place": "Awadh",
+   "note": "A muhūrta chakra of the north Indian almanac tradition."
+  },
+  {
+   "id": "nekath",
+   "name": "Sinhala Nekath",
+   "region": "south_asia",
+   "kind": "practice",
+   "place": "Kandy",
+   "note": "The Sinhala almanac of auspicious hours."
+  },
+  {
+   "id": "tamil",
+   "name": "Tamil numerology",
+   "region": "south_asia",
+   "kind": "birth",
+   "place": "Madurai",
+   "note": "Tamil practice is its own lineage, not a translation of the northern one."
+  },
+  {
+   "id": "bphs",
+   "name": "Vedic (BPHS)",
+   "region": "south_asia",
+   "kind": "birth",
+   "place": "Varanasi",
+   "note": "Where the Parāśara tradition was taught and copied."
+  }
+ ]
+}

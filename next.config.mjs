@@ -94,6 +94,14 @@ const nextConfig = {
       { source: '/:path*', headers: securityHeaders(dev) },
       // A worker that is cached keeps an old copy running; always revalidate it.
       { source: '/plutto-sw.js', headers: [{ key: 'Cache-Control', value: 'no-cache' }] },
+      // THE WEB APP IS A TOOL, NOT A PAGE. /app is a signed-in screen that renders
+      // in JavaScript; indexed, it is a thin page competing with the home page for
+      // "Plutto". noindex keeps it out of results while the links to it still count.
+      // (robots.txt deliberately does NOT block /app — a blocked page's noindex is
+      // never read.) /m/ is its bundle and assets.
+      { source: '/app', headers: [{ key: 'X-Robots-Tag', value: 'noindex, follow' }] },
+      { source: '/app/', headers: [{ key: 'X-Robots-Tag', value: 'noindex, follow' }] },
+      { source: '/m/:path*', headers: [{ key: 'X-Robots-Tag', value: 'noindex' }] },
     ];
   },
   // THE APP. /app is the phone's own app built for the browser (Plutto-Frontend,

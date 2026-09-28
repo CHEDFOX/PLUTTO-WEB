@@ -76,7 +76,8 @@ function TileText({ title, body }) {
 // "Plutto" rather than the raw Supabase host.
 export const metadata = {
   description:
-    'Plutto is an astrology reader you can talk back to. Give it a date, a time and a place; it works out where the sky stood and reads it to you out loud, in your language.',
+    'Plutto is an astrology app you can talk to. Give it your birth date, time and place; it reads your real chart out loud — Vedic, Western, Chinese, KP and numerology.',
+  alternates: { canonical: '/' },
 };
 
 export default function Home() {
