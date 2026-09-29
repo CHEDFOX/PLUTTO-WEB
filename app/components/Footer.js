@@ -6,8 +6,11 @@
  */
 
 // WHAT TO READ — the site's own pages, from every page. Linked here because a
-// page nothing links to is a page search engines treat as unimportant (and
-// /about was exactly that until it was listed): the hubs, then each guide.
+// page nothing links to is a page search engines treat as unimportant. They
+// sit behind one word, "Library", in a native <details>: the footer looks as it
+// always did, and the links are in the HTML as sent — search engines index
+// content in a collapsed disclosure in full (it is not hidden text: anyone can
+// open it), so the pages keep their internal links without a row of them.
 const READ = [
   { label: 'How it works', href: '/about' },
   { label: 'Guides', href: '/guides' },
@@ -41,15 +44,6 @@ const LEGAL = [
 export default function Footer() {
   return (
     <footer data-no-auto-case className="sentence-case relative z-10 border-t border-white/[0.08] font-ui">
-      <nav aria-label="Read about Plutto" className="mx-auto max-w-6xl px-6 pt-8">
-        <ul className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-[13px] text-white/45 md:justify-start">
-          {READ.map((l) => (
-            <li key={l.href}>
-              <a href={l.href} className="transition-colors hover:text-white">{l.label}</a>
-            </li>
-          ))}
-        </ul>
-      </nav>
       <div className="mx-auto grid max-w-6xl gap-3 px-6 py-8 text-center text-[13px] text-white/45 md:grid-cols-3 md:items-center md:text-left">
         <p>© {new Date().getFullYear()} Plutto</p>
         {/* The studio, and the mission in one word: an expedition — setting out
@@ -62,6 +56,25 @@ export default function Footer() {
               <a href={l.href} className="transition-colors hover:text-white">{l.label}</a>
             </li>
           ))}
+          {/* On phones the panel anchors to the whole footer, not the word, so it
+              never runs off the edge of the screen. */}
+          <li className="md:relative">
+            <details className="group">
+              <summary className="cursor-pointer list-none transition-colors hover:text-white group-open:text-white [&::-webkit-details-marker]:hidden">Library</summary>
+              <nav
+                aria-label="Read about Plutto"
+                className="absolute bottom-full left-1/2 z-20 mb-3 w-[min(88vw,420px)] -translate-x-1/2 rounded-2xl border border-white/10 bg-[#0b0b10]/95 p-5 text-left shadow-2xl backdrop-blur md:left-auto md:right-0 md:translate-x-0"
+              >
+                <ul className="grid grid-cols-2 gap-x-6 gap-y-2">
+                  {READ.map((l) => (
+                    <li key={l.href}>
+                      <a href={l.href} className="transition-colors hover:text-white">{l.label}</a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </details>
+          </li>
         </ul>
       </div>
     </footer>
