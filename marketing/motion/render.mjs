@@ -23,6 +23,8 @@ const OUT = process.env.OUT || path.join(HERE, 'out');
 const FFMPEG = process.env.FFMPEG || 'ffmpeg';
 const PORT = 4100 + Math.floor(Math.random() * 500);
 export const FILMS = ['talks-back', 'ask-out-loud', 'vedic-sign', 'mercury-retrograde', 'eclipse-2027', 'saturn-aries', 'nakshatras', 'gunas', 'tarot', 'traditions'];
+// The vivid series: the same ten stories, scenes/pop-*.js. `node render.mjs pop` renders all of them.
+export const POP_FILMS = FILMS.map((f) => `pop-${f}`);
 
 const server = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1', '--directory', ROOT], { stdio: 'ignore' });
 const stop = () => server.kill();
@@ -102,7 +104,8 @@ async function prepareFootage() {
   await prepareFootage();
   await waitServer();
   const browser = await chromium.launch();
-  const ids = process.argv.slice(2).length ? process.argv.slice(2) : FILMS;
+  const args = process.argv.slice(2);
+  const ids = !args.length ? [...FILMS, ...POP_FILMS] : args.flatMap((a) => (a === 'pop' ? POP_FILMS : a === 'noir' ? FILMS : [a]));
   try {
     for (const id of ids) await renderFilm(browser, id);
   } finally {

@@ -1,7 +1,10 @@
 # Plutto motion series — posting kit
 
-Ten vertical films (1080×1920, 30 fps, H.264), made for Instagram Reels,
-YouTube Shorts and TikTok. Each has a cover frame (`*-cover.jpg`) for the
+Ten stories, two looks — **Pop** (`plutto-pop-*.mp4`, vivid, the lead series)
+and **Noir** (`plutto-*.mp4`, dark and premium). Vertical, 1080×1920, 30 fps,
+H.264, made for Instagram Reels, YouTube Shorts and TikTok. Use Pop for the
+feed and ads; keep Noir for premium placements and the pinned brand post.
+The captions below fit both — film names drop the `pop-` prefix. Each has a cover frame (`*-cover.jpg`) for the
 upload screen. They are silent by design: add a trending or licensed track
 inside each app — platforms favour their own audio, and it keeps the films
 free of music licensing.

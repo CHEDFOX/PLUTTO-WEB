@@ -204,3 +204,125 @@ export async function boot(params) {
     loop();
   }
 }
+
+// ════════════════════════════════════════════════════════════════════════
+// PLUTTO POP — the vivid kit. The brand's twelve shelf colours at full
+// voltage, ink-black outlines, stickers with hard offset shadows, spinning
+// sunbursts, halftone, sparkles, marquee tape, and type that slams in.
+// ════════════════════════════════════════════════════════════════════════
+export const POP = {
+  violet: '#7C3AED', pink: '#FF4FA3', cyan: '#1FC8F0', lime: '#B6F23C', orange: '#FF8A2A', yellow: '#FFE03D',
+  blue: '#3355FF', teal: '#10D1B2', red: '#FF4545', magenta: '#E23BD0', ink: '#14102B', cream: '#FFF6E6', white: '#FFFFFF',
+};
+/** Elastic arrival: 0 → overshoot → 1. */
+export const spring = (p) => (p <= 0 ? 0 : p >= 1 ? 1 : 1 - Math.pow(2, -9 * p) * Math.cos(p * Math.PI * 3.2));
+
+/** The backdrop: a colour field, a spinning sunburst, halftone dots. */
+export function popBg(stage) {
+  const field = el('div', 'layer', {}, stage);
+  const burst = el('div', 'abs', { left: '-760px', top: '-460px', width: '2600px', height: '2600px', borderRadius: '50%', opacity: 0.16 }, stage);
+  const dots = el('div', 'layer', { opacity: 0.18, backgroundSize: '26px 26px', WebkitMaskImage: 'linear-gradient(160deg, transparent 35%, #000 90%)', maskImage: 'linear-gradient(160deg, transparent 35%, #000 90%)' }, stage);
+  return (t, color, { rays = 'rgba(255,255,255,1)', cx = 50, cy = 45, dotColor = POP.ink, spin = 8 } = {}) => {
+    field.style.background = color;
+    burst.style.background = `repeating-conic-gradient(from ${t * spin}deg at 50% 50%, ${rays} 0deg 7deg, transparent 7deg 18deg)`;
+    burst.style.left = `${cx * 10.8 - 1300}px`; burst.style.top = `${cy * 19.2 - 1300}px`;
+    dots.style.backgroundImage = `radial-gradient(${dotColor} 26%, transparent 28%)`;
+  };
+}
+
+/** A sticker: thick ink border, rounded, hard offset shadow. */
+export function sticker(parent, html, { bg = POP.white, ink = POP.ink, fg = POP.ink, size = 56, pad = '18px 34px', r = 28, shadow = 12, style = {} } = {}) {
+  return el('div', 'abs', { background: bg, color: fg, border: `6px solid ${ink}`, borderRadius: `${r}px`, boxShadow: `${shadow}px ${shadow}px 0 ${ink}`, padding: pad,
+    fontSize: `${size}px`, fontWeight: 900, letterSpacing: '-0.02em', whiteSpace: 'nowrap', transformOrigin: '50% 50%', ...style }, parent, html);
+}
+
+/** Big ink type with a hard shadow and optional outlined echoes behind it. */
+export function slab(parent, text, { size = 220, color = POP.white, ink = POP.ink, shadow = 14, echoes = 0, echoColor = POP.ink, style = {} } = {}) {
+  const box = el('div', 'abs', { left: 0, right: 0, textAlign: 'center', ...style }, parent);
+  const echo = [];
+  for (let i = echoes; i >= 1; i--) {
+    echo.push(el('div', '', { position: 'absolute', left: 0, right: 0, fontSize: `${size}px`, fontWeight: 900, letterSpacing: '-0.05em', lineHeight: 0.92, color: 'transparent',
+      WebkitTextStroke: `3px ${echoColor}`, opacity: 0.55 - i * 0.12, textTransform: 'uppercase' }, box, text));
+  }
+  const main = el('div', '', { position: 'relative', fontSize: `${size}px`, fontWeight: 900, letterSpacing: '-0.05em', lineHeight: 0.92, color, textTransform: 'uppercase',
+    textShadow: shadow ? `${shadow}px ${shadow}px 0 ${ink}` : 'none', WebkitTextStroke: shadow ? `4px ${ink}` : '0', paintOrder: 'stroke fill' }, box, text);
+  return { box, main, echo };
+}
+
+/** A four-point sparkle ✦. */
+export function sparkle(parent, { size = 60, color = POP.yellow, ink = POP.ink, style = {} } = {}) {
+  const s = el('div', 'abs', { width: `${size}px`, height: `${size}px`, ...style }, parent);
+  s.innerHTML = `<svg viewBox="-50 -50 100 100" width="${size}" height="${size}" style="overflow:visible"><path d="M0 -48 C 6 -10, 10 -6, 48 0 C 10 6, 6 10, 0 48 C -6 10, -10 6, -48 0 C -10 -6, -6 -10, 0 -48 Z" fill="${color}" stroke="${ink}" stroke-width="5" stroke-linejoin="round"/></svg>`;
+  return s;
+}
+export function sparkles(parent, n, seed, colors) {
+  const R = rng(seed);
+  const list = Array.from({ length: n }, (_, i) => ({ e: sparkle(parent, { size: 34 + R() * 60, color: colors[i % colors.length] }), x: 40 + R() * 1000, y: 180 + R() * 1560, ph: R() * 6.28, sp: 0.6 + R() * 1.4 }));
+  return (t, on = 1) => list.forEach((s) => set(s.e, { o: on, x: s.x, y: s.y + Math.sin(t * s.sp + s.ph) * 14, s: (0.55 + 0.45 * Math.abs(Math.sin(t * s.sp * 1.3 + s.ph))) * on, r: t * 40 * s.sp }));
+}
+
+/** Diagonal marquee tape: repeating words scrolling along a tilted band. */
+export function marquee(parent, words, { y = 1600, rot = -8, bg = POP.yellow, fg = POP.ink, size = 58, speed = 180 } = {}) {
+  const band = el('div', 'abs', { left: '-300px', width: '1700px', top: `${y}px`, background: bg, borderTop: `6px solid ${POP.ink}`, borderBottom: `6px solid ${POP.ink}`, overflow: 'hidden', transform: `rotate(${rot}deg)`, padding: '14px 0' }, parent);
+  const track = el('div', '', { whiteSpace: 'nowrap', fontSize: `${size}px`, fontWeight: 900, color: fg, letterSpacing: '-0.01em', textTransform: 'uppercase' }, band, `${words.join(' ✦ ')} ✦ `.repeat(8));
+  return (t, o = 1) => { track.style.transform = `translateX(${-((t * speed) % 2400)}px)`; band.style.opacity = o; };
+}
+
+/** A soft blob that breathes: a closed curve with a wobbling radius. */
+export function blob(parent, { size = 700, color = POP.pink, seed = 1, style = {} } = {}) {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', '-100 -100 200 200');
+  Object.assign(svg.style, { position: 'absolute', width: `${size}px`, height: `${size}px`, overflow: 'visible', ...style });
+  const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  p.setAttribute('fill', color); p.setAttribute('stroke', POP.ink); p.setAttribute('stroke-width', '3');
+  svg.appendChild(p); parent.appendChild(svg);
+  const R = rng(seed); const ph = Array.from({ length: 4 }, () => R() * 6.28);
+  return (t) => {
+    const pts = Array.from({ length: 48 }, (_, i) => {
+      const a = (i / 48) * Math.PI * 2;
+      const r = 80 + 8 * Math.sin(a * 3 + t * 1.3 + ph[0]) + 6 * Math.sin(a * 5 - t * 0.9 + ph[1]) + 4 * Math.sin(a * 2 + t * 1.7 + ph[2]);
+      return [Math.cos(a) * r, Math.sin(a) * r];
+    });
+    p.setAttribute('d', `M ${pts.map((q) => q.map((v) => v.toFixed(1)).join(' ')).join(' L ')} Z`);
+  };
+}
+
+/** Where each render's disc sits (fractions of width/height; radius of width), measured. */
+export const DISC = { sun: { cx: 0.498, cy: 0.503, r: 0.333 }, mercury: { cx: 0.533, cy: 0.486, r: 0.095 }, venus: { cx: 0.438, cy: 0.5, r: 0.194 },
+  mars: { cx: 0.543, cy: 0.476, r: 0.127 }, rahu: { cx: 0.502, cy: 0.503, r: 0.233 }, ketu: { cx: 0.493, cy: 0.485, r: 0.168 }, Neptune: { cx: 0.396, cy: 0.497, r: 0.19 }, Uranus: { cx: 0.491, cy: 0.505, r: 0.157 } };
+/** A planet render as a badge: its disc filling an ink ring, on colour. */
+export function badge(parent, name, { size = 520, fill = 0.94, bg = POP.ink, style = {} } = {}) {
+  const d = DISC[name];
+  const b = el('div', 'abs', { width: `${size}px`, height: `${size}px`, borderRadius: '50%', overflow: 'hidden', border: `8px solid ${POP.ink}`, background: bg, boxShadow: `14px 14px 0 ${POP.ink}`, ...style }, parent);
+  const w = (size * fill) / 2 / d.r;
+  const i = el('img', '', { position: 'absolute', width: `${w}px`, left: `${size / 2 - w * d.cx - 8}px`, top: `${size / 2 - w * 1.2857 * d.cy - 8}px`, maxWidth: 'none' }, b);
+  i.src = `${ASSET}/planets/${name}.png`;
+  return b;
+}
+
+/** The pop end card: logo sticker, the line, a CTA pill, and marquee tape. */
+export function popEnd(stage, { line = 'Five thousand years old.', punch = 'Talks back.', cta = 'plutto.space', sub = 'Free to start · Android · Web', bg = POP.violet } = {}) {
+  const box = el('div', 'layer', { zIndex: 30, opacity: 0, background: bg, overflow: 'hidden' }, stage);
+  const burst = el('div', 'abs', { left: '-760px', top: '-560px', width: '2600px', height: '2600px', borderRadius: '50%', opacity: 0.14 }, box);
+  const tape = marquee(box, ['Vedic', 'Western', 'Chinese', 'KP', 'Numerology', 'Tarot', 'Runes', 'I Ching'], { y: 1500, rot: -7 });
+  const mark = el('div', 'abs', { left: 0, right: 0, top: '360px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '28px' }, box);
+  const ring = el('div', '', { width: '130px', height: '130px', borderRadius: '50%', background: 'linear-gradient(135deg, #fff, rgba(255,255,255,0.45))', position: 'relative', border: `6px solid ${POP.ink}`, boxShadow: `10px 10px 0 ${POP.ink}` }, mark);
+  el('div', '', { position: 'absolute', inset: '26px', borderRadius: '50%', background: POP.ink }, ring);
+  el('div', '', { fontSize: '150px', fontWeight: 900, letterSpacing: '-0.05em', color: '#fff', textShadow: `10px 10px 0 ${POP.ink}`, WebkitTextStroke: `4px ${POP.ink}`, paintOrder: 'stroke fill' }, mark, 'Plutto');
+  const l1 = el('div', 'abs center', { top: '660px', fontSize: '76px', fontWeight: 900, letterSpacing: '-0.03em', color: '#fff' }, box, line);
+  const l2 = el('div', 'abs center', { top: '750px', fontSize: '130px', fontWeight: 900, letterSpacing: '-0.05em', color: POP.yellow, textShadow: `10px 10px 0 ${POP.ink}`, WebkitTextStroke: `4px ${POP.ink}`, paintOrder: 'stroke fill', textTransform: 'uppercase' }, box, punch);
+  const pill = sticker(box, cta, { bg: POP.yellow, size: 60, pad: '26px 56px', r: 999, style: { left: '50%', top: '1010px' } });
+  const s = el('div', 'abs center', { top: '1180px', fontSize: '34px', fontWeight: 800, color: '#fff', letterSpacing: '0.02em' }, box, sub);
+  return (t) => {
+    box.style.opacity = t > 0 ? 1 : 0;
+    box.style.clipPath = `circle(${ease.outCubic(prog(t, 0, 0.55)) * 150}% at 50% 60%)`;
+    burst.style.background = `repeating-conic-gradient(from ${t * 10}deg at 50% 50%, #fff 0deg 7deg, transparent 7deg 18deg)`;
+    tape(t, 1);
+    set(mark, { s: spring(prog(t, 0.15, 1.0)), r: (1 - spring(prog(t, 0.15, 1.0))) * -10 });
+    set(ring, { r: t * 30 });
+    set(l1, { o: ease.outCubic(prog(t, 0.4, 0.7)), y: (1 - ease.outExpo(prog(t, 0.4, 1))) * 40 });
+    set(l2, { s: spring(prog(t, 0.55, 1.35)), r: -3 });
+    pill.style.transform = `translateX(-50%) scale(${spring(prog(t, 0.8, 1.6))}) rotate(-2deg)`;
+    set(s, { o: ease.outCubic(prog(t, 1.1, 1.5)) });
+  };
+}
