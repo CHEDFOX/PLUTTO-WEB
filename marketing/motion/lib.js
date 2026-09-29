@@ -195,13 +195,22 @@ export async function boot(params) {
   const fps = 30;
   window.__duration = scene.duration;
   window.__fps = fps;
+  window.__poster = scene.poster;
   window.__frame = async (t) => { await scene.frame(t); drawGrain(Math.round(t * fps)); };
+  // Films with a score (the cinematic series) synthesise their soundtrack here; render.mjs muxes it.
+  const track = async () => { const { render } = await import('./sound.js'); return render(scene.score(), scene.duration); };
+  window.__audio = scene.score ? async () => (await import('./sound.js')).wavBase64(await track()) : null;
   await window.__frame(Number(params.get('t') || 0));
   window.__ready = true;
   if (params.get('play') === '1') {
-    const t0 = performance.now();
+    let t0 = performance.now();
     const loop = async () => { await window.__frame(((performance.now() - t0) / 1000) % scene.duration); requestAnimationFrame(loop); };
     loop();
+    // Click to hear it: browsers only play sound after a gesture. Restarts the film in sync.
+    if (scene.score) document.addEventListener('click', async () => {
+      const buf = await track(), ac = new AudioContext(), src = ac.createBufferSource();
+      src.buffer = buf; src.loop = true; src.connect(ac.destination); src.start(); t0 = performance.now();
+    }, { once: true });
   }
 }
 

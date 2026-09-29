@@ -10,7 +10,7 @@
  * Needs Playwright's Chromium and an ffmpeg (FFMPEG, or `ffmpeg` on PATH).
  */
 import { spawn } from 'node:child_process';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, writeFile, unlink } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -25,6 +25,8 @@ const PORT = 4100 + Math.floor(Math.random() * 500);
 export const FILMS = ['talks-back', 'ask-out-loud', 'vedic-sign', 'mercury-retrograde', 'eclipse-2027', 'saturn-aries', 'nakshatras', 'gunas', 'tarot', 'traditions'];
 // The vivid series: the same ten stories, scenes/pop-*.js. `node render.mjs pop` renders all of them.
 export const POP_FILMS = FILMS.map((f) => `pop-${f}`);
+// The cinematic series, with its own synthesised soundtrack (sound.js) — `node render.mjs cine`. Written to out/cine/.
+export const CINE_FILMS = ['cine-3am', 'cine-rain', 'cine-drive', 'cine-origin', 'cine-trailer'];
 
 const server = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1', '--directory', ROOT], { stdio: 'ignore' });
 const stop = () => server.kill();
@@ -44,20 +46,31 @@ async function renderFilm(browser, id) {
   await page.waitForFunction(() => window.__ready === true, null, { timeout: 60000 });
   const { duration, fps } = await page.evaluate(() => ({ duration: window.__duration, fps: window.__fps }));
   const shot = () => page.screenshot({ type: 'jpeg', quality: 95 });
+  const dir = id.startsWith('cine-') ? path.join(OUT, 'cine') : OUT;
+  await mkdir(dir, { recursive: true });
+  const hasAudio = await page.evaluate(() => !!window.__audio);
+  const soundtrack = async (wav) => { await writeFile(wav, Buffer.from(await page.evaluate(() => window.__audio()), 'base64')); };
+
+  if (process.env.AUDIO_ONLY) {
+    if (hasAudio) await soundtrack(path.join(dir, `plutto-${id}.wav`));
+    console.log(`  ${id}: soundtrack only`);
+    return page.close();
+  }
 
   if (process.env.STILLS) {
     for (const t of process.env.STILLS.split(',').map(Number)) {
       await page.evaluate((x) => window.__frame(x), t);
-      await writeFile(path.join(OUT, `${id}@${t}s.jpg`), await shot());
+      await writeFile(path.join(dir, `${id}@${t}s.jpg`), await shot());
     }
     console.log(`  ${id}: stills ${process.env.STILLS}`);
     return page.close();
   }
 
-  const file = path.join(OUT, `plutto-${id}.mp4`);
+  const file = path.join(dir, `plutto-${id}.mp4`);
+  const video = hasAudio ? file.replace('.mp4', '.picture.mp4') : file;
   const ff = spawn(FFMPEG, ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(fps), '-c:v', 'mjpeg', '-i', '-',
     '-c:v', 'libx264', '-preset', 'slow', '-crf', '17', '-profile:v', 'high', '-level', '4.2', '-pix_fmt', 'yuv420p',
-    '-r', String(fps), '-movflags', '+faststart', file], { stdio: ['pipe', 'inherit', 'inherit'] });
+    '-r', String(fps), '-movflags', '+faststart', video], { stdio: ['pipe', 'inherit', 'inherit'] });
   const done = new Promise((res, rej) => ff.on('close', (c) => (c === 0 ? res() : rej(new Error(`ffmpeg exited ${c}`)))));
   const n = Math.round(duration * fps);
   const t0 = Date.now();
@@ -68,12 +81,40 @@ async function renderFilm(browser, id) {
   }
   ff.stdin.end();
   await done;
+  if (hasAudio) {
+    const wav = file.replace('.mp4', '.wav');
+    await soundtrack(wav);
+    await mux(video, wav, file);
+    await unlink(video);
+  }
   // A poster: the film's most characteristic frame, for the upload screen.
   const posterAt = await page.evaluate(() => window.__poster ?? window.__duration * 0.5);
   await page.evaluate((x) => window.__frame(x), posterAt);
-  await writeFile(path.join(OUT, `plutto-${id}-cover.jpg`), await shot());
+  await writeFile(path.join(dir, `plutto-${id}-cover.jpg`), await shot());
   console.log(`  ${id}: ${n} frames, ${duration}s → ${path.relative(ROOT, file)} (${((Date.now() - t0) / 1000).toFixed(0)}s)`);
   await page.close();
+}
+
+/**
+ * Put the soundtrack under the picture at a steady loudness: two-pass EBU R128
+ * (measure, then a linear gain) to -12 LUFS, peaks under -1 dBTP — loud and
+ * punchy, but not so hot that the platforms turn it down and flatten it.
+ */
+const LOUD = 'loudnorm=I=-12:TP=-1:LRA=11';
+function run(args) {
+  return new Promise((res, rej) => {
+    const p = spawn(FFMPEG, args, { stdio: ['ignore', 'ignore', 'pipe'] });
+    let err = '';
+    p.stderr.on('data', (d) => { err += d; });
+    p.on('close', (c) => (c === 0 ? res(err) : rej(new Error(`ffmpeg: ${err.slice(-400)}`))));
+  });
+}
+async function mux(video, wav, out) {
+  const log = await run(['-hide_banner', '-i', wav, '-af', `${LOUD}:print_format=json`, '-f', 'null', '-']);
+  const m = JSON.parse(log.slice(log.lastIndexOf('{'), log.lastIndexOf('}') + 1));
+  const af = `${LOUD}:measured_I=${m.input_i}:measured_TP=${m.input_tp}:measured_LRA=${m.input_lra}:measured_thresh=${m.input_thresh}:offset=${m.target_offset}:linear=true`;
+  await run(['-y', '-loglevel', 'error', '-i', video, '-i', wav, '-map', '0:v', '-map', '1:a', '-c:v', 'copy', '-af', af, '-ar', '48000',
+    '-c:a', 'aac', '-b:a', '256k', '-shortest', '-movflags', '+faststart', out]);
 }
 
 /**
@@ -105,7 +146,7 @@ async function prepareFootage() {
   await waitServer();
   const browser = await chromium.launch();
   const args = process.argv.slice(2);
-  const ids = !args.length ? [...FILMS, ...POP_FILMS] : args.flatMap((a) => (a === 'pop' ? POP_FILMS : a === 'noir' ? FILMS : [a]));
+  const ids = !args.length ? [...FILMS, ...POP_FILMS, ...CINE_FILMS] : args.flatMap((a) => (a === 'pop' ? POP_FILMS : a === 'noir' ? FILMS : a === 'cine' ? CINE_FILMS : [a]));
   try {
     for (const id of ids) await renderFilm(browser, id);
   } finally {

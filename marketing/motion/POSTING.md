@@ -1,5 +1,50 @@
 # Plutto motion series — posting kit
 
+## Cinema — the lead series now (`out/cine/plutto-cine-*.mp4`)
+
+Five human stories, 18 s each, 1080×1920, H.264 + AAC. **These have their own
+soundtrack**, synthesised from scratch, so there is nothing to license. Post them with
+"original audio" (on Instagram it becomes a reusable "Original audio · plutto",
+and every remix credits you). Every film is built the same way:
+story, three hits, silence, the drop into the real app, then the end card and sting. The
+app footage is real in all five. There's a `.wav` of each track beside the video,
+for edits.
+
+**Order.** Trailer first (pin it), then 3:07, Unsent, Out loud, Five thousand years.
+For paid ads, run 3:07 and the trailer: the drop lands at 9 s, so cut to
+the first 9 s + end card for a 6–10 s bumper if needed.
+
+### C1 · 3:07 — `plutto-cine-3am.mp4`
+**Caption:** Everyone's asleep. Except the question.
+Ask it anything, at any hour. Free to start → plutto.space
+**Tags:** #3am #cantsleep #careeradvice #shortfilm #plutto
+**Note:** the answer on screen is the app's real reply to "Should I take the job?"
+
+### C2 · Unsent — `plutto-cine-rain.mp4`
+**Caption:** Some messages shouldn't be sent. Some questions should.
+Draw a card instead → plutto.space
+**Tags:** #heartbreak #rainyday #tarot #shortfilm #plutto
+**Note:** the draw (Five of Pentacles, reversed) is a real recording from the app.
+
+### C3 · Out loud — `plutto-cine-drive.mp4`
+**Caption:** Some things you can only say out loud. Say them. It answers — in 109 languages.
+**Tags:** #nightdrive #latenightthoughts #voice #shortfilm #plutto
+
+### C4 · Five thousand years — `plutto-cine-origin.mp4`
+**Caption:** Every age asked the same question. Now it asks you:
+when did you arrive on Earth? → plutto.space
+**Tags:** #history #ancientscripts #cinematic #shortfilm #plutto
+**Note:** the scripts and dates are the site's own frieze (Egypt 3000 BC, Sumer 2500 BC, the North 700 AD).
+
+### C5 · Trailer — `plutto-cine-trailer.mp4`
+**Caption:** The 3 AM. The offer. The ex. The long way home.
+Five thousand years old. Talks back. → plutto.space
+**Tags:** #trailer #cinematic #shortfilm #plutto
+
+---
+
+## The earlier series: Pop and Noir
+
 Ten stories, two looks — **Pop** (`plutto-pop-*.mp4`, vivid, the lead series)
 and **Noir** (`plutto-*.mp4`, dark and premium). Vertical, 1080×1920, 30 fps,
 H.264, made for Instagram Reels, YouTube Shorts and TikTok. Use Pop for the
