@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Plutto motion</title>
+<!--
+  THE STAGE. One film at a time (?scene=<id>), drawn frame by frame: the
+  renderer calls window.__frame(t) and screenshots, so every frame is exact —
+  no dropped frames, no real-time animation. Open it in a browser with
+  &play=1 to preview in real time.
+-->
+<style>
+  @font-face { font-family: Inter; font-weight: 400; src: url(fonts/inter-latin-400-normal.woff2) format('woff2'); }
+  @font-face { font-family: Inter; font-weight: 500; src: url(fonts/inter-latin-500-normal.woff2) format('woff2'), url(fonts/inter-latin-ext-500-normal.woff2) format('woff2'); }
+  @font-face { font-family: Inter; font-weight: 600; src: url(fonts/inter-latin-600-normal.woff2) format('woff2'); }
+  @font-face { font-family: Inter; font-weight: 700; src: url(fonts/inter-latin-700-normal.woff2) format('woff2'); }
+  @font-face { font-family: Inter; font-weight: 800; src: url(fonts/inter-latin-800-normal.woff2) format('woff2'); }
+  @font-face { font-family: Inter; font-weight: 900; src: url(fonts/inter-latin-900-normal.woff2) format('woff2'); }
+  @font-face { font-family: InterX; font-weight: 600; src: url(fonts/inter-latin-ext-600-normal.woff2) format('woff2'); }
+  @font-face { font-family: InterX; font-weight: 800; src: url(fonts/inter-latin-ext-800-normal.woff2) format('woff2'); }
+  @font-face { font-family: InterGreek; font-weight: 600; src: url(fonts/inter-greek-600-normal.woff2) format('woff2'), url(fonts/inter-greek-ext-600-normal.woff2) format('woff2'); }
+  @font-face { font-family: Hand; font-weight: 600; src: url(fonts/caveat-latin-600-normal.woff2) format('woff2'); }
+  @font-face { font-family: Hand; font-weight: 700; src: url(fonts/caveat-latin-700-normal.woff2) format('woff2'); }
+  @font-face { font-family: Mono; font-weight: 500; src: url(fonts/jetbrains-mono-latin-500-normal.woff2) format('woff2'); }
+  @font-face { font-family: Hiero; src: url(fonts/hieroglyphs.woff2) format('woff2'); }
+  @font-face { font-family: Cunei; src: url(fonts/cuneiform.woff2) format('woff2'); }
+  @font-face { font-family: Ogham; src: url(fonts/ogham.woff2) format('woff2'); }
+  @font-face { font-family: Runic; src: url(fonts/runic.woff2) format('woff2'); }
+  @font-face { font-family: Deva; font-weight: 600; src: url(fonts/deva-600.woff2) format('woff2'); }
+  @font-face { font-family: Hebrew; font-weight: 600; src: url(fonts/hebrew-600.woff2) format('woff2'); }
+  @font-face { font-family: Arabic; font-weight: 600; src: url(fonts/arabic-600.woff2) format('woff2'); }
+  @font-face { font-family: CJK; font-weight: 600; src: url(fonts/cjk-600.woff2) format('woff2'); }
+  @font-face { font-family: JP; font-weight: 600; src: url(fonts/jp-600.woff2) format('woff2'); }
+
+  :root {
+    --w: 1080px; --h: 1920px;
+    --grad: linear-gradient(90deg, #7dd3fc, #c4b5fd, #f9a8d4, #fcd34d, #7dd3fc);
+    --violet: #A78BFA;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #000; width: var(--w); height: var(--h); overflow: hidden; }
+  body { font-family: Inter, InterX, InterGreek, Deva, Hebrew, Arabic, CJK, JP, sans-serif; color: #fff; -webkit-font-smoothing: antialiased; }
+  #stage { position: relative; width: var(--w); height: var(--h); overflow: hidden; background: #000; }
+  .layer { position: absolute; inset: 0; }
+  .abs { position: absolute; }
+  .center { left: 0; right: 0; text-align: center; }
+  .h1 { font-weight: 800; letter-spacing: -0.045em; line-height: 1.02; }
+  .grad { background: var(--grad); background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hand { font-family: Hand; font-weight: 600; color: rgba(255,255,255,0.78); }
+  .eyebrow { font-weight: 600; color: var(--violet); letter-spacing: 0.01em; }
+  .caps { font-family: Mono; font-weight: 500; text-transform: uppercase; letter-spacing: 0.18em; color: rgba(255,255,255,0.42); }
+  .w { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: 0.08em; margin-bottom: -0.08em; }
+  .w > span { display: inline-block; will-change: transform; }
+  .chip { display: inline-flex; align-items: center; gap: 14px; border: 1.5px solid rgba(255,255,255,0.16); border-radius: 999px; padding: 18px 30px; font-weight: 600; background: rgba(255,255,255,0.04); }
+  .phone { position: absolute; width: 560px; height: 1180px; border-radius: 78px; border: 3px solid rgba(255,255,255,0.16); background: #000;
+           box-shadow: 0 0 0 10px #0b0b10, 0 40px 120px rgba(124,58,237,0.28), inset 0 0 0 1px rgba(255,255,255,0.05); overflow: hidden; }
+  .phone video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script type="module">
+  import { boot } from './lib.js';
+  boot(new URLSearchParams(location.search));
+</script>
+</body>
+</html>
