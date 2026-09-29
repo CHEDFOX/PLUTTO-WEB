@@ -7,6 +7,7 @@
 import { GUIDES } from './guides';
 import { SECTIONS } from './refpages';
 import { TOOLS } from './tools';
+import { CAL_YEARS, retrogrades, eclipses, ingresses } from './skycal';
 
 const ART = { Sun: 'sun', Mercury: 'mercury', Venus: 'venus', Mars: 'mars', Rahu: 'rahu', Ketu: 'ketu' };
 const art = (graha) => ART[graha] || null;
@@ -33,6 +34,17 @@ function build() {
       put(section, x.slug, c);
     }
   }
+  // The sky calendar and the panchang.
+  const short = (t) => new Date(t).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+  for (const y of CAL_YEARS) {
+    const m = retrogrades(y).Mercury.filter((p) => new Date(p.from).getUTCFullYear() === y);
+    put('mercury-retrograde', String(y), { eyebrow: 'Sky calendar', title: `Mercury retrograde ${y}`, sub: m.map((p) => `${short(p.from)} – ${short(p.to)}`).join(' · '), planet: 'mercury' });
+    put('eclipses', String(y), { eyebrow: 'Sky calendar', title: `Eclipses ${y}`, sub: eclipses(y).map((e) => `${short(e.t)} ${e.kind} ${e.body}`).join(' · '), planet: 'rahu' });
+    const sat = ingresses(y, 'sidereal', 'Saturn'), jup = ingresses(y, 'sidereal', 'Jupiter');
+    put('transits', String(y), { eyebrow: 'Sky calendar', title: `Planetary transits ${y}`, sub: [...sat.map((x) => `Saturn → ${x.sign} ${short(x.t)}`), ...jup.map((x) => `Jupiter → ${x.sign} ${short(x.t)}`)].slice(0, 4).join(' · ') || 'Saturn, Jupiter, Rahu–Ketu — Vedic and Western', planet: null });
+  }
+  put('sky-calendar', 'index', { eyebrow: 'Sky calendar', title: 'Retrogrades, eclipses and transits', sub: `${CAL_YEARS.join(' · ')} — to the minute, from Swiss Ephemeris`, planet: DEFAULT });
+  put('panchang', 'index', { eyebrow: 'Updated hourly', title: 'Today’s panchang', sub: 'Tithi · Nakshatra · Yoga · Karana · Rahu Kaal', planet: 'sun' });
   return cards;
 }
 

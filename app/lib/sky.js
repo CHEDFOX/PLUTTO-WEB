@@ -61,3 +61,12 @@ export function sunReaches(lon, from, days = 400) {
 
 /** Li Chun (start of spring, Sun at 315°) of a Gregorian year, as a UTC instant. */
 export const liChun = (year) => sunReaches(315, new Date(Date.UTC(year, 0, 20)), 30);
+
+/**
+ * The Sun's next rise (dir +1) or set (dir -1) after `from` (ms) at a place,
+ * upper limb with standard refraction, as panchangs use; null near the poles.
+ */
+export function sunEvent(lat, lon, from, dir) {
+  const t = A.SearchRiseSet(A.Body.Sun, new A.Observer(lat, lon, 0), dir, A.MakeTime(new Date(from)), 1.5);
+  return t ? t.date.getTime() : null;
+}

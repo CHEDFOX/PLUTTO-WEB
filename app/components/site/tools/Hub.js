@@ -26,6 +26,10 @@ export function ToolsHub() {
             </li>
           ))}
         </ul>
+        <h2>Sky calendar</h2>
+        <p>
+          <Link href="/panchang" className={LINK}>Today’s panchang</Link> · <Link href="/sky-calendar" className={LINK}>Retrogrades, eclipses and transits</Link> · <Link href="/tools/embed" className={LINK}>Embed a calculator on your site</Link>
+        </p>
         <h2>Reference</h2>
         <p>
           <Link href="/nakshatras" className={LINK}>The 27 nakshatras</Link> · <Link href="/chinese-zodiac" className={LINK}>The 12 Chinese zodiac animals</Link> · <Link href="/grahas" className={LINK}>The 9 grahas</Link> · <Link href="/zodiac-signs" className={LINK}>The 12 zodiac signs</Link>

@@ -28,6 +28,10 @@ const READ = [
   { label: 'Grahas', href: '/grahas' },
   { label: 'Zodiac signs', href: '/zodiac-signs' },
   { label: 'Free calculators', href: '/tools' },
+  { label: 'Kundli matching', href: '/tools/kundli-matching' },
+  { label: 'Sade Sati', href: '/tools/sade-sati' },
+  { label: 'Panchang today', href: '/panchang' },
+  { label: 'Sky calendar', href: '/sky-calendar' },
   { label: 'Editorial standards', href: '/editorial-standards' },
 ];
 

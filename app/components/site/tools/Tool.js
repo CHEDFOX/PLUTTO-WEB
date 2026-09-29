@@ -34,10 +34,10 @@ function toolLd(t) {
 
 /** The page around one calculator; the route passes its own widget in, so no
  *  page ships another tool's code. */
-export function ToolPage({ slug, children }) {
+export function ToolPage({ slug, children, after = null }) {
   const t = toolBySlug(slug);
   const path = toolPath(slug);
-  const others = TOOLS.filter((x) => x.slug !== slug);
+  const others = TOOLS.filter((x) => x.slug !== slug).slice(0, 4);
   return (
     <>
       <JsonLd data={toolLd(t)} />
@@ -46,6 +46,8 @@ export function ToolPage({ slug, children }) {
       <Doc eyebrow="Free calculator" title={t.name} crumbs={[{ name: 'Tools', path: '/tools' }, { name: t.short, path }]}>
         <p className="speakable !mt-0 max-w-2xl text-[19px] leading-[1.65] text-white/85">{t.answer}</p>
         <div className="mt-10">{children}</div>
+        {/* Server-rendered reference beside the calculator (a table a crawler can read). */}
+        {after}
 
         <h2>How it is calculated</h2>
         <ol className="mt-4 max-w-2xl list-decimal space-y-2 pl-5">

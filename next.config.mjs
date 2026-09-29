@@ -54,12 +54,13 @@ const securityHeaders = (dev) => [
   { key: 'X-Frame-Options', value: 'DENY' },
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-  // The page uses the microphone (voice mode) and nothing else. Everything the
-  // app does not need is switched off, so a compromised script cannot reach it.
+  // The page uses the microphone (voice mode) and, on the panchang, the
+  // location (asked only on a tap, to find sunrise; never sent). Everything else
+  // is switched off, so a compromised script cannot reach it.
   {
     key: 'Permissions-Policy',
     value:
-      'camera=(), geolocation=(), usb=(), microphone=(self), ' +
+      'camera=(), geolocation=(self), usb=(), microphone=(self), ' +
       // Paddle Billing's checkout iframe is buy.paddle.com (checkout.* was
       // Paddle Classic); Apple Pay / Google Pay inside it need this permission.
       'payment=(self "https://buy.paddle.com" "https://sandbox-buy.paddle.com" ' +
@@ -92,6 +93,11 @@ const nextConfig = {
     const dev = process.env.NODE_ENV !== 'production';
     return [
       { source: '/:path*', headers: securityHeaders(dev) },
+      // THE EMBEDS are the one thing another site may frame: a calculator with no
+      // account and no cookies, so there is nothing to click-jack. Later entries
+      // win for the same key, and browsers obey CSP frame-ancestors over the
+      // X-Frame-Options DENY still sent, so only the CSP needs to change here.
+      { source: '/embed/:path*', headers: [{ key: 'Content-Security-Policy', value: csp(dev).replace("frame-ancestors 'none'", 'frame-ancestors *') }] },
       // A worker that is cached keeps an old copy running; always revalidate it.
       { source: '/plutto-sw.js', headers: [{ key: 'Cache-Control', value: 'no-cache' }] },
       // THE WEB APP IS A TOOL, NOT A PAGE. /app is a signed-in screen that renders

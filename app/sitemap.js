@@ -7,6 +7,7 @@ import { GUIDES, UPDATED } from './lib/guides';
 import { abs } from './lib/seo';
 import { SECTIONS, refPath } from './lib/refpages';
 import { TOOLS, toolPath } from './lib/tools';
+import { CAL_YEARS } from './lib/skycal';
 
 export default function sitemap() {
   const at = new Date(UPDATED);
@@ -25,6 +26,10 @@ export default function sitemap() {
     ]),
     page('/tools', 0.7),
     ...TOOLS.map((t) => page(toolPath(t.slug), 0.7)),
+    page('/tools/embed', 0.4),
+    { url: abs('/panchang'), lastModified: new Date(), changeFrequency: 'daily', priority: 0.8 },
+    page('/sky-calendar', 0.7),
+    ...CAL_YEARS.flatMap((y) => ['mercury-retrograde', 'eclipses', 'transits'].map((k) => page(`/${k}/${y}`, 0.7))),
     page('/editorial-standards', 0.4, 'yearly'),
   ];
 }

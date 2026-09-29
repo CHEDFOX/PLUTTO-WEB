@@ -10,6 +10,7 @@ import { notFound } from 'next/navigation';
 import { GUIDES, GUIDE_BY_SLUG, UPDATED } from '../../../lib/guides';
 import { pageMeta, breadcrumbLd, faqLd, articleLd, JsonLd } from '../../../lib/seo';
 import { cardPath } from '../../../lib/cards';
+import { CAL_YEARS } from '../../../lib/skycal';
 import { Doc, DocDoor, MONO, LINK } from '../../../components/site/Doc';
 
 export const dynamicParams = false;
@@ -22,11 +23,13 @@ export async function generateMetadata({ params }) {
   return pageMeta({ title: g.title, description: g.description, path: `/guides/${g.slug}`, type: 'article', image: cardPath('guides', g.slug) });
 }
 
-// From each guide into the reference pages and calculators it explains.
+// From each guide into the reference pages and calculators it explains. The
+// sky-calendar links follow the build's year within the years published.
+const Y = Math.min(Math.max(new Date().getUTCFullYear(), CAL_YEARS[0]), CAL_YEARS[CAL_YEARS.length - 1]);
 const DEEPER = {
-  'vedic-astrology': [['/tools/moon-sign-nakshatra', 'Find your Moon sign, nakshatra and dasha'], ['/nakshatras', 'The 27 nakshatras'], ['/grahas', 'The 9 grahas'], ['/zodiac-signs', 'The 12 signs (rashis)']],
+  'vedic-astrology': [['/tools/moon-sign-nakshatra', 'Find your Moon sign, nakshatra and dasha'], ['/tools/kundli-matching', 'Kundli matching (Guna Milan)'], ['/tools/sade-sati', 'Sade Sati calculator'], ['/panchang', 'Today’s panchang'], [`/transits/${Y}`, 'Saturn, Jupiter and Rahu–Ketu transits'], ['/nakshatras', 'The 27 nakshatras'], ['/grahas', 'The 9 grahas'], ['/zodiac-signs', 'The 12 signs (rashis)']],
   'kp-astrology': [['/nakshatras', 'The 27 nakshatras — KP’s star lords'], ['/grahas', 'The 9 grahas'], ['/tools/moon-sign-nakshatra', 'Find your Moon’s nakshatra']],
-  'western-astrology': [['/zodiac-signs', 'The 12 zodiac signs'], ['/tools/moon-sign-nakshatra', 'Find your Moon sign (Western and Vedic)']],
+  'western-astrology': [['/zodiac-signs', 'The 12 zodiac signs'], [`/mercury-retrograde/${Y}`, 'Mercury retrograde dates'], [`/eclipses/${Y}`, 'Eclipse dates'], ['/tools/moon-sign-nakshatra', 'Find your Moon sign (Western and Vedic)']],
   'chinese-astrology': [['/tools/chinese-zodiac', 'Find your Chinese zodiac animal'], ['/chinese-zodiac', 'The 12 animals, with every year from 1924 to 2043']],
   numerology: [['/tools/life-path-number', 'Life path number calculator'], ['/tools/name-numerology', 'Name numerology calculator (Pythagorean and Chaldean)']],
 };
