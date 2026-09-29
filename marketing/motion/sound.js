@@ -15,6 +15,14 @@ import { rng } from './lib.js';
 
 export const SR = 48000;
 export const BPM = 100;
+/** The groove's kick pattern (two bars of sixteenths), shared with the pictures so they can hit with it. */
+export const KICK = ['x......x..x.....', 'x.....x...x..x..'];
+/** Every kick time of a groove starting at t. */
+export function kickTimes(t, bars = 2, bpm = BPM) {
+  const st = 60 / bpm / 4, out = [];
+  for (let b = 0; b < bars; b++) [...KICK[b % 2]].forEach((c, i) => { if (c === 'x') out.push(t + (b * 16 + i) * st); });
+  return out;
+}
 /** MIDI note → Hz. */
 export const hz = (n) => 440 * Math.pow(2, (n - 69) / 12);
 
@@ -151,6 +159,18 @@ class Kit {
     const b = o.connect(this.env(t, { peak: g, d })); b.connect(this.drums); this.send(b, verb);
     const s = this.noise(t, t + 0.15).connect(this.filt('bandpass', f * 5, 1)).connect(this.env(t, { peak: 0.45 * g, d: 0.07 })); s.connect(this.drums); this.send(s, verb);
   }
+  /** A phone vibrating on wood: two buzzes, the motor and the rattle. */
+  buzz({ t, g = 0.6 }) {
+    [[0, 0.42], [0.62, 0.42]].forEach(([k, d]) => {
+      const x = t + k, e = this.ctx.createGain();
+      e.gain.setValueAtTime(0, x); e.gain.linearRampToValueAtTime(g, x + 0.02); e.gain.setValueAtTime(g, x + d - 0.03); e.gain.linearRampToValueAtTime(0, x + d);
+      const m = this.osc('sawtooth', 158, x, x + d + 0.05), am = this.osc('square', 31, x, x + d + 0.05);
+      const amg = this.gain(0.5); am.connect(amg).connect(e.gain);
+      m.connect(this.filt('bandpass', 320, 2)).connect(e).connect(this.out);
+      this.noise(x, x + d + 0.05).connect(this.filt('bandpass', 2400, 4)).connect(this.gain(0.35)).connect(e);
+      this.osc('sine', 79, x, x + d + 0.05).connect(this.gain(0.8)).connect(e);
+    });
+  }
   heartbeat({ t, g = 0.9 }) {
     [[0, 1], [0.23, 0.7]].forEach(([k, v]) => {
       const o = this.osc('sine', 62, t + k, t + k + 0.4); o.frequency.exponentialRampToValueAtTime(42, t + k + 0.12);
@@ -173,7 +193,7 @@ class Kit {
    */
   groove({ t, bars = 2, bpm = BPM, n = 38, g = 1, style = 'full', line = [0, 0, 3, -2] }) {
     const st = 60 / bpm / 4;
-    const K = ['x......x..x.....', 'x.....x...x..x..'];
+    const K = KICK;
     const S = ['........x.......', '........x.....o.'];
     const Hh = ['x.x.x.x.x.x.x.x.', 'x.x.x.x.x.x.rrrr'];
     for (let b = 0; b < bars; b++) {

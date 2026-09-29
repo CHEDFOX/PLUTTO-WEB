@@ -239,7 +239,7 @@ export async function rainShot() {
   }
   const runners = Array.from({ length: 18 }, () => ({ x: 40 + R() * 1000, y0: -200 + R() * 1400, v: 40 + R() * 90, r: 5 + R() * 6, ph: R() * 10, rgb: pick() }));
   const fog = paint(270, 480, fbm(270, 480, { scale: 70, oct: 4, seed: 9 }), (v) => [200, 215, 235, clamp((v - 0.3) * 1.4) * 36]);
-  return (g, t, { heavy = 0 } = {}) => {
+  return (g, t, { heavy = 0, hero = 0 } = {}) => {
     const bgG = g.createLinearGradient(0, 0, 0, H); bgG.addColorStop(0, '#04060b'); bgG.addColorStop(1, '#0a0c12');
     g.fillStyle = bgG; g.fillRect(0, 0, W, H);
     g.globalCompositeOperation = 'lighter';
@@ -252,6 +252,13 @@ export async function rainShot() {
     g.globalAlpha = 1; g.globalCompositeOperation = 'source-over';
     g.drawImage(fog, 0, 0, W, H);
     g.drawImage(drops, 0, 0);
+    if (hero > 0) {                                // one drop, dead centre, holding a warm light — the ring comes out of it
+      g.globalAlpha = hero;
+      const hg = g.createRadialGradient(536, 954, 2, 540, 960, 17); hg.addColorStop(0, 'rgba(255,214,160,1)'); hg.addColorStop(0.7, 'rgba(255,160,90,0.85)'); hg.addColorStop(1, 'rgba(255,140,80,0)');
+      g.fillStyle = hg; g.beginPath(); g.ellipse(540, 960, 16, 18, 0, 0, 6.2832); g.fill();
+      g.fillStyle = 'rgba(255,255,255,0.9)'; g.beginPath(); g.arc(534, 953, 4, 0, 6.2832); g.fill();
+      g.globalAlpha = 1;
+    }
     const shade = g.createLinearGradient(0, 0, 0, H); shade.addColorStop(0, 'rgba(0,0,0,0.55)'); shade.addColorStop(0.45, 'rgba(0,0,0,0.15)'); shade.addColorStop(1, 'rgba(0,0,0,0.3)');
     g.fillStyle = shade; g.fillRect(0, 0, W, H);
     // Running drops: stick, slip, leave a trail.
@@ -277,8 +284,9 @@ export async function roadShot({ passes = [] } = {}) {
   const R = rng(41);
   const town = Array.from({ length: 70 }, () => ({ x: R() * W, y: VY - 6 - R() * 20, a: 0.3 + R() * 0.6 }));
   const P = (x, y, z) => [VX + (F * x) / z, VY + (F * (CH - y)) / z];
-  return (g, t, { bump = 1 } = {}) => {
+  return (g, t, { bump = 1, dist = null } = {}) => {
     const by = bump * (2.5 * Math.sin(t * 9.1) + 1.5 * Math.sin(t * 13.7));
+    const D = dist ?? t * V;                       // metres travelled (pass `dist` to slow down or stop)
     g.save(); g.translate(0, by);
     const sky = g.createLinearGradient(0, 0, 0, VY);
     sky.addColorStop(0, '#020308'); sky.addColorStop(0.7, '#0a0f1e'); sky.addColorStop(1, '#3a2418');
@@ -294,7 +302,7 @@ export async function roadShot({ passes = [] } = {}) {
     const line = (x, z0, z1, w, a) => { const [ax, ay] = P(x - w, 0, z0), [bx] = P(x + w, 0, z0), [cx, cy] = P(x + w, 0, z1), [dx] = P(x - w, 0, z1);
       g.fillStyle = `rgba(235,235,220,${a})`; g.beginPath(); g.moveTo(ax, ay); g.lineTo(bx, ay); g.lineTo(cx, cy); g.lineTo(dx, cy); g.fill(); };
     line(2.1, 1.2, 300, 0.07, 0.5); line(-5.6, 1.2, 300, 0.07, 0.35);
-    for (let k = 0; k < 25; k++) { const z = ((k * 12 - t * V) % 300 + 300) % 300 + 1.2; line(-1.75, z, z + 3.2, 0.07, 0.75 * clamp(1 - z / 260)); }
+    for (let k = 0; k < 25; k++) { const z = ((k * 12 - D) % 300 + 300) % 300 + 1.2; line(-1.75, z, z + 3.2, 0.07, 0.75 * clamp(1 - z / 260)); }
     // Streetlights, one per pass, alternating sides; their pools of light on the wet road.
     g.globalCompositeOperation = 'lighter';
     let sweep = 0;

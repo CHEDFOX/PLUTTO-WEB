@@ -2,43 +2,64 @@
 
 ## Cinema — the lead series now (`out/cine/plutto-cine-*.mp4`)
 
-Five human stories, 18 s each, 1080×1920, H.264 + AAC. **These have their own
-soundtrack**, synthesised from scratch, so there is nothing to license. Post them with
-"original audio" (on Instagram it becomes a reusable "Original audio · plutto",
-and every remix credits you). Every film is built the same way:
-story, three hits, silence, the drop into the real app, then the end card and sting. The
-app footage is real in all five. There's a `.wav` of each track beside the video,
-for edits.
+Five films, 14–16 s each, 1080×1920, H.264 + AAC. **Each has its own
+soundtrack**, synthesised from scratch, so there is nothing to license. Post with "original
+audio" (on Instagram it becomes a reusable "Original audio · plutto").
+There's a `.wav` of each track beside the video.
 
-**Order.** Trailer first (pin it), then 3:07, Unsent, Out loud, Five thousand years.
-For paid ads, run 3:07 and the trailer: the drop lands at 9 s, so cut to
-the first 9 s + end card for a 6–10 s bumper if needed.
+### How they're built (so edits keep what works)
+
+| Beat | Time | What it does, and why |
+|---|---|---|
+| Hook | 0.0 s | A line in the second person and a sound, both on frame 0: a phone buzzing, keys typing, a streetlight whooshing past, a taiko hit. People decide in the first second, and a line that sounds like it's about them stops the thumb. |
+| Escalation | 1.5–5 s | Three hits, three words: the rule of three, getting faster. The viewer spots their own situation in one of them. |
+| Dead air | 5.7 s | Half a second of silence and black. The brain leans in: this is the moment a drop is felt. |
+| Drop | 6.0 s | The real app: bars snap open, boom, groove. Proof, not a claim. |
+| Payoff | 8.4 s | The app's real words as a giant pull quote. It is an open loop ("not for the reason you keep giving"): viewers pause and read, and watch time goes up. |
+| The ring | 10.8 s | Something round in the film's world (the clock's colon, a raindrop, the voice orb, the star trails) swells into the Plutto ring. The brand arrives as part of the story, not as an ad. |
+| Prompt | ~13 s | A question for the comments, so each film ends with something to do. |
+| Callback | 14.1 s | "3:08. Sleep." / "Unsent. Proud of you." / "Home." Relief and a laugh, and the reason people share and rewatch. |
+
+All text stays out of the Reels/TikTok UI zones (top 250 px, bottom ~450 px), so the story reads with the sound off.
+
+**Order.** Pin the trailer. Then 3:07 → Unsent → Out loud → Five thousand years,
+one every 2–3 days. **Ads:** 3:07 and Unsent. Their hooks are the most specific,
+and specificity is what converts.
+
+**Reply to comments.** The prompts at the end ("What's your 3 AM question?")
+bring answers. Reply to the first twenty with a short, warm line, and the
+algorithm reads the thread as a conversation.
 
 ### C1 · 3:07 — `plutto-cine-3am.mp4`
-**Caption:** Everyone's asleep. Except the question.
-Ask it anything, at any hour. Free to start → plutto.space
-**Tags:** #3am #cantsleep #careeradvice #shortfilm #plutto
-**Note:** the answer on screen is the app's real reply to "Should I take the job?"
+**Caption:** Can't sleep? It's not the coffee.
+Ask the question that's keeping you up — free to start at plutto.space
+What's your 3 AM question? ↓
+**Tags:** #cantsleep #3am #careeradvice #shortfilm #plutto
+**Note:** the answer quoted is the app's real reply to "Should I take the job?"
 
 ### C2 · Unsent — `plutto-cine-rain.mp4`
-**Caption:** Some messages shouldn't be sent. Some questions should.
+**Caption:** Draft eleven. Don't send it.
 Draw a card instead → plutto.space
-**Tags:** #heartbreak #rainyday #tarot #shortfilm #plutto
+Who were you about to text? ↓
+**Tags:** #unsent #dontsendit #tarot #shortfilm #plutto
 **Note:** the draw (Five of Pentacles, reversed) is a real recording from the app.
 
 ### C3 · Out loud — `plutto-cine-drive.mp4`
-**Caption:** Some things you can only say out loud. Say them. It answers — in 109 languages.
-**Tags:** #nightdrive #latenightthoughts #voice #shortfilm #plutto
+**Caption:** You took the long way home again.
+Say it out loud. It answers — in your language (one of 109).
+What would you say? ↓
+**Tags:** #nightdrive #longwayhome #overthinking #shortfilm #plutto
 
 ### C4 · Five thousand years — `plutto-cine-origin.mp4`
-**Caption:** Every age asked the same question. Now it asks you:
-when did you arrive on Earth? → plutto.space
-**Tags:** #history #ancientscripts #cinematic #shortfilm #plutto
-**Note:** the scripts and dates are the site's own frieze (Egypt 3000 BC, Sumer 2500 BC, the North 700 AD).
+**Caption:** Life. Fate. What becomes. Every age asked the same thing.
+Now it asks you: when did you arrive on Earth? → plutto.space
+**Tags:** #ancienthistory #hieroglyphs #runes #cinematic #plutto
+**Note:** the words and dates are the site's own frieze (Egypt 3000 BC, Sumer 2500 BC, the North 700 AD).
 
 ### C5 · Trailer — `plutto-cine-trailer.mp4`
-**Caption:** The 3 AM. The offer. The ex. The long way home.
+**Caption:** Everyone has a 3 AM question.
 Five thousand years old. Talks back. → plutto.space
+What's yours? ↓
 **Tags:** #trailer #cinematic #shortfilm #plutto
 
 ---
