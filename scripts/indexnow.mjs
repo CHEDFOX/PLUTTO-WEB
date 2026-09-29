@@ -7,6 +7,9 @@
  *   node scripts/indexnow.mjs                 # every URL in the live sitemap
  *   node scripts/indexnow.mjs /tools /faq     # just these paths
  *
+ * For a manual push of specific pages. After every production deploy this
+ * happens by itself: see scripts/search-sync.mjs and the Search sync workflow.
+ *
  * Run it AFTER a deploy is live: the engines fetch the key file from the site
  * to prove the request came from its owner. The key is public by design — it
  * lives at /<key>.txt — so it is not a secret and is safe in git.

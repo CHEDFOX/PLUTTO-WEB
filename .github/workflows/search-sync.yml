@@ -1,0 +1,68 @@
+# SEARCH SYNC — keeps Google and Bing current without anyone remembering to.
+#
+# Runs after every successful PRODUCTION deploy (Vercel reports deployments to
+# GitHub), once a day (the panchang changes daily), and on demand from the
+# Actions tab. scripts/search-sync.mjs announces only pages whose visible
+# content changed since the last run; the fingerprints live in the Actions
+# cache between runs.
+#
+# Secrets (Settings → Secrets and variables → Actions), both optional:
+#   GSC_SERVICE_ACCOUNT     Google service account JSON key (Search Console user)
+#   BING_WEBMASTER_API_KEY  Bing Webmaster Tools → Settings → API access
+# Without them IndexNow still runs (Bing, Yandex, Seznam, Naver); Google then
+# re-reads the sitemap on its own schedule.
+name: Search sync
+
+on:
+  deployment_status:
+  schedule:
+    - cron: '17 1 * * *'   # 06:47 IST, after the day's panchang is live
+  workflow_dispatch:
+    inputs:
+      all:
+        description: 'Announce every page, not just changed ones'
+        type: boolean
+        default: false
+
+concurrency:
+  group: search-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    # Only production deploys that succeeded; previews are not the site.
+    if: >-
+      github.event_name != 'deployment_status' ||
+      (github.event.deployment_status.state == 'success' &&
+       github.event.deployment.environment == 'Production')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: scripts
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Restore last fingerprints
+        uses: actions/cache/restore@v4
+        with:
+          path: .search-sync
+          key: search-sync-${{ github.run_id }}
+          restore-keys: search-sync-
+      - name: Wait for the new deployment to serve
+        if: github.event_name == 'deployment_status'
+        run: sleep 30
+      - name: Announce what changed
+        env:
+          SITE: https://plutto.space
+          ALL: ${{ inputs.all && '1' || '' }}
+          GSC_SERVICE_ACCOUNT: ${{ secrets.GSC_SERVICE_ACCOUNT }}
+          BING_WEBMASTER_API_KEY: ${{ secrets.BING_WEBMASTER_API_KEY }}
+        run: node scripts/search-sync.mjs
+      - name: Save fingerprints
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .search-sync
+          key: search-sync-${{ github.run_id }}
