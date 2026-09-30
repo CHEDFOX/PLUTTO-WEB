@@ -30,7 +30,8 @@ const SAY = [
 ];
 const BRAND = 14.4, END = 19;
 const HX = 540, HY = 700, HR = 270;   // the orb, at the end: the poster's print
-const TAG = { t: BRAND + 1.75, text: 'five thousand years old. / talks back.', font: 'i', size: 64, em: [4, 5] };
+const AGE = BRAND + 1.6;   // the label: five thousand years old
+const TAG = { t: BRAND + 2.05, text: 'talks back.', font: 'i', size: 132, em: [0, 1] };
 const STAMP = BRAND + 2.75, LISTEN = [BRAND + 2.6, BRAND + 3.6];
 const OX = 540, OY = 1400, OR = 150;
 const LINE_Y = 720;   // where each line is printed
@@ -160,12 +161,16 @@ export default {
     S.wm = el('div', 'abs', { left: 0, right: 0, top: `${HY + HR - 70}px`, textAlign: 'center', fontFamily: 'Inter', fontSize: '232px', fontWeight: 800, letterSpacing: '-0.055em', lineHeight: 1, filter: 'url(#ink)' }, stage);
     el('div', '', { visibility: 'hidden' }, S.wm, 'Plutto');
     S.wmp = [INK.pink, INK.blue].map((c) => el('div', '', { position: 'absolute', left: 0, right: 0, top: 0, color: c, mixBlendMode: 'multiply', opacity: 0 }, S.wm, 'Plutto'));
-    // The line it speaks, set like every other line; "talks back." printed hot.
-    S.tagBox = el('div', 'abs', { left: '140px', width: '800px', top: '1325px', textAlign: 'center', filter: 'url(#ink)' }, stage);
+    // The age, a quiet label between two rules; then what it does, large and hot.
+    S.age = el('div', 'abs', { left: 0, right: 0, top: '1196px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '26px', fontFamily: 'Inter', fontWeight: 600, fontSize: '22px', color: INK.blue, mixBlendMode: 'multiply' }, stage);
+    S.ageRules = [0, 1].map(() => el('div', '', { width: '64px', height: '2px', background: INK.blue }, S.age));
+    S.ageText = el('div', '', { letterSpacing: '0.42em', marginRight: '-0.42em', whiteSpace: 'nowrap' }, S.age, 'FIVE THOUSAND YEARS OLD');
+    S.age.insertBefore(S.ageText, S.ageRules[1]);
+    S.tagBox = el('div', 'abs', { left: '140px', width: '800px', top: '1330px', textAlign: 'center', filter: 'url(#ink)' }, stage);
     S.tag = typeset(TAG, S.tagBox);
     S.tagBox.style.fontWeight = 600; S.tagBox.firstChild.style.fontWeight = 600;
     // The address, rubber-stamped a little askew.
-    S.url = el('div', 'abs', { left: 0, right: 0, top: '1500px', display: 'flex', justifyContent: 'center', opacity: 0, filter: 'url(#ink)' }, stage);
+    S.url = el('div', 'abs', { left: 0, right: 0, top: '1510px', display: 'flex', justifyContent: 'center', opacity: 0, filter: 'url(#ink)' }, stage);
     S.stamp = el('div', '', { padding: '20px 40px 20px 50px', border: `4px solid ${INK.blue}`, borderRadius: '999px', fontFamily: 'Inter', fontWeight: 700, fontSize: '30px', letterSpacing: '0.34em', color: INK.pink, mixBlendMode: 'multiply' }, S.url, 'PLUTTO.SPACE');
     // The printer's colophon along the foot of the sheet.
     S.colo = el('div', 'abs', { left: '120px', right: '120px', top: '1742px', display: 'flex', justifyContent: 'space-between', paddingTop: '18px', borderTop: `2px solid ${INK.blue}`, fontFamily: 'Inter', fontWeight: 600, fontSize: '17px', letterSpacing: '0.3em', color: INK.blue, mixBlendMode: 'multiply', opacity: 0 }, stage);
@@ -223,6 +228,9 @@ export default {
     // The poster: the mark prints in two passes, the orb speaks its line, the address is stamped.
     S.wmp.forEach((e, k) => pass(e, k, BRAND + 1.25 + k * 0.1));
     S.tag.layers.forEach((spans, k) => spans.forEach((sp, i) => pass(sp, k, TAG.t + i * STAG, 0.35)));
+    const ag = ease.outCubic(prog(t, AGE, AGE + 0.7));
+    S.age.style.opacity = ag; S.ageText.style.letterSpacing = `${0.42 + (1 - ag) * 0.25}em`;
+    S.ageRules.forEach((e, k) => { e.style.transform = `scaleX(${ag})`; e.style.transformOrigin = k ? 'left' : 'right'; });
     const st = prog(t, STAMP, STAMP + 0.22), sb = ease.outBack(st);
     S.url.style.opacity = Math.min(1, st * 4);
     S.stamp.style.transform = `scale(${lerp(1.5, 1, Math.min(1, sb))}) rotate(${lerp(-9, -2.5, sb)}deg)`;
