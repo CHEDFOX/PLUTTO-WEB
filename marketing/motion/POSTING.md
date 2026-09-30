@@ -62,6 +62,39 @@ the loop is hypnotic and gets rewatched. #satisfying reach.
 
 ---
 
+## Hot takes: the side series (`out/takes/`)
+
+Five letterpress placards, 13 s each, to a stomp. **The claim** is stamped in
+wood type (and is the thumbnail). **The receipt** is typed underneath: the fact
+that makes the claim true. **The fight** is a question stamped for the comments.
+Posters: `out/takes/posters/plutto-take-*-feed.jpg` (4:5, the claim frame).
+
+**The rule that keeps them safe:** controversial about astrology itself, never
+about people, beliefs or named rivals, and every claim is true, with the
+receipt on screen. People argue in the comments, then check. That is the
+engagement, and the facts hold up when they do.
+
+**How to post.** Interleave them with the print shop, one take for every two
+brand posts, so the grid stays the brand's. The takes are for reach: they are
+built to be stitched, dueted and argued with. Pin the best comment thread, not
+the post. Reply to disagreement with the receipt, never with heat.
+
+| № | File | Claim | Caption | Tags |
+|---|---|---|---|---|
+| 01 | `plutto-take-sign.mp4` | YOUR SIGN IS PROBABLY WRONG. | The zodiac in your horoscope follows the seasons. The stars moved on. Which sign did you lose? | #zodiac #siderealastrology #vedicastrology #astrologytok |
+| 02 | `plutto-take-thirteen.mp4` | THERE ARE 13 SIGNS. NOBODY SAYS SO. | Ophiuchus, 29 Nov – 17 Dec. The Sun goes there every year. | #ophiuchus #13thsign #zodiac #astrologytok |
+| 03 | `plutto-take-mercury.mp4` | STOP BLAMING MERCURY. | It's retrograde three or four times a year. It still didn't send that text. | #mercuryretrograde #astrologymemes #zodiac |
+| 04 | `plutto-take-horoscope.mp4` | YOUR HOROSCOPE WAS WRITTEN FOR 680 MILLION PEOPLE. | One in twelve people on Earth got the same reading as you today. Your chart is 1 of 1. | #horoscope #birthchart #astrology |
+| 05 | `plutto-take-compatible.mp4` | "INCOMPATIBLE SIGNS" ARE A MYTH. | Sun-sign compatibility compares one point of each chart. Tag the "wrong" sign you ended up with. | #zodiaccompatibility #synastry #astrologytok |
+
+**Facts, for replies:** tropical vs sidereal is about 24° apart (Lahiri
+ayanamsa ≈ 24.2° in 2026), so for most birthdays the sidereal sign is the one
+before. The Sun is within the IAU boundary of Ophiuchus from about 29 Nov to
+17 Dec. Mercury is retrograde 3–4 times a year, about three weeks each. There
+are 8.2 billion people ÷ 12 signs ≈ 680 million.
+
+---
+
 ## Cinema (`out/cine/plutto-cine-*.mp4`)
 
 Five films, 14–16 s each, 1080×1920, H.264 + AAC. **Each has its own
