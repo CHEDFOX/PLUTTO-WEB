@@ -306,6 +306,18 @@ class Kit {
       b.connect(this.out); this.send(b, verb);
     });
   }
+  /** The orb's voice: one short vowel-like blip per word (a game character's
+   *  speech). Two partials through a formant band, a quick pitch slide in. */
+  blip({ t, n = 74, g = 0.3, dur = 0.11, slide = 3 }) {
+    const f = hz(n), end = t + dur + 0.08;
+    const bp = this.filt('bandpass', f * 2.2, 2.2);
+    const o = this.osc('triangle', f * Math.pow(2, slide / 12), t, end); o.frequency.exponentialRampToValueAtTime(f, t + 0.03);
+    const o2 = this.osc('sine', f * 2.01, t, end);
+    o.connect(bp); o2.connect(this.gain(0.35)).connect(bp);
+    const e = this.env(t, { a: 0.008, peak: g, hold: dur * 0.5, d: dur * 0.5 });
+    const w = bp.connect(e); w.connect(this.out); this.send(w, 0.25);
+    this.osc('sine', f, t, end).connect(this.env(t, { a: 0.008, peak: g * 0.5, hold: dur * 0.5, d: dur * 0.5 })).connect(this.out);
+  }
   /** A felt-piano note. */
   pluck({ t, n = 62, g = 0.25, dur = 2.2 }) {
     const lp = this.filt('lowpass', 2600, 0.5); lp.frequency.setValueAtTime(2600, t); lp.frequency.exponentialRampToValueAtTime(500, t + dur);
