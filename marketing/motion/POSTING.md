@@ -1,6 +1,68 @@
 # Plutto motion series — posting kit
 
-## Cinema — the lead series now (`out/cine/plutto-cine-*.mp4`)
+## The print shop — the launch series (`out/print/`; N° 001 is `out/plutto-orb-sheet.mp4`)
+
+Five films, 16–19 s, 1080×1920, H.264 + AAC with their own synthesised
+soundtracks (post as "original audio"). Each is a different hand-print
+technique, and each ends on a poster. **The films never say what Plutto is.**
+They name something the viewer already carries (a question they keep not
+asking, a list of "one day"s, the year everything rearranged itself), and the
+brand arrives as the answer to it.
+
+Every poster keeps what matters between y 290 and 1460, so one frame works
+three ways: the reel cover, a story, and a 4:5 feed post
+(`posters/plutto-*-feed.jpg`, 1080×1350). `posters/plutto-*-story.jpg` is the
+full 1080×1920 frame.
+
+**Launch order.** Day one, three posts to fill the grid's first row: N° 001 (pin
+it), then N° 004 and N° 002. After that, N° 003 and N° 005 one every 2–3 days, and
+alternate each film with its poster as a still post a few days later: the
+poster brings back people who saw the film.
+
+**Replying.** Each caption ends with a small ask that costs almost nothing (an
+emoji, an age, a time). Reply to the first twenty, warmly and briefly.
+
+### N° 001 · The sheet — `plutto-orb-sheet.mp4` (risograph)
+**Caption:** for the question you keep not asking.
+say it out loud → plutto.space
+(you don't have to tell us. just leave a 🌙 if you have one.)
+**Tags:** #risograph #motiondesign #astrology #plutto
+
+### N° 002 · Cyanotype — `plutto-print-cyanotype.mp4`
+**Caption:** on the night you were born, the sky held still for a photograph.
+we kept a copy → plutto.space
+Do you know your birth time to the minute? ↓
+**Tags:** #cyanotype #birthchart #astrology #alternativeprocess #plutto
+**Note:** the sheet starts the yellow-green of unexposed emulsion and develops
+to Prussian blue, as a real cyanotype does. The constellation is the Plough.
+
+### N° 003 · Cut-outs — `plutto-print-cutouts.mp4` (after Matisse's *Jazz*)
+**Caption:** "one day" is a polite word for never.
+ask one tonight → plutto.space
+What's been on your list the longest? (📝 is enough.)
+**Tags:** #matisse #cutouts #papercut #collage #plutto
+
+### N° 004 · Saturn — `plutto-print-saturn.mp4` (Swiss screenprint)
+**Caption:** 27, 28, 29, and everything rearranged itself. It isn't a crisis. It's a return.
+Ask what it came back for → plutto.space
+How old were you when it started? ↓
+**Tags:** #saturnreturn #swissdesign #screenprint #astrology #plutto
+**Note:** the strongest reach candidate: #saturnreturn is a large, searched
+tag, and the hook ("that's why 28 felt like that") names a lived experience.
+Use it for ads too.
+
+### N° 005 · Marbling — `plutto-print-marbling.mp4` (ebru)
+**Caption:** you already know the answer. you just want to hear it said.
+→ plutto.space
+Reply with the answer you already know. (You don't have to say the question.)
+**Tags:** #marbling #ebru #paperart #satisfying #plutto
+**Note:** the marbling is computed with the real mathematics of ink on water.
+Every drop pushes the ink before it, and the combs and the stylus drag it, so
+the loop is hypnotic and gets rewatched. #satisfying reach.
+
+---
+
+## Cinema (`out/cine/plutto-cine-*.mp4`)
 
 Five films, 14–16 s each, 1080×1920, H.264 + AAC. **Each has its own
 soundtrack**, synthesised from scratch, so there is nothing to license. Post with "original
