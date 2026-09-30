@@ -30,7 +30,7 @@ const SAY = [
 ];
 const BRAND = 14.4, END = 19;
 const HX = 540, HY = 700, HR = 270;   // the orb, at the end: the poster's print
-const AGE = BRAND + 1.6;   // the label: five thousand years old
+const AGE = BRAND + 1.6;   // the label: whose voice it is — the sky you were born under
 const TAG = { t: BRAND + 2.05, text: 'talks back.', font: 'i', size: 132, em: [0, 1] };
 const STAMP = BRAND + 2.75, LISTEN = [BRAND + 2.6, BRAND + 3.6];
 const OX = 540, OY = 1400, OR = 150;
@@ -161,10 +161,10 @@ export default {
     S.wm = el('div', 'abs', { left: 0, right: 0, top: `${HY + HR - 70}px`, textAlign: 'center', fontFamily: 'Inter', fontSize: '232px', fontWeight: 800, letterSpacing: '-0.055em', lineHeight: 1, filter: 'url(#ink)' }, stage);
     el('div', '', { visibility: 'hidden' }, S.wm, 'Plutto');
     S.wmp = [INK.pink, INK.blue].map((c) => el('div', '', { position: 'absolute', left: 0, right: 0, top: 0, color: c, mixBlendMode: 'multiply', opacity: 0 }, S.wm, 'Plutto'));
-    // The age, a quiet label between two rules; then what it does, large and hot.
+    // Whose voice it is, a quiet label between two rules; then what it does, large and hot.
     S.age = el('div', 'abs', { left: 0, right: 0, top: '1196px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '26px', fontFamily: 'Inter', fontWeight: 600, fontSize: '22px', color: INK.blue, mixBlendMode: 'multiply' }, stage);
     S.ageRules = [0, 1].map(() => el('div', '', { width: '64px', height: '2px', background: INK.blue }, S.age));
-    S.ageText = el('div', '', { letterSpacing: '0.42em', marginRight: '-0.42em', whiteSpace: 'nowrap' }, S.age, 'FIVE THOUSAND YEARS OLD');
+    S.ageText = el('div', '', { letterSpacing: '0.42em', marginRight: '-0.42em', whiteSpace: 'nowrap' }, S.age, 'THE SKY YOU WERE BORN UNDER');
     S.age.insertBefore(S.ageText, S.ageRules[1]);
     S.tagBox = el('div', 'abs', { left: '140px', width: '800px', top: '1330px', textAlign: 'center', filter: 'url(#ink)' }, stage);
     S.tag = typeset(TAG, S.tagBox);
