@@ -1,6 +1,7 @@
 /**
- * ORB · THE SHEET — a risograph. The orb is Plutto's voice, and it introduces
- * itself: who it is, what it reads, what to ask, how (every claim is the site's).
+ * ORB · THE SHEET — a risograph. The orb is Plutto's voice, and it never says
+ * what Plutto is: it notices the viewer, names the question they carry and the
+ * reason they haven't asked it, and invites them — the brand line resolves it.
  * A sheet of paper; the voice orb is PRINTED
  * on it: three fluorescent ink plates (pink, blue, yellow), each a halftone
  * screen at its own angle, overprinting into the orb's own colours (pink+blue =
@@ -18,12 +19,12 @@ const STAG = 0.12;
 // One line on the sheet at a time, small, with the paper around it. em: the
 // word printed hot (pink + yellow). ' / ' is a line break.
 const SAY = [
-  { t: 0.9, text: 'hi. i’m plutto.', font: 'g', size: 66, em: 2 },
-  { t: 3.0, text: 'i read the sky / you were born under.', font: 'i', size: 70, em: 3 },
-  { t: 5.3, text: '102 traditions. / one chart: yours.', font: 'g', size: 58, em: 4 },
-  { t: 7.6, text: 'ask me about love, work, / or the 3 am stuff.', font: 'i', size: 68, em: 3 },
-  { t: 9.9, text: 'say it out loud — / in any of 109 languages.', font: 'g', size: 56, em: 3 },
-  { t: 12.2, text: 'go on. i’m listening.', font: 'i', size: 74, em: 3 },
+  { t: 0.9, text: 'you almost scrolled past.', font: 'g', size: 58, em: 3 },
+  { t: 3.0, text: 'you do that / right before something matters.', font: 'i', size: 60, em: 6 },
+  { t: 5.3, text: 'there’s a question / you keep not asking.', font: 'g', size: 56, em: 2 },
+  { t: 7.6, text: 'too heavy for friends. / too strange for a search bar.', font: 'i', size: 64, em: 5 },
+  { t: 9.9, text: 'say it here, / out loud.', font: 'g', size: 60, em: 4 },
+  { t: 12.2, text: 'i’ll know what you mean.', font: 'i', size: 76, em: 1 },
 ];
 const BRAND = 14.4, END = 18;
 const OX = 540, OY = 1400, OR = 150;
