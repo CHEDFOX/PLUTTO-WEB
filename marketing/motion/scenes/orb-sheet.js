@@ -8,7 +8,9 @@
  * violet, blue+yellow = green, pink+yellow = orange). When it speaks the plates
  * shake out of register. Every word arrives as two ink plates that slam into
  * register — a print pass — and the sheet fills into a finished poster of what
- * it said. At the end the orb's screens close into the Plutto ring.
+ * it said. At the end the orb rises, swells, and its screens open into the
+ * Plutto ring — a finished riso poster: the mark overprinted across the print,
+ * the line it speaks, the address stamped, the printer's colophon.
  */
 import { el, prog, ease, lerp, rng, W, H } from '../lib.js';
 import { fbm, paint } from '../shots.js';
@@ -26,7 +28,10 @@ const SAY = [
   { t: 9.9, text: 'say it here, / out loud.', font: 'g', size: 60, em: 4 },
   { t: 12.2, text: 'i’ll know what you mean.', font: 'i', size: 76, em: 1 },
 ];
-const BRAND = 14.4, END = 18;
+const BRAND = 14.4, END = 19;
+const HX = 540, HY = 700, HR = 270;   // the orb, at the end: the poster's print
+const TAG = { t: BRAND + 1.75, text: 'five thousand years old. / talks back.', font: 'i', size: 64, em: [4, 5] };
+const STAMP = BRAND + 2.75, LISTEN = [BRAND + 2.6, BRAND + 3.6];
 const OX = 540, OY = 1400, OR = 150;
 const LINE_Y = 720;   // where each line is printed
 const PENTA = [72, 74, 76, 79, 81, 84, 86, 88];
@@ -64,7 +69,7 @@ function halftone(g, p, cx, cy, r, t, gone, spacing = 9.5) {
     const u = x / r, v = y / r, rr = u * u + v * v;
     if (rr > 1) continue;
     let d = p.density(u, v, rr, t);
-    if (gone > 0.02) d = Math.sqrt(rr) < 0.5 * gone ? 0 : lerp(d, p.ring ? 1 : 0, gone);   // closing into the ring: pink over blue, a paper hole
+    if (gone > 0.01) d = Math.sqrt(rr) < 0.44 * Math.min(gone, 1.05) ? 0 : lerp(d, p.ring ? Math.min(1, 0.3 + 1.15 * d) : 0.75 * d, Math.min(1, gone));   // opening into the ring: a paper hole, the ink still lit like a ball
     if (d < 0.03) continue;
     const rad = spacing * 0.64 * Math.sqrt(Math.min(1, d)), X = cx + x, Y = cy + y;
     g.moveTo(X + rad, Y); g.arc(X, Y, rad, 0, 6.2832);
@@ -74,7 +79,7 @@ function halftone(g, p, cx, cy, r, t, gone, spacing = 9.5) {
 
 export default {
   duration: END,
-  poster: 13.2,
+  poster: 18.5,
   score() {
     const c = [
       { i: 'pad', t: 0, end: BRAND, ns: [57, 64, 69, 71], g: 0.05, bright: 900, verb: 0.6 },
@@ -83,14 +88,17 @@ export default {
       { i: 'reverse', end: BRAND, dur: 0.8, g: 0.22 },
       { i: 'hit', t: BRAND, g: 0.35 }, { i: 'sting', t: BRAND + 0.05, g: 0.8 },
       { i: 'pad', t: BRAND, end: END, ns: [57, 64, 69], g: 0.04 },
-      { i: 'tom', t: BRAND + 1.0, f: 150, g: 0.3, verb: 0.25, d: 0.14 },           // the mark, stamped
+      { i: 'tom', t: BRAND + 0.95, f: 120, g: 0.34, verb: 0.3, d: 0.16 },           // the ring opens
+      { i: 'tom', t: BRAND + 1.42, f: 150, g: 0.3, verb: 0.25, d: 0.14 },           // the mark, printed
+      { i: 'tom', t: STAMP + 0.12, f: 190, g: 0.26, verb: 0.2, d: 0.1 },            // the address, stamped
+      { i: 'bell', t: STAMP + 0.14, n: 81, g: 0.05, dur: 3 },
     ];
     for (let k = 2; k < 24; k++) {                       // a light, dry beat under the voice
       const t = k * 0.6;
       c.push(k % 2 === 0 ? { i: 'kick', t, g: 0.3 } : { i: 'snare', t, g: 0.15, verb: 0.35 });
       c.push({ i: 'hat', t, g: 0.09, p: -0.3 }, { i: 'hat', t: t + 0.3, g: 0.06, p: 0.3 });
     }
-    SAY.forEach((line, li) => {
+    [...SAY, TAG].forEach((line, li) => {
       const ws = line.text.split(' ').filter((w) => w !== '/');
       ws.forEach((w, i) => {
         const last = i === ws.length - 1;
@@ -131,8 +139,8 @@ export default {
     S.poster = el('div', 'abs', { left: '180px', top: `${LINE_Y}px`, width: '720px', textAlign: 'center', filter: 'url(#ink)' }, stage);
     const style = (l) => ({ fontSize: `${l.size}px`, lineHeight: 1.12,
       ...(l.font === 'g' ? { fontFamily: 'Inter', fontWeight: 600, letterSpacing: '-0.02em' } : { fontFamily: 'Cormorant', fontWeight: 500, fontStyle: 'italic' }) });
-    S.lines = SAY.map((l) => {
-      const slot = el('div', '', { position: 'absolute', left: 0, right: 0, top: 0, transform: 'translateY(-50%)', ...style(l) }, S.poster);
+    const typeset = (l, parent) => {
+      const slot = el('div', '', { position: 'absolute', left: 0, right: 0, top: 0, transform: 'translateY(-50%)', ...style(l) }, parent);
       el('div', '', { visibility: 'hidden' }, slot, l.text.replace(' / ', '<br>'));   // holds the line's height
       const layers = [0, 1].map((k) => {
         const lay = el('div', '', { position: 'absolute', left: 0, top: 0, right: 0, mixBlendMode: 'multiply' }, slot);
@@ -140,40 +148,50 @@ export default {
         l.text.split(' ').forEach((w, j, all) => {
           if (w === '/') { lay.appendChild(document.createElement('br')); return; }
           const i = out.length;
-          out.push(el('span', '', { display: 'inline-block', opacity: 0, color: k === 0 ? INK.pink : (i === l.em ? INK.yellow : INK.blue) }, lay, w));
+          out.push(el('span', '', { display: 'inline-block', opacity: 0, color: k === 0 ? INK.pink : ([].concat(l.em).includes(i) ? INK.yellow : INK.blue) }, lay, w));
           if (j < all.length - 1 && all[j + 1] !== '/') lay.appendChild(document.createTextNode(' '));
         });
         return out;
       });
       return { cfg: l, layers };
-    });
-    // The mark, printed at the end.
-    S.brand = el('div', 'abs', { left: 0, right: 0, top: '860px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '26px', filter: 'url(#ink)' }, stage);
-    S.slot = el('div', '', { width: '84px', height: '84px' }, S.brand);
-    S.wm = el('div', '', { position: 'relative', fontFamily: 'Inter', fontSize: '92px', fontWeight: 700, letterSpacing: '-0.035em', lineHeight: 1 }, S.brand);
+    };
+    S.lines = SAY.map((l) => typeset(l, S.poster));
+    // The poster at the end. The mark: huge, two plates, overprinted across the foot of the print.
+    S.wm = el('div', 'abs', { left: 0, right: 0, top: `${HY + HR - 70}px`, textAlign: 'center', fontFamily: 'Inter', fontSize: '232px', fontWeight: 800, letterSpacing: '-0.055em', lineHeight: 1, filter: 'url(#ink)' }, stage);
     el('div', '', { visibility: 'hidden' }, S.wm, 'Plutto');
-    S.wmp = [INK.pink, INK.blue].map((c) => el('div', '', { position: 'absolute', left: 0, top: 0, color: c, mixBlendMode: 'multiply', opacity: 0 }, S.wm, 'Plutto'));
-    S.tag = el('div', 'abs', { left: 0, right: 0, top: '990px', textAlign: 'center', fontFamily: 'Cormorant', fontStyle: 'italic', fontWeight: 500, fontSize: '42px', color: INK.blue, mixBlendMode: 'multiply', opacity: 0, filter: 'url(#ink)' }, stage, 'five thousand years old. talks back.');
-    S.url = el('div', 'abs', { left: 0, right: 0, top: '1062px', textAlign: 'center', fontFamily: 'Inter', fontWeight: 600, fontSize: '20px', letterSpacing: '0.4em', color: INK.pink, mixBlendMode: 'multiply', opacity: 0 }, stage, 'PLUTTO.SPACE');
+    S.wmp = [INK.pink, INK.blue].map((c) => el('div', '', { position: 'absolute', left: 0, right: 0, top: 0, color: c, mixBlendMode: 'multiply', opacity: 0 }, S.wm, 'Plutto'));
+    // The line it speaks, set like every other line; "talks back." printed hot.
+    S.tagBox = el('div', 'abs', { left: '140px', width: '800px', top: '1325px', textAlign: 'center', filter: 'url(#ink)' }, stage);
+    S.tag = typeset(TAG, S.tagBox);
+    S.tagBox.style.fontWeight = 600; S.tagBox.firstChild.style.fontWeight = 600;
+    // The address, rubber-stamped a little askew.
+    S.url = el('div', 'abs', { left: 0, right: 0, top: '1500px', display: 'flex', justifyContent: 'center', opacity: 0, filter: 'url(#ink)' }, stage);
+    S.stamp = el('div', '', { padding: '20px 40px 20px 50px', border: `4px solid ${INK.blue}`, borderRadius: '999px', fontFamily: 'Inter', fontWeight: 700, fontSize: '30px', letterSpacing: '0.34em', color: INK.pink, mixBlendMode: 'multiply' }, S.url, 'PLUTTO.SPACE');
+    // The printer's colophon along the foot of the sheet.
+    S.colo = el('div', 'abs', { left: '120px', right: '120px', top: '1742px', display: 'flex', justifyContent: 'space-between', paddingTop: '18px', borderTop: `2px solid ${INK.blue}`, fontFamily: 'Inter', fontWeight: 600, fontSize: '17px', letterSpacing: '0.3em', color: INK.blue, mixBlendMode: 'multiply', opacity: 0 }, stage);
+    el('span', '', {}, S.colo, 'N° 001 — THE QUESTION'); el('span', '', {}, S.colo, '3 INKS · 1 VOICE');
   },
   async frame(t) {
     // The kick of the latest word.
     let hit = 0;
     SAY.forEach((l) => l.text.split(' ').filter((w) => w !== '/').forEach((_, i) => { const w = l.t + i * STAG; if (t >= w && t < w + 0.3) hit = Math.max(hit, Math.pow(1 - (t - w) / 0.3, 2)); }));
     // The orb: rises in; shakes out of register as it speaks; closes into the ring at the end.
-    if (!S.dest) { const r = S.slot.getBoundingClientRect(); S.dest = { x: r.left + r.width / 2, y: r.top + r.height / 2 }; }
-    const inK = ease.outCubic(prog(t, 0, 1.2)), gone = ease.inOutCubic(prog(t, BRAND, BRAND + 1.0));
-    const cx = lerp(OX, S.dest.x, gone), cy = lerp(OY + (1 - inK) * 700, S.dest.y, gone);
-    const r = lerp(OR * (1 + 0.025 * Math.sin(t * 2.4) + 0.05 * hit), 42, gone);
+    const inK = ease.outCubic(prog(t, 0, 1.2)), gone = ease.inOutCubic(prog(t, BRAND, BRAND + 1.2));
+    const open = ease.outBack(prog(t, BRAND + 0.85, BRAND + 1.35));   // the screens part: a paper hole, the ring
+    const cx = lerp(OX, HX, gone), cy = lerp(OY + (1 - inK) * 700, HY, gone);
+    const r = lerp(OR * (1 + 0.025 * Math.sin(t * 2.4) + 0.05 * hit), HR * (1 + 0.012 * Math.sin(t * 1.6)), gone);
+    const fly = 30 * Math.sin(Math.PI * gone);                         // out of register in flight, slammed back on landing
     const g = S.g; g.clearRect(0, 0, W, H);
     PLATES.forEach((p, k) => {
       const c = S.plates[k], pg = c.getContext('2d'); pg.clearRect(0, 0, W, H);
-      const shake = (1 - gone) * (16 * hit + 2.5 * Math.sin(t * 1.7 + k * 2));
-      halftone(pg, p, cx + p.off[0] * (1 - gone) + p.dir[0] * shake, cy + p.off[1] * (1 - gone) + p.dir[1] * shake, r, t, gone, lerp(8.5, 4.2, gone));
+      const shake = (1 - gone) * (16 * hit + 2.5 * Math.sin(t * 1.7 + k * 2)) + fly;
+      const rest = 1 - 0.4 * gone;                                    // riso is never quite in register
+      halftone(pg, p, cx + p.off[0] * rest + p.dir[0] * shake, cy + p.off[1] * rest + p.dir[1] * shake, r, t, open, lerp(8.5, 11.5, gone));
       // Sound rings: dotted, printed on the pink and blue plates, leaving the orb when a line begins.
-      if (k < 2 && gone < 1) SAY.forEach((l) => {
-        const kk = (t - l.t - k * 0.18) / 1.8; if (kk < 0 || kk > 1) return;
-        const rad = r * 1.08 + kk * 520, dots = Math.floor(rad / 10);
+      // At the end it keeps listening: two slow rings off the finished print.
+      if (k < 2) [...SAY.map((l) => [l.t, 1.8, 520]), ...LISTEN.map((l) => [l, 2.6, 420])].forEach(([at, len, reach]) => {
+        const kk = (t - at - k * 0.18) / len; if (kk < 0 || kk > 1) return;
+        const rad = r * 1.08 + kk * reach, dots = Math.floor(rad / 10);
         pg.fillStyle = p.ink; pg.beginPath();
         for (let i = 0; i < dots; i++) {
           const a = (i / dots) * 6.2832, dr = 2.4 * (1 - kk) * (0.6 + 0.4 * Math.sin(i * 1.7 + t * 6)); if (dr < 0.4) continue;
@@ -186,10 +204,10 @@ export default {
     });
     g.globalCompositeOperation = 'source-over';
     // The poster: each word's two plates slam into register; the page fills and stays — it is the art.
-    const pass = (e, k, w) => {
+    const pass = (e, k, w, reg = 1) => {
       if (t < w) { e.style.opacity = 0; return; }
       const f = ease.outBack(prog(t, w, w + 0.42)), fc = Math.min(1, f);
-      const from = k === 0 ? [-46, -26] : [42, 30], rest = k === 0 ? [-1.6, 1] : [1.6, -1];
+      const from = k === 0 ? [-46, -26] : [42, 30], rest = (k === 0 ? [-1.6, 1] : [1.6, -1]).map((v) => v * reg);
       e.style.opacity = Math.min(1, (t - w) / 0.08);
       e.style.transform = `translate(${lerp(from[0], rest[0], f)}px, ${lerp(from[1], rest[1], f)}px) scale(${lerp(1.12, 1, fc)}) rotate(${(1 - fc) * (k ? 3 : -3)}deg)`;
     };
@@ -202,11 +220,13 @@ export default {
         lay.style.transform = `translate(${(k ? 1 : -1) * 14 * out}px, ${-26 * out}px)`;
       });
     });
-    // The mark: the ring is the orb, closed; the word prints in two passes; then the line and the address.
-    S.wmp.forEach((e, k) => pass(e, k, BRAND + 0.9 + k * 0.1));
-    const tg = ease.outCubic(prog(t, BRAND + 1.5, BRAND + 2.1));
-    S.tag.style.opacity = tg; S.tag.style.transform = `translateY(${(1 - tg) * 16}px)`;
-    const u = ease.outCubic(prog(t, BRAND + 2.0, BRAND + 2.5));
-    S.url.style.opacity = u; S.url.style.letterSpacing = `${0.4 + (1 - u) * 0.2}em`;
+    // The poster: the mark prints in two passes, the orb speaks its line, the address is stamped.
+    S.wmp.forEach((e, k) => pass(e, k, BRAND + 1.25 + k * 0.1));
+    S.tag.layers.forEach((spans, k) => spans.forEach((sp, i) => pass(sp, k, TAG.t + i * STAG, 0.35)));
+    const st = prog(t, STAMP, STAMP + 0.22), sb = ease.outBack(st);
+    S.url.style.opacity = Math.min(1, st * 4);
+    S.stamp.style.transform = `scale(${lerp(1.5, 1, Math.min(1, sb))}) rotate(${lerp(-9, -2.5, sb)}deg)`;
+    const c = ease.outCubic(prog(t, STAMP + 0.4, STAMP + 1.0));
+    S.colo.style.opacity = 0.75 * c; S.colo.style.clipPath = `inset(0 ${(1 - c) * 100}% 0 0)`;
   },
 };
