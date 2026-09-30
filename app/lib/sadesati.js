@@ -46,5 +46,4 @@ export const sadeSati = (moon) => periods(moon, [12, 1, 2]);
 export const kantaka = (moon) => periods(moon, [4]);
 export const ashtama = (moon) => periods(moon, [8]);
 export const PHASE = { 12: 'Rising (12th from the Moon)', 1: 'Peak (over the Moon sign)', 2: 'Setting (2nd from the Moon)' };
-export const saturnSignAt = (t) => SPANS.find((s) => s.from <= t && t < s.to)?.sign;
 export const GENERATED = SATURN.generated;

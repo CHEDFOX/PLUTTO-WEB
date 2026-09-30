@@ -3,6 +3,8 @@
  * pages are, so a new guide is in the sitemap the moment it exists.
  * The web app (/app) is not listed: it is a signed-in tool, not a page.
  */
+export const revalidate = 3600;   // /panchang's lastModified follows its hourly ISR
+
 import { GUIDES, UPDATED } from './lib/guides';
 import { abs } from './lib/seo';
 import { SECTIONS, refPath } from './lib/refpages';

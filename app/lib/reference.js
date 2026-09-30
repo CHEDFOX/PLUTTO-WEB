@@ -179,10 +179,3 @@ export const SIGNS = [
   { name: 'Aquarius', sanskrit: 'Kumbha', symbol: 'the Water-bearer', element: 'Air', mode: 'Fixed', ruler: 'Saturn (modern Western: Uranus)', trop: 'January 20 – February 18', sid: 'about February 13 – March 13', about: 'independence, ideals and the collective' },
   { name: 'Pisces', sanskrit: 'Meena', symbol: 'the Fish', element: 'Water', mode: 'Mutable', ruler: 'Jupiter (modern Western: Neptune)', trop: 'February 19 – March 20', sid: 'about March 14 – April 13', about: 'imagination, compassion and surrender' },
 ].map((s) => ({ ...s, slug: slugify(s.name) }));
-
-export const REF = {
-  nakshatras: { items: NAKSHATRAS, base: '/nakshatras', label: 'Nakshatras' },
-  animals: { items: ANIMALS, base: '/chinese-zodiac', label: 'Chinese zodiac' },
-  grahas: { items: GRAHAS, base: '/grahas', label: 'Grahas' },
-  signs: { items: SIGNS, base: '/zodiac-signs', label: 'Zodiac signs' },
-};

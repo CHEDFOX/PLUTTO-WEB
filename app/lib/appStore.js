@@ -21,7 +21,7 @@ export const ANDROID_LIVE = true;
 export const IOS_LIVE = false;
 export const PLAY_URL = `https://play.google.com/store/apps/details?id=${ANDROID_PACKAGE}`;
 
-export const DEFAULT_STORE = {
+const DEFAULT_STORE = {
   // Filled in once the App Store id exists: https://apps.apple.com/app/id<ID>.
   // Until then we send iOS visitors to an App Store search for Plutto, which is
   // a real destination — never a 404.
@@ -61,12 +61,6 @@ export function storeUrl(platform, store) {
 }
 
 /** Label for the button, given the detected platform. */
-export function storeLabel(platform) {
-  if (platform === 'ios') return 'Download on the App Store';
-  if (platform === 'android') return 'Get it on Google Play';
-  return 'Get the app';
-}
-
 /**
  * Where "Get the app" goes for this visitor: the store that is live for the
  * device in their hand, else the download band on the page.

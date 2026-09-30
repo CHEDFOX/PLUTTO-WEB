@@ -92,12 +92,13 @@ const nextConfig = {
   async headers() {
     const dev = process.env.NODE_ENV !== 'production';
     return [
-      { source: '/:path*', headers: securityHeaders(dev) },
+      { source: '/((?!embed/).*)', headers: securityHeaders(dev) },
       // THE EMBEDS are the one thing another site may frame: a calculator with no
-      // account and no cookies, so there is nothing to click-jack. Later entries
-      // win for the same key, and browsers obey CSP frame-ancestors over the
-      // X-Frame-Options DENY still sent, so only the CSP needs to change here.
-      { source: '/embed/:path*', headers: [{ key: 'Content-Security-Policy', value: csp(dev).replace("frame-ancestors 'none'", 'frame-ancestors *') }] },
+      // account and no cookies, so there is nothing to click-jack. They get the
+      // same headers with frame-ancestors * and without X-Frame-Options DENY
+      // (a browser that honoured only XFO would refuse the frame).
+      { source: '/embed/:path*', headers: securityHeaders(dev).filter((h) => h.key !== 'X-Frame-Options')
+          .map((h) => (h.key === 'Content-Security-Policy' ? { ...h, value: h.value.replace("frame-ancestors 'none'", 'frame-ancestors *') } : h)) },
       // A worker that is cached keeps an old copy running; always revalidate it.
       { source: '/plutto-sw.js', headers: [{ key: 'Cache-Control', value: 'no-cache' }] },
       // THE WEB APP IS A TOOL, NOT A PAGE. /app is a signed-in screen that renders

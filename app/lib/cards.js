@@ -37,7 +37,7 @@ function build() {
   // The sky calendar and the panchang.
   const short = (t) => new Date(t).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
   for (const y of CAL_YEARS) {
-    const m = retrogrades(y).Mercury.filter((p) => new Date(p.from).getUTCFullYear() === y);
+    const m = retrogrades(y).Mercury.filter((p) => [p.from, p.to].some((t) => new Date(t).getUTCFullYear() === y));
     put('mercury-retrograde', String(y), { eyebrow: 'Sky calendar', title: `Mercury retrograde ${y}`, sub: m.map((p) => `${short(p.from)} – ${short(p.to)}`).join(' · '), planet: 'mercury' });
     put('eclipses', String(y), { eyebrow: 'Sky calendar', title: `Eclipses ${y}`, sub: eclipses(y).map((e) => `${short(e.t)} ${e.kind} ${e.body}`).join(' · '), planet: 'rahu' });
     const sat = ingresses(y, 'sidereal', 'Saturn'), jup = ingresses(y, 'sidereal', 'Jupiter');

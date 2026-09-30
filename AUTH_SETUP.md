@@ -73,7 +73,7 @@ missing this origin.
 
 ## Notes
 
-- **No key belongs in the web bundle.** `app/config/auth.js` records the web
+- **No key belongs in the web bundle.** `src/config/auth.js` (in Plutto-Frontend) records the web
   client ID for reference and to keep web, iOS and Android on one Google
   project; the redirect flow does not read a secret in the browser.
 - **The Supabase anon key in the bundle is public by design.** Row-level

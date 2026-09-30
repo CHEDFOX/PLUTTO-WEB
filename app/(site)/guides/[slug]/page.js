@@ -25,6 +25,7 @@ export async function generateMetadata({ params }) {
 
 // From each guide into the reference pages and calculators it explains. The
 // sky-calendar links follow the build's year within the years published.
+export const revalidate = 86400;   // Y below follows the calendar, not the last deploy
 const Y = Math.min(Math.max(new Date().getUTCFullYear(), CAL_YEARS[0]), CAL_YEARS[CAL_YEARS.length - 1]);
 const DEEPER = {
   'vedic-astrology': [['/tools/moon-sign-nakshatra', 'Find your Moon sign, nakshatra and dasha'], ['/tools/kundli-matching', 'Kundli matching (Guna Milan)'], ['/tools/sade-sati', 'Sade Sati calculator'], ['/panchang', 'Today’s panchang'], [`/transits/${Y}`, 'Saturn, Jupiter and Rahu–Ketu transits'], ['/nakshatras', 'The 27 nakshatras'], ['/grahas', 'The 9 grahas'], ['/zodiac-signs', 'The 12 signs (rashis)']],

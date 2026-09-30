@@ -10,17 +10,17 @@
 import { NAKSHATRAS } from './reference';
 import { zonedToUtc } from './zone';
 
-export const TITHIS = ['Pratipada', 'Dwitiya', 'Tritiya', 'Chaturthi', 'Panchami', 'Shashthi', 'Saptami', 'Ashtami', 'Navami', 'Dashami', 'Ekadashi', 'Dwadashi', 'Trayodashi', 'Chaturdashi'];
-export const YOGAS = ['Vishkumbha', 'Priti', 'Ayushman', 'Saubhagya', 'Shobhana', 'Atiganda', 'Sukarma', 'Dhriti', 'Shula', 'Ganda', 'Vriddhi', 'Dhruva', 'Vyaghata', 'Harshana', 'Vajra', 'Siddhi', 'Vyatipata', 'Variyana', 'Parigha', 'Shiva', 'Siddha', 'Sadhya', 'Shubha', 'Shukla', 'Brahma', 'Indra', 'Vaidhriti'];
+const TITHIS = ['Pratipada', 'Dwitiya', 'Tritiya', 'Chaturthi', 'Panchami', 'Shashthi', 'Saptami', 'Ashtami', 'Navami', 'Dashami', 'Ekadashi', 'Dwadashi', 'Trayodashi', 'Chaturdashi'];
+const YOGAS = ['Vishkumbha', 'Priti', 'Ayushman', 'Saubhagya', 'Shobhana', 'Atiganda', 'Sukarma', 'Dhriti', 'Shula', 'Ganda', 'Vriddhi', 'Dhruva', 'Vyaghata', 'Harshana', 'Vajra', 'Siddhi', 'Vyatipata', 'Variyana', 'Parigha', 'Shiva', 'Siddha', 'Sadhya', 'Shubha', 'Shukla', 'Brahma', 'Indra', 'Vaidhriti'];
 const MOVABLE = ['Bava', 'Balava', 'Kaulava', 'Taitila', 'Gara', 'Vanija', 'Vishti (Bhadra)'];
-export const VARAS = ['Ravivara (Sunday)', 'Somavara (Monday)', 'Mangalavara (Tuesday)', 'Budhavara (Wednesday)', 'Guruvara (Thursday)', 'Shukravara (Friday)', 'Shanivara (Saturday)'];
+const VARAS = ['Ravivara (Sunday)', 'Somavara (Monday)', 'Mangalavara (Tuesday)', 'Budhavara (Wednesday)', 'Guruvara (Thursday)', 'Shukravara (Friday)', 'Shanivara (Saturday)'];
 // Which eighth of the daytime is Rahu Kaal, Sunday first.
 const RAHU_KAAL = [8, 2, 7, 5, 6, 4, 3];
 const SIGNS = ['Mesha', 'Vrishabha', 'Mithuna', 'Karka', 'Simha', 'Kanya', 'Tula', 'Vrishchika', 'Dhanu', 'Makara', 'Kumbha', 'Meena'];
 
 const norm = (x) => ((x % 360) + 360) % 360;
-export const tithiName = (i) => (i === 14 ? 'Purnima' : i === 29 ? 'Amavasya' : TITHIS[i % 15]);
-export const karanaName = (k) => (k === 0 ? 'Kimstughna' : k >= 57 ? ['Shakuni', 'Chatushpada', 'Naga'][k - 57] : MOVABLE[(k - 1) % 7]);
+const tithiName = (i) => (i === 14 ? 'Purnima' : i === 29 ? 'Amavasya' : TITHIS[i % 15]);
+const karanaName = (k) => (k === 0 ? 'Kimstughna' : k >= 57 ? ['Shakuni', 'Chatushpada', 'Naga'][k - 57] : MOVABLE[(k - 1) % 7]);
 
 /** Every limb's index at one instant. */
 export function limbs(sky, t) {
@@ -38,7 +38,7 @@ export function limbs(sky, t) {
 }
 
 /** When limb `key` next changes after t, to the second (searching up to 3 days). */
-export function endOf(sky, t, key) {
+function endOf(sky, t, key) {
   const v = limbs(sky, t)[key];
   let a = t, b = t;
   const HOUR = 3600000;
@@ -70,6 +70,7 @@ export function panchang(sky, y, m, d, place) {
   if (!rise) return null;
   const set = sky.sunEvent(place.lat, place.lon, rise, -1);
   const next = sky.sunEvent(place.lat, place.lon, rise + 3600000, +1);
+  if (!set || !next) return null;
   const wd = weekdayIn(rise, place.zone);
   const part = (set - rise) / 8, k = RAHU_KAAL[wd] - 1;
   const L = limbs(sky, rise);

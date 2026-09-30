@@ -11,13 +11,6 @@
  * tree, unrendered.
  */
 
-import { useEffect } from 'react';
-import { unlockAudio } from '../lib/sfx';
-
 export default function SiteChrome() {
-  useEffect(() => {
-    unlockAudio();
-  }, []);
-
   return <div className="grain-overlay" aria-hidden="true" />;
 }

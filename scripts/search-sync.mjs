@@ -28,6 +28,7 @@
  *   ALL=1                    announce every page, whatever the snapshot says
  */
 import { createHash, createSign } from 'node:crypto';
+import { pathToFileURL } from 'node:url';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 
@@ -127,7 +128,7 @@ async function indexNow(urlList) {
 }
 
 async function main() {
-  const urls = [...(await get(`${FROM}/sitemap.xml`)).matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
+  const urls = [...(await get(`${FROM}/sitemap.xml`)).matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim()).filter((u) => u.startsWith(`${SITE}/`));
   log(`Sitemap: ${urls.length} URLs`);
   const prints = await pool(urls, 6, async (u) => [u, fingerprint(await get(local(u)))]);
   const now = Object.fromEntries(prints);
@@ -154,4 +155,4 @@ async function main() {
   if (!ok) process.exitCode = 1; // the pages were announced; a re-submit failed — show it in the run
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main().catch((e) => { console.error(e.message); process.exit(1); });
+if (import.meta.url === pathToFileURL(process.argv[1]).href) main().catch((e) => { console.error(e.message); process.exit(1); });
