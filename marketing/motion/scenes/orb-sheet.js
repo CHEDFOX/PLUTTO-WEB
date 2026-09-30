@@ -13,18 +13,19 @@ import { fbm, paint } from '../shots.js';
 const PAPER = '#F6F1E7';
 const INK = { pink: '#FF48B0', blue: '#2F6FE0', yellow: '#FFD900' };
 const STAG = 0.12;
-// The poster, a line at a time. em: the word printed hot (pink + yellow).
-// ' / ' is a line break (the poster's lines are set, not left to wrap).
+// One line on the sheet at a time, small, with the paper around it. em: the
+// word printed hot (pink + yellow). ' / ' is a line break.
 const SAY = [
-  { t: 0.9, text: 'hey.', font: 'g', size: 200, em: -1 },
-  { t: 2.2, text: 'you took the long way / home again.', font: 'i', size: 84, em: 4 },
-  { t: 5.0, text: 'radio off.', font: 'g', size: 128, em: 1 },
-  { t: 6.2, text: 'still thinking about it.', font: 'i', size: 80, em: 1 },
-  { t: 8.6, text: 'say it out / loud.', font: 'g', size: 112, em: 3 },
-  { t: 11.3, text: 'i’m listening.', font: 'i', size: 110, em: 1 },
+  { t: 0.9, text: 'hey.', font: 'g', size: 64, em: 0 },
+  { t: 2.2, text: 'you took the long way / home again.', font: 'i', size: 66, em: 4 },
+  { t: 5.0, text: 'radio off.', font: 'g', size: 56, em: 1 },
+  { t: 6.4, text: 'still thinking about it.', font: 'i', size: 66, em: 1 },
+  { t: 8.6, text: 'say it out loud.', font: 'g', size: 58, em: 3 },
+  { t: 11.3, text: 'i’m listening.', font: 'i', size: 72, em: 1 },
 ];
 const BRAND = 14.4, END = 18;
-const OX = 540, OY = 1500, OR = 190;
+const OX = 540, OY = 1400, OR = 150;
+const LINE_Y = 720;   // where each line is printed
 const PENTA = [72, 74, 76, 79, 81, 84, 86, 88];
 // Three plates: colour, screen angle, resting misregistration, the way it shakes.
 const PLATES = [
@@ -107,6 +108,14 @@ export default {
     b.globalAlpha = 0.5; b.drawImage(paint(270, 480, fbm(270, 480, { scale: 2, oct: 2, seed: 4 }), (v) => [70, 55, 40, Math.round(Math.abs(v - 0.5) * 30)]), 0, 0, W, H);
     b.globalAlpha = 1; b.drawImage(paint(135, 240, fbm(135, 240, { scale: 40, oct: 3, seed: 6 }), (v) => [120, 100, 80, Math.round(v * 14)]), 0, 0, W, H);
     for (let i = 0; i < 260; i++) { b.fillStyle = `rgba(60,45,35,${0.1 + R() * 0.25})`; b.beginPath(); b.arc(R() * W, R() * H, 0.4 + R() * 1.3, 0, 6.2832); b.fill(); }
+    // The printer's marks — crop marks at the corners, one registration target — the only other ink on the sheet.
+    b.strokeStyle = INK.blue; b.globalAlpha = 0.55; b.lineWidth = 2;
+    const m = 72, L = 34;
+    [[m, m, 1, 1], [W - m, m, -1, 1], [m, H - m, 1, -1], [W - m, H - m, -1, -1]].forEach(([x, y, dx, dy]) => {
+      b.beginPath(); b.moveTo(x - dx * 14, y); b.lineTo(x - dx * (14 + L), y); b.moveTo(x, y - dy * 14); b.lineTo(x, y - dy * (14 + L)); b.stroke();
+    });
+    b.beginPath(); b.arc(540, 150, 11, 0, 6.2832); b.moveTo(520, 150); b.lineTo(560, 150); b.moveTo(540, 130); b.lineTo(540, 170); b.stroke();
+    b.globalAlpha = 1;
     // The ink layer: plates composited here, multiplied onto the paper.
     const cv = el('canvas', 'layer', { mixBlendMode: 'multiply' }, stage); cv.width = W; cv.height = H; S.g = cv.getContext('2d');
     S.plates = PLATES.map(() => { const c = document.createElement('canvas'); c.width = W; c.height = H; return c; });
@@ -116,11 +125,11 @@ export default {
     svg.innerHTML = '<filter id="ink" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>';
     stage.appendChild(svg);
     // The poster: every line typeset twice, once per plate, overprinted.
-    S.poster = el('div', 'abs', { left: '88px', top: '252px', width: '910px', filter: 'url(#ink)' }, stage);
-    const style = (l) => ({ fontSize: `${l.size}px`, lineHeight: l.font === 'g' ? 0.96 : 1.08, marginBottom: '16px',
-      ...(l.font === 'g' ? { fontFamily: 'Inter', fontWeight: 900, letterSpacing: '-0.045em' } : { fontFamily: 'Cormorant', fontWeight: 600, fontStyle: 'italic', letterSpacing: '-0.01em' }) });
+    S.poster = el('div', 'abs', { left: '180px', top: `${LINE_Y}px`, width: '720px', textAlign: 'center', filter: 'url(#ink)' }, stage);
+    const style = (l) => ({ fontSize: `${l.size}px`, lineHeight: 1.12,
+      ...(l.font === 'g' ? { fontFamily: 'Inter', fontWeight: 600, letterSpacing: '-0.02em' } : { fontFamily: 'Cormorant', fontWeight: 500, fontStyle: 'italic' }) });
     S.lines = SAY.map((l) => {
-      const slot = el('div', '', { position: 'relative', ...style(l) }, S.poster);
+      const slot = el('div', '', { position: 'absolute', left: 0, right: 0, top: 0, transform: 'translateY(-50%)', ...style(l) }, S.poster);
       el('div', '', { visibility: 'hidden' }, slot, l.text.replace(' / ', '<br>'));   // holds the line's height
       const layers = [0, 1].map((k) => {
         const lay = el('div', '', { position: 'absolute', left: 0, top: 0, right: 0, mixBlendMode: 'multiply' }, slot);
@@ -136,13 +145,13 @@ export default {
       return { cfg: l, layers };
     });
     // The mark, printed at the end.
-    S.brand = el('div', 'abs', { left: 0, right: 0, top: `${OY - 150}px`, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '26px', filter: 'url(#ink)' }, stage);
-    S.slot = el('div', '', { width: '120px', height: '120px' }, S.brand);
-    S.wm = el('div', '', { position: 'relative', fontFamily: 'Inter', fontSize: '128px', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1 }, S.brand);
+    S.brand = el('div', 'abs', { left: 0, right: 0, top: '860px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '26px', filter: 'url(#ink)' }, stage);
+    S.slot = el('div', '', { width: '84px', height: '84px' }, S.brand);
+    S.wm = el('div', '', { position: 'relative', fontFamily: 'Inter', fontSize: '92px', fontWeight: 700, letterSpacing: '-0.035em', lineHeight: 1 }, S.brand);
     el('div', '', { visibility: 'hidden' }, S.wm, 'Plutto');
     S.wmp = [INK.pink, INK.blue].map((c) => el('div', '', { position: 'absolute', left: 0, top: 0, color: c, mixBlendMode: 'multiply', opacity: 0 }, S.wm, 'Plutto'));
-    S.tag = el('div', 'abs', { left: 0, right: 0, top: `${OY - 10}px`, textAlign: 'center', fontFamily: 'Cormorant', fontStyle: 'italic', fontWeight: 600, fontSize: '54px', color: INK.blue, mixBlendMode: 'multiply', opacity: 0, filter: 'url(#ink)' }, stage, 'five thousand years old. talks back.');
-    S.url = el('div', 'abs', { left: 0, right: 0, top: `${OY + 70}px`, textAlign: 'center', fontFamily: 'Inter', fontWeight: 800, fontSize: '30px', letterSpacing: '0.3em', color: INK.pink, mixBlendMode: 'multiply', opacity: 0 }, stage, 'PLUTTO.SPACE');
+    S.tag = el('div', 'abs', { left: 0, right: 0, top: '990px', textAlign: 'center', fontFamily: 'Cormorant', fontStyle: 'italic', fontWeight: 500, fontSize: '42px', color: INK.blue, mixBlendMode: 'multiply', opacity: 0, filter: 'url(#ink)' }, stage, 'five thousand years old. talks back.');
+    S.url = el('div', 'abs', { left: 0, right: 0, top: '1062px', textAlign: 'center', fontFamily: 'Inter', fontWeight: 600, fontSize: '20px', letterSpacing: '0.4em', color: INK.pink, mixBlendMode: 'multiply', opacity: 0 }, stage, 'PLUTTO.SPACE');
   },
   async frame(t) {
     // The kick of the latest word.
@@ -152,19 +161,19 @@ export default {
     if (!S.dest) { const r = S.slot.getBoundingClientRect(); S.dest = { x: r.left + r.width / 2, y: r.top + r.height / 2 }; }
     const inK = ease.outCubic(prog(t, 0, 1.2)), gone = ease.inOutCubic(prog(t, BRAND, BRAND + 1.0));
     const cx = lerp(OX, S.dest.x, gone), cy = lerp(OY + (1 - inK) * 700, S.dest.y, gone);
-    const r = lerp(OR * (1 + 0.025 * Math.sin(t * 2.4) + 0.05 * hit), 60, gone);
+    const r = lerp(OR * (1 + 0.025 * Math.sin(t * 2.4) + 0.05 * hit), 42, gone);
     const g = S.g; g.clearRect(0, 0, W, H);
     PLATES.forEach((p, k) => {
       const c = S.plates[k], pg = c.getContext('2d'); pg.clearRect(0, 0, W, H);
-      const shake = (1 - gone) * (22 * hit + 3 * Math.sin(t * 1.7 + k * 2));
-      halftone(pg, p, cx + p.off[0] * (1 - gone) + p.dir[0] * shake, cy + p.off[1] * (1 - gone) + p.dir[1] * shake, r, t, gone);
+      const shake = (1 - gone) * (16 * hit + 2.5 * Math.sin(t * 1.7 + k * 2));
+      halftone(pg, p, cx + p.off[0] * (1 - gone) + p.dir[0] * shake, cy + p.off[1] * (1 - gone) + p.dir[1] * shake, r, t, gone, lerp(8.5, 4.2, gone));
       // Sound rings: dotted, printed on the pink and blue plates, leaving the orb when a line begins.
       if (k < 2 && gone < 1) SAY.forEach((l) => {
         const kk = (t - l.t - k * 0.18) / 1.8; if (kk < 0 || kk > 1) return;
-        const rad = r * 1.05 + kk * 820, dots = Math.floor(rad / 9);
+        const rad = r * 1.08 + kk * 520, dots = Math.floor(rad / 10);
         pg.fillStyle = p.ink; pg.beginPath();
         for (let i = 0; i < dots; i++) {
-          const a = (i / dots) * 6.2832, dr = 3.2 * (1 - kk) * (0.6 + 0.4 * Math.sin(i * 1.7 + t * 6)); if (dr < 0.4) continue;
+          const a = (i / dots) * 6.2832, dr = 2.4 * (1 - kk) * (0.6 + 0.4 * Math.sin(i * 1.7 + t * 6)); if (dr < 0.4) continue;
           const x = cx + Math.cos(a) * rad, y = cy + Math.sin(a) * rad; pg.moveTo(x + dr, y); pg.arc(x, y, dr, 0, 6.2832);
         }
         pg.fill();
@@ -181,12 +190,20 @@ export default {
       e.style.opacity = Math.min(1, (t - w) / 0.08);
       e.style.transform = `translate(${lerp(from[0], rest[0], f)}px, ${lerp(from[1], rest[1], f)}px) scale(${lerp(1.12, 1, fc)}) rotate(${(1 - fc) * (k ? 3 : -3)}deg)`;
     };
-    S.lines.forEach(({ cfg: l, layers }) => layers.forEach((spans, k) => spans.forEach((sp, i) => pass(sp, k, l.t + i * STAG))));
+    S.lines.forEach(({ cfg: l, layers }, li) => {
+      const next = SAY[li + 1]?.t ?? BRAND, out = ease.inCubic(prog(t, next - 0.2, next + 0.25));
+      layers.forEach((spans, k) => {
+        spans.forEach((sp, i) => pass(sp, k, l.t + i * STAG));
+        const lay = spans[0].parentNode;
+        lay.style.opacity = 1 - out;
+        lay.style.transform = `translate(${(k ? 1 : -1) * 14 * out}px, ${-26 * out}px)`;
+      });
+    });
     // The mark: the ring is the orb, closed; the word prints in two passes; then the line and the address.
     S.wmp.forEach((e, k) => pass(e, k, BRAND + 0.9 + k * 0.1));
     const tg = ease.outCubic(prog(t, BRAND + 1.5, BRAND + 2.1));
     S.tag.style.opacity = tg; S.tag.style.transform = `translateY(${(1 - tg) * 16}px)`;
     const u = ease.outCubic(prog(t, BRAND + 2.0, BRAND + 2.5));
-    S.url.style.opacity = u; S.url.style.letterSpacing = `${0.3 + (1 - u) * 0.2}em`;
+    S.url.style.opacity = u; S.url.style.letterSpacing = `${0.4 + (1 - u) * 0.2}em`;
   },
 };
