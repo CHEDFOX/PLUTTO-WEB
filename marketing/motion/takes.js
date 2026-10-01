@@ -19,7 +19,8 @@ const X = 84, WIDTH = W - 2 * X;
 const TALL = 1.42;   // wood type is cut tall and narrow
 const CLAIM_TOP = 372, STOMP = 0.3, FACT_AT = 4.6, PROMPT_GAP = 0.6, TYPE = 1 / 42;
 
-export function take({ n, claim, fact, prompt, label = 'HOT TAKE', end }) {
+export function take({ n, claim, fact, prompt, label = 'HOT TAKE', system = 'PLUTTO', accent = INK.r, tag = 'ASK YOUR REAL CHART · PLUTTO.SPACE', end }) {
+  const IN = { k: INK.k, r: accent }, tint = `rgba(${[1, 3, 5].map((i) => parseInt(accent.slice(i, i + 2), 16))},0.13)`;
   const words = claim.flatMap(([line], li) => line.split(' ').map((w) => ({ w, li })));
   const segs = fact.split('*').map((s, i) => ({ s, em: i % 2 === 1 }));
   const chars = segs.reduce((a, s) => a + s.s.length, 0);
@@ -61,7 +62,7 @@ export function take({ n, claim, fact, prompt, label = 'HOT TAKE', end }) {
       S.root = el('div', 'abs', { left: 0, top: 0, width: `${W}px`, height: `${H}px` }, stage);
       // The masthead: which take this is, and whose.
       S.head = el('div', 'abs', { left: `${X}px`, right: `${X}px`, top: '300px', display: 'flex', justifyContent: 'space-between', paddingBottom: '12px', borderBottom: `4px solid ${INK.k}`, fontFamily: 'Mono', fontWeight: 500, fontSize: '22px', letterSpacing: '0.16em', color: INK.k }, S.root);
-      el('span', '', {}, S.head, `${label} N° ${String(n).padStart(2, '0')}`); el('span', '', { color: INK.r }, S.head, 'PLUTTO');
+      el('span', '', {}, S.head, `${label} N° ${String(n).padStart(2, '0')}`); el('span', '', { color: IN.r }, S.head, system);
       // The claim: each line set to the full measure, as wood type would be.
       const m = document.createElement('canvas').getContext('2d'); m.font = '900 100px Inter';
       S.claim = el('div', 'abs', { left: `${X}px`, width: `${WIDTH}px`, top: `${CLAIM_TOP}px`, transformOrigin: '0 0', filter: 'url(#wood)' }, S.root);
@@ -69,7 +70,7 @@ export function take({ n, claim, fact, prompt, label = 'HOT TAKE', end }) {
       S.words = [];
       claim.forEach(([line, ink]) => {
         const size = Math.min(300, (100 * WIDTH) / (m.measureText(line).width * 0.97 + line.length * -3));
-        const row = el('div', '', { fontFamily: 'Inter', fontWeight: 900, fontSize: `${size}px`, lineHeight: `${size * 0.74}px`, height: `${size * 0.74 * TALL}px`, letterSpacing: '-0.03em', color: INK[ink], whiteSpace: 'nowrap', marginBottom: '16px', paddingTop: `${size * 0.02}px` }, S.claim);
+        const row = el('div', '', { fontFamily: 'Inter', fontWeight: 900, fontSize: `${size}px`, lineHeight: `${size * 0.74}px`, height: `${size * 0.74 * TALL}px`, letterSpacing: '-0.03em', color: IN[ink], whiteSpace: 'nowrap', marginBottom: '16px', paddingTop: `${size * 0.02}px` }, S.claim);
         line.split(' ').forEach((w, j) => {
           if (j) row.appendChild(document.createTextNode(' '));
           S.words.push({ e: el('span', '', { display: 'inline-block', opacity: 0, transformOrigin: '50% 0' }, row, w), i: wi++, rot: (rng(wi * 7 + n)() - 0.5) * 3 });
@@ -77,15 +78,15 @@ export function take({ n, claim, fact, prompt, label = 'HOT TAKE', end }) {
       });
       // The receipt: typed, with the number that matters in red.
       S.fact = el('div', 'abs', { left: `${X}px`, width: `${WIDTH}px`, top: '900px', fontFamily: 'Mono', fontWeight: 500, fontSize: '42px', lineHeight: 1.34, color: INK.k, opacity: 0 }, S.root);
-      S.segs = segs.map((sg) => el('span', '', { color: sg.em ? INK.r : INK.k, background: sg.em ? 'rgba(228,50,27,0.12)' : 'none' }, S.fact, ''));
-      S.caret = el('span', '', { display: 'inline-block', width: '0.55em', height: '1em', background: INK.r, verticalAlign: '-0.12em' }, S.fact);
+      S.segs = segs.map((sg) => el('span', '', { color: sg.em ? IN.r : IN.k, background: sg.em ? tint : 'none' }, S.fact, ''));
+      S.caret = el('span', '', { display: 'inline-block', width: '0.55em', height: '1em', background: IN.r, verticalAlign: '-0.12em' }, S.fact);
       // The fight: a question stamped for the comments.
-      S.prompt = el('div', 'abs', { left: `${X - 10}px`, top: '1245px', padding: '20px 30px 24px', background: INK.r, color: NEWS, fontFamily: 'Inter', fontWeight: 900, fontSize: '62px', letterSpacing: '-0.02em', lineHeight: 1, maxWidth: `${WIDTH}px`, filter: 'url(#wood)', opacity: 0 }, S.root, prompt);
+      S.prompt = el('div', 'abs', { left: `${X - 10}px`, top: '1245px', padding: '20px 30px 24px', background: IN.r, color: NEWS, fontFamily: 'Inter', fontWeight: 900, fontSize: '62px', letterSpacing: '-0.02em', lineHeight: 1, maxWidth: `${WIDTH}px`, filter: 'url(#wood)', opacity: 0 }, S.root, prompt);
       // The mark, small: this is a side take, not the brand film.
       S.brand = el('div', 'abs', { left: `${X}px`, top: '1400px', display: 'flex', alignItems: 'center', gap: '14px', fontFamily: 'Inter', fontWeight: 800, fontSize: '34px', letterSpacing: '-0.03em', color: INK.k, opacity: 0 }, S.root);
       el('div', '', { width: '30px', height: '30px', borderRadius: '50%', border: `8px solid ${INK.k}`, boxSizing: 'border-box' }, S.brand);
       el('span', '', {}, S.brand, 'Plutto');
-      el('span', '', { fontFamily: 'Mono', fontWeight: 500, fontSize: '20px', letterSpacing: '0.16em', color: INK.r, marginLeft: '8px' }, S.brand, 'ASK YOUR REAL CHART · PLUTTO.SPACE');
+      el('span', '', { fontFamily: 'Mono', fontWeight: 500, fontSize: '20px', letterSpacing: '0.16em', color: IN.r, marginLeft: '8px' }, S.brand, tag);
     },
     async frame(t) {
       // Every stamp shakes the table.

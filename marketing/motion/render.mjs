@@ -32,7 +32,8 @@ export const PRINT_FILMS = ['orb-sheet', 'print-cyanotype', 'print-cutouts', 'pr
 // Hot takes, the side series: letterpress claims with receipts — `node render.mjs takes`. Written to out/takes/.
 export const TAKE_FILMS = ['take-sign', 'take-thirteen', 'take-mercury', 'take-horoscope', 'take-compatible'];
 // On the record: documented history where astrology reached into power — `node render.mjs record`. Written to out/record/.
-export const RECORD_FILMS = ['record-reagan', 'record-war', 'record-1524', 'record-popes', 'record-queen'];
+export const RECORD_FILMS = ['record-reagan', 'record-war', 'record-1524', 'record-popes', 'record-queen',
+  'record-tarot', 'record-palms', 'record-iching', 'record-616', 'record-maya', 'record-rune'];   // 06–11: beyond astrology
 
 const server = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1', '--directory', ROOT], { stdio: 'ignore' });
 const stop = () => server.kill();

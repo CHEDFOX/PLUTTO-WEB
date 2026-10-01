@@ -120,6 +120,28 @@ they were wrong). It earns trust and says Plutto isn't selling doom.
 | 04 | `plutto-record-popes.mp4` | POPES USED ASTROLOGY. THEN BANNED IT. | Faith and the stars: rivals or relatives? | Paul III's court astrologer (Luca Gaurico); Sixtus V, *Coeli et terrae* (1586). |
 | 05 | `plutto-record-queen.mp4` | A QUEEN WAS CROWNED ON AN ASTROLOGER'S DATE. | Would you pick your wedding date this way? | John Dee chose 15 January 1559 for Elizabeth I's coronation. |
 
+### Beyond astrology: N° 06–11
+
+Plutto reads 102 traditions, so the record covers more than the sky. Each film
+carries its system's name in the masthead and its own accent ink, so a grid of
+them reads as many traditions, not one. Several argue with a system's own
+myths (tarot's "ancient Egypt", the blank rune, the 2012 apocalypse). That is
+the controversy, and it reads as a brand that knows its material.
+
+| № | File | System | Claim | Prompt | Sources for replies |
+|---|---|---|---|---|---|
+| 06 | `plutto-record-tarot.mp4` | Tarot | TAROT WAS A CARD GAME FOR 300 YEARS. | Does knowing that change a reading? | *Tarocchi* is attested at Italian courts from the 1440s; Court de Gébelin, *Le Monde primitif* vol. 8 (1781), gives the Egyptian theory. |
+| 07 | `plutto-record-palms.mp4` | Palmistry | READING PALMS WAS A CRIME IN ENGLAND. | Would you have risked it? | Vagrancy Act 1824, s.4 ("by palmistry or otherwise"); that clause was repealed by the Fraudulent Mediums Act 1951. |
+| 08 | `plutto-record-iching.mp4` | I Ching | LEIBNIZ FOUND BINARY CODE IN THE I CHING. | Coincidence, or something older? | Bouvet's letter to Leibniz, 4 Nov 1701; Leibniz, *Explication de l'arithmétique binaire* (1703). The receipt says he had already worked binary out. |
+| 09 | `plutto-record-616.mp4` | Gematria | THE NUMBER OF THE BEAST MAY BE 616. | 666 or 616? | Papyrus Oxyrhynchus 4499 (P115), Rev 13:18. In Hebrew gematria, *Neron Qesar* = 666 and *Nero Qesar* = 616. |
+| 10 | `plutto-record-maya.mp4` | Maya | THE MAYA NEVER PREDICTED THE END OF THE WORLD. | Where were you on 21 Dec 2012? | 21 Dec 2012 = Long Count 13.0.0.0.0; the Temple of the Inscriptions at Palenque projects a date in AD 4772. |
+| 11 | `plutto-record-rune.mp4` | Runes | THE BLANK RUNE WAS INVENTED IN 1982. | Do you keep the blank one in? | Ralph Blum, *The Book of Runes* (1982); no historical futhark has a blank rune. |
+
+**N° 09 is the most sensitive.** It touches scripture. It is textual
+scholarship, widely reported (Oxford, 2005), and it states a manuscript
+reading without judging belief. Keep the replies to the manuscript, and don't
+argue theology.
+
 **Captions:** state the claim plainly, then end with "Sources in the comments."
 Pin a comment with the sources above. History accounts reward that, and it
 shuts down "fake" replies before they start.
