@@ -19,11 +19,12 @@ const X = 84, WIDTH = W - 2 * X;
 const TALL = 1.42;   // wood type is cut tall and narrow
 const CLAIM_TOP = 372, STOMP = 0.3, FACT_AT = 4.6, PROMPT_GAP = 0.6, TYPE = 1 / 42;
 
-export function take({ n, claim, fact, prompt, end = 13.4 }) {
+export function take({ n, claim, fact, prompt, label = 'HOT TAKE', end }) {
   const words = claim.flatMap(([line], li) => line.split(' ').map((w) => ({ w, li })));
   const segs = fact.split('*').map((s, i) => ({ s, em: i % 2 === 1 }));
   const chars = segs.reduce((a, s) => a + s.s.length, 0);
   const factEnd = FACT_AT + 0.5 + chars * TYPE, PROMPT = factEnd + PROMPT_GAP, BRAND = PROMPT + 1.0;
+  end = end ?? Math.max(13.4, BRAND + 2.4);   // a longer receipt holds the screen longer
   const stampT = (i) => 0.3 + i * STOMP;
   let S = {};
 
@@ -60,7 +61,7 @@ export function take({ n, claim, fact, prompt, end = 13.4 }) {
       S.root = el('div', 'abs', { left: 0, top: 0, width: `${W}px`, height: `${H}px` }, stage);
       // The masthead: which take this is, and whose.
       S.head = el('div', 'abs', { left: `${X}px`, right: `${X}px`, top: '300px', display: 'flex', justifyContent: 'space-between', paddingBottom: '12px', borderBottom: `4px solid ${INK.k}`, fontFamily: 'Mono', fontWeight: 500, fontSize: '22px', letterSpacing: '0.16em', color: INK.k }, S.root);
-      el('span', '', {}, S.head, `HOT TAKE N° ${String(n).padStart(2, '0')}`); el('span', '', { color: INK.r }, S.head, 'PLUTTO');
+      el('span', '', {}, S.head, `${label} N° ${String(n).padStart(2, '0')}`); el('span', '', { color: INK.r }, S.head, 'PLUTTO');
       // The claim: each line set to the full measure, as wood type would be.
       const m = document.createElement('canvas').getContext('2d'); m.font = '900 100px Inter';
       S.claim = el('div', 'abs', { left: `${X}px`, width: `${WIDTH}px`, top: `${CLAIM_TOP}px`, transformOrigin: '0 0', filter: 'url(#wood)' }, S.root);

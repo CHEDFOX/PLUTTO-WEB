@@ -31,6 +31,8 @@ export const CINE_FILMS = ['cine-3am', 'cine-rain', 'cine-drive', 'cine-origin',
 export const PRINT_FILMS = ['orb-sheet', 'print-cyanotype', 'print-cutouts', 'print-saturn', 'print-marbling'];
 // Hot takes, the side series: letterpress claims with receipts — `node render.mjs takes`. Written to out/takes/.
 export const TAKE_FILMS = ['take-sign', 'take-thirteen', 'take-mercury', 'take-horoscope', 'take-compatible'];
+// On the record: documented history where astrology reached into power — `node render.mjs record`. Written to out/record/.
+export const RECORD_FILMS = ['record-reagan', 'record-war', 'record-1524', 'record-popes', 'record-queen'];
 
 const server = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1', '--directory', ROOT], { stdio: 'ignore' });
 const stop = () => server.kill();
@@ -50,7 +52,7 @@ async function renderFilm(browser, id) {
   await page.waitForFunction(() => window.__ready === true, null, { timeout: 60000 });
   const { duration, fps } = await page.evaluate(() => ({ duration: window.__duration, fps: window.__fps }));
   const shot = () => page.screenshot({ type: 'jpeg', quality: 95 });
-  const dir = id.startsWith('cine-') ? path.join(OUT, 'cine') : id.startsWith('print-') ? path.join(OUT, 'print') : id.startsWith('take-') ? path.join(OUT, 'takes') : OUT;
+  const dir = id.startsWith('cine-') ? path.join(OUT, 'cine') : id.startsWith('print-') ? path.join(OUT, 'print') : id.startsWith('take-') ? path.join(OUT, 'takes') : id.startsWith('record-') ? path.join(OUT, 'record') : OUT;
   await mkdir(dir, { recursive: true });
   const hasAudio = await page.evaluate(() => !!window.__audio);
   const soundtrack = async (wav) => { await writeFile(wav, Buffer.from(await page.evaluate(() => window.__audio()), 'base64')); };
@@ -150,7 +152,7 @@ async function prepareFootage() {
   await waitServer();
   const browser = await chromium.launch();
   const args = process.argv.slice(2);
-  const ids = !args.length ? [...FILMS, ...POP_FILMS, ...CINE_FILMS] : args.flatMap((a) => (a === 'pop' ? POP_FILMS : a === 'noir' ? FILMS : a === 'cine' ? CINE_FILMS : a === 'print' ? PRINT_FILMS : a === 'takes' ? TAKE_FILMS : [a]));
+  const ids = !args.length ? [...FILMS, ...POP_FILMS, ...CINE_FILMS] : args.flatMap((a) => (a === 'pop' ? POP_FILMS : a === 'noir' ? FILMS : a === 'cine' ? CINE_FILMS : a === 'print' ? PRINT_FILMS : a === 'takes' ? TAKE_FILMS : a === 'record' ? RECORD_FILMS : [a]));
   try {
     for (const id of ids) await renderFilm(browser, id);
   } finally {

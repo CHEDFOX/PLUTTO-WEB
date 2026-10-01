@@ -95,6 +95,39 @@ are 8.2 billion people ÷ 12 signs ≈ 680 million.
 
 ---
 
+## On the record: taboo history (`out/record/`)
+
+The same letterpress format, aimed at documented moments where astrology
+reached into power: presidents, a world war, popes, a continent-wide panic, a
+coronation. True stories people half-know, and love to argue about.
+
+**Where the line is, and why.** These are history, decades or centuries
+old and documented. The series does not attach astrology to live wars,
+disasters, deaths or elections ("the stars predicted this", "the chart of the
+attack"). That kind of post trades on real suffering, is misinformation on its
+face, and is the first thing platforms remove and demonetise. One clip like it
+can define a young brand. If a current event is in the air, the right move is
+silence, or a record from history that rhymes with it, without naming it.
+
+**N° 03 is deliberately self-critical** (astrologers caused a panic, and
+they were wrong). It earns trust and says Plutto isn't selling doom.
+
+| № | File | Claim | Prompt | Sources for replies |
+|---|---|---|---|---|
+| 01 | `plutto-record-reagan.mp4` | THE WHITE HOUSE RAN ON AN ASTROLOGER. | Should a leader ask the stars? | Donald Regan, *For the Record* (1988); Joan Quigley, *What Does Joan Say?* (1990). The 1:33 pm INF timing is Quigley's own account. |
+| 02 | `plutto-record-war.mp4` | BOTH SIDES OF WORLD WAR II HIRED ASTROLOGERS. | Weapon, or nonsense? | Louis de Wohl's British wartime work; Nostradamus leaflets from both sides; the *Aktion Hess* round-up of occultists, June 1941. |
+| 03 | `plutto-record-1524.mp4` | IN 1524 EUROPE BUILT ARKS FOR A FLOOD THAT NEVER CAME. | What's today's 1524? | Stöffler's almanac; the 1524 pamphlet war (Zambelli counts 133 pamphlets by 56 authors). |
+| 04 | `plutto-record-popes.mp4` | POPES USED ASTROLOGY. THEN BANNED IT. | Faith and the stars: rivals or relatives? | Paul III's court astrologer (Luca Gaurico); Sixtus V, *Coeli et terrae* (1586). |
+| 05 | `plutto-record-queen.mp4` | A QUEEN WAS CROWNED ON AN ASTROLOGER'S DATE. | Would you pick your wedding date this way? | John Dee chose 15 January 1559 for Elizabeth I's coronation. |
+
+**Captions:** state the claim plainly, then end with "Sources in the comments."
+Pin a comment with the sources above. History accounts reward that, and it
+shuts down "fake" replies before they start.
+**Tags:** #history #historytok #darkhistory #astrology, plus one per topic
+(#reagan #ww2history #renaissance #vatican #elizabethi).
+
+---
+
 ## Cinema (`out/cine/plutto-cine-*.mp4`)
 
 Five films, 14–16 s each, 1080×1920, H.264 + AAC. **Each has its own
