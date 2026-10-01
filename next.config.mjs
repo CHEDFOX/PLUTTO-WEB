@@ -11,6 +11,12 @@ const OPENAI = 'https://api.openai.com';
 // production is a CSP that gets discovered at the worst moment.
 const PADDLE_CDN = 'https://cdn.paddle.com https://sandbox-cdn.paddle.com';
 const PADDLE = 'https://*.paddle.com https://*.paddlejs.com';
+// RAZORPAY — the web checkout. checkout.js comes from checkout.razorpay.com, the
+// payment form is an iframe from api.razorpay.com, and the form calls back to
+// *.razorpay.com (its API, its CDN for bank logos, its error reporting). Missing
+// any one of these, the window opens empty or the pay button does nothing.
+const RAZORPAY_JS = 'https://checkout.razorpay.com';
+const RAZORPAY = 'https://*.razorpay.com';
 
 /**
  * Content-Security-Policy — the single most valuable header here: even if a
@@ -29,19 +35,19 @@ const csp = (dev) =>
     "default-src 'self'",
     // 'wasm-unsafe-eval' is CanvasKit (Skia) — the orb, the globe and the maps
     // in the app at /app are drawn with it. It permits WebAssembly only, not eval.
-    `script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' ${PADDLE_CDN}${dev ? " 'unsafe-eval'" : ''}`,
+    `script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' ${PADDLE_CDN} ${RAZORPAY_JS}${dev ? " 'unsafe-eval'" : ''}`,
     "worker-src 'self' blob:",
     "style-src 'self' 'unsafe-inline'",
-    `img-src 'self' data: blob: ${API} ${PADDLE}`,
+    `img-src 'self' data: blob: ${API} ${PADDLE} ${RAZORPAY}`,
     `media-src 'self' data: blob: ${API}`,
     // The app screens are set in the same faces the phone downloads, served from
     // the backend — without this the browser refuses them and silently falls back
     // to the system font, which looks like a design choice rather than a block.
     `font-src 'self' data: ${API}`,
-    `connect-src 'self' blob: data: ${API} ${SUPABASE} ${OPENAI} ${PADDLE} wss://*.openai.com${dev ? ' ws://localhost:*' : ''}`,
+    `connect-src 'self' blob: data: ${API} ${SUPABASE} ${OPENAI} ${PADDLE} ${RAZORPAY} wss://*.openai.com${dev ? ' ws://localhost:*' : ''}`,
     // The checkout is an iframe from Paddle's origin. Without this it falls back
     // to default-src 'self' and the overlay opens empty — no error, no content.
-    `frame-src 'self' ${PADDLE}`,
+    `frame-src 'self' ${PADDLE} ${RAZORPAY}`,
     "frame-ancestors 'none'",   // clickjacking
     "object-src 'none'",
     "base-uri 'none'",          // stops a stray <base> retargeting every URL
@@ -64,7 +70,9 @@ const securityHeaders = (dev) => [
       // Paddle Billing's checkout iframe is buy.paddle.com (checkout.* was
       // Paddle Classic); Apple Pay / Google Pay inside it need this permission.
       'payment=(self "https://buy.paddle.com" "https://sandbox-buy.paddle.com" ' +
-      '"https://checkout.paddle.com" "https://sandbox-checkout.paddle.com")',
+      '"https://checkout.paddle.com" "https://sandbox-checkout.paddle.com" ' +
+      // Razorpay's form uses the Payment Request API for Google Pay and saved cards.
+      '"https://api.razorpay.com" "https://checkout.razorpay.com")',
   },
   // allow-popups: Paddle's PayPal option opens a window that has to report
   // back to the checkout; plain same-origin severs that link.

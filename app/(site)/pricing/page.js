@@ -2,15 +2,14 @@
  * THE PRICING PAGE — what Plutto Star costs, and what a reader gets for free.
  *
  * Quiet on purpose: not in the nav, but in the footer on every page (beside the
- * legal links) and on the information page (/about). It exists because Paddle
- * approves a selling domain only when the site says what is sold and at what
- * price before the checkout does.
+ * legal links) and on the information page (/about). A payment provider approves
+ * a selling site only when it says what is sold and at what price before the
+ * checkout does.
  *
- * The prices are the Paddle prices the web paywall sells (the catalog's
- * `subscription.paddle.prices`), in US dollars. They are written here by hand:
- * change a price in Paddle and change it here too. The paywall itself shows
- * each reader's live, localised price, so this page says so rather than
- * promising the dollar figure everywhere.
+ * The prices are written here by hand. The web paywall sells the Razorpay plans
+ * in the catalog (`subscription.razorpay.plans`): change a plan there and change
+ * the figure here too. The paywall itself shows the live price of each plan,
+ * so this page says so rather than promising one figure everywhere.
  */
 
 import Link from 'next/link';
@@ -89,21 +88,20 @@ export default function PricingPage() {
                 have paid for.
               </li>
               <li>
-                Prices are in US dollars. The checkout shows your price in your
-                own currency, including any local tax, before you pay.
+                The paywall shows the exact price and billing period of each plan,
+                and the checkout confirms it before you pay.
               </li>
               <li>
-                On the web, payment is processed by Paddle.com, our authorised
-                reseller and Merchant of Record; cancel from the link in your
-                receipt or at{' '}
-                <a href="https://paddle.net" className={LINK}>paddle.net</a>. In
-                the iPhone and Android apps, Apple or Google bill you at the local
-                price shown in the app, and you cancel in your store account.
+                On the web, payment is processed securely by Razorpay (cards, UPI
+                AutoPay, netbanking and wallets); cancel any time in the web app
+                under Settings → Manage subscription. In the iPhone and Android
+                apps, Apple or Google bill you at the local price shown in the
+                app, and you cancel in your store account.
               </li>
               <li>
                 All purchases are final — see our{' '}
                 <a href="https://api.plutto.space/refunds" className={LINK}>refund policy</a>{' '}
-                for the cases the law or Paddle covers.
+                for the cases the law covers.
               </li>
             </ul>
           </FadeUp>

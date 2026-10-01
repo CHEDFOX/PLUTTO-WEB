@@ -1,7 +1,7 @@
 /**
  * THE FOOTER — one line, three parts: the copyright, the studio and its
  * mission, and the legal pages App Review, Google's brand verification and
- * Paddle's website approval look for (the backend's own pages, the same ones
+ * the payment provider's website approval look for (the backend's own pages, the same ones
  * the phone opens).
  */
 
@@ -36,12 +36,12 @@ const READ = [
 ];
 
 const LEGAL = [
-  // What Plutto Star costs — Paddle approves a selling domain only when its
-  // prices can be found from the site, so it sits on every page with the rest.
+  // What Plutto Star costs — a payment provider approves a selling site only
+  // when its prices can be found from it, so it sits on every page with the rest.
   { label: 'Pricing', href: '/pricing' },
   { label: 'Privacy Policy', href: 'https://api.plutto.space/privacy' },
   { label: 'Terms of Use', href: 'https://api.plutto.space/terms' },
-  // Paddle approves a selling domain only if it links to a refund policy too.
+  // Payment providers approve a selling site only if it links to a refund policy too.
   { label: 'Refund Policy', href: 'https://api.plutto.space/refunds' },
 ];
 
