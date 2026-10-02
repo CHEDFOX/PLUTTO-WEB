@@ -32,6 +32,15 @@ export const metadata = pageMeta({
 
 const MONO = 'text-[14px] font-semibold text-[#A78BFA]';
 
+/** The longer passages: small, quiet, one line per line, a breath between stanzas. */
+function Lines({ text }) {
+  return text.split('\n\n').map((stanza, i) => (
+    <span key={i} className={`block ${i ? 'mt-5' : ''}`}>
+      {stanza.split('\n').map((l) => <span key={l} className="block">{l}</span>)}
+    </span>
+  ));
+}
+
 const MOVEMENTS = [
   {
     n: '01',
@@ -47,9 +56,9 @@ const MOVEMENTS = [
     color: SHELF_COLOR.china,
     planet: 'mars',
     title: 'The reading',
-    lead: 'Then the right tradition reads it.',
+    lead: 'Bring the question. Plutto brings the tradition.',
     body:
-      'A hundred and two traditions, each pinned to the city that wrote it — cowries at Ile-Ife, a cup in London, a poet in Shiraz, the stars at Varanasi. Plutto picks the one that fits you and your question.',
+      'Behind every answer is a system.\nBehind every system are centuries of observation, interpretation and human thought.\n\nPlutto calculates what can be calculated.\nThen it interprets what those patterns have meant within the tradition.\n\nYou ask.\nIt looks.\nYou continue.',
   },
   {
     n: '03',
@@ -97,15 +106,13 @@ export default function AboutPage() {
                   className="mt-5 font-semibold tracking-[-0.04em] text-white"
                   style={{ fontSize: 'clamp(2.1rem,5.6vw,3.9rem)', lineHeight: 1.08, maxWidth: '16ch' }}
                 >
-                  Ancient ways, shown working.
+                  Mystery deserves precision.
                 </h1>
               </FadeUp>
 
               <FadeUp delay={0.2}>
-                <p data-no-auto-case className="mt-9 max-w-xl text-[18px] leading-[1.65] text-white/60">
-                  Most astrology apps are a magazine column with a subscription
-                  attached. This is a library — real traditions, real
-                  arithmetic, read aloud by something you can argue with.
+                <p data-no-auto-case className="mt-10 max-w-md text-[15px] leading-[1.9] text-white/50">
+                  <Lines text={'We do not need to make the unknown less mysterious by making the mathematics mysterious too.\n\nPlanetary positions are calculated.\nTraditional systems are identified.\nMethods are documented.\nInterpretation comes after calculation.\n\nWhere there is something to measure—\nwe measure it.\n\nWhere there is something to interpret—\nwe tell you that we are interpreting it.'} />
                 </p>
               </FadeUp>
             </div>
@@ -150,8 +157,8 @@ export default function AboutPage() {
                       >
                         {m.lead}
                       </p>
-                      <p data-no-auto-case className="mt-6 max-w-2xl text-[17px] leading-[1.65] text-white/60">
-                        {m.body}
+                      <p data-no-auto-case className="mt-8 max-w-xl text-[15px] leading-[1.9] text-white/50">
+                        <Lines text={m.body} />
                       </p>
                     </div>
                   </li>
@@ -174,10 +181,15 @@ export default function AboutPage() {
                 className="mt-5 max-w-3xl font-semibold tracking-[-0.035em] text-white"
                 style={{ fontSize: 'clamp(1.8rem,4vw,2.9rem)', lineHeight: 1.16 }}
               >
-                You are right to be sceptical.
-                <span data-no-auto-case className="text-[#8A8A8E]"> Here is what
-                we will not sell you.</span>
+                You don&apos;t have to believe us.
+                <span data-no-auto-case className="text-[#8A8A8E]"> You shouldn&apos;t.</span>
               </h2>
+            </FadeUp>
+
+            <FadeUp delay={0.08}>
+              <p data-no-auto-case className="mt-10 max-w-md text-[15px] leading-[1.9] text-white/50">
+                <Lines text={'Ask how the chart was calculated.\nAsk which tradition we\u2019re using.\nAsk where an interpretation comes from.\n\nPlutto is built to show its work wherever the tradition allows it.\n\nBecause mystery is interesting.\nMystery without honesty isn\u2019t.'} />
+              </p>
             </FadeUp>
 
             <dl className="mt-16 grid grid-cols-1 gap-x-12 gap-y-12 md:grid-cols-2">
@@ -214,7 +226,7 @@ export default function AboutPage() {
               <Fact color={SHELF_COLOR.south_asia} k="Ephemeris" v="Swiss Ephemeris" note="The sky, to the second of arc. What observatories run on." />
               <Fact color={SHELF_COLOR.china} k="Voice" v="OpenAI Realtime" note="Spoken, in the language you already use." />
               <Fact color={SHELF_COLOR.pacific} k="Shelves" v="Twelve" note="Cards, cowries, coins, letters, stars." />
-              <Fact color={SHELF_COLOR.sky} k="Traditions" v="102 of them" note="Named as their own people name them." />
+              <Fact color={SHELF_COLOR.sky} k="Traditions" v="Thousands of years" note="Named as their own people name them." />
               <Fact color={SHELF_COLOR.americas} k="Languages" v="109" note="Pick yours once; every reading arrives in it." />
             </div>
 

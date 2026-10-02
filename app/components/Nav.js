@@ -14,7 +14,11 @@ import { usePathname } from 'next/navigation';
 import GetAppLink from './GetAppLink';
 
 const LINKS = [
-  { href: '/app', label: 'Web app' },
+  { href: '/app', label: 'Oracle' },
+  { href: '/panchang', label: 'Today' },
+  { href: '/traditions', label: 'Traditions' },
+  { href: '/editorial-standards', label: 'Method' },
+  { href: '/about', label: 'About' },
 ];
 
 export default function Nav() {
@@ -65,7 +69,7 @@ export default function Nav() {
 
         <div className="flex items-center gap-2">
           <GetAppLink className="hidden rounded-full bg-white px-4 py-2 text-[13px] font-semibold text-black transition-opacity hover:opacity-90 sm:inline-flex">
-            Get the app
+            Ask Plutto
           </GetAppLink>
           <button
             type="button"
@@ -95,7 +99,7 @@ export default function Nav() {
             <li className="pt-8">
               <GetAppLink onClick={() => setOpen(false)}
                     className="inline-flex rounded-full bg-white px-6 py-3 text-[15px] font-semibold text-black">
-                Get the app
+                Ask Plutto
               </GetAppLink>
             </li>
           </ul>

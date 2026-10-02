@@ -14,7 +14,7 @@
 const READ = [
   { label: 'How it works', href: '/about' },
   { label: 'Guides', href: '/guides' },
-  { label: '102 traditions', href: '/traditions' },
+  { label: 'Ancient languages', href: '/traditions' },
   { label: 'FAQ', href: '/faq' },
   { label: 'Vedic', href: '/guides/vedic-astrology' },
   { label: 'KP', href: '/guides/kp-astrology' },

@@ -41,6 +41,19 @@ import { Note, Arrow, Underline } from '../components/site/ink/Ink';
 // The greetings the app's own language screen cycles through (onboarding_content.LANGUAGES).
 const GREETINGS = ['Hello', 'Hola', 'Bonjour', 'مرحبا', 'Olá', 'Привет', '你好', 'こんにちは', '안녕하세요', 'Hallo', 'नमस्ते', 'নমস্কার', 'வணக்கம்', 'నమస్కారం', 'السلام علیکم', 'ආයුබෝවන්'];
 
+/** The longer passages: small, quiet, one line per line, a breath between stanzas. */
+function Lines({ text, className = '' }) {
+  return (
+    <span className={`block text-[15px] leading-[1.9] text-white/50 ${className}`}>
+      {text.split('\n\n').map((stanza, i) => (
+        <span key={i} className={`block ${i ? 'mt-5' : ''}`}>
+          {stanza.split('\n').map((l) => <span key={l} className="block">{l}</span>)}
+        </span>
+      ))}
+    </span>
+  );
+}
+
 function H2({ children, className = '' }) {
   return (
     <h2 className={`text-[clamp(2rem,4.6vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-white ${className}`}>
@@ -100,19 +113,25 @@ export default function Home() {
             </FadeUp>
 
             <FadeUp delay={0.06}>
-              <h1 className="mx-auto mt-7 max-w-[13ch] text-[clamp(2.1rem,6.6vw,5.4rem)] font-semibold leading-[0.96] tracking-[-0.05em] text-white lg:mx-0">
-                <Words text="Five thousand years old." delay={0.1} />{' '}
-                <Underline delay={1.2}><Words text="Talks back." delay={0.55} wordClassName="shimmer-text pr-[0.06em]" /></Underline>
+              <h1 className="mx-auto mt-10 max-w-[15ch] text-[clamp(2rem,4.4vw,3.6rem)] font-semibold leading-[1.02] tracking-[-0.045em] text-white lg:mx-0">
+                <Words text="The stars have been speaking" delay={0.1} />{' '}
+                <Underline delay={1.2}><Words text="for a very long time." delay={0.55} wordClassName="shimmer-text pr-[0.06em]" /></Underline>
               </h1>
+            </FadeUp>
+
+            <FadeUp delay={0.12}>
+              <p className="mx-auto mt-8 max-w-[36ch] lg:mx-0">
+                <Lines text={'Now you can speak back.\n\nPlutto is a living oracle built from the ancient languages humans have used to read the unseen.'} />
+              </p>
             </FadeUp>
 
             <FadeUp delay={0.18}>
               <div className="mt-9 flex flex-row flex-wrap items-center justify-center gap-3 lg:justify-start">
                 <GetAppLink className="inline-flex h-12 items-center rounded-full bg-white px-7 text-[15px] font-semibold text-black transition-transform hover:scale-[1.03]">
-                  Get the app
+                  Ask the Oracle
                 </GetAppLink>
                 <Link href="/app" className="inline-flex h-12 items-center gap-1.5 rounded-full px-6 text-[15px] font-medium text-white ring-1 ring-white/20 transition-colors hover:bg-white/[0.06]">
-                  Try it on the web <span aria-hidden="true">→</span>
+                  Enter Plutto <span aria-hidden="true">→</span>
                 </Link>
               </div>
             </FadeUp>
@@ -147,8 +166,10 @@ export default function Home() {
       {/* ─────────────────────────── THE LIBRARY ─────────────────────────── */}
       <section className="lazy-section py-24 md:py-32">
         <FadeUp className="px-6 text-center">
-          <H2 className="mx-auto max-w-[18ch]">Every way the world ever asked.</H2>
-          <p className="mx-auto mt-4 max-w-[44ch] text-[17px] text-white/55">The oldest decks on earth, dealt to you and read for you. Not a horoscope column. The real thing.</p>
+          <H2 className="mx-auto max-w-[18ch]">The unseen has many languages.</H2>
+          <p className="mx-auto mt-10 max-w-[40ch]">
+            <Lines text={'The stars speak in cycles.\nSymbols speak in archetypes.\nNumbers speak in patterns.\nCards speak in stories.\nTime speaks in change.\n\nDifferent traditions learned to listen in different ways.\n\nPlutto brings these languages together—\nnot to tell you what to believe,\nbut to give you another way to look.'} />
+          </p>
         </FadeUp>
         <FadeUp delay={0.1}>
           <div className="mt-14">
@@ -161,6 +182,11 @@ export default function Home() {
           <span aria-hidden="true" className="watermark script-cunei hidden text-[24vw] md:block">𒀭</span>
           <FadeUp delay={0.05} className="relative">
             <Ancient />
+          </FadeUp>
+          <FadeUp delay={0.1} className="relative px-6">
+            <p className="mx-auto mt-16 max-w-[36ch] text-center md:mt-24">
+              <Lines text={'A light moving across the sky.\nA number appearing twice.\nA card turned at the right moment.\nA pattern where there should have been none.\n\nFor thousands of years, we have looked.\n\nNot because the unknown was frightening.\nBecause it was there.\n\nAnd perhaps—\nbecause some part of us believed it had something to say.'} />
+            </p>
           </FadeUp>
         </div>
       </section>
@@ -218,7 +244,7 @@ export default function Home() {
             {/* Exact — the arithmetic under it all */}
             <FadeUp className="md:col-span-2">
               <Tile className="h-full min-h-[300px]" glow="rgba(251,146,60,0.25)">
-                <TileText title="Your minute, not your month." body="Swiss Ephemeris, the same arithmetic observatories use. The sky exactly as it stood when you arrived." />
+                <TileText title="Your minute. Not your month." body={<Lines className="mt-1" text={'The heavens never stand still.\nNeither does your life.\n\nYesterday\u2019s sky is gone.\nTomorrow\u2019s has not arrived.\n\nThere is only this moment—\nand everything it contains.'} />} />
                 <div aria-hidden="true" data-no-auto-case className="mt-8 space-y-1.5 font-mono text-[13px] text-white/60">
                   {[['☉', 'Sun', '14°32′', 'Gemini'], ['☽', 'Moon', '02°08′', 'Scorpio'], ['↑', 'Rising', '27°51′', 'Leo'], ['♄', 'Saturn', '19°44′', 'Pisces']].map(([g, n, d, sgn]) => (
                     <div key={n} className="flex items-center gap-3">
@@ -236,9 +262,11 @@ export default function Home() {
             <FadeUp className="md:col-span-2" delay={0.05}>
               <Tile className="h-full min-h-[260px]" glow="rgba(52,211,153,0.2)">
                 <h3 className="text-[22px] font-semibold leading-tight tracking-[-0.02em] text-white md:text-[24px]">
-                  102 ways to read a life. <Note tilt={-5} size="text-[21px]" className="ml-1 align-baseline">and counting</Note>
+                  The divine has many languages.
                 </h3>
-                <p className="mt-2 max-w-[38ch] text-[15px] leading-relaxed text-white/55">It picks the tradition that fits the question. You just ask.</p>
+                <p className="mt-3 max-w-[38ch]">
+                  <Lines text={'Across civilizations, people learned to look in different places.\n\nThe sky.\nThe cards.\nThe numbers.\nThe symbols.\nThe moment itself.\n\nDifferent languages.\nOne ancient human desire:\nto understand what cannot yet be seen.'} />
+                </p>
                 <div aria-hidden="true" className="mt-7 flex flex-wrap gap-x-4 gap-y-1 text-[13px] text-white/35">
                   {['Ifá', 'Jyotiṣa', 'I Ching', 'Tarot', 'Norse runes', 'Ogham', 'Geomancy', 'Lenormand', 'Hafez', 'Tasseography'].map((t) => <span key={t}>{t}</span>)}
                 </div>
@@ -283,15 +311,15 @@ export default function Home() {
           <div className="aurora relative mx-auto max-w-6xl overflow-hidden rounded-[36px] px-6 py-20 text-center ring-1 ring-white/10 md:py-24"
                style={{ background: '#0a0a10' }}>
             <div className="relative z-10">
-            <H2 className="mx-auto max-w-[16ch]">Your question is waiting.</H2>
-            <p className="mx-auto mt-4 max-w-[34ch] text-[17px] text-white/60">Ask it here, free. Or take it with you.</p>
+            <H2 className="mx-auto max-w-[20ch]">Perhaps the question was never whether the universe speaks.</H2>
+            <p className="mx-auto mt-8 max-w-[34ch] text-[15px] text-white/50">Perhaps it was whether you were listening.</p>
             <div className="mt-9 flex justify-center">
               <Link href="/app" className="inline-flex h-12 items-center rounded-full bg-white px-7 text-[15px] font-semibold text-black transition-opacity hover:opacity-90">
-                Open Plutto on the web
+                Ask.
               </Link>
             </div>
             <StoreBadges className="mt-6" />
-            <div className="mt-8"><Note tilt={-3} delay={0.4}>we’ll wait.</Note></div>
+            <div className="mt-8"><Note tilt={-3} delay={0.4}>the stars have been waiting.</Note></div>
             </div>
           </div>
         </FadeUp>

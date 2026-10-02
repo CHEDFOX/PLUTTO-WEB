@@ -19,11 +19,11 @@ const OnboardingShot = () => <AppVideo name="when" poster="/app/screens/when-sta
 const Morning = () => <LockApp live />;
 
 const STEPS = [
-  { n: '01', color: '#A78BFA', title: 'Tell it when you arrived.',
-    body: 'A date, a time, a place. Once. From then on every reading is about you, and nobody else.',
+  { n: '01', color: '#A78BFA', title: 'The sky was different when you arrived.',
+    body: 'Your birth was not an abstraction.\nIt happened somewhere.\nAt a precise moment.\nUnder a particular sky.\n\nPlutto reconstructs that moment and follows its patterns through time.\n\nYour chart is not a horoscope from a newspaper.\nIt is yours.',
     Screen: OnboardingShot },
-  { n: '02', color: '#38BDF8', title: 'Ask out loud.',
-    body: 'Tap the wave and talk. It answers back, in your language, and you can argue with it.',
+  { n: '02', color: '#38BDF8', title: 'There is always a question.',
+    body: 'Not the question you ask everyone.\nThe other one.\nThe one that returns when the room is quiet.\n\nWhat is changing?\nWhy now?\nWhat am I not seeing?\nWhere is this going?\n\nAsk it.',
     Screen: VoiceVideo },
   { n: '03', color: '#FBBF24', title: 'Wake up already knowing.',
     body: 'Every morning at nine, one line written for the day you’re about to have.',
@@ -81,7 +81,13 @@ export default function Story() {
               <h3 className="mt-3 text-[clamp(1.9rem,3.6vw,2.9rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-white">
                 {title}
               </h3>
-              <p className="mt-4 max-w-[34ch] text-[18px] leading-relaxed text-white/55">{body}</p>
+              <p className="mt-6 max-w-[34ch] text-[15px] leading-[1.9] text-white/50">
+                {body.split('\n\n').map((stanza, k) => (
+                  <span key={k} className={`block ${k ? 'mt-5' : ''}`}>
+                    {stanza.split('\n').map((l) => <span key={l} className="block">{l}</span>)}
+                  </span>
+                ))}
+              </p>
             </div>
             {/* the phone for this step (narrow screens only) */}
             <div className="mt-10 flex justify-center md:hidden">

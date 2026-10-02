@@ -33,7 +33,7 @@ export default function Ancient() {
   return (
     <div className="mx-auto max-w-6xl">
       <div className="px-6">
-        <Note tilt={-2.5}>the same question, asked for five thousand years</Note>
+        <Note tilt={-2.5}>before there were answers, there were signs.</Note>
       </div>
       <div className="frieze mt-6 border-y border-white/[0.1]">
         <ol data-no-auto-case className="flex snap-x snap-mandatory overflow-x-auto md:grid md:grid-cols-10 md:overflow-visible">
