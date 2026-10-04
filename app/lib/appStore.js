@@ -19,6 +19,15 @@ const ANDROID_PACKAGE = 'space.plutto.app';
  */
 export const ANDROID_LIVE = true;
 export const IOS_LIVE = false;
+
+/**
+ * IPHONE AND IPAD GET THE WEB APP. Every "get the app" on an Apple handheld goes
+ * to the web app with ?install=1, which opens its Add to Home Screen steps at
+ * once — on the sign-in screen too, so the Home Screen copy is the one they sign
+ * in to. False sends them to the App Store again (once IOS_LIVE).
+ */
+export const IOS_WEB_APP = true;
+export const WEB_APP_INSTALL = '/app?install=1';
 export const PLAY_URL = `https://play.google.com/store/apps/details?id=${ANDROID_PACKAGE}`;
 
 const DEFAULT_STORE = {
@@ -66,6 +75,7 @@ export function storeUrl(platform, store) {
  * device in their hand, else the download band on the page.
  */
 export function getAppHref(platform, store) {
+  if (platform === 'ios' && IOS_WEB_APP) return WEB_APP_INSTALL;
   if (platform === 'android' && ANDROID_LIVE) return storeUrl('android', store);
   if (platform === 'ios' && IOS_LIVE) return storeUrl('ios', store);
   return '/#download';
