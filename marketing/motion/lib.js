@@ -273,7 +273,7 @@ export function sparkles(parent, n, seed, colors) {
 /** Diagonal marquee tape: repeating words scrolling along a tilted band. */
 export function marquee(parent, words, { y = 1600, rot = -8, bg = POP.yellow, fg = POP.ink, size = 58, speed = 180 } = {}) {
   const band = el('div', 'abs', { left: '-300px', width: '1700px', top: `${y}px`, background: bg, borderTop: `6px solid ${POP.ink}`, borderBottom: `6px solid ${POP.ink}`, overflow: 'hidden', transform: `rotate(${rot}deg)`, padding: '14px 0' }, parent);
-  const track = el('div', '', { whiteSpace: 'nowrap', fontSize: `${size}px`, fontWeight: 900, color: fg, letterSpacing: '-0.01em', textTransform: 'uppercase' }, band, `${words.join(' ✦ ')} ✦ `.repeat(8));
+  const track = el('div', '', { whiteSpace: 'nowrap', width: 'max-content', fontSize: `${size}px`, fontWeight: 900, color: fg, letterSpacing: '-0.01em', textTransform: 'uppercase' }, band, `${words.join(' ✦ ')} ✦ `.repeat(8));
   return (t, o = 1) => { track.style.transform = `translateX(${-((t * speed) % 2400)}px)`; band.style.opacity = o; };
 }
 

@@ -180,6 +180,22 @@ per topic (#stargate #isaacnewton #oraclebones #ancientrome #delphi #ouija).
 
 ---
 
+## True story: the files, vivid (`out/truth/`)
+
+The same six stories as the files, at full voltage. A mystery number slams in
+first in chromatic split (23 YRS, 2060, 1899, 93/123, C₂H₄, 446,054), lifts to
+the top, and the claim arrives on tilted colour slabs; a TRUE STORY starburst
+spins on, the receipt is typed onto a white card with its facts marked, and a
+speech bubble asks the question. Four-on-the-floor soundtrack with impacts (post
+as original audio). Each film has its own three colours, so a grid reads loud:
+violet/lime/pink, blue/orange/yellow, red/teal/yellow, yellow/magenta/cyan,
+teal/violet/pink, pink/blue/lime. Captions, tags and sources: as the files above.
+
+Use these where reach matters (Reels, TikTok, ads); keep the files for the grid
+and for people who read.
+
+---
+
 ## Cinema (`out/cine/plutto-cine-*.mp4`)
 
 Five films, 14–16 s each, 1080×1920, H.264 + AAC. **Each has its own

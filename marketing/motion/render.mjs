@@ -36,6 +36,8 @@ export const RECORD_FILMS = ['record-reagan', 'record-war', 'record-1524', 'reco
   'record-tarot', 'record-palms', 'record-iching', 'record-616', 'record-maya', 'record-rune'];   // 06–11: beyond astrology
 // The files: the record's idea as declassified case files (dossier.js) — `node render.mjs files`. Written to out/files/.
 export const FILE_FILMS = ['files-stargate', 'files-newton', 'files-bones', 'files-chickens', 'files-delphi', 'files-ouija'];
+// True story: the same six, vivid (vivid.js) — `node render.mjs truth`. Written to out/truth/.
+export const TRUTH_FILMS = ['truth-stargate', 'truth-newton', 'truth-bones', 'truth-chickens', 'truth-delphi', 'truth-ouija'];
 
 const server = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1', '--directory', ROOT], { stdio: 'ignore' });
 const stop = () => server.kill();
@@ -55,7 +57,7 @@ async function renderFilm(browser, id) {
   await page.waitForFunction(() => window.__ready === true, null, { timeout: 60000 });
   const { duration, fps } = await page.evaluate(() => ({ duration: window.__duration, fps: window.__fps }));
   const shot = () => page.screenshot({ type: 'jpeg', quality: 95 });
-  const dir = id.startsWith('cine-') ? path.join(OUT, 'cine') : id.startsWith('print-') ? path.join(OUT, 'print') : id.startsWith('take-') ? path.join(OUT, 'takes') : id.startsWith('record-') ? path.join(OUT, 'record') : id.startsWith('files-') ? path.join(OUT, 'files') : OUT;
+  const dir = id.startsWith('cine-') ? path.join(OUT, 'cine') : id.startsWith('print-') ? path.join(OUT, 'print') : id.startsWith('take-') ? path.join(OUT, 'takes') : id.startsWith('record-') ? path.join(OUT, 'record') : id.startsWith('files-') ? path.join(OUT, 'files') : id.startsWith('truth-') ? path.join(OUT, 'truth') : OUT;
   await mkdir(dir, { recursive: true });
   const hasAudio = await page.evaluate(() => !!window.__audio);
   const soundtrack = async (wav) => { await writeFile(wav, Buffer.from(await page.evaluate(() => window.__audio()), 'base64')); };
@@ -155,7 +157,7 @@ async function prepareFootage() {
   await waitServer();
   const browser = await chromium.launch();
   const args = process.argv.slice(2);
-  const ids = !args.length ? [...FILMS, ...POP_FILMS, ...CINE_FILMS] : args.flatMap((a) => (a === 'pop' ? POP_FILMS : a === 'noir' ? FILMS : a === 'cine' ? CINE_FILMS : a === 'print' ? PRINT_FILMS : a === 'takes' ? TAKE_FILMS : a === 'record' ? RECORD_FILMS : a === 'files' ? FILE_FILMS : [a]));
+  const ids = !args.length ? [...FILMS, ...POP_FILMS, ...CINE_FILMS] : args.flatMap((a) => (a === 'pop' ? POP_FILMS : a === 'noir' ? FILMS : a === 'cine' ? CINE_FILMS : a === 'print' ? PRINT_FILMS : a === 'takes' ? TAKE_FILMS : a === 'record' ? RECORD_FILMS : a === 'files' ? FILE_FILMS : a === 'truth' ? TRUTH_FILMS : [a]));
   try {
     for (const id of ids) await renderFilm(browser, id);
   } finally {
