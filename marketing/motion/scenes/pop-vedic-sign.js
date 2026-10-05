@@ -1,5 +1,5 @@
 /** POP 03 · YOUR VEDIC SIGN IS PROBABLY DIFFERENT — two zodiacs, 24°13′ apart (Lahiri, 2026). */
-import { el, set, scribble, prog, ease, lerp, W, POP, spring, popBg, sticker, slab, sparkles, popEnd } from '../lib.js';
+import { el, set, scribble, prog, ease, lerp, W, POP, spring, popBg, sticker, slab, sparkles, popEnd, popScore } from '../lib.js';
 
 const SIGNS = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
 const AYAN = 24 + 13 / 60, END = 12.8;
@@ -40,6 +40,7 @@ function wheel(g, rot, hi, arcA) {
 
 export default {
   duration: 15.2,
+  score() { return popScore({ duration: this.duration, end: END, hits: [0.1, 1.35, 9.4, 9.7, 10.1, 10.8], cuts: [2.8], tick: [5.6, 8.3] }); },
   async setup(stage) {
     S.bg = popBg(stage);
     S.spark = sparkles(stage, 7, 31, [POP.yellow, POP.white, POP.pink]);

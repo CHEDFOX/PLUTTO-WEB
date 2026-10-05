@@ -309,6 +309,35 @@ export function badge(parent, name, { size = 520, fill = 0.94, bg = POP.ink, sty
   return b;
 }
 
+/**
+ * The pop series' score (cues for sound.js): a bright 120 bpm four-on-the-floor
+ * with a bouncing 808, a hit and a plucked note on every landing (`hits`), a
+ * whoosh and boom on every scene change (`cuts`), an optional ticking pulse
+ * (`tick: [from, to]`), then the beat drops out under a riser into the end card,
+ * which lands on a boom and Plutto's sting.
+ */
+export function popScore({ duration, end, hits = [], cuts = [], tick }) {
+  const B = 0.5, stop = end - 1;
+  const c = [{ i: 'room', t: 0, end: duration, g: 0.03 }];
+  for (let t = 0.05; t < stop; t += B) c.push({ i: 'kick', t, g: 0.34 }, { i: 'hat', t: t + B / 2, g: 0.1, open: true });
+  for (let t = 0.05 + B; t < stop; t += 2 * B) c.push({ i: 'clap', t, g: 0.16 });
+  const line = [38, 38, 41, 36];
+  for (let t = 0.05, k = 0; t < stop; t += 4 * B, k++) {
+    const n = line[k % 4];
+    c.push({ i: 'bass', t, n, dur: 0.6, g: 0.42 }, { i: 'bass', t: t + 1.5 * B, n, dur: 0.3, g: 0.3 }, { i: 'bass', t: t + 3 * B, n: n + 12, dur: 0.3, g: 0.26 });
+  }
+  const notes = [74, 76, 79, 81, 83, 86];
+  hits.forEach((t, k) => c.push({ i: 'hit', t, g: 0.42 }, { i: 'pluck', t, n: notes[k % notes.length], g: 0.2, dur: 1.2 }));
+  cuts.forEach((t) => c.push({ i: 'whoosh', t: t - 0.2, dur: 0.4, g: 0.35 }, { i: 'boom', t, g: 0.5 }));
+  if (tick) c.push({ i: 'pulse', t: tick[0], end: tick[1], n: 62, bpm: 120, g: 0.12 });
+  c.push({ i: 'riser', t: stop, end, g: 0.4 }, { i: 'reverse', end, dur: 0.9, g: 0.3 });
+  c.push({ i: 'boom', t: end, g: 0.8 }, { i: 'sting', t: end + 0.05 });
+  c.push({ i: 'hit', t: end + 0.55, g: 0.35 }, { i: 'blip', t: end + 0.8, n: 79, g: 0.25 });
+  for (let t = end + 0.6; t < duration - 0.4; t += B) c.push({ i: 'kick', t, g: 0.2 }, { i: 'hat', t: t + B / 2, g: 0.07 });
+  c.push({ i: 'pad', t: end, end: duration, ns: [62, 66, 69], g: 0.05, bright: 1400 });
+  return c;
+}
+
 /** The pop end card: logo sticker, the line, a CTA pill, and marquee tape. */
 export function popEnd(stage, { line = 'Five thousand years old.', punch = 'Talks back.', cta = 'plutto.space', sub = 'Free to start · Android · Web', bg = POP.violet } = {}) {
   const box = el('div', 'layer', { zIndex: 30, opacity: 0, background: bg, overflow: 'hidden' }, stage);

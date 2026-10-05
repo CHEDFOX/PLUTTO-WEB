@@ -1,5 +1,5 @@
 /** POP 06 · SATURN ENTERS ARIES — 3 June 2027, 04:43 IST (sidereal); what it does to Sade Sati. */
-import { el, set, prog, ease, lerp, W, POP, spring, popBg, sticker, slab, sparkles, popEnd } from '../lib.js';
+import { el, set, prog, ease, lerp, W, POP, spring, popBg, sticker, slab, sparkles, popEnd, popScore } from '../lib.js';
 
 const END = 12.4;
 let S = {};
@@ -25,6 +25,7 @@ function saturn(g, t) {
 }
 export default {
   duration: 14.8,
+  score() { return popScore({ duration: this.duration, end: END, hits: [0.6, 0.9, 2.2, ...S.rows.map((_, i) => 6.8 + i * 0.4), 8.6], cuts: [1.3, 6.4] }); },
   async setup(stage) {
     S.bg = popBg(stage);
     S.spark = sparkles(stage, 9, 66, [POP.yellow, POP.white, POP.cyan]);

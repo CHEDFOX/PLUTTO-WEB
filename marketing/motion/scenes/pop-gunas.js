@@ -1,5 +1,5 @@
 /** POP 08 · 36 GUNAS — eight chunky bars fill to the classical maxima; the total counts to 36. */
-import { el, set, prog, ease, POP, spring, popBg, sticker, slab, sparkles, popEnd } from '../lib.js';
+import { el, set, prog, ease, POP, spring, popBg, sticker, slab, sparkles, popEnd, popScore } from '../lib.js';
 
 const K = [['Varna', 1], ['Vashya', 2], ['Tara', 3], ['Yoni', 4], ['Graha Maitri', 5], ['Gana', 6], ['Bhakoot', 7], ['Nadi', 8]];
 const COLS = [POP.cyan, POP.yellow, POP.lime, POP.orange, POP.pink, POP.teal, POP.violet, POP.red];
@@ -7,6 +7,7 @@ const END = 11.2;
 let S = {};
 export default {
   duration: 13.6,
+  score() { return popScore({ duration: this.duration, end: END, hits: [0.1, 0.6, ...K.map((_, i) => 1.2 + i * 0.62), 7.1], cuts: [6.3] }); },
   async setup(stage) {
     S.bg = popBg(stage);
     S.spark = sparkles(stage, 8, 88, [POP.yellow, POP.white]);

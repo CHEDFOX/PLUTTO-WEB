@@ -267,9 +267,10 @@ and **Noir** (`plutto-*.mp4`, dark and premium). Vertical, 1080×1920, 30 fps,
 H.264, made for Instagram Reels, YouTube Shorts and TikTok. Use Pop for the
 feed and ads; keep Noir for premium placements and the pinned brand post.
 The captions below fit both — film names drop the `pop-` prefix. Each has a cover frame (`*-cover.jpg`) for the
-upload screen. They are silent by design: add a trending or licensed track
-inside each app — platforms favour their own audio, and it keeps the films
-free of music licensing.
+upload screen. Pop carries its own soundtrack (`popScore` in `lib.js`: a
+synthesised 120 bpm beat, a hit on every slam, Plutto's sting on the end card —
+no samples, no licences); post it as original audio, or mute it under a
+trending track. Noir is silent: add a trending or licensed track inside each app.
 
 **Order.** Lead with 01 (the brand film), then alternate: one education
 film, one sky-calendar film, one product film. The sky-calendar films are

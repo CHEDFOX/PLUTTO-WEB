@@ -1,5 +1,5 @@
 /** POP 07 · 27 NAKSHATRAS — a colour wheel of the lunar mansions, one popping out at a time. */
-import { el, set, prog, ease, W, POP, spring, popBg, sticker, slab, sparkles, popEnd } from '../lib.js';
+import { el, set, prog, ease, W, POP, spring, popBg, sticker, slab, sparkles, popEnd, popScore } from '../lib.js';
 
 const NAMES = ['Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu', 'Pushya', 'Ashlesha', 'Magha', 'Purva Phalguni', 'Uttara Phalguni', 'Hasta', 'Chitra', 'Swati', 'Vishakha', 'Anuradha', 'Jyeshtha', 'Mula', 'Purva Ashadha', 'Uttara Ashadha', 'Shravana', 'Dhanishta', 'Shatabhisha', 'Purva Bhadrapada', 'Uttara Bhadrapada', 'Revati'];
 const COLS = [POP.pink, POP.yellow, POP.cyan, POP.lime, POP.orange, POP.white, POP.magenta, POP.teal, POP.red];
@@ -25,6 +25,7 @@ function wheel(g, t, sweep) {
 }
 export default {
   duration: 13.6,
+  score() { return popScore({ duration: this.duration, end: END, hits: [0.6, 0.9, 1.6, 2.2, 4.8, 5.4], tick: [0.1, 4.6] }); },
   async setup(stage) {
     S.bg = popBg(stage);
     S.spark = sparkles(stage, 8, 77, [POP.yellow, POP.white, POP.pink]);

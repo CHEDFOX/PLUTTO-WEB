@@ -3,7 +3,7 @@
  * in on its own colour field; the line slams in; the app answers on a
  * sticker card (the real recording).
  */
-import { el, set, haze, footage, prog, ease, inOut, lerp, POP, spring, popBg, sticker, slab, sparkles, marquee, popEnd } from '../lib.js';
+import { el, set, haze, footage, prog, ease, inOut, lerp, POP, spring, popBg, sticker, slab, sparkles, marquee, popEnd, popScore } from '../lib.js';
 
 const FRIEZE = [
   { glyph: '𓋹', font: 'Hiero', size: 400, say: 'ankh', means: 'life', where: 'Egypt · 3000 BC' },
@@ -26,6 +26,7 @@ let S = {};
 
 export default {
   duration: 15.6,
+  score() { return popScore({ duration: this.duration, end: END, hits: [...FRIEZE.map((_, k) => F0 + k * STEP), HEAD, HEAD + 0.15, HEAD + 0.3], cuts: [HEAD + 1.0, CARD] }); },
   async setup(stage) {
     S.bg = popBg(stage);
     S.root = el('div', 'layer', { transformOrigin: '50% 50%' }, stage);

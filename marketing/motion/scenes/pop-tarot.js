@@ -1,11 +1,12 @@
 /** POP 09 · DRAW A CARD — the real tarot screen in a chunky phone, the deck fanning out in ink frames. */
-import { ASSET, el, set, img, phone, prog, ease, lerp, POP, spring, popBg, sticker, slab, sparkles, marquee, popEnd } from '../lib.js';
+import { ASSET, el, set, img, phone, prog, ease, lerp, POP, spring, popBg, sticker, slab, sparkles, marquee, popEnd, popScore } from '../lib.js';
 
 const CARDS = ['cups_ace', 'cups_queen', 'cups_knight', 'cups_king', 'cups_page', 'cups_seven'];
 const END = 11.2;
 let S = {};
 export default {
   duration: 13.6,
+  score() { return popScore({ duration: this.duration, end: END, hits: [0.2, 0.6, 1.3, 1.54, 1.78, 5.5], cuts: [0.5] }); },
   async setup(stage) {
     S.bg = popBg(stage);
     S.spark = sparkles(stage, 9, 99, [POP.yellow, POP.white, POP.pink]);

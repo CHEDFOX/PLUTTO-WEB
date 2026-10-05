@@ -1,10 +1,11 @@
 /** POP 05 · THE 2 AUGUST 2027 ECLIPSE — total, greatest over Egypt at 10:06 UTC; five eclipses in 2027. */
-import { ASSET, el, set, img, prog, ease, lerp, W, POP, spring, popBg, sticker, slab, sparkles, popEnd } from '../lib.js';
+import { ASSET, el, set, img, prog, ease, lerp, W, POP, spring, popBg, sticker, slab, sparkles, popEnd, popScore } from '../lib.js';
 
 const TOT = 4.2, END = 12.2;
 let S = {};
 export default {
   duration: 14.6,
+  score() { return popScore({ duration: this.duration, end: END, hits: [0.5, 0.8, 1.1, 1.8, 2.1, ...S.rows.map((_, i) => 7.6 + i * 0.25)], cuts: [TOT, 7.4] }); },
   async setup(stage) {
     S.bg = popBg(stage);
     const c = el('canvas', 'abs', { left: 0, top: '120px' }, stage); c.width = W; c.height = 1000; S.g = c.getContext('2d');

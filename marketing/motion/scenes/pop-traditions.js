@@ -1,11 +1,12 @@
 /** POP 10 · 102 TRADITIONS — fat colour dots gather into a ring by region; the names pass on stickers. */
-import { el, set, prog, ease, lerp, rng, W, POP, spring, popBg, sticker, slab, sparkles, popEnd } from '../lib.js';
+import { el, set, prog, ease, lerp, rng, W, POP, spring, popBg, sticker, slab, sparkles, popEnd, popScore } from '../lib.js';
 
 const COLORS = { south_asia: '#FF9A2E', himalaya: '#FFD23D', china: '#FF4545', east_asia: '#FF4FA3', pacific: '#E23BD0', persia: '#9B5CFF', letters: '#3355FF', sky: '#1FC8F0', folk: '#10D1B2', americas: '#2EE08E', africa: '#9BE33C', body: '#E6E63A' };
 const END = 11.6;
 let S = {};
 export default {
   duration: 14,
+  score() { return popScore({ duration: this.duration, end: END, hits: [0.4, 6.8, 7.1], cuts: [7.5], tick: [0.5, 6.6] }); },
   async setup(stage) {
     const atlas = await (await fetch('../../app/lib/atlas.json')).json();
     S.list = atlas.regions.flatMap((r) => atlas.traditions.filter((x) => x.region === r.id));

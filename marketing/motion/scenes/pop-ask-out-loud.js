@@ -1,5 +1,5 @@
 /** POP 02 · ASK IT OUT LOUD — the real voice orb as a badge, questions as stickers, hello on colour. */
-import { el, set, footage, prog, ease, lerp, POP, spring, popBg, sticker, slab, sparkles, popEnd } from '../lib.js';
+import { el, set, footage, prog, ease, lerp, POP, spring, popBg, sticker, slab, sparkles, popEnd, popScore } from '../lib.js';
 
 const QS = [['should I move cities?', 70, 620, -6], ['is it him?', 690, 700, 5], ['why does this keep happening?', 90, 1420, 4], ['what is this year for?', 560, 1540, -5], ['am I on the right path?', 150, 1660, -2]];
 const HELLO = [['Hello', 'Inter'], ['नमस्ते', 'Deva'], ['Hola', 'Inter'], ['Olá', 'Inter'], ['مرحبا', 'Arabic'], ['Aloha', 'Inter'], ['こんにちは', 'JP'], ['שלום', 'Hebrew'], ['Merhaba', 'Inter'], ['Talofa', 'Inter']];
@@ -8,6 +8,7 @@ const LANG = 7.0, END = 11.9;
 let S = {};
 export default {
   duration: 14.3,
+  score() { return popScore({ duration: this.duration, end: END, hits: [0.3, 0.6, ...QS.map((_, i) => 1.5 + i * 0.8), ...HELLO.map((_, i) => LANG + i * 0.42).slice(1), LANG + 0.5], cuts: [LANG] }); },
   async setup(stage) {
     S.bg = popBg(stage);
     S.spark = sparkles(stage, 8, 12, [POP.yellow, POP.white, POP.cyan]);

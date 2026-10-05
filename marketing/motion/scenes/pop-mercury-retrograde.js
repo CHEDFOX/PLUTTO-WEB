@@ -1,5 +1,5 @@
 /** POP 04 · MERCURY RETROGRADE — 24 Oct → 13 Nov 2026 (UTC), then 2027; the true loop drawn. */
-import { el, set, prog, ease, lerp, W, POP, spring, popBg, sticker, slab, sparkles, badge, popEnd } from '../lib.js';
+import { el, set, prog, ease, lerp, W, POP, spring, popBg, sticker, slab, sparkles, badge, popEnd, popScore } from '../lib.js';
 
 const TH0 = 0.75 * Math.PI, TH1 = 3.25 * Math.PI, R0 = 118, D0 = 210;
 const cyc = (th) => [R0 * th - D0 * Math.sin(th), -D0 * Math.cos(th)];
@@ -10,6 +10,7 @@ const END = 12.0;
 let S = {};
 export default {
   duration: 14.4,
+  score() { return popScore({ duration: this.duration, end: END, hits: [0.5, 0.8, 1.05, 1.4, 1.9, ...S.rows.map((_, i) => 6.7 + i * 0.35), 7.9], cuts: [6.4], tick: [2.0, 6.0] }); },
   async setup(stage) {
     S.bg = popBg(stage);
     S.spark = sparkles(stage, 8, 44, [POP.yellow, POP.white, POP.pink]);
