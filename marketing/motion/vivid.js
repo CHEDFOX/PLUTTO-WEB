@@ -90,7 +90,7 @@ export function truth({ n, system, hero, label, palette: [FIELD, A, B], claim, f
       // TRUE STORY starburst
       S.star = el('div', 'abs', { left: '752px', top: '176px', width: '310px', height: '310px', opacity: 0 }, S.root);
       let d = ''; for (let i = 0; i < 32; i++) { const r = i % 2 ? 128 : 158, a = (i / 32) * Math.PI * 2; d += (i ? 'L' : 'M') + (160 + r * Math.cos(a)).toFixed(1) + ' ' + (160 + r * Math.sin(a)).toFixed(1); }
-      S.star.innerHTML = `<svg viewBox="0 0 320 320" width="320" height="320"><path d="${d}Z" fill="${POP.yellow}" stroke="${INK}" stroke-width="7" stroke-linejoin="round"/></svg>`;
+      S.star.innerHTML = `<svg viewBox="0 0 320 320" width="320" height="320"><path d="${d}Z" fill="${FIELD === POP.yellow ? POP.white : POP.yellow}" stroke="${INK}" stroke-width="7" stroke-linejoin="round"/></svg>`;
       el('div', 'abs', { inset: 0, display: 'grid', placeItems: 'center', textAlign: 'center', font: '900 52px/0.95 Inter', letterSpacing: '-0.03em', color: INK }, S.star, 'TRUE<br>STORY');
 
       // the receipt card
