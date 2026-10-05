@@ -150,6 +150,36 @@ shuts down "fake" replies before they start.
 
 ---
 
+## The files: declassified (`out/files/`)
+
+The record's idea in a second art style: each film is a case file from the
+"Plutto Archive". A manila folder opens on a desk under a lamp, the claim's
+redaction bars come off one word at a time to a heartbeat, a red DECLASSIFIED
+stamp comes down, and the receipt is typed underneath with its facts
+highlighted. A sticky note carries the question for the comments. 14–16 s, own
+soundtrack (post as original audio). The cover is the finished file; the 4:5
+feed poster is `posters/plutto-files-*-feed.jpg`.
+
+Same line as the record: documented, decades or centuries old, never live wars,
+disasters or elections. Each file names its tradition in the System line, so a
+grid of them reads as many traditions.
+
+| № | File | System | Claim | Prompt | Sources for replies |
+|---|---|---|---|---|---|
+| 01 | `plutto-files-stargate.mp4` | Remote viewing | THE U.S. PAID PSYCHICS FOR 23 YEARS. | Would you have funded it? | Project Stargate and predecessors, 1972–1995, about $20 million; CIA Reading Room; the American Institutes for Research evaluation (1995) that ended it. |
+| 02 | `plutto-files-newton.mp4` | Prophecy | ISAAC NEWTON DATED THE END OF THE WORLD. | Genius, or just human? | Yahuda MS 7.3g, National Library of Israel: "no sooner than 2060", written to stop others setting earlier dates. Widely reported in 2003. |
+| 03 | `plutto-files-bones.mp4` | Oracle bones | CHINA'S OLDEST WRITING WAS SOLD AS MEDICINE. | What would you ask the bones? | Shang dynasty scapulimancy, c. 1250–1046 BC; Wang Yirong identified the script on "dragon bones" in 1899; Anyang excavations 1928–37. |
+| 04 | `plutto-files-chickens.mp4` | Augury | AN ADMIRAL DROWNED THE SACRED CHICKENS. | Would you ignore the omen? | Cicero, *De natura deorum* 2.7 and Suetonius, *Tiberius* 2 ("let them drink"); Polybius 1.51 for the 93 of 123 ships lost at Drepana, 249 BC. |
+| 05 | `plutto-files-delphi.mp4` | Oracle | THE ORACLE OF DELPHI MAY HAVE BEEN HIGH. | Does that change her answers? | Plutarch, *Moralia* (On the obsolescence of oracles); de Boer, Hale & Chanton, *Geology* 29 (2001). "May": the gas theory is debated, and the receipt says so. |
+| 06 | `plutto-files-ouija.mp4` | Spirit boards | THE OUIJA BOARD WAS PATENTED AS A GAME. | Game, or a door? | US Patent 446,054 (10 Feb 1891), "Toy or game"; Parker Brothers bought it in 1966; outsold Monopoly in 1967 (Smithsonian Magazine). |
+
+**Captions:** the claim, then "Case file in the comments." Pin a comment with the
+sources above. **Tags:** #history #historytok #declassified #darkhistory, plus one
+per topic (#stargate #isaacnewton #oraclebones #ancientrome #delphi #ouija).
+**Order:** 01 and 04 first (the strongest hooks), then alternate with the record.
+
+---
+
 ## Cinema (`out/cine/plutto-cine-*.mp4`)
 
 Five films, 14–16 s each, 1080×1920, H.264 + AAC. **Each has its own
