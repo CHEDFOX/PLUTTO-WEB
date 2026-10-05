@@ -114,6 +114,47 @@
       // exactly the phone: the device's width, no zoom, and no zoom on a tap
       // into a field either (iOS zooms any input under 16px otherwise)
       meta.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover');
+      // THE STATUS BAR THE APP EXPECTS TO DRAW UNDER. The phone app is laid out
+      // from the very top of the screen — the clock's strip included: the gear
+      // sits 44pt down to clear it, Home's gaps are shares of the full height.
+      // On an iPhone a page often starts BELOW that strip (a Safari tab always;
+      // a Home Screen icon added while the page asked for "black"), so every one
+      // of those offsets came out a status bar lower, and the screen it divides
+      // a status bar shorter. Here the page gives that strip back: the app is
+      // told the screen is that much taller, and the body — app and pop-ups
+      // alike (a transform makes the body the frame of its fixed layers) — is
+      // drawn that much higher, with the strip itself off the top, where it
+      // sits under the status bar in the app too.
+      try {
+        if (/iPhone|iPod/.test(navigator.userAgent || '')) {
+          var probe = document.createElement('div');
+          probe.style.cssText = 'position:absolute;visibility:hidden;padding-top:env(safe-area-inset-top)';
+          el.appendChild(probe);
+          var envTop = parseFloat(getComputedStyle(probe).paddingTop) || 0;
+          el.removeChild(probe);
+          var standalone = mm('(display-mode: standalone)') || navigator.standalone === true;
+          var sh = screen.height || 0;
+          // from the Home Screen the gap is exact; in a tab it is the status bar
+          // by model (Dynamic Island, notch, home button)
+          var lost = envTop > 0 ? 0
+            : standalone ? Math.max(0, Math.min(64, sh - window.innerHeight))
+            : (sh >= 852 ? 54 : sh >= 812 ? 47 : 20);
+          if (lost > 0) {
+            window.__PLUTTO_TOP_SHIFT = lost;
+            var add = function (obj, key) {
+              var d = Object.getOwnPropertyDescriptor(obj, key) || Object.getOwnPropertyDescriptor(Object.getPrototypeOf(obj), key);
+              if (!d || !d.get) return;
+              Object.defineProperty(obj, key, { configurable: true, get: function () { return d.get.call(obj) + lost; } });
+            };
+            add(window, 'innerHeight');
+            add(el, 'clientHeight');
+            if (window.visualViewport) add(window.visualViewport, 'height');
+            var st = document.createElement('style');
+            st.textContent = 'body{height:calc(100% + ' + lost + 'px)!important;transform:translateY(-' + lost + 'px);}';
+            document.head.appendChild(st);
+          }
+        }
+      } catch (e) {}
       return;
     }
 
@@ -199,6 +240,6 @@
     </noscript>
     <!-- The root element for your Expo app. -->
     <div id="root"></div>
-  <script src="/m/_expo/static/js/web/index-5a3d4695d78297e5bc8f2ef5dd874e90.js" defer></script>
+  <script src="/m/_expo/static/js/web/index-4d675c85d14910cc81a07a9cd2014f56.js" defer></script>
 </body>
 </html>
