@@ -196,6 +196,28 @@ and for people who read.
 
 ---
 
+## Abstract: modern art, painted to music (`out/abstract/`)
+
+Each film paints in one movement's hand on a sheet of paper, and its song is
+written together with its picture (`abstract.js`): one list holds the cues AND
+the marks, so every shape lands on the note that made it. 15 s, own soundtrack
+— **post with original audio**. Paper-toned, so they stand out in a dark feed.
+"Free" is on the end card of 03 only.
+
+| № | File | Movement | Sound | Line | Caption |
+|---|---|---|---|---|---|
+| 01 | `plutto-abstract-composition.mp4` | Kandinsky, Bauhaus 1923: red disc, black bar, blue triangle, yellow half | Piano-stab house, 118 bpm | Every chart is a composition. Nine planets, twelve houses, one arrangement only you have. | Every chart is a composition. Not just your sun sign. 🔊 |
+| 02 | `plutto-abstract-temple.mp4` | Hilma af Klint, 1906: spiral, rings, petals, the altar disc | Ambient: mallets, bells, choir, 72 bpm | She painted abstraction five years before anyone. She said the paintings were dictated. | Some signs arrive before we have words. 🔊 |
+| 03 | `plutto-abstract-zero.mp4` | Malevich, Black Square 1915: the square tilts, red and black planes fly | Techno, 128 bpm | A horoscope is a picture. A chart is a system. | A horoscope is a picture. A chart is a system. 🔊 |
+
+**Facts for 02:** af Klint's *Primordial Chaos* series began in 1906; Kandinsky's
+first abstract watercolour is usually dated 1910–11. She wrote that the Paintings
+for the Temple were made under the direction of "the High Masters" reached in
+séances. **Tags:** #abstractart #bauhaus #kandinsky #hilmaafklint #malevich
+#astrology #arthistory.
+
+---
+
 ## Signal: generative light, set to music (`out/signal/`)
 
 Five thousand particles of light drift as a nebula, gather into a sign, get

@@ -42,6 +42,8 @@ export const TRUTH_FILMS = ['truth-stargate', 'truth-newton', 'truth-bones', 'tr
 export const LIBRARY_FILMS = ['library-shelves', 'library-catalogue', 'library-question', 'library-scripts', 'library-librarian'];
 // Signal: generative light set to its own music (signal.js) — `node render.mjs signal`. Written to out/signal/.
 export const SIGNAL_FILMS = ['signal-signs', 'signal-orbit', 'signal-bloom'];
+// Abstract: modern art movements painted to music (abstract.js) — `node render.mjs abstract`. Written to out/abstract/.
+export const ABSTRACT_FILMS = ['abstract-composition', 'abstract-temple', 'abstract-zero'];
 
 const server = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1', '--directory', ROOT], { stdio: 'ignore' });
 const stop = () => server.kill();
@@ -61,7 +63,7 @@ async function renderFilm(browser, id) {
   await page.waitForFunction(() => window.__ready === true, null, { timeout: 60000 });
   const { duration, fps } = await page.evaluate(() => ({ duration: window.__duration, fps: window.__fps }));
   const shot = () => page.screenshot({ type: 'jpeg', quality: 95 });
-  const dir = id.startsWith('cine-') ? path.join(OUT, 'cine') : id.startsWith('print-') ? path.join(OUT, 'print') : id.startsWith('take-') ? path.join(OUT, 'takes') : id.startsWith('record-') ? path.join(OUT, 'record') : id.startsWith('files-') ? path.join(OUT, 'files') : id.startsWith('truth-') ? path.join(OUT, 'truth') : id.startsWith('library-') ? path.join(OUT, 'library') : id.startsWith('signal-') ? path.join(OUT, 'signal') : OUT;
+  const dir = id.startsWith('cine-') ? path.join(OUT, 'cine') : id.startsWith('print-') ? path.join(OUT, 'print') : id.startsWith('take-') ? path.join(OUT, 'takes') : id.startsWith('record-') ? path.join(OUT, 'record') : id.startsWith('files-') ? path.join(OUT, 'files') : id.startsWith('truth-') ? path.join(OUT, 'truth') : id.startsWith('library-') ? path.join(OUT, 'library') : id.startsWith('signal-') ? path.join(OUT, 'signal') : id.startsWith('abstract-') ? path.join(OUT, 'abstract') : OUT;
   await mkdir(dir, { recursive: true });
   const hasAudio = await page.evaluate(() => !!window.__audio);
   const soundtrack = async (wav) => { await writeFile(wav, Buffer.from(await page.evaluate(() => window.__audio()), 'base64')); };
@@ -161,7 +163,7 @@ async function prepareFootage() {
   await waitServer();
   const browser = await chromium.launch();
   const args = process.argv.slice(2);
-  const ids = !args.length ? [...FILMS, ...POP_FILMS, ...CINE_FILMS] : args.flatMap((a) => (a === 'pop' ? POP_FILMS : a === 'noir' ? FILMS : a === 'cine' ? CINE_FILMS : a === 'print' ? PRINT_FILMS : a === 'takes' ? TAKE_FILMS : a === 'record' ? RECORD_FILMS : a === 'files' ? FILE_FILMS : a === 'truth' ? TRUTH_FILMS : a === 'library' ? LIBRARY_FILMS : a === 'signal' ? SIGNAL_FILMS : [a]));
+  const ids = !args.length ? [...FILMS, ...POP_FILMS, ...CINE_FILMS] : args.flatMap((a) => (a === 'pop' ? POP_FILMS : a === 'noir' ? FILMS : a === 'cine' ? CINE_FILMS : a === 'print' ? PRINT_FILMS : a === 'takes' ? TAKE_FILMS : a === 'record' ? RECORD_FILMS : a === 'files' ? FILE_FILMS : a === 'truth' ? TRUTH_FILMS : a === 'library' ? LIBRARY_FILMS : a === 'signal' ? SIGNAL_FILMS : a === 'abstract' ? ABSTRACT_FILMS : [a]));
   try {
     for (const id of ids) await renderFilm(browser, id);
   } finally {
