@@ -196,6 +196,28 @@ and for people who read.
 
 ---
 
+## Signal: generative light, set to music (`out/signal/`)
+
+Five thousand particles of light drift as a nebula, gather into a sign, get
+pulled into a vortex on the build, burst on the drop and snap into a new sign on
+every bar, breathing with the kick — then become Plutto's ring. Each film is a
+real 15 s song written in `sound.js` (supersaws, vocal chops, 808 slides,
+mallets, hand drums, a pumping bus); the picture reads its kicks off the same
+cue list, so every pulse lands on the beat. **Post with original audio** — the
+music is the point. Built for Reels/TikTok reach and ads; also loops well as a
+story background.
+
+| № | File | Sound | Signs | Caption |
+|---|---|---|---|---|
+| 01 | `plutto-signal-signs.mp4` | House, 120 bpm, F minor | eye → I Ching hexagram → moon → Saturn | For 5,000 years we read the signs. Now they answer. 🔊 |
+| 02 | `plutto-signal-orbit.mp4` | Trap, 140 bpm, C minor | sun → 12 houses → 8-point star → galaxy | Your chart isn't a horoscope. It's the sky the second you arrived. 🔊 |
+| 03 | `plutto-signal-bloom.mp4` | Afro house, 122 bpm, A minor | lotus → नमस्ते → مرحبا → こんにちは | Ask anything, in your own words — in 109 languages. 🔊 |
+
+"Free" is on the end card of 02 and 03 only. **Tags:** #visualart #generativeart
+#astrology #spirituality #musicvisualizer, plus #iching / #zodiac / #languages.
+
+---
+
 ## The library: every tradition, one place (`out/library/`)
 
 Plutto as what it is — the library of every way humankind has asked what comes

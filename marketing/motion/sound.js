@@ -359,4 +359,123 @@ class Kit {
     this.noise(t, t + 0.05).connect(this.filt('bandpass', del ? 1900 : 2600 + this.R() * 1600, 3)).connect(this.env(t, { a: 0.001, peak: g, d: 0.025 })).connect(this.out);
     this.osc('sine', del ? 120 : 160, t, t + 0.06).connect(this.env(t, { a: 0.001, peak: g * 0.35, d: 0.03 })).connect(this.out);
   }
+
+  // ── music (the Signal series) ────────────────────────────────────────────
+  // Songs, not cues: melodic instruments go through a music bus that pumps
+  // with the kick (`pump`), with a ping-pong delay at the song's tempo. A song
+  // starts with { i: 'tempo', bpm } so the delay knows the beat.
+  tempo({ bpm = 120 }) {
+    this.bpm = bpm;
+    this.duck = this.gain(1);
+    this.mus = this.gain(0.6);
+    this.mus.connect(this.duck).connect(this.out);
+    const L = this.ctx.createDelay(2), R = this.ctx.createDelay(2), fb = this.gain(0.38), lp = this.filt('lowpass', 3600, 0.5), hp = this.filt('highpass', 300);
+    L.delayTime.value = R.delayTime.value = (60 / bpm) * 0.75;
+    this.echoIn = this.gain(1);
+    this.echoIn.connect(hp).connect(L);
+    L.connect(this.pan(-0.7)).connect(this.duck);
+    L.connect(R); R.connect(this.pan(0.7)).connect(this.duck);
+    R.connect(lp).connect(fb).connect(L);
+  }
+  /** Sidechain: the music bus ducks on every beat from t to end and swells back. */
+  pump({ t, end, bpm = this.bpm || 120, depth = 0.55 }) {
+    const g = this.duck.gain, b = 60 / bpm;
+    for (let x = t; x < end - 0.01; x += b) { g.setTargetAtTime(1 - depth, x, 0.003); g.setTargetAtTime(1, x + 0.03, b * 0.18); }
+    g.setTargetAtTime(1, end, 0.02);
+  }
+  out_(w, verb, echo) { w.connect(this.mus || this.out); if (verb) this.send(w, verb); if (echo && this.echoIn) w.connect(this.gain(echo)).connect(this.echoIn); }
+  /** A supersaw: seven detuned saws per note through a filter that snaps open. One note is a lead; ns is a chord or a stab. */
+  saw({ t, n = 72, ns, dur = 0.25, g = 0.3, cut = 3200, env = 2.4, q = 1.2, a = 0.004, rel = 0.18, spread = 1, verb = 0.25, echo = 0, oct = false }) {
+    const notes = ns || [n], end = t + dur + rel + 0.05, lp = this.filt('lowpass', cut, q);
+    lp.frequency.setValueAtTime(cut * 0.3, t); lp.frequency.exponentialRampToValueAtTime(Math.min(15000, cut * env), t + Math.max(0.01, a)); lp.frequency.exponentialRampToValueAtTime(cut, t + Math.max(0.06, dur * 0.7));
+    const pk = g / (2.4 * Math.sqrt(notes.length)), e = this.ctx.createGain();
+    e.gain.setValueAtTime(0, t); e.gain.linearRampToValueAtTime(pk, t + a); e.gain.setValueAtTime(pk, t + Math.max(a, dur)); e.gain.exponentialRampToValueAtTime(0.0001, t + dur + rel);
+    notes.forEach((nn) => [-26, -15, -6, 0, 6, 15, 26].forEach((d, i) => {
+      const s = this.osc('sawtooth', hz(nn), t, end); s.detune.value = d * spread; s.connect(this.pan(((i - 3) / 3) * 0.8 * spread)).connect(lp);
+      if (oct && i === 3) this.osc('sawtooth', hz(nn - 12), t, end).connect(this.gain(0.6)).connect(lp);
+    }));
+    this.out_(lp.connect(e), verb, echo);
+  }
+  /** One subtractive voice with a filter envelope — arps, plucks, leads. */
+  synth({ t, n = 72, dur = 0.15, g = 0.25, wave = 'sawtooth', cut = 1400, env = 4, q = 5, rel = 0.12, verb = 0.15, echo = 0, det = 7 }) {
+    const end = t + dur + rel + 0.05, lp = this.filt('lowpass', cut, q);
+    lp.frequency.setValueAtTime(Math.min(15000, cut * env), t); lp.frequency.exponentialRampToValueAtTime(cut, t + Math.max(0.04, dur * 0.8));
+    [-det, det].forEach((d) => { const s = this.osc(wave, hz(n), t, end); s.detune.value = d; s.connect(lp); });
+    const e = this.ctx.createGain(); e.gain.setValueAtTime(0, t); e.gain.linearRampToValueAtTime(g * 0.5, t + 0.003); e.gain.setValueAtTime(g * 0.5, t + dur); e.gain.exponentialRampToValueAtTime(0.0001, t + dur + rel);
+    this.out_(lp.connect(e), verb, echo);
+  }
+  /** A sung vowel — vocal chops: a saw and a pulse through three formant bands, with vibrato and a scoop up into the note. */
+  chop({ t, n = 72, dur = 0.2, g = 0.3, vowel = 'a', verb = 0.3, echo = 0.3, scoop = 1 }) {
+    const F = { a: [800, 1150, 2900], o: [450, 800, 2830], e: [400, 1700, 2600], u: [325, 700, 2530], i: [300, 2200, 3000] }[vowel];
+    const f = hz(n), end = t + dur + 0.15;
+    const src = this.gain(1);
+    [['sawtooth', 0], ['square', 7]].forEach(([w, d]) => {
+      const o = this.osc(w, f * Math.pow(2, -scoop / 12), t, end); o.frequency.exponentialRampToValueAtTime(f, t + 0.05); o.detune.value = d;
+      const v = this.osc('sine', 5.6, t, end); v.connect(this.gain(9)).connect(o.detune);
+      o.connect(src);
+    });
+    const sum = this.gain(1);
+    F.forEach((ff, i) => src.connect(this.filt('bandpass', ff, 9 + i * 3)).connect(this.gain([1, 0.55, 0.22][i] * 3)).connect(sum));
+    const e = this.ctx.createGain(); e.gain.setValueAtTime(0, t); e.gain.linearRampToValueAtTime(g, t + 0.012); e.gain.setValueAtTime(g, t + dur); e.gain.exponentialRampToValueAtTime(0.0001, t + dur + 0.1);
+    this.out_(sum.connect(e), verb, echo);
+  }
+  /** A choir pad: vowels sung on a chord, slow in and out. */
+  choir({ t, end, ns = [57, 60, 64], g = 0.2, vowel = 'a', verb = 0.6 }) {
+    const F = { a: [800, 1150, 2900], o: [450, 800, 2830], u: [325, 700, 2530] }[vowel];
+    const src = this.gain(1);
+    ns.forEach((n) => [-9, 0, 9].forEach((d) => { const o = this.osc('sawtooth', hz(n), t, end + 1.6); o.detune.value = d; const v = this.osc('sine', 4.8 + this.R(), t, end + 1.6); v.connect(this.gain(6)).connect(o.detune); o.connect(src); }));
+    const sum = this.gain(1);
+    F.forEach((ff, i) => src.connect(this.filt('bandpass', ff, 6)).connect(this.gain([1, 0.5, 0.2][i] * 2)).connect(sum));
+    const e = this.ctx.createGain(), a = Math.min(1.2, (end - t) / 3);
+    e.gain.setValueAtTime(0, t); e.gain.linearRampToValueAtTime(g / ns.length, t + a); e.gain.setValueAtTime(g / ns.length, end); e.gain.linearRampToValueAtTime(0, end + 1.4);
+    this.out_(sum.connect(e), verb, 0);
+  }
+  /** A house sub: a clean sine with an octave of grit so a phone speaker hears the line. */
+  subb({ t, n = 41, dur = 0.2, g = 0.7 }) {
+    const end = t + dur + 0.08, e = this.ctx.createGain();
+    e.gain.setValueAtTime(0, t); e.gain.linearRampToValueAtTime(g, t + 0.006); e.gain.setValueAtTime(g, t + dur); e.gain.linearRampToValueAtTime(0, t + dur + 0.05);
+    this.osc('sine', hz(n), t, end).connect(e);
+    this.osc('sawtooth', hz(n + 12), t, end).connect(this.filt('lowpass', 520, 2)).connect(this.gain(0.28)).connect(e);
+    e.connect(this.sub);
+  }
+  /** An 808 that slides: n, then a glide to `to` at `at` (seconds after t). */
+  eight({ t, n = 36, dur = 0.8, g = 0.9, to, at = 0.5 }) {
+    const f = hz(n), end = t + dur + 0.1;
+    const o = this.osc('sine', f * 2.2, t, end); o.frequency.exponentialRampToValueAtTime(f, t + 0.04);
+    if (to !== undefined) { o.frequency.setValueAtTime(f, t + at); o.frequency.exponentialRampToValueAtTime(hz(to), t + at + 0.09); }
+    const e = this.env(t, { a: 0.003, peak: g, hold: dur * 0.6, d: dur * 0.4 });
+    const w = o.connect(this.shaper(2)).connect(e); w.connect(this.sub);
+    const h = this.osc('triangle', f * 2, t, end); if (to !== undefined) { h.frequency.setValueAtTime(f * 2, t + at); h.frequency.exponentialRampToValueAtTime(hz(to) * 2, t + at + 0.09); }
+    h.connect(this.env(t, { a: 0.003, peak: 0.1 * g, hold: dur * 0.4, d: dur * 0.5 })).connect(this.sub);
+  }
+  /** A mallet — marimba-ish: a sine, its fourth partial, a soft knock. */
+  mallet({ t, n = 72, g = 0.3, d = 0.5, verb = 0.2, echo = 0 }) {
+    const f = hz(n), w = this.gain(1);
+    this.osc('sine', f, t, t + d + 0.1).connect(this.env(t, { a: 0.002, peak: g, d })).connect(w);
+    this.osc('sine', f * 3.98, t, t + 0.2).connect(this.env(t, { a: 0.001, peak: g * 0.35, d: 0.08 })).connect(w);
+    this.noise(t, t + 0.03).connect(this.filt('bandpass', f * 2, 2)).connect(this.env(t, { a: 0.001, peak: g * 0.3, d: 0.015 })).connect(w);
+    this.out_(w, verb, echo);
+  }
+  /** A tuned hand drum; `slap` for the open, cracking hit. */
+  conga({ t, f = 210, g = 0.5, slap = false, p = 0 }) {
+    const o = this.osc('sine', f * 1.5, t, t + 0.5); o.frequency.exponentialRampToValueAtTime(f, t + 0.02);
+    o.connect(this.env(t, { a: 0.002, peak: g, d: slap ? 0.12 : 0.28 })).connect(this.pan(p)).connect(this.drums);
+    this.noise(t, t + 0.06).connect(this.filt('bandpass', slap ? 2600 : 900, 1.2)).connect(this.env(t, { a: 0.001, peak: g * (slap ? 0.6 : 0.2), d: 0.03 })).connect(this.pan(p)).connect(this.drums);
+  }
+  crash({ t, g = 0.35, d = 1.8 }) {
+    const n = this.noise(t, t + d + 0.1).connect(this.filt('highpass', 4200)).connect(this.env(t, { a: 0.002, peak: g, d })); n.connect(this.drums); this.send(n, 0.35);
+  }
+  shaker({ t, g = 0.1, p = 0.2 }) {
+    this.noise(t, t + 0.12).connect(this.filt('bandpass', 6500, 1.2)).connect(this.env(t, { a: 0.012, peak: g, d: 0.05 })).connect(this.pan(p)).connect(this.drums);
+  }
+  rim({ t, g = 0.3, p = 0 }) {
+    this.osc('sine', 1650, t, t + 0.05).connect(this.env(t, { a: 0.001, peak: g, d: 0.02 })).connect(this.pan(p)).connect(this.drums);
+    this.noise(t, t + 0.03).connect(this.filt('bandpass', 3400, 3)).connect(this.env(t, { a: 0.001, peak: g * 0.6, d: 0.012 })).connect(this.pan(p)).connect(this.drums);
+  }
+  /** A downlifter: noise and a sine falling away after a drop. */
+  fall({ t, dur = 1.6, g = 0.3 }) {
+    const bp = this.filt('bandpass', 7000, 1.5); bp.frequency.setValueAtTime(7000, t); bp.frequency.exponentialRampToValueAtTime(220, t + dur);
+    const e = this.env(t, { a: 0.01, peak: g, d: dur }); const n = this.noise(t, t + dur + 0.1).connect(bp).connect(e); n.connect(this.out); this.send(n, 0.4);
+    const o = this.osc('sine', 900, t, t + dur); o.frequency.exponentialRampToValueAtTime(70, t + dur); o.connect(this.env(t, { a: 0.01, peak: g * 0.35, d: dur })).connect(this.out);
+  }
 }
