@@ -59,7 +59,7 @@ function song() {
 export default signal({
   duration: 15,
   end: END,
-  poster: G.t(4, 1),
+  poster: G.t(4, 3),
   palette: ['#38e1ff', '#9b6bff', '#ff4fd8', 'rgba(70,40,190,0.55)', 'rgba(0,140,190,0.4)'],
   keys: [
     { t: 0, s: 'cloud' },
