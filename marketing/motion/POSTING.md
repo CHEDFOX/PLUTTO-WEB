@@ -196,6 +196,33 @@ and for people who read.
 
 ---
 
+## The library: every tradition, one place (`out/library/`)
+
+Plutto as what it is — the library of every way humankind has asked what comes
+next. A reading room at night: cloth-bound spines under a lamp (one per
+tradition in `app/lib/atlas.json`, coloured by region), a card catalogue, museum
+plates, script on old paper. Serif and quiet, the opposite of Pop — use it for
+the brand, the pinned post and premium placements. 14–17 s, own soundtrack (felt
+piano, pad, soft taiko; post as original audio). The 4:5 feed poster is
+`posters/plutto-library-*-feed.jpg`. "Free" is said in 02 and 05 only.
+
+| № | File | What it shows | Caption |
+|---|---|---|---|
+| 01 | `plutto-library-shelves.mp4` | Every tradition as a spine; "Every way humankind has asked what comes next — all of it, on one shelf." Counts to 102. | Every way humankind has ever asked what comes next. One library. |
+| 02 | `plutto-library-catalogue.mp4` | A card catalogue flicks through the atlas and lands on Mérìndínlógún (sixteen cowries, Ile-Ife). "Look it up. Then ask it." | 102 traditions, each with its own card. Free to open. |
+| 03 | `plutto-library-question.mp4` | "Will it work out?" put to I Ching, runes, ogham, tarot, geomancy and Lenormand, hung as plates. | One question. 102 ways to ask it. Which would you pick? ↓ |
+| 04 | `plutto-library-scripts.mp4` | The words for fate in the scripts that first wrote them (ankh, nam·tar, 卜, jyotiṣa, goral, gnōthi, ogam, wyrd, qisma); the page turns: "Read in yours." | Written in every alphabet. Ask in yours — 109 languages. |
+| 05 | `plutto-library-librarian.mp4` | The app in front of the shelves: "A librarian who has read every book." | Ask the library anything. Free to start. |
+
+**Dates on the plates** are the age of each system, rounded and marked c.: I Ching
+(Western Zhou, c. 1000 BCE), Elder Futhark (earliest inscriptions c. 150 CE),
+ogham (c. 400 CE), tarot (Italian cards, 1400s), geomancy (ʿilm al-raml, c. 900
+CE), Lenormand (*Das Spiel der Hoffnung*, 1799). **Tags:** #divination #tarot
+#iching #runes #astrology #spirituality #library. **Order:** 01 first and pinned,
+then 03, 05, 02, 04.
+
+---
+
 ## Cinema (`out/cine/plutto-cine-*.mp4`)
 
 Five films, 14–16 s each, 1080×1920, H.264 + AAC. **Each has its own
