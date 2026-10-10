@@ -1,0 +1,65 @@
+{
+ "exchanges": [
+  {
+   "q": "is my ex coming back? yes or no",
+   "a": "No. Not the version you miss. But someone from your past tests the door near the next full moon, and you'll want to answer. Don't text tonight. Wait for that night, and decide with a clear head.",
+   "hooks": [
+    {
+     "label": "When is the full moon?",
+     "action": {
+      "type": "open_feature",
+      "target": "talk_moons"
+     }
+    }
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "do": "wait",
+   "ms": 900
+  },
+  {
+   "do": "ask"
+  },
+  {
+   "do": "wait",
+   "ms": 2200
+  },
+  {
+   "do": "tap",
+   "text": "When is the full moon?",
+   "mark": "chip"
+  },
+  {
+   "do": "waitText",
+   "text": "Moon nights",
+   "mark": "room"
+  },
+  {
+   "do": "wait",
+   "ms": 2600
+  },
+  {
+   "do": "scroll",
+   "dy": 640,
+   "slow": 22,
+   "mark": "next"
+  },
+  {
+   "do": "wait",
+   "ms": 1800
+  },
+  {
+   "do": "tap",
+   "text": "Knock on the night",
+   "mark": "knock",
+   "pick": "first"
+  },
+  {
+   "do": "wait",
+   "ms": 2400
+  }
+ ],
+ "name": "ask-ex"
+}

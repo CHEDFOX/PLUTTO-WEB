@@ -1,0 +1,56 @@
+{
+ "exchanges": [
+  {
+   "q": "should i quit my job without a plan?",
+   "a": "No. Quit with a date, not a mood. You're restless because something is ending, not because you're ready yet. 4 November starts a year for rest, foreign places and letting go. Leave inside it, with savings. Still torn? Throw the shells.",
+   "hooks": [
+    {
+     "label": "Ask the shells",
+     "action": {
+      "type": "open_feature",
+      "target": "talk_shells"
+     }
+    }
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "do": "wait",
+   "ms": 900
+  },
+  {
+   "do": "ask"
+  },
+  {
+   "do": "wait",
+   "ms": 2200
+  },
+  {
+   "do": "tap",
+   "text": "Ask the shells",
+   "mark": "chip"
+  },
+  {
+   "do": "waitText",
+   "text": "Throw",
+   "mark": "room"
+  },
+  {
+   "do": "wait",
+   "ms": 2400
+  },
+  {
+   "do": "tap",
+   "text": "Throw",
+   "exact": true,
+   "mark": "throw",
+   "pick": "first"
+  },
+  {
+   "do": "wait",
+   "ms": 3600
+  }
+ ],
+ "name": "ask-quit"
+}

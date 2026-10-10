@@ -1,0 +1,65 @@
+{
+ "exchanges": [
+  {
+   "q": "be honest. am i the toxic one in this relationship?",
+   "a": "Sometimes, yes. Not the way he says it, though. You don't shout. You leave first, in your head, weeks before you leave the room, so nobody gets the chance to leave you. That's the thing to work on, not him. I can show you where it comes from.",
+   "hooks": [
+    {
+     "label": "Three things about you",
+     "action": {
+      "type": "open_feature",
+      "target": "talk_mirror"
+     }
+    }
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "do": "wait",
+   "ms": 900
+  },
+  {
+   "do": "ask"
+  },
+  {
+   "do": "wait",
+   "ms": 2200
+  },
+  {
+   "do": "tap",
+   "text": "Three things about you",
+   "mark": "chip"
+  },
+  {
+   "do": "waitText",
+   "text": "Three things. Tell me if I'm wrong.",
+   "mark": "room"
+  },
+  {
+   "do": "wait",
+   "ms": 2600
+  },
+  {
+   "do": "scroll",
+   "dy": 560,
+   "slow": 22,
+   "mark": "line1"
+  },
+  {
+   "do": "wait",
+   "ms": 2200
+  },
+  {
+   "do": "tap",
+   "text": "That's me",
+   "mark": "thatsme",
+   "pick": "first"
+  },
+  {
+   "do": "wait",
+   "ms": 2400
+  }
+ ],
+ "name": "ask-toxic"
+}

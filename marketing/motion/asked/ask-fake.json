@@ -1,0 +1,65 @@
+{
+ "exchanges": [
+  {
+   "q": "be real. is astrology fake?",
+   "a": "Most of what you've seen is. A horoscope written for a twelfth of the planet can't know you. A chart cast to the minute you were born can, so I keep score, out loud. When I get one wrong, mark it wrong.",
+   "hooks": [
+    {
+     "label": "Show me the score",
+     "action": {
+      "type": "open_feature",
+      "target": "talk_receipts"
+     }
+    }
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "do": "wait",
+   "ms": 900
+  },
+  {
+   "do": "ask"
+  },
+  {
+   "do": "wait",
+   "ms": 2200
+  },
+  {
+   "do": "tap",
+   "text": "Show me the score",
+   "mark": "chip"
+  },
+  {
+   "do": "waitText",
+   "text": "Receipts",
+   "mark": "room"
+  },
+  {
+   "do": "wait",
+   "ms": 2600
+  },
+  {
+   "do": "scroll",
+   "dy": 420,
+   "slow": 22,
+   "mark": "first"
+  },
+  {
+   "do": "wait",
+   "ms": 1600
+  },
+  {
+   "do": "tap",
+   "text": "It happened",
+   "mark": "happened",
+   "pick": "first"
+  },
+  {
+   "do": "wait",
+   "ms": 2600
+  }
+ ],
+ "name": "ask-fake"
+}

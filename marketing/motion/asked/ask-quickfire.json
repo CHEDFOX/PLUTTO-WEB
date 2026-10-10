@@ -1,0 +1,59 @@
+{
+ "exchanges": [
+  {
+   "q": "what's my toxic trait?",
+   "a": "You test people instead of asking them. Then you call it proof when they fail a test they never knew they were taking.",
+   "think": 1100
+  },
+  {
+   "q": "will i be rich?",
+   "a": "Comfortable, not flashy, and later than you'd like. Your money comes from being trusted with other people's problems. Start charging for it.",
+   "think": 1100
+  },
+  {
+   "q": "should i text him?",
+   "a": "Not tonight. Tonight you want an answer, not him.",
+   "think": 1100,
+   "hooks": [
+    {
+     "label": "Something you don't want to hear",
+     "action": {
+      "type": "open_feature",
+      "target": "talk_mirror"
+     }
+    }
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "do": "wait",
+   "ms": 700
+  },
+  {
+   "do": "ask",
+   "delay": 45
+  },
+  {
+   "do": "wait",
+   "ms": 1600
+  },
+  {
+   "do": "ask",
+   "delay": 45
+  },
+  {
+   "do": "wait",
+   "ms": 1600
+  },
+  {
+   "do": "ask",
+   "delay": 45
+  },
+  {
+   "do": "wait",
+   "ms": 2600
+  }
+ ],
+ "name": "ask-quickfire"
+}

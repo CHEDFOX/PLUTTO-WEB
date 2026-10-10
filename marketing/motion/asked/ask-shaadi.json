@@ -1,0 +1,65 @@
+{
+ "exchanges": [
+  {
+   "q": "yaar sach batao, meri shaadi kab hogi?",
+   "a": "Sach? Itni jaldi nahi, aur yeh achhi baat hai. Abhi tum kisi ko impress karne ke mood mein ho, kisi ke saath rehne ke nahi. 2027 mein jo rishta aayega woh dosti se shuru hoga, usko halke mein mat lena. Dates yeh rahi.",
+   "hooks": [
+    {
+     "label": "Mere aane wale din",
+     "action": {
+      "type": "open_feature",
+      "target": "talk_coming"
+     }
+    }
+   ]
+  }
+ ],
+ "steps": [
+  {
+   "do": "wait",
+   "ms": 900
+  },
+  {
+   "do": "ask"
+  },
+  {
+   "do": "wait",
+   "ms": 2200
+  },
+  {
+   "do": "tap",
+   "text": "Mere aane wale din",
+   "mark": "chip"
+  },
+  {
+   "do": "waitText",
+   "text": "Dates, not vibes",
+   "mark": "room"
+  },
+  {
+   "do": "wait",
+   "ms": 3000
+  },
+  {
+   "do": "scroll",
+   "dy": 900,
+   "slow": 26,
+   "mark": "dates"
+  },
+  {
+   "do": "wait",
+   "ms": 1800
+  },
+  {
+   "do": "tap",
+   "text": "Remind me",
+   "mark": "remind",
+   "pick": "first"
+  },
+  {
+   "do": "wait",
+   "ms": 2400
+  }
+ ],
+ "name": "ask-shaadi"
+}
