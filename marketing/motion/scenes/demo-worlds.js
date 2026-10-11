@@ -136,7 +136,7 @@ export default {
       if (w === 'bauhaus') c.push({ i: 'rim', t: t + BEAT / 2, g: 0.2 }, { i: 'mallet', t: t + BEAT / 4, n: n, g: 0.14, d: 0.3 });
       if (w === 'comic') c.push({ i: 'saw', t: t + BEAT / 2, ns: CHD[chd(t)].map((x) => x + 12), dur: 0.09, cut: 3000, env: 3, g: 0.24 });
     }
-    W.forEach((_, i) => { const t = C0 + i * CH; c.push({ i: 'whoosh', t: t - 0.2, dur: 0.28, g: 0.3 }, { i: 'hit', t, g: 0.4 }, { i: 'crash', t, g: 0.22 }); });
+    W.forEach((_, i) => { const t = C0 + i * CH; if (i) c.push({ i: 'whoosh', t: t - 0.2, dur: 0.28, g: 0.3 }); c.push({ i: 'whoosh', t: Math.max(0, t), dur: 0.28, g: 0.3 }, { i: 'hit', t, g: 0.4 }, { i: 'crash', t, g: 0.22 }); });
     c.push({ i: 'riser', t: END - 1.4, end: END, g: 0.3 }, { i: 'boom', t: END, g: 0.8 }, { i: 'sting', t: END + 0.05, g: 0.8 });
     c.push({ i: 'saw', t: END, ns: [57, 60, 64, 69], dur: 2.4, a: 0.02, rel: 1.4, cut: 1500, env: 1.6, g: 0.34, verb: 0.6 }, { i: 'pad', t: END, end: DUR, ns: [57, 64, 69], g: 0.07, bright: 1300 });
     return c;
