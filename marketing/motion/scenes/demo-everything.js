@@ -22,8 +22,8 @@ const F = [
   ['when', 1.0, 1.6, 'Starts with', 'one minute.', 'your birth', 0],
   ['tour-home', 0.0, 1, 'A line for', 'your day.', 'every morning', 0],
   ['tour-home', 2.2, 0.4, 'The hour not to', 'sign anything.', 'to the minute', 0],
-  ['feat-chart', 10.6, 1.3, 'Your chart,', 'drawn live.', 'nine grahas', 0],
-  ['feat-dashas', 11.2, 1.3, 'Your life in', 'chapters.', 'dashas', 0],
+  ['feat-chart', 10.6, 1.3, 'Your sky,', 'drawn live.', 'the minute you arrived', 0],
+  ['feat-dashas', 11.2, 1.3, 'Your life in', 'chapters.', 'what era you’re in', 0],
   ['feat-solar', 11.0, 1.3, 'Every planet’s', 'pull.', 'the solar system', 0],
   ['tarot', 5.2, 1.3, 'Draw a', 'card.', 'tarot', 0],
   ['ask-quit', 13.7, 1, 'Throw the', 'shells.', 'Yoruba cowries', 1],
@@ -83,12 +83,12 @@ export default {
     S.count = el('div', 'abs', { right: '72px', top: '120px', font: '500 25px/1 Mono', letterSpacing: '0.2em', color: 'rgba(245,238,222,0.55)' }, top);
     S.h1 = el('div', 'abs', { left: '72px', width: '936px', top: '176px', font: '800 104px/1.0 Inter', letterSpacing: '-0.05em', color: CREAM }, top);
     S.h2 = el('div', 'abs', { left: '72px', width: '936px', top: '284px', font: 'italic 500 124px/1.0 Cormorant', letterSpacing: '-0.01em', color: LAV }, top);
-    S.hook = ['Everything', 'your chart', 'can', 'do.'].map((w, i) => el('div', 'abs center', { top: `${470 + i * 230}px`, font: i === 3 ? 'italic 500 280px/1 Cormorant' : '900 180px/1 Inter',
+    S.hook = ['Every', 'oracle', 'ever', 'made.'].map((w, i) => el('div', 'abs center', { top: `${470 + i * 230}px`, font: i === 3 ? 'italic 500 280px/1 Cormorant' : '900 180px/1 Inter',
       letterSpacing: i === 3 ? '-0.02em' : '-0.055em', color: i === 3 ? LAV : CREAM, opacity: 0, zIndex: 30 }, stage, w));
     S.wallT = el('div', 'abs center', { top: '150px', font: '800 104px/1.02 Inter', letterSpacing: '-0.05em', color: CREAM, opacity: 0, zIndex: 30 }, stage, 'All of it.<br><span style="font:italic 500 124px Cormorant;color:' + LAV + '">One app.</span>');
     S.honest = honest(stage, { text: 'Real app · example replies', bottom: 90, color: 'rgba(245,238,222,0.7)', bg: 'rgba(255,255,255,0.06)', style: { fontSize: '22px' } });
     S.flash = el('div', 'layer', { background: CREAM, opacity: 0, zIndex: 38 }, stage);
-    S.end = ringEnd(stage, { from: { x: 540, y: 1000, d: 90, rgb: '201,184,255' }, line: 'Your chart.<br>Talks back.', cta: 'Ask yours · plutto.space', sub: 'Free to start · Android · Web' });
+    S.end = ringEnd(stage, { from: { x: 540, y: 1000, d: 90, rgb: '201,184,255' }, line: 'Ask the sky.<br>It answers.', cta: 'Ask yours · plutto.space', sub: 'Free to start · Android · Web' });
   },
 
   async frame(t) {

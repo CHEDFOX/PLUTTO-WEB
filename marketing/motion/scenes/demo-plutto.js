@@ -178,7 +178,7 @@ export default {
 
     // Type.
     const top = el('div', 'layer', { zIndex: 30 }, stage);
-    S.slams = ['YOUR', 'CHART', 'TALKS', 'BACK.'].map((w, i) => el('div', 'abs', { left: 0, right: 0, top: `${300 + i * 300}px`, textAlign: 'center', fontFamily: i === 3 ? 'Cormorant' : 'Inter',
+    S.slams = ['THE', 'SKY', 'TALKS', 'BACK.'].map((w, i) => el('div', 'abs', { left: 0, right: 0, top: `${300 + i * 300}px`, textAlign: 'center', fontFamily: i === 3 ? 'Cormorant' : 'Inter',
       fontStyle: i === 3 ? 'italic' : 'normal', fontWeight: i === 3 ? 500 : 900, fontSize: i === 3 ? '330px' : '290px', lineHeight: 1, letterSpacing: i === 3 ? '-0.02em' : '-0.055em',
       color: i === 3 ? LAV : CREAM, opacity: 0 }, top, w));
     S.heads = [
@@ -191,18 +191,18 @@ export default {
       [12.12, 14.25, 'Every answer / opens a *tool.*'],
       [14.45, 16.38, 'Throw the *shells.*'],
       [16.62, 18.15, 'Talks your / *language.*'],
-      [18.2, 19.15, 'Even *Hinglish.*'],
+      [18.2, 19.15, 'Hinglish? *Bilkul.*'],
       [19.2, 20.38, 'Dates, not *vibes.*'],
       [20.62, 23.38, 'It keeps *score.* / Out loud.'],
       [23.62, 25.9, 'And a whole sky / to *explore.*'],
-      [26.1, 27.7, 'One app. / Your whole *sky.*'],
+      [26.1, 27.7, 'Every oracle. / One *tap* away.'],
     ].map(([a, b, text]) => ({ a, b, h: headline(top, text) }));
     S.chap = el('div', 'abs', { left: '72px', top: '92px', fontFamily: 'Mono', fontWeight: 500, fontSize: '25px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(245,238,222,0.5)', zIndex: 30 }, stage);
     S.chapR = el('div', 'abs', { right: '72px', top: '92px', fontFamily: 'Mono', fontWeight: 500, fontSize: '25px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(245,238,222,0.5)', zIndex: 30 }, stage, 'Plutto · the app');
     S.honest = honest(stage, { text: 'Real app · example replies', bottom: 120, color: 'rgba(245,238,222,0.7)', bg: 'rgba(255,255,255,0.06)', style: { fontSize: '23px', border: '1px solid rgba(245,238,222,0.16)' } });
     S.ring = tapRing(stage, { color: CREAM, size: 120 });
     S.flash = el('div', 'layer', { background: CREAM, opacity: 0, zIndex: 38, pointerEvents: 'none' }, stage);
-    S.end = ringEnd(stage, { from: { x: 540, y: 1000, d: 90, rgb: '201,184,255' }, line: 'Your chart.<br>Talks back.', cta: 'Ask yours · plutto.space', sub: 'Free to start · Android · Web' });
+    S.end = ringEnd(stage, { from: { x: 540, y: 1000, d: 90, rgb: '201,184,255' }, line: 'Ask the sky.<br>It answers.', cta: 'Ask yours · plutto.space', sub: 'Free to start · Android · Web' });
   },
 
   async frame(t) {
