@@ -19,7 +19,7 @@
  *   · tap "It happened" 15.70 → "1 of 1 came true" 15.77.
  */
 import { el, prog, ease, lerp, clamp, rng, POP, spring, popBg, sticker, sparkle, marquee, popScore, footage } from '../lib.js';
-import { events, remap, honest, tapRing, pulse } from '../asked.js';
+import { events, remap, honest, pulse } from '../asked.js';
 
 const C = POP;
 const NS = 'http://www.w3.org/2000/svg';
@@ -94,6 +94,29 @@ function onStage(P, rx, ry) {
 
 let S = {};
 
+/**
+ * The tap, in the house line: a yellow ring with an ink edge inside and out and a
+ * hard shadow, over a press dot that squashes on contact. Fires at a, rides (x, y).
+ */
+function popRing(parent) {
+  const D = 176, box = el('div', 'abs', { left: 0, top: 0, width: `${D}px`, height: `${D}px`, zIndex: 36, opacity: 0, pointerEvents: 'none' }, parent);
+  const ring = el('div', 'abs', { left: 0, top: 0, width: `${D}px`, height: `${D}px`, borderRadius: '50%', boxSizing: 'border-box', border: `12px solid ${C.yellow}`,
+    boxShadow: `0 0 0 5px ${C.ink}, inset 0 0 0 5px ${C.ink}, 9px 9px 0 5px ${C.ink}` }, box);
+  const dot = el('div', 'abs', { left: `${D / 2 - 30}px`, top: `${D / 2 - 30}px`, width: '60px', height: '60px', borderRadius: '50%', boxSizing: 'border-box',
+    background: C.yellow, border: `5px solid ${C.ink}`, boxShadow: `6px 6px 0 ${C.ink}` }, box);
+  return (t, a, x, y) => {
+    const p = prog(t, a - 0.08, a + 0.62);
+    if (p <= 0 || p >= 1) { box.style.opacity = 0; return; }
+    box.style.opacity = 1;
+    box.style.transform = `translate(${x - D / 2}px, ${y - D / 2}px)`;
+    const q = prog(t, a, a + 0.62);
+    ring.style.opacity = q > 0 ? 1 - ease.inCubic(q) : 0;
+    ring.style.transform = `scale(${lerp(0.35, 1.25, ease.outCubic(q))})`;
+    const d = prog(t, a - 0.08, a + 0.4);   // the press: lands, squashes, lifts away
+    dot.style.transform = `scale(${d < 0.2 ? lerp(1.3, 0.85, d / 0.2) : lerp(0.85, 0, ease.inCubic(prog(d, 0.2, 1)))})`;
+  };
+}
+
 // ── type and stickers ───────────────────────────────────────────────────────
 // Tracking opens a little as the size drops, so the outlines of small slabs never fuse letter to letter.
 const slabCss = (size, color) => ({ position: 'absolute', left: 0, top: 0, fontFamily: 'Inter', fontWeight: 900, fontSize: `${size}px`, lineHeight: 1, letterSpacing: size >= 140 ? '-0.02em' : '0.03em',
@@ -129,7 +152,7 @@ function life(e, t, a, z, { x, y, r = 0, kind = 'slam', from = 1.9 }) {
   const p = prog(t, a, a + (kind === 'slam' ? 0.5 : 0.45));
   let s = kind === 'slam' ? lerp(from, 1, spring(p)) : spring(p);
   let rr = r + (1 - spring(p)) * (kind === 'slam' ? 0 : -10), yy = y, o = 1;
-  if (t > z) { const q = ease.inCubic(prog(t, z, z + 0.18)); s *= 1 - 0.85 * q; o = 1 - q; }   // out: shrinks away where it stood
+  if (t > z) { const q = ease.inCubic(prog(t, z, z + 0.18)); s *= 1 - 0.85 * q; o = q < 0.7 ? 1 : 0; }   // out: shrinks away where it stood, solid to the last (no see-through slabs)
   put(e, x, yy, s, rr, o);
   return 1;
 }
@@ -253,7 +276,7 @@ export default {
     S.series = el('div', 'abs', { ...rail, left: 0, top: 0, zIndex: 35, opacity: 0 }, stage, 'Asked Plutto');
     S.honest = honest(stage, { color: C.ink, bg: C.cream, style: { ...rail, top: '0px', bottom: 'auto', left: '0px' } });
     S.honestEl = stage.lastElementChild;
-    S.ring = tapRing(stage, { color: C.yellow, size: 150 });
+    S.ring = popRing(stage);
 
     // THE END CARD — violet, behind an iris that opens from the score.
     const end = el('div', 'layer', { zIndex: 39, background: C.violet, overflow: 'hidden', opacity: 0 }, stage);
@@ -327,7 +350,7 @@ export default {
     // ── THE PAYOFF, word by word as it streams ──
     const out = T.tap - 0.04;
     const rowY = [304, 404, 504];
-    S.rows.forEach((r, i) => { const q = ease.inCubic(prog(t, out + i * 0.03, out + 0.18 + i * 0.03)); put(r, 540, rowY[i], 1 - 0.85 * q, 0, t > wordA - 0.01 ? 1 - q : 0); });
+    S.rows.forEach((r, i) => { const q = ease.inCubic(prog(t, out + i * 0.03, out + 0.18 + i * 0.03)); put(r, 540, rowY[i], 1 - 0.85 * q, 0, t > wordA - 0.01 && q < 0.7 ? 1 : 0); });
     S.words.forEach((w, i) => {
       const prev = i > 0 && PAY[i - 1][1] === PAY[i][1];
       const a = filmAt(PAY[i][1] + 0.004) + (prev ? 0.07 : 0);

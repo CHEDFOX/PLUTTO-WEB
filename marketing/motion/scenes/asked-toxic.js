@@ -53,10 +53,12 @@ function slam(p) {
   const q = (p - 0.3) / 0.7, w = Math.sin(q * Math.PI * 2.5) * Math.pow(1 - q, 2) * 0.22;
   return [1 + w, 1 - w, 1];
 }
-/** Zip off upward (the exit). */
+/** Pop off in place (the exit): a little anticipation, then pinch to nothing — it never travels over the tag or into the platform rail. */
 function zip(e, q, extra = '') {
-  e.style.opacity = 1 - q;
-  e.style.transform = `${extra} translateY(${-q * 380}px) scale(${1 - q * 0.3}, ${1 + q * 0.6})`;
+  const k = q * q * (2.4 * q - 1.4);   // in-back: a small swell, then gone
+  const sx = Math.max(0, 1 - k), sy = Math.max(0, 1 - k * 0.6 + Math.sin(q * Math.PI) * 0.12);
+  e.style.opacity = q < 0.8 ? 1 : 1 - (q - 0.8) / 0.2;
+  e.style.transform = `${extra} scale(${sx.toFixed(3)}, ${sy.toFixed(3)})`;
 }
 function svg(parent, style, vb) {
   const s = document.createElementNS(NS, 'svg');
@@ -93,7 +95,7 @@ function wordRows(parent, rows, { size, top, gap }) {
   rows.forEach((row, i) => {
     const r = el('div', 'abs', { left: '72px', width: '936px', top: `${top + i * gap}px`, textAlign: 'center' }, parent);
     row.forEach(([w, fill], j) => {
-      const e = el('span', '', { display: 'inline-block', ...toon(fill, size), transformOrigin: '50% 85%', opacity: 0, marginRight: j < row.length - 1 ? '0.2em' : 0 }, r, w);
+      const e = el('span', '', { display: 'inline-block', ...toon(fill, size), transformOrigin: '50% 85%', opacity: 0, marginRight: j < row.length - 1 ? '0.26em' : 0 }, r, w);
       words.push(e);
     });
   });
@@ -102,7 +104,7 @@ function wordRows(parent, rows, { size, top, gap }) {
 const popWord = (e, t, a, out) => {
   if (t < a || t > out + 0.2) { e.style.opacity = 0; return; }
   if (t > out) { zip(e, prog(t, out, out + 0.2)); return; }
-  const [sx, sy] = squash(prog(t, a, a + 0.42), 0.5);
+  const [sx, sy] = squash(prog(t, a, a + 0.42), 0.36);
   e.style.opacity = 1; e.style.transform = `scale(${sx}, ${sy})`;
 };
 /** A doodle in Marker ("?!", "!!"), flat fill, outlined. */
@@ -399,7 +401,7 @@ export default {
 
     // ── the reply: the aside, then the payoff ──
     showBubble(S.aside1, t, T.freeze + 0.02, T.go - 0.06);
-    const outPay = T.tap - 0.16;
+    const outPay = T.tap - 0.36;   // gone before the chip's bubble pops
     const order = [0, 1, 2, 3, 4, 5];
     order.forEach((k) => popWord(S.pay[k], t, T.words[k], outPay + k * 0.02));
 

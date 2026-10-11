@@ -349,8 +349,9 @@ export default {
     S.loop(ease.inOutCubic(prog(t, T.circle, T.circle + 0.75)) * (1 - ease.inOutCubic(prog(t, 13.85, 14.2))));
     play(S.knockL, t, T.knockLine, T.out - 0.25);
     // Taps: a clay ring opening from the finger, and the touch itself.
-    [[T.chip, 0], [T.knock, 1]].forEach(([a, i]) => {
-      const q = prog(t, a, a + 0.7), { c } = S.rings[i];
+    // The chip's ring must be gone before the room replaces the chat (else it floats over the room's moon).
+    [[T.chip, 0, 0.46], [T.knock, 1, 0.7]].forEach(([a, i, len]) => {
+      const q = prog(t, a, a + len), { c } = S.rings[i];
       const on = q > 0 && q < 1;
       c.setAttribute('r', lerp(18, 62, ease.outCubic(q)));
       c.setAttribute('opacity', on ? 1 - ease.inCubic(q) : 0);
