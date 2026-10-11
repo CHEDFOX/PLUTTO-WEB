@@ -31,7 +31,7 @@ const W = [
     clip: ['ask-quickfire', 0.4, 0], k: 'Chapter 4 · Any language', a: 'Ask in', b: 'any language.', c: '', langs: true },
   { id: 'truck', bg: '#1E1650', ink: '#0B0820', fg: '#FFC20E', acc: '#E8262B', skin: 'paint',
     font: '400 150px/0.95 Anton', up: true, small: '700 64px/1.05 Hand',
-    clip: ['ask-shaadi', 4.0, 1.25], k: 'Chapter 5 · Your language', a: 'Hinglish?', b: 'Bilkul.', c: 'It answers in the language you asked in. 109 of them.', chat: true },
+    clip: ['ask-shaadi', 4.0, 1.25], k: 'Chapter 5 · Your language', a: 'Hinglish?', b: 'Bilkul.', c: 'It answers in the language you asked in.', chat: true },
   { id: 'riso', bg: '#F4EBDD', ink: '#2B3BBF', fg: '#FFF6E6', acc: '#FF4F9A', skin: 'paper',
     font: '400 150px/0.95 Anton', up: true, small: '700 60px/1.05 Hand',
     clip: ['ask-quit', 9.6, 1.3], k: 'Chapter 6 · What it opens', a: 'Answers', b: 'open tools.', c: 'Ask about the job, and sixteen shells get thrown.', chat: true },

@@ -18,7 +18,7 @@ const WALL = 34.0, END = 38.5;
 
 // [footage, from (s), rate, title, *word*, kicker, written reply on screen?]
 const F = [
-  ['language', 0.6, 1.2, 'Speaks', 'your language.', '109 languages', 0],
+  ['language', 0.6, 1.2, 'Speaks', 'your language.', 'any language', 0],
   ['when', 1.0, 1.6, 'Starts with', 'one minute.', 'your birth', 0],
   ['tour-home', 0.0, 1, 'A line for', 'your day.', 'every morning', 0],
   ['tour-home', 2.2, 0.4, 'The hour not to', 'sign anything.', 'to the minute', 0],
