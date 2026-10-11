@@ -47,7 +47,7 @@ export const ABSTRACT_FILMS = ['abstract-composition', 'abstract-temple', 'abstr
 // Asked Plutto: questions you'd never ask a friend, typed into the real app, each in its own art style (asked.js) — `node render.mjs asked`. Written to out/asked/.
 export const ASKED_FILMS = ['asked-toxic', 'asked-ex', 'asked-fake', 'asked-shaadi', 'asked-quit', 'asked-quickfire'];
 // The product demo: the whole app in thirty seconds, real screens in a phone (asked.js) — `node render.mjs demo`. Written to out/demo/.
-export const DEMO_FILMS = ['demo-plutto', 'edu-library', 'demo-everything'];
+export const DEMO_FILMS = ['demo-plutto', 'edu-library', 'demo-everything', 'demo-worlds'];
 
 const server = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1', '--directory', ROOT], { stdio: 'ignore' });
 const stop = () => server.kill();
