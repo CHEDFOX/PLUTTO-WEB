@@ -45,6 +45,9 @@ export default {
       ch.forEach((n, k) => c.push({ i: 'pluck', t: t + k * 0.29, n: n + 12, g: 0.09, dur: 3 }));
       c.push({ i: 'tom', t, f: 52, g: 0.26, verb: 0.7, d: 1.4 });
     }
+    const PEN = [69, 72, 74, 76, 79, 81, 84];
+    for (let i = 0; i < 102; i += 2) c.push({ i: 'pluck', t: A3 + 1.2 + i * 0.085, n: PEN[(i * 3) % 7] + 12, g: 0.035, dur: 1.6 });
+    c.push({ i: 'riser', t: 22.0, end: A4, g: 0.2 }, { i: 'boom', t: A4, g: 0.5 });
     // Act 4: a quiet pulse, piano on top.
     c.push({ i: 'bell', t: A4, n: 81, g: 0.1 });
     for (let t = A4, k = 0; t < A5 - 0.01; t += 0.5, k++) {
@@ -99,6 +102,10 @@ export default {
       const [f, cs] = SCRIPTS[Math.floor(RC() * SCRIPTS.length)], chars = [...cs];
       S.cells.push({ x: x + (Math.floor(y / 62) % 2) * 29, y, f, ch: chars[Math.floor(RC() * chars.length)], sz: 30 + RC() * 16, p: RC() * 6.28, w: RC() });
     }
+    S.world = await (await fetch('asked/world.json')).json();
+    // the order the lights come on: as the Earth turns them toward us
+    S.world.points.forEach((p) => { p.key = ((95 - p.lon) % 360 + 360) % 360 + (p.lat * 0.01); });
+    [...S.world.points].sort((a, b) => a.key - b.key).forEach((p, i) => { p.rank = i; });
     S.cv = el('canvas', 'layer', { zIndex: 0 }, stage); S.cv.width = 1080; S.cv.height = 1920; S.g = S.cv.getContext('2d');
     S.w3 = [[14.2, 16.6, 'Every century of it.'], [17.0, 19.5, 'Every tradition.<br>Every continent.'], [19.9, 22.2, 'Carved. Painted. Memorised.'], [22.5, A4 - 0.4, 'All of it.<br><i>In one place.</i>']].map(([a, b, h]) => ({ a, b, e: el('div', 'abs center', { top: '1560px',
       font: '500 78px/1.08 Cormorant', color: WHITE, opacity: 0, zIndex: 30 }, stage, h) }));
@@ -137,38 +144,83 @@ export default {
     // ── Act 2 ──
     S.w2.forEach(({ a, b, e }) => { const i = inout(t, a, b, 1.0, 0.5); e.style.opacity = i; e.style.filter = `blur(${(1 - ease.outCubic(prog(t, a, a + 1.0))) * 10}px)`; });
 
-    // ── Act 3: the wall of scripts ──
+    // ── Act 3: the world, lit where each tradition was set down ──
     const g = S.g; g.clearRect(0, 0, 1080, 1920);
-    if (t >= A3 - 0.5 && t < A5) {
-      const fade = ease.outCubic(prog(t, A3 - 0.5, A3 + 0.6)) * (1 - ease.inCubic(prog(t, A5 - 0.4, A5)));
-      const cx = 540, cy = 1000;
-      const zoom = lerp(1.35, 1.0, ease.inOutCubic(prog(t, A3, 22.5)));       // the camera pulls back
-      const wave = (t - A3) * 520;                                            // lit from the centre outward
-      const ring = ease.inOutCubic(prog(t, 22.3, A4));                         // then they gather into a ring
-      const pulse = Math.exp(-Math.pow((t - 19.9) * 3, 2));
-      g.textAlign = 'center'; g.textBaseline = 'middle';
-      for (const c of S.cells) {
-        const dx = (c.x - cx) * zoom, dy = (c.y - cy) * zoom, r = Math.hypot(dx, dy);
-        if (r > wave) continue;
-        const lit = ease.outCubic(Math.min(1, (wave - r) / 260));
-        const shimmer = 0.55 + 0.45 * Math.sin(t * 2.2 + c.p);
-        const onRing = Math.max(0, 1 - Math.abs(r - 330) / 70);
-        let a = lit * (0.16 + 0.5 * shimmer * c.w) * (1 - ring) + ring * onRing * (0.4 + 0.6 * shimmer);
-        a = Math.min(1, a + pulse * 0.4 * lit);
-        if (a < 0.02) continue;
-        const hot = c.w > 0.9 || (ring > 0.5 && onRing > 0.6);
-        g.globalAlpha = a * fade;
-        g.fillStyle = hot ? `rgb(${AMBER})` : WHITE;
-        g.font = `${(c.sz * zoom).toFixed(1)}px ${c.f}`;
-        g.fillText(c.ch, cx + dx, cy + dy);
+    if (t >= A3 - 0.3 && t < A5) {
+      const fade = ease.outCubic(prog(t, A3 - 0.3, A3 + 0.4)) * (1 - ease.inCubic(prog(t, A5 - 0.4, A5)));
+      const CX = 540, CY = 960, R = lerp(380, 450, ease.inOutCubic(prog(t, A3, 22.0)));
+      const lon0 = (95 - (t - A3) * 24) * Math.PI / 180, lat0 = 18 * Math.PI / 180;
+      const sl = Math.sin(lat0), cl = Math.cos(lat0);
+      const proj = (lat, lon) => {
+        const la = lat * Math.PI / 180, lo = lon * Math.PI / 180 - lon0;
+        const x = Math.cos(la) * Math.sin(lo), y = cl * Math.sin(la) - sl * Math.cos(la) * Math.cos(lo), z = sl * Math.sin(la) + cl * Math.cos(la) * Math.cos(lo);
+        return [CX + x * R, CY - y * R, z];
+      };
+      const conv = ease.inOutCubic(prog(t, 22.2, A4 + 0.2));              // everything gathers into one core
+      const dim = 1 - conv;
+      // the sphere: a faint body and a rim of light
+      const body = g.createRadialGradient(CX - R * 0.3, CY - R * 0.35, R * 0.1, CX, CY, R);
+      body.addColorStop(0, `rgba(40,34,30,${0.9 * fade * dim})`); body.addColorStop(1, `rgba(8,7,7,${0.95 * fade * dim})`);
+      g.fillStyle = body; g.beginPath(); g.arc(CX, CY, R, 0, 6.283); g.fill();
+      const rim = g.createRadialGradient(CX, CY, R * 0.92, CX, CY, R * 1.18);
+      rim.addColorStop(0, 'rgba(0,0,0,0)'); rim.addColorStop(0.35, `rgba(${AMBER},${0.22 * fade * dim})`); rim.addColorStop(1, 'rgba(0,0,0,0)');
+      g.fillStyle = rim; g.fillRect(CX - R * 1.3, CY - R * 1.3, R * 2.6, R * 2.6);
+      // graticule, very faint
+      g.strokeStyle = `rgba(242,238,230,${0.05 * fade * dim})`; g.lineWidth = 1;
+      for (let lo = -180; lo < 180; lo += 30) { g.beginPath(); let pen = false; for (let la = -90; la <= 90; la += 6) { const [x, y, z] = proj(la, lo); if (z > 0) { pen ? g.lineTo(x, y) : g.moveTo(x, y); pen = true; } else pen = false; } g.stroke(); }
+      // the coastlines draw themselves on
+      const draw = ease.inOutCubic(prog(t, A3 + 0.3, A3 + 3.2));
+      g.strokeStyle = `rgba(242,238,230,${0.55 * fade * dim})`; g.lineWidth = 1.4;
+      let k = 0, budget = Math.floor(S.world.xy.length / 2 * draw);
+      for (const n of S.world.rings) {
+        g.beginPath(); let pen = false;
+        for (let i = 0; i < n; i++, k++) {
+          if (k > budget) break;
+          const [x, y, z] = proj(S.world.xy[k * 2 + 1], S.world.xy[k * 2]);
+          if (z > 0.02) { pen ? g.lineTo(x, y) : g.moveTo(x, y); pen = true; } else pen = false;
+        }
+        g.stroke();
+        if (k > budget) break;
+        k += 0;
       }
+      // the lights: each tradition, at the place it was set down
+      const pts = S.world.points;
+      const labels = [];
+      g.save(); g.globalCompositeOperation = 'lighter';
+      pts.forEach((p, i) => {
+        const on = A3 + 1.2 + p.rank * 0.085;
+        if (t < on) return;
+        let [x, y, z] = proj(p.lat, p.lon);
+        const front = z > 0;
+        const age = t - on, flare = Math.exp(-age * 3);
+        // gathering: every light lifts off and flies to the core
+        if (conv > 0) { const q = ease.inOutCubic(Math.min(1, conv * (1.2 + (i % 7) * 0.06))); x = lerp(x, CX, q); y = lerp(y, CY, q) - Math.sin(q * Math.PI) * 140; }
+        const vis = front || conv > 0.2 ? 1 : 0.18;
+        const r = 3 + flare * 10;
+        const gl = g.createRadialGradient(x, y, 0, x, y, 22 + flare * 40);
+        gl.addColorStop(0, `rgba(255,230,190,${vis * fade})`); gl.addColorStop(0.25, `rgba(${AMBER},${0.55 * vis * fade})`); gl.addColorStop(1, 'rgba(0,0,0,0)');
+        g.fillStyle = gl; g.beginPath(); g.arc(x, y, 22 + flare * 40, 0, 6.283); g.fill();
+        g.fillStyle = `rgba(255,245,230,${vis * fade})`; g.beginPath(); g.arc(x, y, r * 0.5, 0, 6.283); g.fill();
+        if (front && age < 2.2 && conv === 0 && z > 0.45) labels.push({ p, x, y, a: inout(t, on, on + 1.6, 0.3, 0.5) });
+        // a ripple when it lights
+        if (age < 1.2 && front) { g.strokeStyle = `rgba(${AMBER},${(1 - age / 1.2) * 0.6 * fade})`; g.lineWidth = 1.5; g.beginPath(); g.arc(x, y, 8 + age * 60, 0, 6.283); g.stroke(); }
+      });
+      g.restore();
+      // a few names, where the eye is: place in mono, tradition in serif
+      const placed = [];
+      labels.sort((a, b) => b.p.rank - a.p.rank).filter((l) => { if (placed.some((q) => Math.hypot(q.x - l.x, q.y - l.y) < 150)) return false; placed.push(l); return placed.length <= 3; }).forEach(({ p, x, y, a }) => {
+        g.globalAlpha = a * fade; g.textAlign = 'left'; g.textBaseline = 'alphabetic';
+        g.strokeStyle = `rgba(${AMBER},0.6)`; g.lineWidth = 1; g.beginPath(); g.moveTo(x + 6, y - 6); g.lineTo(x + 46, y - 46); g.lineTo(x + 70, y - 46); g.stroke();
+        g.font = '500 20px Mono'; g.fillStyle = 'rgba(242,238,230,0.7)'; g.fillText(p.place.toUpperCase(), x + 78, y - 58);
+        g.font = 'italic 500 38px Cormorant'; g.fillStyle = WHITE; g.fillText(p.name.replace(/\s*\(.*\)/, ''), x + 78, y - 22);
+      });
       g.globalAlpha = 1;
-      const glow = g.createRadialGradient(cx, cy, 0, cx, cy, 700);
-      glow.addColorStop(0, `rgba(${AMBER},${(0.10 + 0.1 * ring) * fade})`); glow.addColorStop(1, 'rgba(0,0,0,0)');
-      g.fillStyle = glow; g.fillRect(0, 0, 1080, 1920);
-      // the text sits on a dark floor so it always reads
-      const fl = g.createLinearGradient(0, 1380, 0, 1920); fl.addColorStop(0, 'rgba(0,0,0,0)'); fl.addColorStop(0.35, `rgba(0,0,0,${0.85 * fade})`);
-      g.fillStyle = fl; g.fillRect(0, 1380, 1080, 540);
+      // the core
+      if (conv > 0) { const cg = g.createRadialGradient(CX, CY, 0, CX, CY, 520 * conv); cg.addColorStop(0, `rgba(255,240,220,${0.9 * conv * fade})`); cg.addColorStop(0.3, `rgba(${AMBER},${0.35 * conv * fade})`); cg.addColorStop(1, 'rgba(0,0,0,0)');
+        g.fillStyle = cg; g.fillRect(0, 0, 1080, 1920); }
+      // the floor under the lines
+      const fl = g.createLinearGradient(0, 1420, 0, 1920); fl.addColorStop(0, 'rgba(0,0,0,0)'); fl.addColorStop(0.4, `rgba(0,0,0,${0.9 * fade})`);
+      g.fillStyle = fl; g.fillRect(0, 1420, 1080, 500);
     }
     S.w3.forEach(({ a, b, e }) => { const i = inout(t, a, b, 0.9, 0.4); e.style.opacity = i; e.style.filter = `blur(${(1 - ease.outCubic(prog(t, a, a + 0.9))) * 8}px)`; });
 
