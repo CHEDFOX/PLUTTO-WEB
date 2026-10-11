@@ -19,10 +19,10 @@ const LANGS = [['English', 'will i be rich?'], ['हिन्दी', 'क्य
 const W = [
   { id: 'cartoon', bg: '#FF4545', ink: '#14102B', fg: '#FFF6E6', acc: '#FFC93C', skin: 'ink', body: '#FFC93C',
     font: '400 150px/0.95 Anton', up: true, small: '700 64px/1.05 Hand',
-    clip: ['tour-home', 0.0, 0.9], k: 'Chapter 1 · What is it', a: 'An oracle', b: 'that talks back.', c: 'Ask it anything. It answers you, not your star sign.' },
+    clip: ['tour-home', 0.0, 0.9], k: 'Chapter 1 · What is it', a: 'A sky', b: 'that talks back.', c: 'Ask it anything. It answers you, not your star sign.' },
   { id: 'editorial', bg: '#F3EEE3', ink: '#1C1A17', fg: '#1C1A17', acc: '#B5522F', skin: 'glass',
     font: '500 132px/0.98 Cormorant', up: false, small: 'italic 500 56px/1.15 Cormorant',
-    clip: ['feat-library', 11.4, 1.3], k: 'Chapter 2 · Where it comes from', a: 'Every culture', b: 'asked the sky.', c: 'Vedic, Yoruba cowries, Norse runes, Hafez, the Maya count: 102 traditions, one shelf.' },
+    clip: ['feat-library', 11.4, 1.3], k: 'Chapter 2 · Where it comes from', a: 'Every culture', b: 'asked the sky.', c: 'Vedic, Yoruba cowries, Norse runes, Hafez, the Maya count: every tradition, one shelf.' },
   { id: 'pop', bg: '#3355FF', ink: '#14102B', fg: '#FFFFFF', acc: '#FFE03D', skin: 'ink', body: '#FFFFFF',
     font: '400 160px/0.92 Anton', up: true, small: '800 52px/1.1 Inter',
     clip: ['ask-quickfire', 0.9, 1.6], k: 'Chapter 3 · How you use it', a: 'Type it.', b: 'Ask it.', c: 'The question you’d never ask a friend.', chat: true },

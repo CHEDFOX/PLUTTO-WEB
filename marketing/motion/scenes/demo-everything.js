@@ -28,12 +28,12 @@ const F = [
   ['tarot', 5.2, 1.3, 'Draw a', 'card.', 'tarot', 0],
   ['ask-quit', 13.7, 1, 'Throw the', 'shells.', 'Yoruba cowries', 1],
   ['voice', 1.0, 1, 'Say it', 'out loud.', 'voice', 0],
-  ['ask-quickfire', 3.2, 1.5, 'Ask', 'anything.', 'the oracle', 1],
+  ['ask-quickfire', 3.2, 1.5, 'Ask', 'anything.', 'just ask', 1],
   ['ask-shaadi', 12.1, 1, 'Dates,', 'not vibes.', 'what’s coming', 1],
   ['ask-fake', 15.0, 1, 'It keeps', 'score.', 'receipts', 1],
   ['feat-lives', 11.6, 1.3, 'Lives already', 'lived.', 'people like you', 0],
   ['tour-explore', 2.0, 6, 'Explore', 'it all.', 'explore', 0],
-  ['feat-library', 11.4, 1.3, 'The whole', 'library.', '102 traditions', 0],
+  ['feat-library', 11.4, 1.3, 'The whole', 'library.', 'every tradition', 0],
 ];
 // The wall: nine of them again, all at once.
 const WALLF = [6, 4, 7, 8, 2, 13, 11, 5, 15];
@@ -83,7 +83,7 @@ export default {
     S.count = el('div', 'abs', { right: '72px', top: '120px', font: '500 25px/1 Mono', letterSpacing: '0.2em', color: 'rgba(245,238,222,0.55)' }, top);
     S.h1 = el('div', 'abs', { left: '72px', width: '936px', top: '176px', font: '800 104px/1.0 Inter', letterSpacing: '-0.05em', color: CREAM }, top);
     S.h2 = el('div', 'abs', { left: '72px', width: '936px', top: '284px', font: 'italic 500 124px/1.0 Cormorant', letterSpacing: '-0.01em', color: LAV }, top);
-    S.hook = ['Every', 'oracle', 'ever', 'made.'].map((w, i) => el('div', 'abs center', { top: `${470 + i * 230}px`, font: i === 3 ? 'italic 500 280px/1 Cormorant' : '900 180px/1 Inter',
+    S.hook = ['Ask', 'the', 'whole', 'sky.'].map((w, i) => el('div', 'abs center', { top: `${470 + i * 230}px`, font: i === 3 ? 'italic 500 280px/1 Cormorant' : '900 180px/1 Inter',
       letterSpacing: i === 3 ? '-0.02em' : '-0.055em', color: i === 3 ? LAV : CREAM, opacity: 0, zIndex: 30 }, stage, w));
     S.wallT = el('div', 'abs center', { top: '150px', font: '800 104px/1.02 Inter', letterSpacing: '-0.05em', color: CREAM, opacity: 0, zIndex: 30 }, stage, 'All of it.<br><span style="font:italic 500 124px Cormorant;color:' + LAV + '">One app.</span>');
     S.honest = honest(stage, { text: 'Real app · example replies', bottom: 90, color: 'rgba(245,238,222,0.7)', bg: 'rgba(255,255,255,0.06)', style: { fontSize: '22px' } });

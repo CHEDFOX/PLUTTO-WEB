@@ -20,10 +20,10 @@ const CREAM = LIB.cream;
 
 // Seven ways of asking. Board text is plain capitals, as a real board's would be.
 const PLATES = [
-  { s: 'INDIA · 2,000 YEARS', b: 'Vedic', match: 'VEDIC', line: 'A chart cast to the minute you were born.', glow: '214,120,60' },
+  { s: 'INDIA', b: 'Vedic', match: 'VEDIC', line: 'A chart cast to the minute you were born.', glow: '214,120,60' },
   { s: 'YORUBA · WEST AFRICA', b: 'Merindinlogun', match: 'MERINDINLOGUN', line: 'Sixteen cowrie shells thrown on a mat. Count the ones that land mouth-up.', glow: '120,90,200' },
-  { s: 'THE NORSE · 800 AD', b: 'Younger Futhark', match: 'YOUNGER FUTHARK', line: 'Sixteen runes, cut into wood.', glow: '90,140,200' },
-  { s: 'PERSIA · 1300s', b: 'Fāl-e Hāfez', match: 'FAL-E HAFEZ', line: 'Open the poet Hafez at random. Iran still does, on the longest night of the year.', glow: '60,160,140' },
+  { s: 'THE NORSE', b: 'Younger Futhark', match: 'YOUNGER FUTHARK', line: 'Sixteen runes, cut into wood.', glow: '90,140,200' },
+  { s: 'PERSIA', b: 'Fāl-e Hāfez', match: 'FAL-E HAFEZ', line: 'Open the poet Hafez at random. Iran still does, on the longest night of the year.', glow: '60,160,140' },
   { s: 'MESOAMERICA', b: 'Mayan', match: 'MAYAN', line: '260 named days. You were born on one of them.', glow: '200,90,70' },
   { s: 'JAPAN · TEMPLES', b: 'Omikuji', match: 'OMIKUJI', line: 'Paper fortunes. The bad ones get tied to a tree and left behind.', glow: '200,80,120' },
   { s: 'EVERYWHERE', b: 'Chiromancy', match: 'CHIROMANCY', line: 'Your palm: the one book you always carry.', glow: '180,150,90' },
@@ -86,7 +86,7 @@ export default {
     // Captions: the hook, the counter, the sample card, the model card.
     const mono = (top, size, color = LIB.dim) => el('div', 'abs center', { top: `${top}px`, font: `500 ${size}px/1.3 Mono`, letterSpacing: '0.2em', textTransform: 'uppercase', color, opacity: 0, zIndex: 20 }, stage);
     S.hook = el('div', 'abs center', { top: '800px', whiteSpace: 'nowrap', font: '700 104px/1 Inter', letterSpacing: '-0.045em', color: '#fff', opacity: 0, zIndex: 20 }, stage, 'What happens next?');
-    S.hookSub = mono(950, 26); S.hookSub.textContent = 'asked in every culture · for 5,000 years';
+    S.hookSub = mono(950, 26); S.hookSub.textContent = 'asked in every culture · in every age';
     S.count = mono(170, 26, CREAM);
     S.card = el('div', 'abs', { left: '150px', width: '780px', top: '700px', padding: '40px 48px', borderRadius: '28px', background: 'rgba(12,14,20,0.92)', zIndex: 20, opacity: 0,
       boxShadow: '0 0 0 1px rgba(255,255,255,0.14), 0 40px 120px rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)' }, stage);
@@ -118,7 +118,7 @@ export default {
     for (const [k, name] of [['home', 'tour-home'], ['sky', 'tour-explore'], ['quick', 'ask-quickfire'], ['quit', 'ask-quit']]) S.dev[k] = device(stage, name, { skin: 'glass', w: SW });
     S.ring = tapRing(stage, { color: CREAM, size: 110 });
     S.honest = honest(stage, { text: 'Real app · example reply', bottom: 90, color: LIB.dim, bg: 'rgba(255,255,255,0.05)', style: { fontSize: '22px' } });
-    S.end = libEnd(stage, { line: 'Every way humans ever asked.<br>One model of you.', sub: 'Vedic · Yoruba cowries · Runes · Hafez · and 98 more', cta: 'plutto.space' });
+    S.end = libEnd(stage, { line: 'Every way humans ever asked.<br>One model of you.', sub: 'Vedic · Yoruba cowries · Runes · Hafez · and every other', cta: 'plutto.space' });
     S.free = el('div', 'abs center', { top: '1700px', font: '500 24px/1 Mono', letterSpacing: '0.2em', color: LIB.dim, opacity: 0, zIndex: 101 }, stage, 'FREE TO START · ANDROID · WEB');
   },
 
@@ -138,7 +138,7 @@ export default {
     let n = 0;
     if (t >= P0) n = Math.round(lerp(0, 60, ease.outCubic(prog(t, P0, RUN[0]))));
     if (t >= RUN[0]) n = Math.round(lerp(60, 102, ease.inOutCubic(prog(t, RUN[0], RUN[1]))));
-    S.count.textContent = `${String(n).padStart(3, '0')} / 102 traditions · 12 regions`;
+    S.count.textContent = 'every tradition · every continent';
     S.count.style.opacity = t >= P0 && t < 19.0 ? 1 - ease.inCubic(prog(t, 18.6, 19.0)) : 0;
 
     // The sample card: one tradition at a time, lifted out of the grid.
@@ -152,13 +152,13 @@ export default {
     } else S.card.style.opacity = 0;
 
     // The claim, under the cloud.
-    const BIG = [[17.5, 18.9, '102 traditions.<br>One model of you.'], [19.1, 20.5, 'Plutto.']];
+    const BIG = [[17.5, 18.9, 'Every tradition.<br>One model of you.'], [19.1, 20.5, 'Plutto.']];
     const bg = BIG.find(([a, b]) => t >= a && t < b + 0.2);
     if (bg) { S.big.innerHTML = bg[2]; const i = ease.outExpo(prog(t, bg[0], bg[0] + 0.5)), o = ease.inCubic(prog(t, bg[1], bg[1] + 0.2)); S.big.style.opacity = i * (1 - o); S.big.style.transform = `translateY(${(1 - i) * 30}px)`; }
     else S.big.style.opacity = 0;
 
     // The model card over the app.
-    const SPEC = [[STEPS.home, 'INPUT', 'Your birth minute.'], [STEPS.sky, 'CONTEXT', '102 traditions, all at once.'], [STEPS.ask, 'PROMPT', 'Anything. In your words.'], [STEPS.open, 'OUTPUT', 'The right tool opens.']];
+    const SPEC = [[STEPS.home, 'INPUT', 'Your birth minute.'], [STEPS.sky, 'CONTEXT', 'Every tradition, at once.'], [STEPS.ask, 'PROMPT', 'Anything. In your words.'], [STEPS.open, 'OUTPUT', 'The right tool opens.']];
     const sp = SPEC.filter(([a]) => t >= a).pop();
     if (sp && t < END) { S.specK.textContent = sp[1]; S.specV.textContent = sp[2]; const i = ease.outExpo(prog(t, sp[0], sp[0] + 0.5)); S.spec.style.opacity = i; S.spec.style.transform = `translateY(${(1 - i) * 24}px)`; }
     else S.spec.style.opacity = 0;

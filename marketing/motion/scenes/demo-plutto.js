@@ -195,7 +195,7 @@ export default {
       [19.2, 20.38, 'Dates, not *vibes.*'],
       [20.62, 23.38, 'It keeps *score.* / Out loud.'],
       [23.62, 25.9, 'And a whole sky / to *explore.*'],
-      [26.1, 27.7, 'Every oracle. / One *tap* away.'],
+      [26.1, 27.7, 'All the old wisdom. / One *tap* away.'],
     ].map(([a, b, text]) => ({ a, b, h: headline(top, text) }));
     S.chap = el('div', 'abs', { left: '72px', top: '92px', fontFamily: 'Mono', fontWeight: 500, fontSize: '25px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(245,238,222,0.5)', zIndex: 30 }, stage);
     S.chapR = el('div', 'abs', { right: '72px', top: '92px', fontFamily: 'Mono', fontWeight: 500, fontSize: '25px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(245,238,222,0.5)', zIndex: 30 }, stage, 'Plutto · the app');

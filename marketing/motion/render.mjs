@@ -47,7 +47,7 @@ export const ABSTRACT_FILMS = ['abstract-composition', 'abstract-temple', 'abstr
 // Asked Plutto: questions you'd never ask a friend, typed into the real app, each in its own art style (asked.js) — `node render.mjs asked`. Written to out/asked/.
 export const ASKED_FILMS = ['asked-toxic', 'asked-ex', 'asked-fake', 'asked-shaadi', 'asked-quit', 'asked-quickfire'];
 // The product demo: the whole app in thirty seconds, real screens in a phone (asked.js) — `node render.mjs demo`. Written to out/demo/.
-export const DEMO_FILMS = ['demo-plutto', 'edu-library', 'demo-everything', 'demo-worlds'];
+export const DEMO_FILMS = ['demo-plutto', 'edu-library', 'demo-everything', 'demo-worlds', 'manifesto-meter'];
 
 const server = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1', '--directory', ROOT], { stdio: 'ignore' });
 const stop = () => server.kill();
@@ -67,7 +67,7 @@ async function renderFilm(browser, id) {
   await page.waitForFunction(() => window.__ready === true, null, { timeout: 60000 });
   const { duration, fps } = await page.evaluate(() => ({ duration: window.__duration, fps: window.__fps }));
   const shot = () => page.screenshot({ type: 'jpeg', quality: 95 });
-  const dir = id.startsWith('cine-') ? path.join(OUT, 'cine') : id.startsWith('print-') ? path.join(OUT, 'print') : id.startsWith('take-') ? path.join(OUT, 'takes') : id.startsWith('record-') ? path.join(OUT, 'record') : id.startsWith('files-') ? path.join(OUT, 'files') : id.startsWith('truth-') ? path.join(OUT, 'truth') : id.startsWith('library-') ? path.join(OUT, 'library') : id.startsWith('signal-') ? path.join(OUT, 'signal') : id.startsWith('abstract-') ? path.join(OUT, 'abstract') : id.startsWith('asked-') ? path.join(OUT, 'asked') : id.startsWith('demo-') || id.startsWith('edu-') ? path.join(OUT, 'demo') : OUT;
+  const dir = id.startsWith('cine-') ? path.join(OUT, 'cine') : id.startsWith('print-') ? path.join(OUT, 'print') : id.startsWith('take-') ? path.join(OUT, 'takes') : id.startsWith('record-') ? path.join(OUT, 'record') : id.startsWith('files-') ? path.join(OUT, 'files') : id.startsWith('truth-') ? path.join(OUT, 'truth') : id.startsWith('library-') ? path.join(OUT, 'library') : id.startsWith('signal-') ? path.join(OUT, 'signal') : id.startsWith('abstract-') ? path.join(OUT, 'abstract') : id.startsWith('asked-') ? path.join(OUT, 'asked') : id.startsWith('demo-') || id.startsWith('edu-') || id.startsWith('manifesto-') ? path.join(OUT, 'demo') : OUT;
   await mkdir(dir, { recursive: true });
   const hasAudio = await page.evaluate(() => !!window.__audio);
   const soundtrack = async (wav) => { await writeFile(wav, Buffer.from(await page.evaluate(() => window.__audio()), 'base64')); };
