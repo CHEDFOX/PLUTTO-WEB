@@ -91,8 +91,16 @@ export default {
       color: WHITE, opacity: 0, zIndex: 30, padding: '0 70px' }, stage, h) }));
 
     // ── Act 3: the roll ──
+    const SCRIPTS = [['Runic', 'ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒᛖᛗᛚᛜᛞᛟ'], ['Ogham', 'ᚁᚂᚃᚄᚅᚆᚇᚈᚉᚊᚋᚌᚍᚎᚏ'], ['InterGreek', 'ΑΒΓΔΘΛΞΠΣΦΨΩ'], ['JP', 'あいうえおかきくけこさしすせそ'],
+      ['Deva', 'ॐअकगजञतनमरशह'], ['Hebrew', 'אבגדהוזחטיכלמנסעפצקרשת'], ['Arabic', 'ابجدهوزحطيكلمنسعفصقرشت'], ['CJK', '天地人乾坤震巽坎離艮兌命運福吉星月日']];
+    await Promise.all(SCRIPTS.map(([f, cs]) => document.fonts.load(`40px ${f}`, cs)));
+    const RC = rng(33); S.cells = [];
+    for (let y = -300; y < 2300; y += 62) for (let x = -300; x < 1380; x += 58) {
+      const [f, cs] = SCRIPTS[Math.floor(RC() * SCRIPTS.length)], chars = [...cs];
+      S.cells.push({ x: x + (Math.floor(y / 62) % 2) * 29, y, f, ch: chars[Math.floor(RC() * chars.length)], sz: 30 + RC() * 16, p: RC() * 6.28, w: RC() });
+    }
     S.cv = el('canvas', 'layer', { zIndex: 0 }, stage); S.cv.width = 1080; S.cv.height = 1920; S.g = S.cv.getContext('2d');
-    S.w3 = [[14.2, 16.6, 'Every century of it.'], [17.0, 19.5, 'Every tradition.<br>Every continent.'], [19.9, 22.2, 'Written down, carried, kept.'], [22.5, A4 - 0.4, 'All of it.<br><i>In one place.</i>']].map(([a, b, h]) => ({ a, b, e: el('div', 'abs center', { top: '1560px',
+    S.w3 = [[14.2, 16.6, 'Every century of it.'], [17.0, 19.5, 'Every tradition.<br>Every continent.'], [19.9, 22.2, 'Carved. Painted. Memorised.'], [22.5, A4 - 0.4, 'All of it.<br><i>In one place.</i>']].map(([a, b, h]) => ({ a, b, e: el('div', 'abs center', { top: '1560px',
       font: '500 78px/1.08 Cormorant', color: WHITE, opacity: 0, zIndex: 30 }, stage, h) }));
 
     // ── Act 4 ──
@@ -129,32 +137,38 @@ export default {
     // ── Act 2 ──
     S.w2.forEach(({ a, b, e }) => { const i = inout(t, a, b, 1.0, 0.5); e.style.opacity = i; e.style.filter = `blur(${(1 - ease.outCubic(prog(t, a, a + 1.0))) * 10}px)`; });
 
-    // ── Act 3: names rise through a band of light ──
+    // ── Act 3: the wall of scripts ──
     const g = S.g; g.clearRect(0, 0, 1080, 1920);
     if (t >= A3 - 0.5 && t < A5) {
-      const fade = ease.outCubic(prog(t, A3 - 0.5, A3 + 1.2)) * (1 - 0.9 * ease.inOutCubic(prog(t, A4 - 0.8, A4 + 0.6))) * (1 - ease.inCubic(prog(t, A5 - 0.4, A5)));
-      const band = 860;
-      const glow = g.createRadialGradient(540, band, 0, 540, band, 900);
-      glow.addColorStop(0, `rgba(${AMBER},${0.16 * fade})`); glow.addColorStop(1, 'rgba(0,0,0,0)');
-      g.fillStyle = glow; g.fillRect(0, 0, 1080, 1920);
-      const gap = 118, speed = 150, off = (t - A3) * speed;
+      const fade = ease.outCubic(prog(t, A3 - 0.5, A3 + 0.6)) * (1 - ease.inCubic(prog(t, A5 - 0.4, A5)));
+      const cx = 540, cy = 1000;
+      const zoom = lerp(1.35, 1.0, ease.inOutCubic(prog(t, A3, 22.5)));       // the camera pulls back
+      const wave = (t - A3) * 520;                                            // lit from the centre outward
+      const ring = ease.inOutCubic(prog(t, 22.3, A4));                         // then they gather into a ring
+      const pulse = Math.exp(-Math.pow((t - 19.9) * 3, 2));
       g.textAlign = 'center'; g.textBaseline = 'middle';
-      const first = Math.floor((off - 1000) / gap);
-      for (let k = first; k < first + 20; k++) {
-        const y = 1700 - k * gap + off - 840;
-        if (y < -60 || y > 1500) continue;
-        const d = Math.abs(y - band) / 520, focus = Math.max(0, 1 - d);
-        const name = S.names[((k % S.names.length) + S.names.length) % S.names.length];
-        const size = 34 + 40 * focus * focus;
-        g.font = `${focus > 0.85 ? 'italic ' : ''}500 ${size.toFixed(1)}px Cormorant`;
-        g.globalAlpha = fade * (0.08 + 0.92 * Math.pow(focus, 1.6));
-        g.fillStyle = focus > 0.85 ? `rgb(${AMBER})` : WHITE;
-        g.fillText(name, 540, y);
+      for (const c of S.cells) {
+        const dx = (c.x - cx) * zoom, dy = (c.y - cy) * zoom, r = Math.hypot(dx, dy);
+        if (r > wave) continue;
+        const lit = ease.outCubic(Math.min(1, (wave - r) / 260));
+        const shimmer = 0.55 + 0.45 * Math.sin(t * 2.2 + c.p);
+        const onRing = Math.max(0, 1 - Math.abs(r - 330) / 70);
+        let a = lit * (0.16 + 0.5 * shimmer * c.w) * (1 - ring) + ring * onRing * (0.4 + 0.6 * shimmer);
+        a = Math.min(1, a + pulse * 0.4 * lit);
+        if (a < 0.02) continue;
+        const hot = c.w > 0.9 || (ring > 0.5 && onRing > 0.6);
+        g.globalAlpha = a * fade;
+        g.fillStyle = hot ? `rgb(${AMBER})` : WHITE;
+        g.font = `${(c.sz * zoom).toFixed(1)}px ${c.f}`;
+        g.fillText(c.ch, cx + dx, cy + dy);
       }
-      // two hairlines frame the band
-      g.globalAlpha = fade * 0.3; g.fillStyle = `rgb(${AMBER})`;
-      g.fillRect(380, band - 70, 320, 1); g.fillRect(380, band + 70, 320, 1);
       g.globalAlpha = 1;
+      const glow = g.createRadialGradient(cx, cy, 0, cx, cy, 700);
+      glow.addColorStop(0, `rgba(${AMBER},${(0.10 + 0.1 * ring) * fade})`); glow.addColorStop(1, 'rgba(0,0,0,0)');
+      g.fillStyle = glow; g.fillRect(0, 0, 1080, 1920);
+      // the text sits on a dark floor so it always reads
+      const fl = g.createLinearGradient(0, 1380, 0, 1920); fl.addColorStop(0, 'rgba(0,0,0,0)'); fl.addColorStop(0.35, `rgba(0,0,0,${0.85 * fade})`);
+      g.fillStyle = fl; g.fillRect(0, 1380, 1080, 540);
     }
     S.w3.forEach(({ a, b, e }) => { const i = inout(t, a, b, 0.9, 0.4); e.style.opacity = i; e.style.filter = `blur(${(1 - ease.outCubic(prog(t, a, a + 0.9))) * 8}px)`; });
 
