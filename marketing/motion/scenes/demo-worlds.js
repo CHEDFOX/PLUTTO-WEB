@@ -8,9 +8,12 @@
 import { el, prog, ease, lerp, rng } from '../lib.js';
 import { device, honest } from '../asked.js';
 
-const DUR = 46, BEAT = 0.5;
-const CH = 6.5, C0 = 0.0;                 // six chapters: 0 → 39
-const END = 39.0;
+const DUR = 51, BEAT = 0.5;
+const CH = 5.5, C0 = 0.0;                 // eight chapters: 0 → 44
+const END = 44.0;
+// The same question, in the reader's language: the neon chapter cycles through these.
+const LANGS = [['English', 'will i be rich?'], ['हिन्दी', 'क्या मैं अमीर बनूँगा?'], ['Español', '¿seré rico?'], ['中文', '我会有钱吗？'], ['Français', 'serai-je riche ?'],
+  ['العربية', 'هل سأصبح غنيًا؟'], ['日本語', 'お金持ちになれる？'], ['Deutsch', 'werde ich reich?'], ['Português', 'vou ficar rico?'], ['Kiswahili', 'nitakuwa tajiri?'], ['Türkçe', 'zengin olacak mıyım?'], ['Hinglish', 'kya main ameer banunga?']];
 
 // Each world: palette, background, type, the phone's skin, the footage, the words.
 const W = [
@@ -23,15 +26,21 @@ const W = [
   { id: 'pop', bg: '#3355FF', ink: '#14102B', fg: '#FFFFFF', acc: '#FFE03D', skin: 'ink', body: '#FFFFFF',
     font: '400 160px/0.92 Anton', up: true, small: '800 52px/1.1 Inter',
     clip: ['ask-quickfire', 0.9, 1.6], k: 'Chapter 3 · How you use it', a: 'Type it.', b: 'Ask it.', c: 'The question you’d never ask a friend.', chat: true },
+  { id: 'neon', bg: '#0A0518', ink: '#0A0518', fg: '#FF4FD8', acc: '#3CF2FF', skin: 'glass',
+    font: '400 150px/0.95 Anton', up: true, small: '700 58px/1.15 Inter, Deva, CJK, JP, Arabic',
+    clip: ['ask-quickfire', 0.4, 0], k: 'Chapter 4 · Any language', a: 'Ask in', b: 'any language.', c: '', langs: true },
   { id: 'truck', bg: '#1E1650', ink: '#0B0820', fg: '#FFC20E', acc: '#E8262B', skin: 'paint',
     font: '400 150px/0.95 Anton', up: true, small: '700 64px/1.05 Hand',
-    clip: ['ask-shaadi', 4.0, 1.25], k: 'Chapter 4 · Your language', a: 'Hinglish?', b: 'Bilkul.', c: 'It answers in the language you asked in. 109 of them.', chat: true },
+    clip: ['ask-shaadi', 4.0, 1.25], k: 'Chapter 5 · Your language', a: 'Hinglish?', b: 'Bilkul.', c: 'It answers in the language you asked in. 109 of them.', chat: true },
   { id: 'riso', bg: '#F4EBDD', ink: '#2B3BBF', fg: '#FFF6E6', acc: '#FF4F9A', skin: 'paper',
     font: '400 150px/0.95 Anton', up: true, small: '700 60px/1.05 Hand',
-    clip: ['ask-quit', 9.6, 1.3], k: 'Chapter 5 · What it opens', a: 'Answers', b: 'open tools.', c: 'Ask about the job, and sixteen shells get thrown.', chat: true },
+    clip: ['ask-quit', 9.6, 1.3], k: 'Chapter 6 · What it opens', a: 'Answers', b: 'open tools.', c: 'Ask about the job, and sixteen shells get thrown.', chat: true },
+  { id: 'bauhaus', bg: '#EFE9DD', ink: '#111111', fg: '#111111', acc: '#D7261E', skin: 'glass',
+    font: '900 140px/0.95 Inter', up: false, small: '700 50px/1.15 Inter',
+    clip: ['tour-explore', 2.0, 5], k: 'Chapter 7 · Everything else', a: 'Explore', b: 'it all.', c: 'Past lives, places, the planets, the library: one tap each.' },
   { id: 'comic', bg: '#FFF3D6', ink: '#111111', fg: '#FFFFFF', acc: '#00B4F0', skin: 'ink', body: '#FFE03D',
     font: '400 150px/0.95 Anton', up: true, small: '700 60px/1.05 Hand',
-    clip: ['ask-fake', 13.6, 1.15], k: 'Chapter 6 · Why trust it', a: 'It keeps', b: 'score.', c: 'Every prediction, marked right or wrong. Out loud.', chat: true },
+    clip: ['ask-fake', 13.6, 1.15], k: 'Chapter 8 · Why trust it', a: 'It keeps', b: 'score.', c: 'Every prediction, marked right or wrong. Out loud.', chat: true },
 ];
 const NS = 'http://www.w3.org/2000/svg';
 let S = {};
@@ -58,6 +67,17 @@ function backdrop(stage, w) {
     const garland = el('div', 'abs', { left: 0, right: 0, top: '46px', height: '60px', display: 'flex', justifyContent: 'space-around' }, b);
     for (let i = 0; i < 12; i++) el('div', '', { width: '26px', height: '40px', borderRadius: '0 0 50% 50%', background: i % 2 ? '#FF7A00' : '#FFC20E', border: '3px solid #0B0820' }, garland);
   }
+  if (w.id === 'neon') {
+    el('div', 'abs', { left: '-400px', right: '-400px', top: '1150px', height: '900px', transform: 'perspective(500px) rotateX(62deg)', transformOrigin: '50% 0',
+      backgroundImage: 'linear-gradient(rgba(60,242,255,0.55) 2px, transparent 2px), linear-gradient(90deg, rgba(255,79,216,0.55) 2px, transparent 2px)', backgroundSize: '90px 90px' }, b);
+    el('div', 'abs', { left: '240px', top: '760px', width: '600px', height: '600px', borderRadius: '50%', background: 'linear-gradient(#FFB74F, #FF4FD8 60%, transparent 61%)', opacity: 0.35, filter: 'blur(2px)' }, b);
+  }
+  if (w.id === 'bauhaus') {
+    el('div', 'abs', { left: '-140px', top: '1180px', width: '620px', height: '620px', borderRadius: '50%', background: '#D7261E' }, b);
+    el('div', 'abs', { right: '-60px', top: '980px', width: '420px', height: '420px', background: '#1F3FA8', transform: 'rotate(12deg)' }, b);
+    el('div', 'abs', { right: '120px', top: '1560px', width: 0, height: 0, borderLeft: '200px solid transparent', borderRight: '200px solid transparent', borderBottom: '340px solid #F2B705' }, b);
+    el('div', 'abs', { left: '90px', top: '560px', width: '900px', height: '16px', background: '#111' }, b);
+  }
   if (w.id === 'riso') {
     el('div', 'abs', { left: '-80px', top: '1180px', width: '760px', height: '760px', borderRadius: '50%', background: '#FF4F9A', mixBlendMode: 'multiply', opacity: 0.85 }, b);
     el('div', 'abs', { left: '520px', top: '1320px', width: '620px', height: '620px', borderRadius: '50%', background: '#2B3BBF', mixBlendMode: 'multiply', opacity: 0.55 }, b);
@@ -76,15 +96,16 @@ function words(stage, w) {
   const box = el('div', 'layer', { zIndex: 30, opacity: 0 }, stage);
   const big = (txt, top, color, extra = {}) => el('div', 'abs', { left: '60px', right: '60px', top: `${top}px`, textAlign: 'center', font: w.font, color, textTransform: w.up ? 'uppercase' : 'none',
     letterSpacing: w.up ? '0.01em' : '-0.02em', whiteSpace: 'nowrap', transformOrigin: '50% 90%', ...extra }, box, txt);
-  const outline = w.id === 'editorial' ? {} : { WebkitTextStroke: `14px ${w.ink}`, paintOrder: 'stroke fill', textShadow: `14px 14px 0 ${w.ink}` };
-  const k = el('div', 'abs center', { top: w.id === 'comic' ? '76px' : '120px', font: '500 26px/1 Mono', letterSpacing: '0.2em', textTransform: 'uppercase', color: w.id === 'truck' ? '#FFC20E' : w.ink, opacity: 0.85 }, box, w.k);
+  const outline = w.id === 'neon' ? { textShadow: `0 0 18px ${w.fg}, 0 0 48px ${w.fg}` } : w.id === 'bauhaus' ? {} : w.id === 'editorial' ? {} : { WebkitTextStroke: `14px ${w.ink}`, paintOrder: 'stroke fill', textShadow: `14px 14px 0 ${w.ink}` };
+  const k = el('div', 'abs center', { top: w.id === 'comic' ? '76px' : '120px', font: '500 26px/1 Mono', letterSpacing: '0.2em', textTransform: 'uppercase', color: w.id === 'truck' ? '#FFC20E' : w.id === 'neon' ? '#3CF2FF' : w.ink, opacity: 0.85 }, box, w.k);
   const a = big(w.a, 170, w.fg, outline);
-  const b = big(w.b, 330, w.acc, w.id === 'editorial' ? { fontStyle: 'italic', color: w.acc } : outline);
+  const b = big(w.b, 330, w.acc, w.id === 'editorial' ? { fontStyle: 'italic', color: w.acc } : w.id === 'neon' ? { textShadow: `0 0 18px ${w.acc}, 0 0 48px ${w.acc}` } : outline);
   const cbox = w.id === 'editorial'
     ? el('div', 'abs', { left: '120px', right: '120px', top: '1700px', textAlign: 'center', font: w.small, color: w.ink, background: w.bg, padding: '10px 0' }, box, w.c)
-    : el('div', 'abs', { left: '100px', right: '100px', top: '1640px', textAlign: 'center', font: w.small, color: w.ink, background: w.id === 'truck' ? '#FFC20E' : w.id === 'pop' ? '#FFE03D' : '#FFFFFF',
-      border: `6px solid ${w.ink}`, borderRadius: w.id === 'comic' ? '8px' : '28px', padding: '16px 28px', boxShadow: `10px 10px 0 ${w.ink}` }, box, w.c);
-  return { box, k, a, b, c: cbox };
+    : el('div', 'abs', { left: '100px', right: '100px', top: '1640px', textAlign: 'center', font: w.small, color: w.ink, background: w.id === 'truck' ? '#FFC20E' : w.id === 'pop' ? '#FFE03D' : w.id === 'neon' ? '#0A0518' : '#FFFFFF', color: w.id === 'neon' ? '#FFFFFF' : w.ink,
+      border: w.id === 'neon' ? '4px solid #3CF2FF' : `6px solid ${w.ink}`, borderRadius: w.id === 'comic' || w.id === 'bauhaus' ? '0' : '28px', padding: '16px 28px', boxShadow: w.id === 'neon' ? '0 0 30px #3CF2FF, inset 0 0 20px rgba(60,242,255,0.4)' : `10px 10px 0 ${w.ink}` }, box, w.c);
+  const lang = w.langs ? el('div', 'abs center', { top: '1580px', font: '500 28px/1 Mono', letterSpacing: '0.2em', color: '#FF4FD8', textShadow: '0 0 12px #FF4FD8' }, box, '') : null;
+  return { box, k, a, b, c: cbox, lang };
 }
 
 const pop = (p) => (p <= 0 ? 0 : p >= 1 ? 1 : 1 - Math.pow(2, -9 * p) * Math.cos(p * Math.PI * 2.8));
@@ -111,6 +132,8 @@ export default {
       if (w === 'pop') c.push({ i: 'saw', t, ns: CHD[chd(t)].map((x) => x + 12), dur: 0.12, cut: 2600, env: 2.6, g: 0.28, echo: 0.1 });
       if (w === 'truck') c.push({ i: 'tom', t: t + BEAT * 0.75, f: 110, g: 0.3, d: 0.4 }, { i: 'conga', t: t + BEAT / 4, f: 260, g: 0.2 });
       if (w === 'riso') c.push({ i: 'chop', t: t + BEAT / 2, n: n + 12, dur: 0.18, g: 0.16, vowel: k % 2 ? 'a' : 'o', echo: 0.3 });
+      if (w === 'neon') c.push({ i: 'synth', t: t + BEAT / 2, n: n + 12, dur: 0.14, g: 0.2, echo: 0.3 }, { i: 'blip', t: t, n: 88 + (k % 4) * 2, g: 0.08 });
+      if (w === 'bauhaus') c.push({ i: 'rim', t: t + BEAT / 2, g: 0.2 }, { i: 'mallet', t: t + BEAT / 4, n: n, g: 0.14, d: 0.3 });
       if (w === 'comic') c.push({ i: 'saw', t: t + BEAT / 2, ns: CHD[chd(t)].map((x) => x + 12), dur: 0.09, cut: 3000, env: 3, g: 0.24 });
     }
     W.forEach((_, i) => { const t = C0 + i * CH; c.push({ i: 'whoosh', t: t - 0.2, dur: 0.28, g: 0.3 }, { i: 'hit', t, g: 0.4 }, { i: 'crash', t, g: 0.22 }); });
@@ -124,6 +147,12 @@ export default {
     S.bgs = W.map((w) => backdrop(stage, w));
     S.dev = W.map((w) => {
       const d = device(stage, w.clip[0], { skin: w.skin, w: 520, ink: w.ink, body: w.body || null });
+      if (w.id === 'neon') {
+        d.body.style.boxShadow = '0 0 0 3px #FF4FD8, 0 0 40px #FF4FD8, 0 0 90px rgba(60,242,255,0.5)';
+        // the user's bubble, retyped in each language, over the recording's own bubble
+        d.bubble = el('div', 'abs', { right: '14px', top: '22px', maxWidth: '330px', padding: '9px 14px', borderRadius: '16px', background: '#26262b', color: '#fff',
+          font: '500 22px/1.3 Inter, Deva, CJK, JP, Arabic', zIndex: 3, boxShadow: '0 0 0 6px #000' }, d.screen);
+      }
       return d;
     });
     S.words = W.map((w) => words(stage, w));
@@ -157,9 +186,10 @@ export default {
       const [, from, rate] = W[i].clip;
       await d.at(from + u * rate);
       const k = pop(prog(u, 0, 0.6)), out = ease.inCubic(prog(u, CH - 0.18, CH));
-      const tilt = [-4, 0, 3, -3, 2, -2][i];
-      const zoom = W[i].chat ? lerp(0.86, 1.05, ease.inOutCubic(prog(u, 2.2, 3.2))) : 0.86;
-      const fy = W[i].chat ? lerp(260, 420, ease.inOutCubic(prog(u, 2.2, 3.2))) : 260;
+      const tilt = [-4, 0, 3, 0, -3, 2, 0, -2][i];
+      const neon = W[i].langs;
+      const zoom = neon ? lerp(0.86, 1.55, ease.inOutCubic(prog(u, 0.5, 1.1))) : W[i].chat ? lerp(0.86, 1.05, ease.inOutCubic(prog(u, 2.2, 3.2))) : 0.86;
+      const fy = neon ? lerp(260, 880, ease.inOutCubic(prog(u, 0.5, 1.1))) : W[i].chat ? lerp(260, 420, ease.inOutCubic(prog(u, 2.2, 3.2))) : 260;
       d.pose(t, { x: (1 - k) * (i % 2 ? -900 : 900) - out * (i % 2 ? 900 : -900), y: fy + Math.sin(t * 2.2) * 6, s: zoom * lerp(0.7, 1, k), rz: tilt + (1 - k) * 12 });
       d.body.style.filter = 'none';
     }
@@ -181,7 +211,17 @@ export default {
       w.c.style.opacity = u >= 1.3 ? (editorial ? cp : 1) * (1 - out) : 0;
       w.c.style.transform = editorial ? `translateY(${(1 - cp) * 20}px)` : `scale(${cp}) rotate(${i % 2 ? -1.5 : 1.5}deg)`;
     });
-    const chat = live && W[wi].chat && u > 1.0;
+    if (live && W[wi].langs) {
+      const li = Math.max(0, Math.floor((u - 0.9) / 0.38)) % LANGS.length;
+      const [ln, q] = LANGS[li];
+      const w = S.words[wi];
+      if (w.c.textContent !== q) { w.c.textContent = q; w.lang.textContent = ln; S.dev[wi].bubble.textContent = q; }
+      const pk = (u - 0.9) % 0.38;
+      w.c.style.direction = S.dev[wi].bubble.style.direction = ln === 'العربية' ? 'rtl' : 'ltr';
+      w.lang.style.opacity = u > 0.9 ? 1 : 0;
+      S.dev[wi].bubble.style.transform = `scale(${u > 0.9 ? 1 + 0.08 * Math.max(0, 1 - pk / 0.12) : 1})`;
+    }
+    const chat = live && (W[wi].chat || W[wi].langs) && u > 1.0;
     S.honest(chat ? 1 : 0);
     S.hon.style.color = W[wi].ink; S.hon.style.background = W[wi].id === 'truck' ? '#FFC20E' : '#FFFFFF'; S.hon.style.border = `3px solid ${W[wi].ink}`;
 
