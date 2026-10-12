@@ -22,7 +22,7 @@ export const FAQS = [
   },
   {
     q: 'Which astrology systems does Plutto use?',
-    a: `Plutto reads Vedic astrology (Jyotish), KP astrology, Western astrology, Chinese astrology (BaZi) and numerology from your birth chart, plus tarot, Lenormand, runes, Ogham, the I Ching and geomancy — ${SITE.counts.traditions} traditions in all, each pinned on a globe where it began.`,
+    a: `Plutto reads Vedic astrology (Jyotish), KP astrology, Western astrology, Chinese astrology (BaZi) and numerology from your birth chart, plus tarot, Lenormand, runes, Ogham, the I Ching and geomancy — a library of the world's traditions, each pinned on a globe where it began.`,
   },
   {
     q: 'How does Plutto calculate my chart?',
@@ -34,7 +34,7 @@ export const FAQS = [
   },
   {
     q: 'What languages does Plutto support?',
-    a: `Plutto works in ${SITE.counts.languages} languages. You choose one when you start and every reading arrives in it, spoken and written.`,
+    a: 'Plutto works in your own language. You choose it when you start and every reading arrives in it, spoken and written.',
   },
   {
     q: 'Where can I get Plutto?',

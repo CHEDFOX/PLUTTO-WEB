@@ -14,7 +14,6 @@ import { pageMeta, breadcrumbLd, JsonLd, abs, SITE } from '../../lib/seo';
 import { Doc, DocDoor, LINK } from '../../components/site/Doc';
 import Link from 'next/link';
 
-const N = ATLAS.traditions.length;
 const KIND = {
   birth: 'read from your birth',
   cast: 'cast or drawn',
@@ -24,8 +23,8 @@ const KIND = {
 };
 
 export const metadata = pageMeta({
-  title: `${N} Astrology & Divination Traditions, Mapped`,
-  description: `${N} astrology and divination traditions — Vedic, BaZi, Mérìndínlógún, Fāl-e Ḥāfeẓ, Qi Men Dun Jia, Tử Vi, Mahabote — by region, with where each began.`,
+  title: 'The World\'s Astrology & Divination Traditions, Mapped',
+  description: `The astrology and divination traditions Plutto reads — Vedic, BaZi, Mérìndínlógún, Fāl-e Ḥāfeẓ, Qi Men Dun Jia, Tử Vi, Mahabote — by region, with where each began.`,
   path: '/traditions',
 });
 
@@ -35,7 +34,7 @@ export default function TraditionsPage() {
     '@context': 'https://schema.org',
     '@type': 'DefinedTermSet',
     '@id': abs('/traditions'),
-    name: `${N} traditions on Plutto's globe`,
+    name: "The traditions on Plutto's globe",
     hasDefinedTerm: ATLAS.traditions.map((t) => ({
       '@type': 'DefinedTerm',
       name: t.name,
@@ -49,8 +48,8 @@ export default function TraditionsPage() {
       <JsonLd data={breadcrumbLd([{ name: 'Traditions', path: '/traditions' }])} />
       <Doc
         eyebrow="The atlas"
-        title={`${N} traditions, and where each began.`}
-        lead={`Plutto reads your chart through ${N} astrology and divination traditions from ${byRegion.length} regions of the world. Each is pinned on the app's globe at the place it was first practised — a founding place where there is one, a founding centre where there is not — and each is named as its own people name it.`}
+        title="Every tradition, and where it began."
+        lead={`Plutto reads your chart through astrology and divination traditions from across the world. Each is pinned on the app's globe at the place it was first practised — a founding place where there is one, a founding centre where there is not — and each is named as its own people name it.`}
         crumbs={[{ name: 'Traditions', path: '/traditions' }]}
       >
         <nav aria-label="Regions" className="flex flex-wrap gap-x-5 gap-y-2 text-[14px]">
@@ -58,7 +57,7 @@ export default function TraditionsPage() {
         </nav>
         {byRegion.map((r) => (
           <section key={r.id} id={r.id} className="scroll-mt-24">
-            <h2 className="flex items-center gap-3"><span aria-hidden="true" className="inline-block h-3 w-3" style={{ background: SHELF_COLOR[r.id] || '#111111' }} />{r.title} <span className="text-white/35">· {r.items.length}</span></h2>
+            <h2 className="flex items-center gap-3"><span aria-hidden="true" className="inline-block h-3 w-3" style={{ background: SHELF_COLOR[r.id] || '#111111' }} />{r.title}</h2>
             <dl className="mt-6 divide-y divide-white/[0.06]">
               {r.items.map((t) => (
                 <div key={t.id} className="grid grid-cols-1 gap-1 py-4 md:grid-cols-12 md:gap-6">

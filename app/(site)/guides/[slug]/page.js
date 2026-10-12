@@ -101,7 +101,7 @@ export default async function GuidePage({ params }) {
         </section>
 
         <p className="!mt-12 text-[13px] text-white/35">Updated {UPDATED}. Plutto presents these traditions for reflection; it does not claim that astrology predicts events.</p>
-        <DocDoor links={[{ href: '/guides', label: 'All guides' }, { href: '/traditions', label: 'All 102 traditions' }]} />
+        <DocDoor links={[{ href: '/guides', label: 'All guides' }, { href: '/traditions', label: 'All traditions' }]} />
       </Doc>
     </>
   );

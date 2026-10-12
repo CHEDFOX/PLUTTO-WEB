@@ -7,8 +7,8 @@
  * and /llms.txt read their facts from here, and a number changes in one place.
  *
  * Every fact below is true of the app and checkable in its code: the prices are
- * Plutto Star's, the counts are the catalog's (102 traditions on the globe,
- * 109 languages in onboarding), the ephemeris is the one the backend calls.
+ * Plutto Star's and the ephemeris is the one the backend calls. Traditions and
+ * languages are never counted in copy: the brand names neither by number.
  * Nothing here is a rating, a user count or a review — none is published until
  * there is a real one to publish (a fabricated one is a manual-action risk and
  * the kind of claim an answer engine repeats until it is embarrassing).
@@ -21,15 +21,14 @@ export const SITE = {
   // The entity sentence. Answer engines lift the first plain definition they
   // find; it is the same words on the home page, the FAQ and llms.txt.
   definition:
-    'Plutto is an astrology app you can talk to. From your date, time and place of birth it computes your chart with Swiss Ephemeris and reads it through Vedic, Western, Chinese, KP and numerology traditions — 102 traditions in all — out loud, in 109 languages.',
+    'Plutto is an astrology app you can talk to. From your date, time and place of birth it computes your chart with Swiss Ephemeris and reads it through Vedic, Western, Chinese, KP and numerology traditions — a library of the world’s traditions — out loud, in your own language.',
   description:
-    'Plutto is an astrology app you can talk to: Vedic, Western, Chinese (BaZi), KP and numerology readings from your real birth chart, computed with Swiss Ephemeris, spoken in 109 languages. Free to start.',
+    'Plutto is an astrology app you can talk to: Vedic, Western, Chinese (BaZi), KP and numerology readings from your real birth chart, computed with Swiss Ephemeris, spoken in your own language. Free to start.',
   company: 'XOOTEQ LAB PRIVATE LIMITED',
   companyShort: 'Xooteq Lab',
   companyUrl: 'https://xooteq.com',
   email: 'support@plutto.space',
   founded: '2026',
-  counts: { traditions: 102, languages: 109, regions: 12 },
   ephemeris: 'Swiss Ephemeris',
   platforms: ['Android', 'iOS', 'Web'],
   playUrl: 'https://play.google.com/store/apps/details?id=space.plutto.app',
@@ -108,7 +107,6 @@ export function appLd() {
     downloadUrl: SITE.playUrl,
     installUrl: SITE.playUrl,
     inLanguage: 'en',
-    availableLanguage: `${SITE.counts.languages} languages`,
     publisher: { '@id': ORG_ID },
     featureList: [
       'Vedic astrology (Jyotish): grahas, bhavas, dashas, yogas, doshas, gochara, muhurta, Guna Milan',
@@ -117,7 +115,7 @@ export function appLd() {
       'Chinese astrology (BaZi): Four Pillars, Da Yun, Liu Nian, Wu Xing, He Hun',
       'Numerology: Ank Jyotish, Lo Shu grid, name, mobile and business-name numbers',
       'Tarot, Lenormand, runes, ogham, I Ching and geomancy readings',
-      `A globe of ${SITE.counts.traditions} traditions, each read from your chart`,
+      'A globe of the world\'s traditions, each read from your chart',
       'Spoken readings and a voice conversation with the Oracle',
     ],
     offers: [

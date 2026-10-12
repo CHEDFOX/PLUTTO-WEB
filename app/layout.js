@@ -57,7 +57,7 @@ export const metadata = {
     template: '%s — Plutto',
   },
   description:
-    'Plutto is an astrology app you can talk to: Vedic, Western, Chinese, KP and numerology readings from your real birth chart, spoken in 109 languages. Free to start.',
+    'Plutto is an astrology app you can talk to: Vedic, Western, Chinese, KP and numerology readings from your real birth chart, spoken in your own language. Free to start.',
   applicationName: 'Plutto',
   keywords: [
     'astrology app', 'AI astrology', 'Vedic astrology', 'Jyotish', 'kundli', 'birth chart', 'KP astrology',

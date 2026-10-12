@@ -328,7 +328,7 @@ export const GUIDES = [
     ],
     inPlutto: [
       'Why Some Places Feel Like Home — the places your chart pulls you toward, and why',
-      `The globe — ${102} traditions, each pinned where it began, each read from your chart`,
+      'The globe — the world\'s traditions, each pinned where it began, each read from your chart',
     ],
     faqs: [
       { q: 'Who invented astrocartography?', a: 'The American astrologer Jim Lewis, who developed and named it in San Francisco in the 1970s.' },

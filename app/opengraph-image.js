@@ -27,7 +27,7 @@ export default async function OgImage() {
           <div style={{ fontSize: 96, fontWeight: 700, letterSpacing: -3, marginTop: 18, lineHeight: 1 }}>Plutto</div>
           <div style={{ fontSize: 46, fontWeight: 600, letterSpacing: -1, marginTop: 22, lineHeight: 1.15 }}>Astrology you can talk to.</div>
           <div style={{ fontSize: 26, color: 'rgba(255,255,255,0.62)', marginTop: 26, lineHeight: 1.4 }}>
-            Vedic · Western · Chinese · KP · Numerology — 102 traditions, read from your real chart, in 109 languages.
+            Vedic · Western · Chinese · KP · Numerology — the world's traditions, read from your real chart, in your own language.
           </div>
         </div>
       </div>

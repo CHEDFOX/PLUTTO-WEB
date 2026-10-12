@@ -29,7 +29,7 @@ export function llmsTxt() {
     `- [How it works](${url('/about')}): the moment, the reading, the voice; what Plutto will not do`,
     `- [Pricing](${url('/pricing')}): free tier and Plutto Star plans`,
     `- [FAQ](${url('/faq')}): price, accuracy, languages, systems, data`,
-    `- [Traditions](${url('/traditions')}): all ${ATLAS.traditions.length} traditions, by region, with where each began`,
+    `- [Traditions](${url('/traditions')}): every tradition on the globe, by region, with where each began`,
     '',
     '## Guides',
     ...GUIDES.map((g) => `- [${g.title}](${url(`/guides/${g.slug}`)}): ${g.description}`),
@@ -63,7 +63,7 @@ export function llmsFullTxt() {
     out.push(`## What Plutto reads for ${g.name}`, '', ...g.inPlutto.map((x) => `- ${x}`), '');
     for (const f of g.faqs) out.push(`### ${f.q}`, '', f.a, '');
   }
-  out.push('---', '', `# ${ATLAS.traditions.length} traditions on Plutto's globe`, '', `Source: ${url('/traditions')}`, '');
+  out.push('---', '', '# The traditions on Plutto\'s globe', '', `Source: ${url('/traditions')}`, '');
   for (const r of ATLAS.regions) {
     const items = ATLAS.traditions.filter((t) => t.region === r.id);
     if (!items.length) continue;

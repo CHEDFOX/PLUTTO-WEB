@@ -54,7 +54,7 @@ export default function GuidesIndex() {
             <li key={href}><Link href={href} className={LINK}>{label}</Link></li>
           ))}
         </ul>
-        <DocDoor links={[{ href: '/traditions', label: `All ${SITE.counts.traditions} traditions` }, { href: '/faq', label: 'FAQ' }]} />
+        <DocDoor links={[{ href: '/traditions', label: 'All traditions' }, { href: '/faq', label: 'FAQ' }]} />
       </Doc>
     </>
   );

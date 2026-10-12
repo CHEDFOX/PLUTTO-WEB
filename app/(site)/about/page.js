@@ -26,7 +26,7 @@ import { SHELF_COLOR } from '../../lib/traditions';
 export const metadata = pageMeta({
   title: 'How Plutto Works',
   description:
-    'Plutto computes real charts with Swiss Ephemeris, reads them through the tradition that fits your question — 102 traditions in all — and answers out loud in your language.',
+    'Plutto computes real charts with Swiss Ephemeris, reads them through the tradition that fits your question — a library of the world’s traditions — and answers out loud in your language.',
   path: '/about',
 });
 
@@ -67,7 +67,7 @@ const MOVEMENTS = [
     title: 'The voice',
     lead: 'It talks, and it listens.',
     body:
-      'The reading is spoken, not printed at you. Push back, ask what it means — it keeps the thread, in any of 109 languages, and it remembers you tomorrow.',
+      'The reading is spoken, not printed at you. Push back, ask what it means — it keeps the thread, in your own language, and it remembers you tomorrow.',
   },
 ];
 
@@ -222,9 +222,9 @@ export default function AboutPage() {
             <div className="mt-14 grid grid-cols-1 gap-x-12 gap-y-10 md:grid-cols-3">
               <Fact color={SHELF_COLOR.south_asia} k="Ephemeris" v="Swiss Ephemeris" note="The sky, to the second of arc. What observatories run on." />
               <Fact color={SHELF_COLOR.china} k="Voice" v="OpenAI Realtime" note="Spoken, in the language you already use." />
-              <Fact color={SHELF_COLOR.pacific} k="Shelves" v="Twelve" note="Cards, cowries, coins, letters, stars." />
+              <Fact color={SHELF_COLOR.pacific} k="Shelves" v="The whole world" note="Cards, cowries, coins, letters, stars." />
               <Fact color={SHELF_COLOR.sky} k="Traditions" v="Thousands of years" note="Named as their own people name them." />
-              <Fact color={SHELF_COLOR.americas} k="Languages" v="109" note="Pick yours once; every reading arrives in it." />
+              <Fact color={SHELF_COLOR.americas} k="Languages" v="Yours" note="Pick yours once; every reading arrives in it." />
             </div>
 
             <FadeUp delay={0.15}>

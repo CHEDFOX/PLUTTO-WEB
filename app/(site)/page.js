@@ -226,7 +226,7 @@ export default function Home() {
             <FadeUp className="md:col-span-4" delay={0.05}>
               <Tile className="h-full min-h-[300px]" glow="rgba(244,114,182,0.22)">
                 <div className="md:pr-[170px]">
-                  <TileText title="It speaks yours." body="109 languages. The reading arrives in the one you dream in." />
+                  <TileText title="It speaks yours." body="Pick your language once. The reading arrives in the one you dream in." />
                   <div aria-hidden="true" className="mt-8 flex flex-wrap gap-2">
                     {GREETINGS.slice(0, 10).map((g, i) => (
                       <span key={g} className="greet-chip rounded-[2px] bg-white/[0.04] px-3 py-1.5 text-[14px] text-white/80 ring-1 ring-white/10" style={{ animationDelay: `${i * 0.9}s` }}>{g}</span>
