@@ -1,11 +1,11 @@
 'use client';
 
 /**
- * THE NAV — a product company's bar, not a portfolio's.
+ * THE NAV — a magazine's masthead.
  *
- * Sticky, frosted, one hairline under it. The name set plainly on the left, a
- * few real destinations in the middle, and the one action that matters on the
- * right as a solid pill. On a phone the links fold into a sheet.
+ * The name set as a title in Bodoni capitals, the sections in mono capitals, the
+ * one action that matters as a solid ink block, and the double rule a printed
+ * masthead sits on. On a phone the links fold into a sheet.
  */
 
 import { useEffect, useState } from 'react';
@@ -14,7 +14,7 @@ import { usePathname } from 'next/navigation';
 import GetAppLink from './GetAppLink';
 
 const LINKS = [
-  { href: '/app', label: 'Oracle' },
+  { href: '/app', label: 'Ask' },
   { href: '/panchang', label: 'Today' },
   { href: '/traditions', label: 'Traditions' },
   { href: '/editorial-standards', label: 'Method' },
@@ -46,21 +46,19 @@ export default function Nav() {
     <header
       data-no-auto-case
       className={`sentence-case fixed inset-x-0 top-0 z-40 transition-colors duration-300 ${
-        scrolled ? 'border-b border-white/[0.08] bg-black/70 backdrop-blur-xl' : 'border-b border-transparent'
+        scrolled ? 'bg-black/90 backdrop-blur-md' : 'bg-black'
       }`}
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6 font-ui">
-        <Link href="/" aria-label="Plutto home" className="flex items-center gap-2.5">
-          <span aria-hidden="true" className="relative inline-block h-[22px] w-[22px] rounded-full bg-gradient-to-br from-white to-white/40">
-            <span className="absolute inset-[5px] rounded-full bg-black" />
-          </span>
-          <span className="text-[17px] font-semibold tracking-[-0.02em] text-white">Plutto</span>
+        {/* The masthead: the name set as a magazine sets its title. */}
+        <Link href="/" aria-label="Plutto home" className="flex items-center">
+          <span className="font-display text-[28px] font-extrabold uppercase leading-none tracking-[0.08em] text-white">Plutto</span>
         </Link>
 
         <ul className="hidden items-center gap-8 md:flex">
           {LINKS.map((l) => (
             <li key={l.href}>
-              <Link href={l.href} className="text-[14px] text-white/60 transition-colors hover:text-white">
+              <Link href={l.href} className={`font-mono text-[12px] uppercase tracking-[0.18em] transition-colors hover:text-white ${path === l.href ? 'text-white underline underline-offset-[6px]' : 'text-white/70'}`}>
                 {l.label}
               </Link>
             </li>
@@ -68,7 +66,7 @@ export default function Nav() {
         </ul>
 
         <div className="flex items-center gap-2">
-          <GetAppLink className="hidden rounded-full bg-white px-4 py-2 text-[13px] font-semibold text-black transition-opacity hover:opacity-90 sm:inline-flex">
+          <GetAppLink className="hidden bg-white px-4 py-2 font-mono text-[12px] uppercase tracking-[0.18em] text-black transition-opacity hover:opacity-90 sm:inline-flex">
             Ask Plutto
           </GetAppLink>
           <button
@@ -84,6 +82,10 @@ export default function Nav() {
           </button>
         </div>
       </nav>
+      {/* the double rule under a masthead */}
+      <div aria-hidden="true" className="mx-auto max-w-6xl px-6">
+        <div className="h-[4px] border-b border-t-2 border-white" />
+      </div>
 
       {open && (
         <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl md:hidden">
@@ -91,14 +93,14 @@ export default function Nav() {
             {LINKS.map((l) => (
               <li key={l.href}>
                 <Link href={l.href} onClick={() => setOpen(false)}
-                      className="block border-b border-white/[0.08] py-4 text-[22px] font-semibold tracking-[-0.02em] text-white">
+                      className="block border-b border-white/20 py-4 font-display text-[26px] font-bold text-white">
                   {l.label}
                 </Link>
               </li>
             ))}
             <li className="pt-8">
               <GetAppLink onClick={() => setOpen(false)}
-                    className="inline-flex rounded-full bg-white px-6 py-3 text-[15px] font-semibold text-black">
+                    className="inline-flex bg-white px-6 py-3 font-mono text-[13px] uppercase tracking-[0.18em] text-black">
                 Ask Plutto
               </GetAppLink>
             </li>

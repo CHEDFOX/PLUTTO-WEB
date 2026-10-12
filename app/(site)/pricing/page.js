@@ -23,7 +23,7 @@ export const metadata = pageMeta({
   path: '/pricing',
 });
 
-const MONO = 'text-[14px] font-semibold text-[#A78BFA]';
+const MONO = 'font-mono text-[12px] uppercase tracking-[0.2em] text-white';
 const LINK = 'text-white underline decoration-white/30 underline-offset-4 hover:decoration-white';
 
 const PLANS = [
@@ -60,7 +60,7 @@ export default function PricingPage() {
       </section>
 
       {/* ───────────────────────── PLANS ───────────────────────── */}
-      <section className="border-t border-white/[0.07] bg-[#050509]/40">
+      <section className="border-t border-white/[0.07] bg-white/[0.03]">
         <div className="mx-auto max-w-4xl px-6 py-16 md:py-20">
           <FadeUp>
             <p className={MONO}>Plutto Star</p>
@@ -114,7 +114,7 @@ export default function PricingPage() {
           <FadeUp>
             <Link
               href="/app"
-              className="inline-flex h-12 items-center justify-center rounded-full bg-white px-7 text-[15px] font-semibold text-black transition-opacity hover:opacity-90"
+              className="inline-flex h-12 items-center justify-center rounded-[2px] bg-white px-7 font-mono text-[13px] uppercase tracking-[0.18em] text-black transition-opacity hover:opacity-90"
             >
               Open it in this browser
             </Link>

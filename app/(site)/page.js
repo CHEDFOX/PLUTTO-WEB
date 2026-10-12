@@ -65,9 +65,8 @@ function H2({ children, className = '' }) {
 function Tile({ className = '', glow, children }) {
   return (
     <Spotlight
-      glow={glow ? glow.replace(/0\.\d+\)$/, '0.22)') : 'rgba(255,255,255,0.08)'}
-      className={`relative overflow-hidden rounded-[28px] bg-[#0c0c11] p-7 ring-1 ring-white/[0.08] transition-transform duration-500 hover:-translate-y-1 md:p-8 ${className}`}
-      style={glow ? { backgroundImage: `radial-gradient(90% 70% at 100% 0%, ${glow}, transparent 70%)` } : undefined}
+      glow="rgba(17,17,17,0.05)"
+      className={`relative overflow-hidden rounded-[2px] bg-black p-7 ring-1 ring-white transition-transform duration-500 hover:-translate-y-1 md:p-8 ${className}`}
     >
       <div className="relative z-10 h-full">{children}</div>
     </Spotlight>
@@ -101,12 +100,12 @@ export default function Home() {
           screen, and running. Neptune rises behind the phones: the brand's
           best art, used as a horizon rather than a sticker. */}
       <HeroStage
-        neptune={<Image src="/planets/neptune-alpha.png" alt="" width={1600} height={2057} priority sizes="(min-width: 1024px) 1600px, 1100px" className="h-auto w-full" />}
+        neptune={<Image src="/planets/neptune-alpha.png" alt="" width={1600} height={2057} priority sizes="(min-width: 1024px) 1600px, 1100px" className="h-auto w-full grayscale" />}
         copy={(
           <>
             <FadeUp>
-              <Link href="/#draw" className="inline-flex items-center gap-2 rounded-full bg-white/[0.06] py-1.5 pl-1.5 pr-3.5 text-[13px] text-white/75 ring-1 ring-white/10 transition-colors hover:bg-white/[0.1]">
-                <span className="rounded-full bg-white px-2 py-0.5 text-[11px] font-semibold text-black">Try it</span>
+              <Link href="/#draw" className="inline-flex items-center gap-2 rounded-[2px] py-1.5 pl-1.5 pr-3.5 text-[13px] text-white/75 ring-1 ring-white transition-colors hover:bg-white/[0.06]">
+                <span className="bg-white px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-black">Try it</span>
                 Draw a card, no sign-up
                 <span aria-hidden="true">→</span>
               </Link>
@@ -127,10 +126,10 @@ export default function Home() {
 
             <FadeUp delay={0.18}>
               <div className="mt-9 flex flex-row flex-wrap items-center justify-center gap-3 lg:justify-start">
-                <GetAppLink className="inline-flex h-12 items-center rounded-full bg-white px-7 text-[15px] font-semibold text-black transition-transform hover:scale-[1.03]">
-                  Ask the Oracle
+                <GetAppLink className="inline-flex h-12 items-center rounded-[2px] bg-white px-7 font-mono text-[13px] uppercase tracking-[0.18em] text-black transition-transform hover:scale-[1.03]">
+                  Ask Plutto
                 </GetAppLink>
-                <Link href="/app" className="inline-flex h-12 items-center gap-1.5 rounded-full px-6 text-[15px] font-medium text-white ring-1 ring-white/20 transition-colors hover:bg-white/[0.06]">
+                <Link href="/app" className="inline-flex h-12 items-center gap-1.5 rounded-[2px] px-6 font-mono text-[13px] uppercase tracking-[0.18em] text-white ring-1 ring-white transition-colors hover:bg-white/[0.06]">
                   Enter Plutto <span aria-hidden="true">→</span>
                 </Link>
               </div>
@@ -230,7 +229,7 @@ export default function Home() {
                   <TileText title="It speaks yours." body="109 languages. The reading arrives in the one you dream in." />
                   <div aria-hidden="true" className="mt-8 flex flex-wrap gap-2">
                     {GREETINGS.slice(0, 10).map((g, i) => (
-                      <span key={g} className="greet-chip rounded-full bg-white/[0.06] px-3 py-1.5 text-[14px] text-white/80 ring-1 ring-white/10" style={{ animationDelay: `${i * 0.9}s` }}>{g}</span>
+                      <span key={g} className="greet-chip rounded-[2px] bg-white/[0.04] px-3 py-1.5 text-[14px] text-white/80 ring-1 ring-white/10" style={{ animationDelay: `${i * 0.9}s` }}>{g}</span>
                     ))}
                   </div>
                 </div>
@@ -308,13 +307,12 @@ export default function Home() {
       {/* ─────────────────────────── DOWNLOAD ─────────────────────────── */}
       <section id="download" className="lazy-section scroll-mt-20 px-6 pb-16 md:pb-20">
         <FadeUp>
-          <div className="aurora relative mx-auto max-w-6xl overflow-hidden rounded-[36px] px-6 py-20 text-center ring-1 ring-white/10 md:py-24"
-               style={{ background: '#0a0a10' }}>
+          <div className="relative mx-auto max-w-6xl overflow-hidden border-y-[3px] border-white px-6 py-20 text-center md:py-24">
             <div className="relative z-10">
             <H2 className="mx-auto max-w-[20ch]">Perhaps the question was never whether the universe speaks.</H2>
             <p className="mx-auto mt-8 max-w-[34ch] text-[15px] text-white/50">Perhaps it was whether you were listening.</p>
             <div className="mt-9 flex justify-center">
-              <Link href="/app" className="inline-flex h-12 items-center rounded-full bg-white px-7 text-[15px] font-semibold text-black transition-opacity hover:opacity-90">
+              <Link href="/app" className="inline-flex h-12 items-center rounded-[2px] bg-white px-7 font-mono text-[13px] uppercase tracking-[0.18em] text-black transition-opacity hover:opacity-90">
                 Ask.
               </Link>
             </div>

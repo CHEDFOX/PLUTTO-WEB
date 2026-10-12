@@ -31,34 +31,40 @@ input, textarea, [contenteditable="true"] {
 */
 @layer base {
   :root {
-    color-scheme: dark;
+    color-scheme: light;
 
-    --background: 0 0% 0%;              /* #000000 */
-    --foreground: 0 0% 94%;             /* #F0F0F0 */
+    /* THE MAGAZINE EDITION: the faces' registers, aliased onto the three loaded families (layout.js). */
+    --font-mark: var(--font-display);
+    --font-editorial: var(--font-display);
+    --font-reading: var(--font-body);
+    --font-ui: var(--font-body);
 
-    --card: 0 0% 4%;                    /* #0A0A0A */
-    --card-foreground: 0 0% 94%;
+    --background: 42 28% 93%;           /* #F2EFE8 paper */
+    --foreground: 0 0% 7%;              /* #111111 ink */
 
-    --popover: 0 0% 4%;
-    --popover-foreground: 0 0% 94%;
+    --card: 42 22% 89%;                 /* #EAE6DD */
+    --card-foreground: 0 0% 7%;
+
+    --popover: 42 22% 89%;
+    --popover-foreground: 0 0% 7%;
 
     /* PRIMARY is the ACTION colour, and it is off-white — the same choice the
        app makes (its auth arrow is a solid white circle, its Continue is white
        text). A filled white button on void is stronger than any hue, and it
        cannot look cheap. Gold is NOT the theme; see --gold below. */
-    --primary: 0 0% 94%;                /* #F0F0F0 */
-    --primary-foreground: 0 0% 0%;      /* text on a white fill */
+    --primary: 0 0% 7%;                 /* ink */
+    --primary-foreground: 42 28% 93%;   /* paper on an ink fill */
 
-    --secondary: 0 0% 10%;
-    --secondary-foreground: 0 0% 94%;
+    --secondary: 42 18% 86%;
+    --secondary-foreground: 0 0% 7%;
 
-    --muted: 0 0% 10%;
-    --muted-foreground: 0 0% 53%;       /* #888888 */
+    --muted: 42 18% 86%;
+    --muted-foreground: 34 6% 31%;      /* #55514C graphite */
 
     /* ACCENT is warm neutral, not a second brand hue — the planets supply the
        only saturated colour on the page and nothing should compete with them. */
-    --accent: 0 0% 54%;                 /* #8A8A8E silver */
-    --accent-foreground: 0 0% 94%;
+    --accent: 34 6% 31%;                /* graphite */
+    --accent-foreground: 42 28% 93%;
 
     /* GOLD — punctuation, deliberately rare. Two or three appearances per page:
        the mark, the active nav item, a selected state. It is never a fill. */
@@ -67,18 +73,18 @@ input, textarea, [contenteditable="true"] {
     --destructive: 0 72% 50%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 10%;                 /* #1A1A1A */
-    --input: 0 0% 10%;
-    --ring: 0 0% 94%;
+    --border: 40 6% 74%;                /* a hairline on paper */
+    --input: 0 0% 7%;
+    --ring: 0 0% 7%;
 
-    --radius: 0.5rem;
+    --radius: 0.125rem;               /* square, like print */
   }
 
   * { @apply border-border; }
 
   html {
     scroll-behavior: smooth;
-    background-color: #000;
+    background-color: #F2EFE8;
     overflow-x: hidden;
     /* the height a "full screen" section fills: the screen, except on a
        scaled tablet (see layout.js), where an upright screen is far taller
@@ -94,16 +100,16 @@ input, textarea, [contenteditable="true"] {
 
   body {
     @apply bg-black text-foreground antialiased;
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--font-body), 'Source Serif 4', Georgia, serif;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Syne', system-ui, sans-serif;
+    font-family: var(--font-display), 'Bodoni Moda', Georgia, serif;
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
   }
 
   /* Reduced-motion */
@@ -125,8 +131,8 @@ input, textarea, [contenteditable="true"] {
 
   /* Selection — vivid navy */
   ::selection {
-    background: rgba(41, 98, 255, 0.35);
-    color: #F0F0F0;
+    background: rgba(200, 52, 31, 0.18);
+    color: #111111;
   }
 
   /* Autofill override */
@@ -138,7 +144,7 @@ input, textarea, [contenteditable="true"] {
   textarea:-webkit-autofill:hover,
   textarea:-webkit-autofill:focus {
     -webkit-text-fill-color: hsl(var(--foreground));
-    -webkit-box-shadow: 0 0 0 1000px #000 inset;
+    -webkit-box-shadow: 0 0 0 1000px #F2EFE8 inset;
     caret-color: hsl(var(--primary));
     transition: background-color 9999s ease-in-out 0s;
   }
@@ -151,9 +157,9 @@ input, textarea, [contenteditable="true"] {
 }
 
 @layer utilities {
-  .font-display { font-family: 'Syne', system-ui, sans-serif; }
-  .font-body    { font-family: 'DM Sans', system-ui, sans-serif; }
-  .font-mono    { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+  .font-display { font-family: var(--font-display), 'Bodoni Moda', Georgia, serif; }
+  .font-body    { font-family: var(--font-body), 'Source Serif 4', Georgia, serif; }
+  .font-mono    { font-family: var(--font-mono), 'IBM Plex Mono', ui-monospace, monospace; }
 
   /* Grain overlay */
   .grain-overlay {
@@ -181,7 +187,8 @@ input, textarea, [contenteditable="true"] {
    works, and inputs/textareas opt out via `data-no-auto-case` or by
    being text inputs. */
 body :where(h1, h2, h3, h4, h5, h6, p, a, button, label, span, li) {
-  text-transform: capitalize;
+  /* THE MAGAZINE EDITION sets copy as written: sentence case, like print. */
+  text-transform: none;
 }
 body :where(.uppercase) { text-transform: uppercase; }
 /* …and everything inside it, for the same reason as the opt-out below: the
@@ -222,11 +229,12 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
   inset: -30%;
   background:
     radial-gradient(closest-side, rgba(41, 98, 255, 0.28), transparent 65%);
-  filter: blur(28px);
+  filter: blur(28px) grayscale(1);
   animation: orb-breathe 9s ease-in-out infinite;
 }
 
 .orb-body {
+  filter: grayscale(1);
   background:
     radial-gradient(
       circle at 50% 52%,
@@ -296,7 +304,7 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
 /* ─────────────────── Typography helpers ─────────────────── */
 
 .eyebrow {
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-family: var(--font-mono), 'IBM Plex Mono', ui-monospace, monospace;
   font-weight: 500;
   font-size: 0.75rem;
   letter-spacing: 0.24em;
@@ -306,12 +314,7 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
 
 .hairline {
   height: 1px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    rgba(41, 98, 255, 0.35),
-    transparent
-  );
+  background: #111111;
 }
 
 /* Form inputs — transparent w/ bottom rule that lights up on focus */
@@ -320,25 +323,25 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
   background: transparent;
   border: 1px solid hsl(var(--border));
   color: hsl(var(--foreground));
-  font-family: 'DM Sans', system-ui, sans-serif;
-  font-size: 15px;
+  font-family: var(--font-body), 'Source Serif 4', Georgia, serif;
+  font-size: 16px;
   padding: 14px 16px;
-  border-radius: 4px;
+  border-radius: 0;
   transition: border-color 200ms ease, box-shadow 200ms ease;
 }
 .input:focus {
   outline: none;
   border-color: hsl(var(--primary));
-  box-shadow: 0 0 0 3px rgba(41, 98, 255, 0.12);
+  box-shadow: none;
 }
-.input::placeholder { color: rgba(255, 255, 255, 0.3); }
+.input::placeholder { color: rgba(17, 17, 17, 0.42); }
 .input:disabled     { opacity: 0.35; }
 
 /* Hero card — subtle dark surface with hairline */
 .hero-card {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
-  border: 1px solid rgba(41, 98, 255, 0.10);
-  border-radius: 24px;
+  background: transparent;
+  border: 1px solid #111111;
+  border-radius: 0;
 }
 
 /* Primary CTA — flat XOOTEQ green pill with a hover glow. The elegance
@@ -351,7 +354,8 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
   transition: box-shadow 250ms ease, transform 250ms ease;
 }
 .cta-glow:hover {
-  box-shadow: 0 0 28px rgba(255, 255, 255, 0.22);
+  box-shadow: none;
+  opacity: 0.86;
 }
 
 /* Wheel pickers and the language grid scroll without a visible bar, matching
@@ -420,7 +424,7 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
 
 /* The product pages set their headings in the UI face. The base layer gives
    h1–h6 Syne by element; inside a .font-ui block they take the block's face. */
-.font-ui :where(h1, h2, h3, h4, h5, h6) { font-family: inherit; }
+.font-ui :where(h1, h2, h3, h4, h5, h6) { font-family: var(--font-display), "Bodoni Moda", Georgia, serif; }
 
 /* Landing-page motion. Every one of these stops under reduced motion. */
 @keyframes orb-breathe { 0%,100% { transform: scale(1) } 50% { transform: scale(1.06) } }
@@ -441,7 +445,7 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
 
 /* ── Landing-page motion, round two ── */
 .shimmer-text {
-  background: linear-gradient(90deg, #7dd3fc, #c4b5fd, #f9a8d4, #fcd34d, #7dd3fc);
+  background: linear-gradient(90deg, #111111, #55514C, #111111, #55514C, #111111);
   background-size: 300% 100%;
   -webkit-background-clip: text; background-clip: text; color: transparent;
   /* One sweep as the word arrives, then still: a moving text gradient is
@@ -471,7 +475,7 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
 
 .aurora::before, .aurora::after {
   content: ''; position: absolute; inset: -60%; pointer-events: none;
-  background: conic-gradient(from 0deg, rgba(124,92,255,.55), rgba(56,189,248,.3), rgba(244,114,182,.45), rgba(252,211,77,.18), rgba(124,92,255,.55));
+  background: conic-gradient(from 0deg, rgba(17,17,17,.10), rgba(17,17,17,.02), rgba(17,17,17,.08), rgba(17,17,17,.02), rgba(17,17,17,.10));
   filter: blur(70px); animation: aurora-spin 20s linear infinite; opacity: .55;
 }
 .aurora::after { animation-duration: 31s; animation-direction: reverse; opacity: .35; inset: -40%; }
@@ -487,7 +491,7 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
 .greet-chip { position: relative; }
 /* The highlight is an overlay fading in and out (compositor work), not a
    background-colour animation, which is repainted on every frame it runs. */
-.greet-chip::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: rgba(244,114,182,.3); opacity: 0; animation: greet 9s ease-in-out infinite; animation-delay: inherit; pointer-events: none; }
+.greet-chip::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: rgba(200,52,31,.14); opacity: 0; animation: greet 9s ease-in-out infinite; animation-delay: inherit; pointer-events: none; }
 @keyframes greet { 0%, 8%, 100% { opacity: 0; } 3% { opacity: 1; } }
 
 @media (prefers-reduced-motion: reduce) {
@@ -531,3 +535,14 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
 /* the frieze scrolls sideways on a phone without a visible bar */
 .frieze ol { scrollbar-width: none; -webkit-overflow-scrolling: touch; }
 .frieze ol::-webkit-scrollbar { display: none; }
+
+/* THE MAGAZINE EDITION — readable greys. The site's text steps were tuned for
+   white on black, where half-white reads easily; half-ink on paper does not.
+   Each step is lifted here, so the hierarchy holds and the faintest line still
+   reads. (Plain CSS after the utilities layer, so it wins at equal weight;
+   hover and focus variants still win by their pseudo-class.) */
+.text-white\/25, .text-white\/30, .text-white\/35 { color: rgb(17 17 17 / 0.56); }
+.text-white\/40, .text-white\/45 { color: rgb(17 17 17 / 0.64); }
+.text-white\/50, .text-white\/55 { color: rgb(17 17 17 / 0.72); }
+.text-white\/60, .text-white\/65 { color: rgb(17 17 17 / 0.8); }
+.text-white\/70, .text-white\/75 { color: rgb(17 17 17 / 0.86); }

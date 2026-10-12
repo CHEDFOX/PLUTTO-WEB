@@ -47,9 +47,9 @@ const LEGAL = [
 
 export default function Footer() {
   return (
-    <footer data-no-auto-case className="sentence-case relative z-10 border-t border-white/[0.08] font-ui">
-      <div className="mx-auto grid max-w-6xl gap-3 px-6 py-8 text-center text-[13px] text-white/45 md:grid-cols-3 md:items-center md:text-left">
-        <p>© {new Date().getFullYear()} Plutto</p>
+    <footer data-no-auto-case className="sentence-case relative z-10 border-t-[3px] border-white font-ui">
+      <div className="mx-auto grid max-w-6xl gap-3 px-6 py-8 text-center font-mono text-[12px] uppercase tracking-[0.14em] text-white/70 md:grid-cols-3 md:items-center md:text-left">
+        <p><span className="mr-3 font-display text-[22px] font-extrabold normal-case tracking-[0.08em] text-white">PLUTTO</span>© {new Date().getFullYear()}</p>
         {/* The studio, and the mission in one word: an expedition — setting out
             after the patterns around us, the written ones and the ones still
             to be found. */}
@@ -67,7 +67,7 @@ export default function Footer() {
               <summary className="cursor-pointer list-none transition-colors hover:text-white group-open:text-white [&::-webkit-details-marker]:hidden">Library</summary>
               <nav
                 aria-label="Read about Plutto"
-                className="absolute bottom-full left-1/2 z-20 mb-3 w-[min(88vw,420px)] -translate-x-1/2 rounded-2xl border border-white/10 bg-[#0b0b10]/95 p-5 text-left shadow-2xl backdrop-blur md:left-auto md:right-0 md:translate-x-0"
+                className="absolute bottom-full left-1/2 z-20 mb-3 w-[min(88vw,420px)] -translate-x-1/2 border border-white bg-black p-5 text-left shadow-2xl md:left-auto md:right-0 md:translate-x-0"
               >
                 <ul className="grid grid-cols-2 gap-x-6 gap-y-2">
                   {READ.map((l) => (

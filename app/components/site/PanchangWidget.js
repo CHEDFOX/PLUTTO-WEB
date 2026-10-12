@@ -59,7 +59,7 @@ export default function PanchangWidget() {
           <input id="pc-date" type="date" min="1800-01-01" max="2199-12-31" value={date} onChange={(e) => e.target.value && setDate(e.target.value)} className={`${FIELD} mt-2`} />
         </div>
       </div>
-      {note ? <p role="status" className="!mt-4 text-[14px] text-[#A78BFA]">{note}</p> : null}
+      {note ? <p role="status" className="!mt-4 text-[14px] text-graphite">{note}</p> : null}
       {p ? <div className="mt-8" aria-live="polite"><p className="mb-3 text-[14px] text-white/55">{place.name} · {date} · times in {place.zone.replace(/_/g, ' ')}</p><PanchangView p={p} /></div> : null}
     </section>
   );

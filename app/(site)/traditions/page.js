@@ -58,7 +58,7 @@ export default function TraditionsPage() {
         </nav>
         {byRegion.map((r) => (
           <section key={r.id} id={r.id} className="scroll-mt-24">
-            <h2 style={{ color: SHELF_COLOR[r.id] || '#fff' }}>{r.title} <span className="text-white/35">· {r.items.length}</span></h2>
+            <h2 className="flex items-center gap-3"><span aria-hidden="true" className="inline-block h-3 w-3" style={{ background: SHELF_COLOR[r.id] || '#111111' }} />{r.title} <span className="text-white/35">· {r.items.length}</span></h2>
             <dl className="mt-6 divide-y divide-white/[0.06]">
               {r.items.map((t) => (
                 <div key={t.id} className="grid grid-cols-1 gap-1 py-4 md:grid-cols-12 md:gap-6">

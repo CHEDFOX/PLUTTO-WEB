@@ -54,10 +54,10 @@ export default function GunaWidget() {
         <BirthFields id="bride" title="Bride" value={bride} onChange={setBride} zoneList={list} />
         <BirthFields id="groom" title="Groom" value={groom} onChange={setGroom} zoneList={list} />
         <div>
-          <button type="submit" disabled={busy} className="inline-flex h-12 items-center justify-center rounded-full bg-white px-7 text-[15px] font-semibold text-black transition-opacity hover:opacity-90 disabled:opacity-60">
+          <button type="submit" disabled={busy} className="inline-flex h-12 items-center justify-center rounded-[2px] bg-white px-7 font-mono text-[13px] uppercase tracking-[0.18em] text-black transition-opacity hover:opacity-90 disabled:opacity-60">
             {busy ? 'Computing…' : 'Match'}
           </button>
-          {err ? <p role="alert" className="!mt-3 text-[14px] text-[#F87171]">{err}</p> : null}
+          {err ? <p role="alert" className="!mt-3 text-[14px] text-sindoor">{err}</p> : null}
         </div>
       </form>
 
@@ -71,7 +71,7 @@ export default function GunaWidget() {
             Groom: <Link href={`/nakshatras/${r.groom.nakshatra.slug}`} className="text-white underline decoration-white/30 underline-offset-4">{r.groom.nakshatra.name}</Link>, {r.groom.sign.name} ({r.groom.sign.sanskrit})
           </p>
           {r.uncertain.length ? (
-            <p className="!mt-3 text-[14px] text-[#A78BFA]">Without a birth time, {r.uncertain.join(' and ')} could be either of two: the Moon changed it that day. Add the time for a certain score.</p>
+            <p className="!mt-3 text-[14px] text-graphite">Without a birth time, {r.uncertain.join(' and ')} could be either of two: the Moon changed it that day. Add the time for a certain score.</p>
           ) : null}
           <div className="mt-6 overflow-x-auto">
             <table className="w-full text-left text-[14px]">
@@ -82,7 +82,7 @@ export default function GunaWidget() {
                     <td className="py-2.5 pr-3"><span className="text-white">{k.name}</span><br /><span className="text-[12px] text-white/40">{WHAT[k.name]}</span></td>
                     <td className="py-2.5 pr-3">{k.bride}</td>
                     <td className="py-2.5 pr-3">{k.groom}</td>
-                    <td className={`py-2.5 text-right tabular-nums ${k.points === 0 ? 'text-[#F87171]' : 'text-white'}`}>{k.points} / {MAX[k.name]}</td>
+                    <td className={`py-2.5 text-right tabular-nums ${k.points === 0 ? 'text-sindoor' : 'text-white'}`}>{k.points} / {MAX[k.name]}</td>
                   </tr>
                 ))}
               </tbody>

@@ -39,12 +39,10 @@ export default function PlanetMark({ name, size = 74, className = '' }) {
         height={size * 2}
         className="h-full w-full object-contain"
         sizes={`${size}px`}
-        // The renders carry their own near-black background, which shows as a
-        // dark square on any section that is not pure black. These are glowing
-        // bodies on black, so screen blending drops that square exactly and
-        // leaves the body — the whole site is dark, so there is nowhere it can
-        // wash out.
-        style={{ mixBlendMode: 'screen' }}
+        // The renders carry their own near-black background. On the magazine's
+        // paper that square is kept on purpose — a printed plate, a body on
+        // black — and set in black and white like every photograph on the site.
+        style={{ filter: 'grayscale(1)' }}
       />
     </span>
   );

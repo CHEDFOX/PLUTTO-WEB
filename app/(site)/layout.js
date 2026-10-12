@@ -24,7 +24,7 @@ export default function SiteLayout({ children }) {
       <JsonLd data={websiteLd()} />
       <JsonLd data={appLd()} />
       <Nav />
-      <div className="flex-1 pt-16">{children}</div>
+      <div className="flex-1 pt-[68px]">{children}</div>
       <Footer />
       <SiteChrome />
     </>

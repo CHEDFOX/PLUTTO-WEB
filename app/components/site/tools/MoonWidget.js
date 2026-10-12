@@ -115,10 +115,10 @@ export default function MoonWidget() {
           <p className="!mt-2 text-[13px] text-white/40">Pick the city in the same zone as where you were born. Historical rules — summer time, war time, local mean time — are applied for your date.</p>
         </div>
         <div className="sm:col-span-2">
-          <button type="submit" disabled={busy} className="inline-flex h-12 items-center justify-center rounded-full bg-white px-7 text-[15px] font-semibold text-black transition-opacity hover:opacity-90 disabled:opacity-60">
+          <button type="submit" disabled={busy} className="inline-flex h-12 items-center justify-center rounded-[2px] bg-white px-7 font-mono text-[13px] uppercase tracking-[0.18em] text-black transition-opacity hover:opacity-90 disabled:opacity-60">
             {busy ? 'Computing…' : 'Calculate'}
           </button>
-          {err ? <p role="alert" className="!mt-3 text-[14px] text-[#F87171]">{err}</p> : null}
+          {err ? <p role="alert" className="!mt-3 text-[14px] text-sindoor">{err}</p> : null}
         </div>
       </form>
 

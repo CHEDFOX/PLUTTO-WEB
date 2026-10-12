@@ -80,7 +80,8 @@ function along(u) {
 const layer = (u) => (u > 2.62 ? 40 : u > 2 ? 5 : 30 - Math.round(u * 10));
 
 // The glow behind the front phone takes that screen's colour.
-const GLOW = ['#7C5CFF', '#E0A458', '#3B82F6'];
+// Magazine edition: the glow behind each phone is a warm grey shadow, not a colour.
+const GLOW = ['#CFC8BC', '#D9D3C8', '#CFC8BC'];
 
 function Phone({ turn, index, isFront, children }) {
   const at = (t) => along(wrap(index - t));
@@ -266,7 +267,7 @@ export default function HeroStage({ copy, phones, neptune }) {
     <section ref={stage} className={`hero-pin relative ${pinned ? 'lg:h-[calc(var(--screen-h)*2.6)]' : ''}`}>
       <div className={`hero-pin-sticky ${pinned ? 'lg:sticky lg:top-16 lg:h-[calc(var(--screen-h)-64px)]' : ''} relative overflow-hidden`}>
         <div aria-hidden="true" className="pointer-events-none absolute inset-0"
-             style={{ background: 'radial-gradient(40% 50% at 72% 60%, rgba(56,120,255,0.22), transparent 70%), radial-gradient(35% 40% at 20% 30%, rgba(124,92,255,0.18), transparent 70%)' }} />
+             style={{ background: 'radial-gradient(40% 50% at 72% 60%, rgba(17,17,17,0.05), transparent 70%)' }} />
 
         <div className="relative mx-auto grid h-full max-w-6xl grid-cols-1 items-center gap-6 px-6 pt-12 lg:min-h-[calc(var(--screen-h)-64px)] lg:grid-cols-[1.05fr_1fr] lg:gap-4 lg:pt-0">
           <div className="text-center lg:text-left">

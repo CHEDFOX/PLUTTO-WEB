@@ -9,7 +9,7 @@
  */
 import Link from 'next/link';
 
-export const MONO = 'text-[14px] font-semibold text-[#A78BFA]';
+export const MONO = 'font-mono text-[12px] uppercase tracking-[0.2em] text-white';
 export const LINK = 'text-white underline decoration-white/30 underline-offset-4 hover:decoration-white';
 
 export function Doc({ eyebrow, title, lead, crumbs = [], children }) {
@@ -51,7 +51,7 @@ export function DocDoor({ links = [] }) {
       <div className="mt-8 flex flex-wrap items-center gap-6">
         <Link
           href="/app"
-          className="inline-flex h-12 items-center justify-center rounded-full bg-white px-7 text-[15px] font-semibold text-black transition-opacity hover:opacity-90"
+          className="inline-flex h-12 items-center justify-center rounded-[2px] bg-white px-7 font-mono text-[13px] uppercase tracking-[0.18em] text-black transition-opacity hover:opacity-90"
         >
           Open Plutto in this browser
         </Link>

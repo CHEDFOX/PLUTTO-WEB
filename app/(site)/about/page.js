@@ -30,7 +30,7 @@ export const metadata = pageMeta({
   path: '/about',
 });
 
-const MONO = 'text-[14px] font-semibold text-[#A78BFA]';
+const MONO = 'font-mono text-[12px] uppercase tracking-[0.2em] text-white';
 
 /** The longer passages: small, quiet, one line per line, a breath between stanzas. */
 function Lines({ text }) {
@@ -126,7 +126,7 @@ export default function AboutPage() {
         </section>
 
         {/* ───────────────────── THE THREE MOVEMENTS ───────────────── */}
-        <section className="border-t border-white/[0.07] bg-[#050509]/40">
+        <section className="border-t border-white/[0.07] bg-white/[0.03]">
           <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">
             <FadeUp>
               <p className={MONO}>What happens when you ask</p>
@@ -138,10 +138,7 @@ export default function AboutPage() {
                   <li className="grid grid-cols-1 gap-6 border-t border-white/[0.07] pt-10 md:grid-cols-12 md:gap-10">
                     <div className="md:col-span-3">
                       <PlanetMark name={m.planet} size={150} />
-                      <span
-                        className="mt-5 block text-[2rem] font-semibold leading-none tracking-[-0.04em]"
-                        style={{ color: m.color }}
-                      >
+                      <span className="mt-5 block font-display text-[2.6rem] font-bold leading-none text-white">
                         {m.n}
                       </span>
                       <span className="mt-2 block text-[17px] font-semibold text-white">
@@ -182,7 +179,7 @@ export default function AboutPage() {
                 style={{ fontSize: 'clamp(1.8rem,4vw,2.9rem)', lineHeight: 1.16 }}
               >
                 You don&apos;t have to believe us.
-                <span data-no-auto-case className="text-[#8A8A8E]"> You shouldn&apos;t.</span>
+                <span data-no-auto-case className="text-graphite"> You shouldn&apos;t.</span>
               </h2>
             </FadeUp>
 
@@ -216,7 +213,7 @@ export default function AboutPage() {
         </section>
 
         {/* ───────────────────── THE MACHINERY, NAMED ───────────────── */}
-        <section className="border-t border-white/[0.07] bg-[#050509]/40">
+        <section className="border-t border-white/[0.07] bg-white/[0.03]">
           <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">
             <FadeUp>
               <p className={MONO}>Under it</p>
@@ -233,7 +230,7 @@ export default function AboutPage() {
             <FadeUp delay={0.15}>
               <p data-no-auto-case className="mt-16 max-w-2xl text-[17px] leading-[1.65] text-white/60">
                 Built by{' '}
-                <span data-no-auto-case className="text-[#F0F0F0]">Xooteq Lab</span>, a studio
+                <span data-no-auto-case className="text-white">Xooteq Lab</span>, a studio
                 making voice-first tools for the ancient sciences. What we keep —{' '}
                 {/* The policy is served by the API, not by this app — the same
                     URL the footer and the phone's settings screen point at. */}
@@ -287,7 +284,7 @@ export default function AboutPage() {
                 <Link
                   href="/app"
                   data-no-binary
-                  className="inline-flex h-12 items-center justify-center rounded-full bg-white px-7 text-[15px] font-semibold text-black transition-opacity hover:opacity-90"
+                  className="inline-flex h-12 items-center justify-center rounded-[2px] bg-white px-7 font-mono text-[13px] uppercase tracking-[0.18em] text-black transition-opacity hover:opacity-90"
                 >
                   Open it in this browser
                 </Link>
@@ -310,7 +307,7 @@ export default function AboutPage() {
 function Fact({ k, v, note, color }) {
   return (
     <div>
-      <dt className="text-[13px] font-semibold" style={{ color }}>{k}</dt>
+      <dt className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-white"><span aria-hidden="true" className="inline-block h-2 w-2" style={{ background: color }} />{k}</dt>
       <dd>
         <span data-no-auto-case className="mt-2 block text-[22px] font-semibold tracking-[-0.02em] text-white">
           {v}

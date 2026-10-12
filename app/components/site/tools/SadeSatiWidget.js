@@ -65,8 +65,8 @@ export default function SadeSatiWidget() {
           </div>
         )}
         <div>
-          <button type="submit" className="inline-flex h-12 items-center justify-center rounded-full bg-white px-7 text-[15px] font-semibold text-black hover:opacity-90">Check Sade Sati</button>
-          {err ? <p role="alert" className="!mt-3 text-[14px] text-[#F87171]">{err}</p> : null}
+          <button type="submit" className="inline-flex h-12 items-center justify-center rounded-[2px] bg-white px-7 font-mono text-[13px] uppercase tracking-[0.18em] text-black hover:opacity-90">Check Sade Sati</button>
+          {err ? <p role="alert" className="!mt-3 text-[14px] text-sindoor">{err}</p> : null}
         </div>
       </form>
 
@@ -83,7 +83,7 @@ export default function SadeSatiWidget() {
                 : r.next ? <>The next one begins {day(r.next.from)} and ends {day(r.next.to)}.</> : null}
               {r.dhNow ? <> Saturn is also in your {r.dhNow.kind} until {day(r.dhNow.to)} — a small panoti (Dhaiya).</> : r.dhNext ? <> Next small panoti (Dhaiya): {r.dhNext.kind}, from {day(r.dhNext.from)}.</> : null}
             </p>
-            {r.uncertain ? <p className="!mt-3 text-[14px] text-[#A78BFA]">Without a birth time: the Moon changed sign on your birth day, so your Moon sign may be the next one. Add the time, or check with “I know my Moon sign”.</p> : null}
+            {r.uncertain ? <p className="!mt-3 text-[14px] text-graphite">Without a birth time: the Moon changed sign on your birth day, so your Moon sign may be the next one. Add the time, or check with “I know my Moon sign”.</p> : null}
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
             <p className="text-[13px] font-semibold text-white/55">Every Sade Sati {r.uncertain === undefined ? 'from 30 years ago' : 'in your lifetime'}</p>

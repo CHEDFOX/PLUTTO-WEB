@@ -43,10 +43,24 @@ export default {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
         },
-        void: '#000000',
-        whisper: 'rgba(255,255,255,0.06)',
-        mist: 'rgba(255,255,255,0.12)',
-        scrim: 'rgba(0,0,0,0.85)',
+        // THE MAGAZINE EDITION. The site was written in white-on-black classes
+        // (text-white/60, border-white/10, bg-black …); the palette is turned
+        // over here, once, so every page prints as ink on paper: "white" is the
+        // ink and "black" is the paper. Colour is otherwise sacred — sindoor for
+        // the one line or date to keep, gold for a reader's own sky, indigo for
+        // the night — and never a fill.
+        white: '#111111',
+        black: '#F2EFE8',
+        paper: '#F2EFE8',
+        ink: '#111111',
+        graphite: '#55514C',
+        sindoor: '#C8341F',
+        gold: '#D4AF37',
+        night: '#26368C',
+        void: '#F2EFE8',
+        whisper: 'rgba(17,17,17,0.06)',
+        mist: 'rgba(17,17,17,0.12)',
+        scrim: 'rgba(17,17,17,0.85)',
       },
       fontFamily: {
         display: ['var(--font-display)', 'Julius Sans One', 'system-ui', 'sans-serif'],
@@ -74,6 +88,10 @@ export default {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+        // Magazine corners: cards and panels square up; only true circles stay round.
+        xl: '2px',
+        '2xl': '2px',
+        '3xl': '2px',
       },
       keyframes: {
         'x-kick': {

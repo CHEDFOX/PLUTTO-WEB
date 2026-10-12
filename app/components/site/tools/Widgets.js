@@ -105,7 +105,7 @@ function CuspCheck({ d, r }) {
   const who = res && (res.after ? r.calendar : r.previous);
   return (
     <div className="!mt-4 text-[15px]">
-      <p className="text-[#A78BFA]">You were born on the Li Chun cusp: depending on the minute, you are the {r.previous.name} or the {r.calendar.name}. Add your birth time to settle it.</p>
+      <p className="text-graphite">You were born on the Li Chun cusp: depending on the minute, you are the {r.previous.name} or the {r.calendar.name}. Add your birth time to settle it.</p>
       <form onSubmit={check} className="mt-4 flex flex-wrap items-end gap-3">
         <div>
           <label htmlFor="cz-time" className={LABEL}>Time of birth</label>
@@ -117,7 +117,7 @@ function CuspCheck({ d, r }) {
             {list.map((z) => <option key={z} value={z}>{zoneLabel(z)}</option>)}
           </select>
         </div>
-        <button type="submit" className="h-12 rounded-full bg-white px-6 text-[15px] font-semibold text-black hover:opacity-90">Check</button>
+        <button type="submit" className="h-12 rounded-[2px] bg-white px-6 font-mono text-[13px] uppercase tracking-[0.18em] text-black hover:opacity-90">Check</button>
       </form>
       {res ? (
         <p className="!mt-4 text-white/85">

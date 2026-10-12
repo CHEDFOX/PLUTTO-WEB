@@ -19,13 +19,13 @@ const OnboardingShot = () => <AppVideo name="when" poster="/app/screens/when-sta
 const Morning = () => <LockApp live />;
 
 const STEPS = [
-  { n: '01', color: '#A78BFA', title: 'The sky was different when you arrived.',
+  { n: '01', color: '#111111', title: 'The sky was different when you arrived.',
     body: 'Your birth was not an abstraction.\nIt happened somewhere.\nAt a precise moment.\nUnder a particular sky.\n\nPlutto reconstructs that moment and follows its patterns through time.\n\nYour chart is not a horoscope from a newspaper.\nIt is yours.',
     Screen: OnboardingShot },
-  { n: '02', color: '#38BDF8', title: 'There is always a question.',
+  { n: '02', color: '#111111', title: 'There is always a question.',
     body: 'Not the question you ask everyone.\nThe other one.\nThe one that returns when the room is quiet.\n\nWhat is changing?\nWhy now?\nWhat am I not seeing?\nWhere is this going?\n\nAsk it.',
     Screen: VoiceVideo },
-  { n: '03', color: '#FBBF24', title: 'Wake up already knowing.',
+  { n: '03', color: '#111111', title: 'Wake up already knowing.',
     body: 'Every morning at nine, one line written for the day you’re about to have.',
     Screen: Morning, lock: true },
 ];
@@ -52,7 +52,7 @@ export default function Story() {
         <div className="sticky top-[calc(50vh-340px)] flex justify-center">
           <div className="relative">
             <div aria-hidden="true" className="absolute -inset-24 rounded-full blur-3xl transition-colors duration-700"
-                 style={{ background: `radial-gradient(closest-side, ${STEPS[active].color}40, transparent)` }} />
+                 style={{ background: `radial-gradient(closest-side, ${STEPS[active].color}14, transparent)` }} />
             <Device width={320} statusTime={STEPS[active].lock ? '' : '9:41'}>
               {STEPS.map(({ Screen, n }, i) => (
                 <div key={n} className={`absolute inset-0 transition-all duration-700 ease-out ${i === active ? 'scale-100 opacity-100 blur-0' : i < active ? 'scale-[0.94] opacity-0 blur-md' : 'scale-[1.06] opacity-0 blur-md'}`}>
