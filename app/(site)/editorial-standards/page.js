@@ -1,21 +1,24 @@
 /**
- * /editorial-standards — how the site's pages are written, what they rest on,
- * and how to report a mistake. Search engines and answer engines weigh a
- * source by whether it says who stands behind it and how it checks itself;
- * this page is that statement, linked from every page's footer and named as
- * the organization's publishingPrinciples in the JSON-LD.
+ * /editorial-standards — THE METHOD (the nav's "Method"): every system Plutto reads,
+ * what each is read from and what it rests on (app/lib/method.js, written from the
+ * backend's provenance registry), then how the site's own pages are written and how
+ * to report a mistake. Search engines and answer engines weigh a source by whether
+ * it says who stands behind it and how it checks itself; this page is that
+ * statement, named as the organization's publishingPrinciples in the JSON-LD.
  */
 import Link from 'next/link';
 import { pageMeta, breadcrumbLd, JsonLd, abs, SITE } from '../../lib/seo';
 import { UPDATED } from '../../lib/guides';
-import { Doc, LINK } from '../../components/site/Doc';
+import { Doc, LINK, MONO } from '../../components/site/Doc';
+import { METHOD, FROM, EVIDENCE } from '../../lib/method';
 
 const PATH = '/editorial-standards';
-const TITLE = 'Editorial Standards and Sources';
-const DESC = 'How Plutto’s guides, reference pages and calculators are written and checked: the ephemeris, the classical sources, how AI is used, and how to report a correction.';
+const TITLE = 'Method and Sources';
+const DESC = 'Every tradition Plutto reads, what each one is read from and the classical works it rests on; how the astronomy is computed, how AI is used, and how to report a correction.';
 
 export const metadata = pageMeta({ title: TITLE, description: DESC, path: PATH });
 
+// The site's own pages and calculators (the app's systems are in app/lib/method.js).
 const SOURCES = [
   ['Astronomy', 'Swiss Ephemeris (Astrodienst), for every planetary position, house cusp and ayanamsa. Vedic charts use the Lahiri ayanamsa; KP the Krishnamurti ayanamsa with Placidus cusps; Western charts the tropical zodiac with Placidus houses.'],
   ['Vedic astrology (Jyotish)', 'Brihat Parashara Hora Shastra for the grahas, nakshatras, the Vimshottari dasha and the vargas; Phaladeepika and Saravali for yogas and interpretation.'],
@@ -36,10 +39,40 @@ export default function Page() {
   return (
     <>
       <JsonLd data={page} />
-      <JsonLd data={breadcrumbLd([{ name: 'Editorial standards', path: PATH }])} />
-      <Doc eyebrow="How we write" title="Editorial standards and sources" crumbs={[{ name: 'Editorial standards', path: PATH }]}>
+      <JsonLd data={breadcrumbLd([{ name: 'Method', path: PATH }])} />
+      <Doc eyebrow="Method" title="Every system, and what it rests on" crumbs={[{ name: 'Method', path: PATH }]}>
         <p className="speakable !mt-0 max-w-2xl text-[19px] leading-[1.65] text-white/85">
-          Every guide, reference page and calculator on plutto.space is written and edited by the Plutto team at {SITE.companyShort}, with AI assistance, and checked against the classical source of the tradition it describes. The astronomy is computed, never estimated; the interpretations are the traditions’ own; and nothing here is presented as science or as advice.
+          Each tradition in Plutto is read by its own rules, from its own classical sources, and named as its own people name it. The astronomy is computed, never estimated; the interpretations are the traditions’ own; and nothing here is presented as science or as advice.
+        </p>
+        <p>
+          Below is every system the app reads, what a reading needs from you, and the works and conventions it is built on. Where a system is modern, it is dated as modern. Where something cannot honestly be computed, it is taught instead, and the page says so.
+        </p>
+
+        <nav aria-label="Regions" className="!mt-10 flex flex-wrap gap-x-5 gap-y-2 text-[14px]">
+          {METHOD.map((r) => <a key={r.id} href={`#${r.id}`} className={LINK}>{r.title}</a>)}
+        </nav>
+
+        {METHOD.map((r) => (
+          <section key={r.id} id={r.id} className="scroll-mt-24">
+            <h2>{r.title}</h2>
+            {r.lead ? <p>{r.lead}</p> : null}
+            <dl className="mt-6 divide-y divide-white/[0.08] border-y border-white/[0.08]">
+              {r.items.map((t) => (
+                <div key={t.name} className="grid grid-cols-1 gap-2 py-5 md:grid-cols-12 md:gap-6">
+                  <dt className="min-w-0 md:col-span-4">
+                    <span className="block text-[16px] font-semibold leading-snug text-white">{t.name}</span>
+                    <span className="mt-1.5 block font-mono text-[10.5px] uppercase tracking-[0.16em] text-white/45">{FROM[t.from]}</span>
+                  </dt>
+                  <dd className="min-w-0 text-[15px] leading-[1.65] text-white/65 md:col-span-8">{t.basis}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        ))}
+
+        <h2>What the tests found</h2>
+        <p>
+          The published tests are kept beside the methods, the negative results included: {EVIDENCE} Knowing where a method comes from says nothing about whether it works, and Plutto never claims that it does.
         </p>
 
         <h2>What we stand behind</h2>
@@ -52,7 +85,8 @@ export default function Page() {
         <h2>How AI is used</h2>
         <p>Readings inside the app are generated by AI language models from your computed chart: the positions are calculated first, and the model interprets them within the tradition you choose. The spoken voice is AI as well. The pages on this site are drafted with AI assistance, then edited and checked against the sources below.</p>
 
-        <h2>Sources</h2>
+        <h2>On this site</h2>
+        <p>The guides, reference pages and free calculators on plutto.space rest on these.</p>
         <dl className="mt-6 max-w-2xl divide-y divide-white/[0.07] border-y border-white/[0.07]">
           {SOURCES.map(([k, v]) => (
             <div key={k} className="py-4">
@@ -69,8 +103,9 @@ export default function Page() {
         </p>
         <p>Last reviewed {new Date(UPDATED).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}.</p>
 
-        <p className="!mt-12">
-          <Link href="/guides" className={LINK}>Guides</Link> · <Link href="/tools" className={LINK}>Calculators</Link> · <Link href="/faq" className={LINK}>FAQ</Link> · <Link href="/about" className={LINK}>How it works</Link>
+        <p className={`!mt-12 ${MONO}`}>Read on</p>
+        <p className="!mt-3">
+          <Link href="/traditions" className={LINK}>The traditions, by region</Link> · <Link href="/guides" className={LINK}>Guides</Link> · <Link href="/tools" className={LINK}>Calculators</Link> · <Link href="/faq" className={LINK}>FAQ</Link> · <Link href="/about" className={LINK}>How it works</Link>
         </p>
       </Doc>
     </>

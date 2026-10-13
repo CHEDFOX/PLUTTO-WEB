@@ -12,7 +12,6 @@ import ATLAS from '../../lib/atlas.json';
 import { SHELF_COLOR } from '../../lib/traditions';
 import { pageMeta, breadcrumbLd, JsonLd, abs, SITE } from '../../lib/seo';
 import { Doc, DocDoor, LINK } from '../../components/site/Doc';
-import Link from 'next/link';
 
 const KIND = {
   birth: 'read from your birth',
@@ -71,11 +70,6 @@ export default function TraditionsPage() {
             </dl>
           </section>
         ))}
-        <p className="!mt-14">
-          The five traditions Plutto computes in full — <Link href="/guides/vedic-astrology" className={LINK}>Vedic</Link>,{' '}
-          <Link href="/guides/kp-astrology" className={LINK}>KP</Link>, <Link href="/guides/western-astrology" className={LINK}>Western</Link>,{' '}
-          <Link href="/guides/chinese-astrology" className={LINK}>Chinese BaZi</Link> and <Link href="/guides/astrocartography" className={LINK}>astrocartography</Link> — each have a guide.
-        </p>
         <DocDoor links={[{ href: '/guides', label: 'Guides' }, { href: '/faq', label: 'FAQ' }]} />
       </Doc>
     </>

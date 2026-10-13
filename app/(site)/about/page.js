@@ -212,40 +212,11 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* ───────────────────── THE MACHINERY, NAMED ───────────────── */}
+        {/* ───────────────────── WHAT IT COSTS ───────────────── */}
         <section className="border-t border-white/[0.07] bg-white/[0.03]">
-          <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">
+          <div className="mx-auto max-w-5xl px-6 py-16 md:py-20">
             <FadeUp>
-              <p className={MONO}>Under it</p>
-            </FadeUp>
-
-            <div className="mt-14 grid grid-cols-1 gap-x-12 gap-y-10 md:grid-cols-3">
-              <Fact color={SHELF_COLOR.south_asia} k="Ephemeris" v="Swiss Ephemeris" note="The sky, to the second of arc. What observatories run on." />
-              <Fact color={SHELF_COLOR.china} k="Voice" v="OpenAI Realtime" note="Spoken, in the language you already use." />
-              <Fact color={SHELF_COLOR.pacific} k="Shelves" v="The whole world" note="Cards, cowries, coins, letters, stars." />
-              <Fact color={SHELF_COLOR.sky} k="Traditions" v="Thousands of years" note="Named as their own people name them." />
-              <Fact color={SHELF_COLOR.americas} k="Languages" v="Yours" note="Pick yours once; every reading arrives in it." />
-            </div>
-
-            <FadeUp delay={0.15}>
-              <p data-no-auto-case className="mt-16 max-w-2xl text-[17px] leading-[1.65] text-white/60">
-                Built by{' '}
-                <span data-no-auto-case className="text-white">Xooteq Lab</span>, a studio
-                making voice-first tools for the ancient sciences. What we keep —{' '}
-                {/* The policy is served by the API, not by this app — the same
-                    URL the footer and the phone's settings screen point at. */}
-                <a
-                  href="https://api.plutto.space/privacy"
-                  className="text-white underline decoration-white/30 underline-offset-4 hover:decoration-white"
-                >
-                  and what we do not
-                </a>{' '}
-                — is written in plain words, not in a policy nobody reads.
-              </p>
-            </FadeUp>
-
-            <FadeUp delay={0.2}>
-              <p data-no-auto-case className="mt-6 max-w-2xl text-[17px] leading-[1.65] text-white/60">
+              <p data-no-auto-case className="max-w-2xl text-[17px] leading-[1.65] text-white/60">
                 It is free to start; Plutto Star opens every reading.{' '}
                 <Link
                   href="/pricing"
@@ -300,22 +271,5 @@ export default function AboutPage() {
         </section>
       </div>
     </>
-  );
-}
-
-/** One line of the specification: what it is, what it is called, why it matters. */
-function Fact({ k, v, note, color }) {
-  return (
-    <div>
-      <dt className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-white"><span aria-hidden="true" className="inline-block h-2 w-2" style={{ background: color }} />{k}</dt>
-      <dd>
-        <span data-no-auto-case className="mt-2 block text-[22px] font-semibold tracking-[-0.02em] text-white">
-          {v}
-        </span>
-        <span data-no-auto-case className="mt-2 block text-[15px] leading-[1.6] text-white/50">
-          {note}
-        </span>
-      </dd>
-    </div>
   );
 }
