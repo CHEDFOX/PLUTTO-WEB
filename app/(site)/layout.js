@@ -10,6 +10,7 @@
  * A route group (this folder's parentheses) keeps the URLs exactly as they were:
  * /(site)/page.js is still /, /(site)/about is still /about.
  */
+import Script from 'next/script';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
 import SiteChrome from '../components/SiteChrome';
@@ -27,6 +28,8 @@ export default function SiteLayout({ children }) {
       <div className="flex-1 pt-[68px]">{children}</div>
       <Footer />
       <SiteChrome />
+      {/* Meta pixel + consent (app/api/meta/pixel). A stub until META_PIXEL_ID is set. */}
+      <Script src="/api/meta/pixel" strategy="afterInteractive" />
     </>
   );
 }

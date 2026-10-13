@@ -11,6 +11,8 @@
 // always did, and the links are in the HTML as sent — search engines index
 // content in a collapsed disclosure in full (it is not hidden text: anyone can
 // open it), so the pages keep their internal links without a row of them.
+import CookieChoices from './CookieChoices';
+
 const READ = [
   { label: 'How it works', href: '/about' },
   { label: 'Magazine', href: '/magazine' },
@@ -61,6 +63,8 @@ export default function Footer() {
               <a href={l.href} className="transition-colors hover:text-white">{l.label}</a>
             </li>
           ))}
+          {/* Only when the Meta pixel is on (app/api/meta/pixel). */}
+          <li className="empty:hidden"><CookieChoices className="uppercase tracking-[0.14em] transition-colors hover:text-white" /></li>
           {/* On phones the panel anchors to the whole footer, not the word, so it
               never runs off the edge of the screen. */}
           <li className="md:relative">

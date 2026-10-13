@@ -10,6 +10,7 @@
  * minute the Moon changed nakshatra or sign.
  */
 import { useEffect, useState } from 'react';
+import { track } from '../../../lib/meta';
 import Link from 'next/link';
 import { slugify } from '../../../lib/reference';
 import { lunar, vimshottari, runningAt, fmtDeg, fmtSpan, DASHA_YEARS } from '../../../lib/vedic';
@@ -83,6 +84,7 @@ export default function MoonWidget() {
     try {
       const sky = await import('../../../lib/sky');
       setR({ ...compute(sky, { date, time: unknown ? '' : time.slice(0, 5), zone }), zone });
+      track('Lead', { content_name: 'moon-sign-nakshatra' });
     } catch {
       setErr('Something went wrong computing the chart. Please try again.');
     } finally {

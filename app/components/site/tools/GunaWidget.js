@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { BirthFields, emptyBirth, useZones, birthError, birthMoon } from './birth';
 import { gunaMilan, verdict, MAX } from '../../../lib/guna';
+import { track } from '../../../lib/meta';
 
 const WHAT = {
   Varna: 'spiritual temperament',
@@ -41,6 +42,7 @@ export default function GunaWidget() {
       const sky = await import('../../../lib/sky');
       const b = birthMoon(sky, bride), g = birthMoon(sky, groom);
       setR({ ...gunaMilan(b.sidereal, g.sidereal), uncertain: [...b.changes.map((c) => `the bride’s ${c}`), ...g.changes.map((c) => `the groom’s ${c}`)] });
+      track('Lead', { content_name: 'kundli-matching' });
     } catch {
       setErr('Something went wrong computing the charts. Please try again.');
     } finally {

@@ -21,6 +21,11 @@ const RAZORPAY = 'https://*.razorpay.com';
 // their licences live and each credit links. Special:FilePath on commons
 // redirects to the file on upload, so both hosts are named.
 const COMMONS = 'https://commons.wikimedia.org https://upload.wikimedia.org';
+// META — the pixel (app/api/meta/pixel) loads fbevents.js from connect.facebook.net
+// and reports to www.facebook.com (an image request, or fetch/beacon). The server
+// copy of each event goes from Vercel, so it needs nothing here.
+const META_JS = 'https://connect.facebook.net';
+const META = 'https://www.facebook.com';
 
 /**
  * Content-Security-Policy — the single most valuable header here: even if a
@@ -39,16 +44,16 @@ const csp = (dev) =>
     "default-src 'self'",
     // 'wasm-unsafe-eval' is CanvasKit (Skia) — the orb, the globe and the maps
     // in the app at /app are drawn with it. It permits WebAssembly only, not eval.
-    `script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' ${PADDLE_CDN} ${RAZORPAY_JS}${dev ? " 'unsafe-eval'" : ''}`,
+    `script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' ${PADDLE_CDN} ${RAZORPAY_JS} ${META_JS}${dev ? " 'unsafe-eval'" : ''}`,
     "worker-src 'self' blob:",
     "style-src 'self' 'unsafe-inline'",
-    `img-src 'self' data: blob: ${API} ${PADDLE} ${RAZORPAY} ${COMMONS}`,
+    `img-src 'self' data: blob: ${API} ${PADDLE} ${RAZORPAY} ${COMMONS} ${META}`,
     `media-src 'self' data: blob: ${API}`,
     // The app screens are set in the same faces the phone downloads, served from
     // the backend — without this the browser refuses them and silently falls back
     // to the system font, which looks like a design choice rather than a block.
     `font-src 'self' data: ${API}`,
-    `connect-src 'self' blob: data: ${API} ${SUPABASE} ${OPENAI} ${PADDLE} ${RAZORPAY} wss://*.openai.com${dev ? ' ws://localhost:*' : ''}`,
+    `connect-src 'self' blob: data: ${API} ${SUPABASE} ${OPENAI} ${PADDLE} ${RAZORPAY} ${META} ${META_JS} wss://*.openai.com${dev ? ' ws://localhost:*' : ''}`,
     // The checkout is an iframe from Paddle's origin. Without this it falls back
     // to default-src 'self' and the overlay opens empty — no error, no content.
     `frame-src 'self' ${PADDLE} ${RAZORPAY}`,
