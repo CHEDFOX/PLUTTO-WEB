@@ -13,6 +13,7 @@
 // open it), so the pages keep their internal links without a row of them.
 const READ = [
   { label: 'How it works', href: '/about' },
+  { label: 'Magazine', href: '/magazine' },
   { label: 'Guides', href: '/guides' },
   { label: 'Ancient languages', href: '/traditions' },
   { label: 'FAQ', href: '/faq' },

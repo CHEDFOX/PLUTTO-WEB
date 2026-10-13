@@ -16,6 +16,7 @@ import GetAppLink from './GetAppLink';
 const LINKS = [
   { href: '/app', label: 'Ask' },
   { href: '/panchang', label: 'Today' },
+  { href: '/magazine', label: 'Magazine' },
   { href: '/traditions', label: 'Traditions' },
   { href: '/editorial-standards', label: 'Method' },
   { href: '/about', label: 'About' },
@@ -55,10 +56,10 @@ export default function Nav() {
           <span className="font-display text-[28px] font-extrabold uppercase leading-none tracking-[0.08em] text-white">Plutto</span>
         </Link>
 
-        <ul className="hidden items-center gap-8 md:flex">
+        <ul className="hidden items-center gap-5 md:flex lg:gap-8">
           {LINKS.map((l) => (
             <li key={l.href}>
-              <Link href={l.href} className={`font-mono text-[12px] uppercase tracking-[0.18em] transition-colors hover:text-white ${path === l.href ? 'text-white underline underline-offset-[6px]' : 'text-white/70'}`}>
+              <Link href={l.href} className={`font-mono text-[12px] uppercase tracking-[0.18em] transition-colors hover:text-white ${path === l.href || path?.startsWith(`${l.href}/`) ? 'text-white underline underline-offset-[6px]' : 'text-white/70'}`}>
                 {l.label}
               </Link>
             </li>

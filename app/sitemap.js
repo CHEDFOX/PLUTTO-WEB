@@ -10,6 +10,7 @@ import { abs } from './lib/seo';
 import { SECTIONS, refPath } from './lib/refpages';
 import { TOOLS, toolPath } from './lib/tools';
 import { CAL_YEARS } from './lib/skycal';
+import { ARTICLES } from './lib/magazine';
 
 export default function sitemap() {
   const at = new Date(UPDATED);
@@ -21,6 +22,8 @@ export default function sitemap() {
     page('/faq', 0.8),
     page('/traditions', 0.8),
     page('/guides', 0.8),
+    page('/magazine', 0.8, 'weekly'),
+    ...ARTICLES.map((a) => page(`/magazine/${a.slug}`, 0.7)),
     ...GUIDES.map((g) => page(`/guides/${g.slug}`, 0.7)),
     ...Object.entries(SECTIONS).flatMap(([key, s]) => [
       page(s.base, 0.7),

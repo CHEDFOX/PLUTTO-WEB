@@ -17,6 +17,10 @@ const PADDLE = 'https://*.paddle.com https://*.paddlejs.com';
 // any one of these, the window opens empty or the pay button does nothing.
 const RAZORPAY_JS = 'https://checkout.razorpay.com';
 const RAZORPAY = 'https://*.razorpay.com';
+// WIKIMEDIA COMMONS — the magazine's photographs are loaded from Commons, where
+// their licences live and each credit links. Special:FilePath on commons
+// redirects to the file on upload, so both hosts are named.
+const COMMONS = 'https://commons.wikimedia.org https://upload.wikimedia.org';
 
 /**
  * Content-Security-Policy — the single most valuable header here: even if a
@@ -38,7 +42,7 @@ const csp = (dev) =>
     `script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' ${PADDLE_CDN} ${RAZORPAY_JS}${dev ? " 'unsafe-eval'" : ''}`,
     "worker-src 'self' blob:",
     "style-src 'self' 'unsafe-inline'",
-    `img-src 'self' data: blob: ${API} ${PADDLE} ${RAZORPAY}`,
+    `img-src 'self' data: blob: ${API} ${PADDLE} ${RAZORPAY} ${COMMONS}`,
     `media-src 'self' data: blob: ${API}`,
     // The app screens are set in the same faces the phone downloads, served from
     // the backend — without this the browser refuses them and silently falls back
