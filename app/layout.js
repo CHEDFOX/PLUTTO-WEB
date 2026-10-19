@@ -1,5 +1,6 @@
 import { Bodoni_Moda, Source_Serif_4, IBM_Plex_Mono, Baloo_2, Caveat } from 'next/font/google';
 import './globals.css';
+import { GTM_HEAD, GTM_NOSCRIPT_SRC } from './lib/gtm';
 
 // THE MAGAZINE EDITION — three faces, one printed page.
 //   Bodoni Moda   the masthead, headlines, numerals, pull quotes (display, mark, editorial)
@@ -142,12 +143,17 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <head>
+        {/* Google Tag Manager, first in <head> as Google asks (app/lib/gtm.js). */}
+        <script dangerouslySetInnerHTML={{ __html: GTM_HEAD }} />
         <script dangerouslySetInnerHTML={{ __html: SCALE_SCRIPT }} />
       </head>
       {/* Root carries the document and the faces, and nothing else. The site's
           chrome moved into (site)/layout.js so that /app inherits none of it —
           see the note there. */}
       <body className="min-h-screen bg-black text-foreground font-body antialiased">
+        <noscript>
+          <iframe src={GTM_NOSCRIPT_SRC} height="0" width="0" style={{ display: 'none', visibility: 'hidden' }} />
+        </noscript>
         <main className="flex min-h-screen flex-col">{children}</main>
       </body>
     </html>

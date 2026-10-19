@@ -26,12 +26,14 @@
  * OFF until Vercel has META_PIXEL_ID (the dataset ID from Events Manager): with
  * no ID this serves a stub, so every call site can stay in place.
  */
+import { ASK_FIRST_COUNTRIES } from '../../../lib/consent';
+
 export const dynamic = 'force-dynamic';
 
-// The EU, the rest of the EEA, the UK and Switzerland. META_CONSENT_COUNTRIES
-// replaces the list (comma-separated ISO codes), e.g. to add IN.
-const ASK_FIRST = (process.env.META_CONSENT_COUNTRIES
-  || 'AT,BE,BG,HR,CY,CZ,DK,EE,FI,FR,DE,GR,HU,IE,IT,LV,LT,LU,MT,NL,PL,PT,RO,SK,SI,ES,SE,IS,LI,NO,GB,CH')
+// The EU, the rest of the EEA, the UK and Switzerland (app/lib/consent.js — the
+// same list Google Tag Manager's consent defaults use). META_CONSENT_COUNTRIES
+// replaces it here (comma-separated ISO codes), e.g. to add IN.
+const ASK_FIRST = (process.env.META_CONSENT_COUNTRIES || ASK_FIRST_COUNTRIES.join(','))
   .split(',').map((c) => c.trim().toUpperCase()).filter(Boolean);
 
 const OFF = 'window.plutto_meta=window.plutto_meta||{enabled:false,track:function(){},open:function(){},consent:function(){return null}};';
@@ -92,6 +94,8 @@ const LOADER = String.raw`(function (w, d) {
     state = v;
     try { w.localStorage.setItem(KEY, v); } catch (e) {}
     hide();
+    // Google Tag Manager keeps to the same answer (app/lib/gtm.js set its defaults).
+    if (w.gtag) w.gtag("consent", "update", { ad_storage: v, ad_user_data: v, ad_personalization: v, analytics_storage: v });
     if (v === "granted") {
       if (loaded) w.fbq("consent", "grant");
       var q = queue; queue = [];
@@ -122,7 +126,7 @@ const LOADER = String.raw`(function (w, d) {
         + "font:14px/1.5 'Source Serif 4',Georgia,serif;box-shadow:0 -8px 24px rgba(17,17,17,.08)";
       var p = d.createElement("p");
       p.style.cssText = "margin:0;max-width:620px";
-      p.appendChild(d.createTextNode("May Plutto measure its ads with Meta? Only visits, sign-ups and purchases are counted. What you ask and your birth details are never shared. "));
+      p.appendChild(d.createTextNode("May Plutto measure its ads with Meta and Google? Only visits, sign-ups and purchases are counted. What you ask and your birth details are never shared. "));
       var a = d.createElement("a");
       a.href = "https://api.plutto.space/privacy#ads"; a.target = "_blank"; a.rel = "noopener";
       a.textContent = "Privacy"; a.style.cssText = "color:#111;text-decoration:underline";

@@ -26,6 +26,15 @@ const COMMONS = 'https://commons.wikimedia.org https://upload.wikimedia.org';
 // copy of each event goes from Vercel, so it needs nothing here.
 const META_JS = 'https://connect.facebook.net';
 const META = 'https://www.facebook.com';
+// GOOGLE TAG MANAGER (app/lib/gtm.js) and what Google documents for the tags it
+// loads: GTM itself and Google Analytics 4, plus GTM's Preview mode so the
+// marketing team can debug the container on the live site. A tag for any OTHER
+// vendor added in GTM is blocked here, silently, until its hosts are listed.
+const GTM = 'https://www.googletagmanager.com';
+const GOOGLE_TAGS = 'https://*.googletagmanager.com';
+const GA = 'https://*.google-analytics.com https://*.analytics.google.com';
+const GTM_PREVIEW = 'https://tagmanager.google.com';
+const GSTATIC = 'https://ssl.gstatic.com https://www.gstatic.com';
 
 /**
  * Content-Security-Policy — the single most valuable header here: even if a
@@ -44,19 +53,19 @@ const csp = (dev) =>
     "default-src 'self'",
     // 'wasm-unsafe-eval' is CanvasKit (Skia) — the orb, the globe and the maps
     // in the app at /app are drawn with it. It permits WebAssembly only, not eval.
-    `script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' ${PADDLE_CDN} ${RAZORPAY_JS} ${META_JS}${dev ? " 'unsafe-eval'" : ''}`,
+    `script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' ${PADDLE_CDN} ${RAZORPAY_JS} ${META_JS} ${GOOGLE_TAGS} ${GTM_PREVIEW}${dev ? " 'unsafe-eval'" : ''}`,
     "worker-src 'self' blob:",
-    "style-src 'self' 'unsafe-inline'",
-    `img-src 'self' data: blob: ${API} ${PADDLE} ${RAZORPAY} ${COMMONS} ${META}`,
+    `style-src 'self' 'unsafe-inline' ${GTM} ${GTM_PREVIEW} https://fonts.googleapis.com`,
+    `img-src 'self' data: blob: ${API} ${PADDLE} ${RAZORPAY} ${COMMONS} ${META} ${GOOGLE_TAGS} ${GA} ${GSTATIC}`,
     `media-src 'self' data: blob: ${API}`,
     // The app screens are set in the same faces the phone downloads, served from
     // the backend — without this the browser refuses them and silently falls back
     // to the system font, which looks like a design choice rather than a block.
-    `font-src 'self' data: ${API}`,
-    `connect-src 'self' blob: data: ${API} ${SUPABASE} ${OPENAI} ${PADDLE} ${RAZORPAY} ${META} ${META_JS} wss://*.openai.com${dev ? ' ws://localhost:*' : ''}`,
+    `font-src 'self' data: ${API} https://fonts.gstatic.com`,
+    `connect-src 'self' blob: data: ${API} ${SUPABASE} ${OPENAI} ${PADDLE} ${RAZORPAY} ${META} ${META_JS} ${GOOGLE_TAGS} ${GA} wss://*.openai.com${dev ? ' ws://localhost:*' : ''}`,
     // The checkout is an iframe from Paddle's origin. Without this it falls back
     // to default-src 'self' and the overlay opens empty — no error, no content.
-    `frame-src 'self' ${PADDLE} ${RAZORPAY}`,
+    `frame-src 'self' ${PADDLE} ${RAZORPAY} ${GTM}`,
     "frame-ancestors 'none'",   // clickjacking
     "object-src 'none'",
     "base-uri 'none'",          // stops a stray <base> retargeting every URL
