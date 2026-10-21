@@ -1,8 +1,8 @@
 'use client';
 
 /**
- * "Cookie choices" — reopens the consent bar of the Meta pixel (app/api/meta/pixel),
- * so a yes can become a no. Shown only when the pixel is on.
+ * "Cookie choices": reopens the Meta pixel's consent bar (app/api/meta/pixel), so a yes can become a no.
+ * Rendered only when the pixel is on.
  */
 import { useEffect, useState } from 'react';
 

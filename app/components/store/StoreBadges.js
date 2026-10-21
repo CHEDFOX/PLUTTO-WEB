@@ -1,17 +1,9 @@
 'use client';
 
 /**
- * STORE BADGES — shaped like the platforms' own, and honest about the date.
- *
- * Black, rounded, the platform mark on the left and two lines of text: the
- * shape a visitor recognises as "an app store link" before reading it.
- *
- *   Google Play  live. A link to the listing — except on an iPhone, where it is
- *                shown but not a link (nothing to install there).
- *   App Store    in review. Softly blurred and not a link, with "Coming soon".
- *                IOS_LIVE in lib/appStore.js sharpens it and makes it a link.
- *                On an iPhone or iPad (IOS_WEB_APP) it is the way in instead:
- *                "Add to your Home Screen", to the web app's install steps.
+ * App Store and Google Play badges (flags in app/lib/appStore). Play is live: a link, except on an iPhone.
+ * The App Store badge is blurred and not a link until IOS_LIVE; on an iPhone or iPad with IOS_WEB_APP it
+ * becomes the Home Screen badge, linking to /app?install=1.
  */
 
 import usePlatform from './usePlatform';

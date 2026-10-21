@@ -1,19 +1,9 @@
-import { StatusBar } from './StatusBar';
 /**
- * THE DEVICE — an iPhone 15 at its real logical size (393 × 852 pt), shrunk
- * with a transform.
- *
- * Every screen inside is laid out in the app's own points: the numbers in the
- * mobile source (ChatPanel's 24pt gutters, the 82pt box clearance, the 70pt tab
- * bar, the 34pt home-indicator inset) are used as CSS pixels unchanged, and the
- * whole device is scaled as one picture. That is what keeps the proportions the
- * phone's rather than an approximation of them.
- *
- * The system chrome — status bar, Dynamic Island, home indicator — is iOS's,
- * drawn over the app the way the app draws under it (statusBarTranslucent).
- * System text uses the platform face: SF on Apple devices, which is what the
- * app's un-styled text renders in on an iPhone.
+ * An iPhone 15 frame. Every screen inside is laid out in the app's own points at 393x852 (the mobile source's
+ * numbers used as CSS pixels) and the whole device is scaled as one picture with a transform. Status bar,
+ * Dynamic Island and home indicator are iOS's, drawn over the app; system text uses SF where it exists.
  */
+import { StatusBar } from './StatusBar';
 
 export const SCREEN_W = 393;
 export const SCREEN_H = 852;

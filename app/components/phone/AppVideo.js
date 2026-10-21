@@ -1,15 +1,9 @@
 'use client';
 
 /**
- * THE APP, RECORDED — a screen of the real app captured frame by frame while it
- * runs (see Shot.js for how the captures are made). `name` picks the files in
- * /app/screens: name.mp4 / name.webm, `poster` shows before the first frame,
- * and `still` is what reduced motion gets instead of the video.
- *
- *   chat   the Oracle tab answering two questions, the reply streamed in the
- *          same `data:` events the API sends
- *   voice  the realtime voice screen: the app's own VoiceOrb shader through
- *          Skia's web build, in the SPEAKING state
+ * A screen of the real app recorded while it runs (tools/app-screens, like Shot). `name` picks
+ * /app/screens/<name>.mp4 and .webm (chat, tarot, voice, when, language); `poster` shows before the first
+ * frame, and reduced motion gets `still` instead of the video.
  */
 
 import { useEffect, useRef, useState } from 'react';

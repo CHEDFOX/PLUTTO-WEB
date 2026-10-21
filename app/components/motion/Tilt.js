@@ -1,9 +1,8 @@
 'use client';
 
 /**
- * TILT — the phone cluster leans toward the pointer, a few degrees, on a
- * spring, in real 3D. Listens to the whole window so the phones answer the
- * cursor wherever it is on the hero. Off for touch and reduced motion.
+ * Leans its children toward the pointer by up to `max` degrees, in 3D on a spring. Listens on the whole
+ * window, so it follows the cursor anywhere on screen. Off for touch and reduced motion.
  */
 
 import { useEffect } from 'react';

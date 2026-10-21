@@ -1,11 +1,6 @@
 /**
- * A READING PAGE — the shell the guides, the FAQ and the traditions atlas share.
- *
- * Deliberately plain server markup: no motion wrappers, no client components.
- * These pages exist to be READ — by people and by crawlers, several of which
- * (the answer engines' among them) never run JavaScript — so every word is in
- * the HTML as sent, at full opacity, in document order, with real headings.
- * The look is the information page's: the same eyebrow, type and hairlines.
+ * Shell of the reading pages (guides, FAQ, traditions and the rest): plain server markup, every word in
+ * the HTML as sent, for crawlers that do not run JavaScript. No motion wrappers, no client components.
  */
 import Link from 'next/link';
 import { MONO } from './classes';

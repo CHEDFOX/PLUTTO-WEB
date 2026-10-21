@@ -1,13 +1,9 @@
 'use client';
 
 /**
- * "GET THE APP" — one link, the right destination per device.
- *
- * Android → the Play listing, directly. iPhone/iPad → the web app's Add to
- * Home Screen steps (IOS_WEB_APP), else the App Store once live (IOS_LIVE), else
- * the download band. Desktop → the download band.
- * Renders as a plain in-page link first, so the server and first paint match,
- * then switches to the store once the device is known.
+ * "Get the app" link, by device (app/lib/appStore): Android goes to the Play listing; iPhone and iPad to
+ * /app?install=1 while IOS_WEB_APP, else the App Store once IOS_LIVE, else the download band; desktop to the
+ * download band. The in-page link renders first, so the server and first paint match.
  */
 
 import usePlatform from './usePlatform';

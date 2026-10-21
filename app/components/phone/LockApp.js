@@ -1,13 +1,8 @@
 'use client';
 
 /**
- * THE MORNING PUSH, on the lock screen.
- *
- * What arrives is a server push (notifications.py, 09:00 in the user's own
- * timezone): a ≤ 4-word title and one line ending in ›. This one is taken
- * verbatim from the hand-written set the backend rotates through
- * (_AUTO_GENERIC). The icon is the app's own (assets/icon.png). Everything else
- * — clock, date, banner material, the torch and camera buttons — is iOS.
+ * The morning push on a lock screen. The text (push.js) is from the backend's notifications.py _AUTO_GENERIC
+ * set and the icon is the app's own; the clock, date, banner and buttons are iOS's.
  */
 
 import Image from 'next/image';
@@ -16,10 +11,8 @@ import { motion } from 'framer-motion';
 import { PUSH } from './push';
 
 /**
- * `live` — whether the push has arrived. Off, the lock screen is just the
- * clock; on, the banner drops in the way iOS delivers one (down from above,
- * settling on a spring) and stays. The hero passes it once the phone is at the
- * front, so a visitor sees the notification ARRIVE rather than find it there.
+ * `live`: whether the push has arrived. Off, the lock screen is just the clock; on, the banner drops in from
+ * above on a spring and stays. The hero sets it when this phone comes to the front.
  */
 export default function LockApp({ live = true }) {
   return (

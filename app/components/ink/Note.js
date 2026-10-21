@@ -1,16 +1,8 @@
 'use client';
 
 /**
- * INK — the hand in the margins.
- *
- * A product page is set in one cold sans. These are the marks a person leaves
- * on it: a handwritten aside, an arrow drawn toward the thing that matters, a
- * loose line under the word that carries the sentence. Every stroke is an SVG
- * path drawn ON as it scrolls into view (pathLength 0 → 1), so it looks written
- * rather than printed. The hand is Caveat (`font-hand`). In the magazine edition
- * the ink is the editor's red pencil (sindoor) on the printed page, so it reads
- * as a different substance from the type around it. Reduced motion shows
- * everything at rest.
+ * Handwritten aside in Caveat (`font-hand`) and sindoor ink (inkColor.js). Like the other ink marks, whose
+ * strokes draw on (pathLength 0 to 1), it appears as it scrolls into view; reduced motion shows it at rest.
  */
 
 import { motion } from 'framer-motion';

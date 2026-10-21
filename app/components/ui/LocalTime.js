@@ -1,8 +1,7 @@
 'use client';
 /**
- * An instant, shown in UTC in the HTML as sent (what crawlers and answer
- * engines read, unambiguous) and in the reader's own time zone once the page
- * runs — the reader never has to convert.
+ * An instant, in UTC in the HTML as sent (what crawlers read) and in the reader's own time zone after
+ * hydration.
  */
 import { useEffect, useState } from 'react';
 

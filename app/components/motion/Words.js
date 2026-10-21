@@ -1,10 +1,8 @@
 'use client';
 
 /**
- * WORDS — a line that arrives a word at a time: each word lifts, sharpens out
- * of a blur and fades in, staggered. The way the big product pages set a
- * headline. Words stay words (spaces kept), so wrapping and screen readers are
- * untouched; reduced motion shows the line at rest.
+ * A line that arrives a word at a time: each word lifts, sharpens out of a blur and fades in, staggered.
+ * Spaces are kept, so wrapping and screen readers are untouched; reduced motion shows the line at rest.
  */
 
 import { motion } from 'framer-motion';

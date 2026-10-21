@@ -1,11 +1,8 @@
 'use client';
 
 /**
- * THE NAV — a magazine's masthead.
- *
- * The name set as a title in Bodoni capitals, the sections in mono capitals, the
- * one action that matters as a solid ink block, and the double rule a printed
- * masthead sits on. On a phone the links fold into a sheet.
+ * Site nav: the wordmark, the section links and "Ask Plutto" over a double rule. On phones the links fold
+ * into a full-screen sheet.
  */
 
 import { useEffect, useState } from 'react';
@@ -51,7 +48,7 @@ export default function Nav() {
       }`}
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6 font-ui">
-        {/* The masthead: the name set as a magazine sets its title. */}
+        {/* Wordmark */}
         <Link href="/" aria-label="Plutto home" className="flex items-center">
           <span className="font-display text-[28px] font-extrabold uppercase leading-none tracking-[0.08em] text-white">Plutto</span>
         </Link>
@@ -83,7 +80,7 @@ export default function Nav() {
           </button>
         </div>
       </nav>
-      {/* the double rule under a masthead */}
+      {/* Double rule under the bar */}
       <div aria-hidden="true" className="mx-auto max-w-6xl px-6">
         <div className="h-[4px] border-b border-t-2 border-white" />
       </div>

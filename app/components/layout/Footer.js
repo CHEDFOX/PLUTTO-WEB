@@ -1,16 +1,11 @@
 /**
- * THE FOOTER — one line, three parts: the copyright, the studio and its
- * mission, and the legal pages App Review, Google's brand verification and
- * the payment provider's website approval look for (the backend's own pages, the same ones
- * the phone opens).
+ * Footer of every marketing page: copyright, the studio, and the legal pages App Review, Google's brand
+ * verification and the payment provider look for (the backend's own pages, the ones the phone opens).
  */
 
-// WHAT TO READ — the site's own pages, from every page. Linked here because a
-// page nothing links to is a page search engines treat as unimportant. They
-// sit behind one word, "Library", in a native <details>: the footer looks as it
-// always did, and the links are in the HTML as sent — search engines index
-// content in a collapsed disclosure in full (it is not hidden text: anyone can
-// open it), so the pages keep their internal links without a row of them.
+// The site's own pages, linked from every page so search engines do not treat them as unimportant. They
+// sit behind "Library" in a native <details>: the links are in the HTML as sent, and search engines index a
+// collapsed disclosure in full (it is not hidden text: anyone can open it).
 import CookieChoices from './CookieChoices';
 
 const READ = [
@@ -39,12 +34,11 @@ const READ = [
 ];
 
 const LEGAL = [
-  // What Plutto Star costs — a payment provider approves a selling site only
-  // when its prices can be found from it, so it sits on every page with the rest.
+  // The payment provider approves a selling site only when its prices can be found from every page.
   { label: 'Pricing', href: '/pricing' },
   { label: 'Privacy Policy', href: 'https://api.plutto.space/privacy' },
   { label: 'Terms of Use', href: 'https://api.plutto.space/terms' },
-  // Payment providers approve a selling site only if it links to a refund policy too.
+  // It also requires a link to the refund policy.
   { label: 'Refund Policy', href: 'https://api.plutto.space/refunds' },
 ];
 
@@ -53,9 +47,6 @@ export default function Footer() {
     <footer data-no-auto-case className="sentence-case relative z-10 border-t-[3px] border-white font-ui">
       <div className="mx-auto grid max-w-6xl gap-3 px-6 py-8 text-center font-mono text-[12px] uppercase tracking-[0.14em] text-white/70 md:grid-cols-3 md:items-center md:text-left">
         <p><span className="mr-3 font-display text-[22px] font-extrabold normal-case tracking-[0.08em] text-white">PLUTTO</span>© {new Date().getFullYear()}</p>
-        {/* The studio, and the mission in one word: an expedition — setting out
-            after the patterns around us, the written ones and the ones still
-            to be found. */}
         <p className="md:text-center">A <span className="text-white/70">Xooteq Lab</span> Expedition</p>
         <ul className="flex flex-wrap justify-center gap-x-6 gap-y-2 md:justify-end">
           {LEGAL.map((l) => (
