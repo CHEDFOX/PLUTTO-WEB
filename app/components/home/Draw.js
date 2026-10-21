@@ -1,21 +1,6 @@
 'use client';
 
-/**
- * PICK A DECK — the product, played rather than shown.
- *
- * Six decks lie face down. Tap one and it turns over to a real card, drawn at
- * random from the whole deck: any of the 78 tarot, 36 Lenormand, 24 runes,
- * 20 ogham, the 8 trigrams, the 16 geomantic figures. The reader gets the card
- * and its name, and not what it means. That open question is the point: the
- * meaning is one tap away, in the app, where it is read against their chart.
- *
- * Tapping a turned card shuffles it back and draws again, so the pull to try
- * one more is built in. The face is loaded BEFORE the card turns, so the flip
- * never lands on an empty rectangle.
- *
- * No request is made to the API. The cards are static files and the draw is
- * Math.random in the browser; there is nothing here to fail, bill, or leak.
- */
+/** Six face-down decks: a tap turns one to a random card, drawn in the browser from the deck's image files with no API call. */
 
 import { useRef, useState } from 'react';
 import Link from 'next/link';
@@ -106,8 +91,7 @@ export default function Draw() {
         })}
       </div>
 
-      {/* What was drawn — and the question it leaves open. Fixed height so the
-          grid above never jumps when the first card turns. */}
+      {/* The card drawn, at a fixed minimum height so the grid above never jumps when the first card turns. */}
       <div className="mt-14 flex min-h-[8.5rem] flex-col items-center text-center" aria-live="polite">
         {last ? (
           <>

@@ -18,7 +18,7 @@ export default function LibrarySection() {
           <Marquee />
         </div>
       </FadeUp>
-      {/* the oldest question, in the scripts that first asked it */}
+      {/* frieze of ancient scripts */}
       <div className="relative mt-24 md:mt-32">
         {/* 𒀭 — the Sumerian sign for sky, and for god: a star */}
         <span aria-hidden="true" className="watermark script-cunei hidden text-[24vw] md:block">𒀭</span>

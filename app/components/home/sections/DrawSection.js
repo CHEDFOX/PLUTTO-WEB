@@ -7,7 +7,7 @@ import { H2 } from '../H2';
 export default function DrawSection() {
   return (
     <section id="draw" className="lazy-section relative scroll-mt-20 overflow-hidden border-t border-white/[0.08] px-6 py-24 md:py-32">
-      {/* 𓂀 — the eye, watching the card turn */}
+      {/* watermark: 𓂀, the eye hieroglyph */}
       <span aria-hidden="true" className="watermark script-hiero hidden text-[36vw] md:block">𓂀</span>
       <FadeUp className="relative text-center">
         <H2>Turn a card.</H2>

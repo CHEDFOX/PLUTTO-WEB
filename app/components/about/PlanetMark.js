@@ -1,14 +1,4 @@
-/**
- * A PLANET, AS A SECTION MARK.
- *
- * The eight renders in /public/planets are the best art the brand owns, and
- * they were doing nothing but cycling in one box on one page. Here one stands
- * beside each section's label — a body per section, in the classical order, so
- * scrolling the page walks out from the Sun.
- *
- * Served through next/image so the 1.4MB Sun arrives as a ~20KB webp at the
- * size it is actually drawn; the originals stay untouched on disk.
- */
+/** Decorative planet render from public/planets, grayscale, served through next/image at twice its drawn size. */
 
 import Image from 'next/image';
 
@@ -35,9 +25,7 @@ export default function PlanetMark({ name, size = 74, className = '' }) {
         height={size * 2}
         className="h-full w-full object-contain"
         sizes={`${size}px`}
-        // The renders carry their own near-black background. On the magazine's
-        // paper that square is kept on purpose — a printed plate, a body on
-        // black — and set in black and white like every photograph on the site.
+        // Grayscale like every photograph on the site; the render's own near-black square is kept, as a plate.
         style={{ filter: 'grayscale(1)' }}
       />
     </span>

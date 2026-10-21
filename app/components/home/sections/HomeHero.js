@@ -13,11 +13,7 @@ import { Arrow } from '../../ink/Arrow';
 import { Underline } from '../../ink/Underline';
 import { Lines } from '../Lines';
 
-/*
- * Text left, the product right — the product visible in the first
- * screen, and running. Neptune rises behind the phones: the brand's
- * best art, used as a horizon rather than a sticker.
- */
+// Hero: the copy on the left, the running product on the right, Neptune rising behind the phones.
 export default function HomeHero() {
   return (
     <HeroStage
@@ -62,7 +58,7 @@ export default function HomeHero() {
             </p>
           </FadeUp>
 
-          {/* the hand: a nudge toward the phones, in the voice of a friend */}
+          {/* handwritten note pointing at the phones */}
           <div className="mt-12 hidden items-center gap-3 lg:flex">
             <Note tilt={-4} delay={1.2}>ask about the job. or the ex. it’s heard worse.</Note>
             <Arrow dir="right" width={56} className="mt-2" delay={1.6} />

@@ -1,5 +1,6 @@
 'use client';
 
+/** One phone of the hero stack, placed by the turn along stackPath, with its darkening veil and sheen. */
 import { motion, useTransform } from 'framer-motion';
 import { wrap, along, layer } from './stackPath';
 
@@ -9,16 +10,13 @@ export function Phone({ turn, index, isFront, children }) {
   const y = useTransform(turn, (t) => at(t).y);
   const scale = useTransform(turn, (t) => at(t).scale);
   const rotate = useTransform(turn, (t) => at(t).rotate);
-  // Darkening is a black veil, not a CSS brightness filter: a filter repaints
-  // the playing video under it on every frame.
+  // Darkening is a black veil, not a brightness filter: a filter repaints the playing video every frame.
   const shade = useTransform(turn, (t) => 1 - at(t).bright);
   const zIndex = useTransform(turn, (t) => layer(wrap(index - t)));
   return (
     <motion.div className="absolute will-change-transform" style={{ x, y, scale, rotate, zIndex }}>
       {children}
-      {/* will-change: opacity keeps this on the compositor. Without it every
-          per-frame opacity write repainted and re-rasterised the veil — three
-          280×587 repaints a frame, the largest cost left in a turn. */}
+      {/* will-change: opacity keeps the veil on the compositor; otherwise every opacity write repaints it. */}
       <motion.div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[46px] bg-black" style={{ opacity: shade, willChange: 'opacity' }} />
       {/* a sheen crosses the glass as the phone settles at the front */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden rounded-[46px]">

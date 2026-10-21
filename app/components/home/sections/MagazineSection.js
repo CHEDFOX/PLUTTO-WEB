@@ -4,7 +4,7 @@ import { ArticleCard } from '../../magazine/ArticleCard';
 import { ARTICLE_BY_SLUG } from '../../../lib/content/magazine';
 import { H2 } from '../H2';
 
-// Three stories from the magazine, the cover first (app/lib/magazine.js).
+// Three stories from the magazine, the cover first (app/lib/content/magazine.js).
 const FROM_THE_MAGAZINE = ['leibniz-binary-i-ching', 'the-computer-that-predicted-eclipses', 'ifa-256-signs-and-a-byte'];
 
 export default function MagazineSection() {

@@ -1,13 +1,6 @@
 'use client';
 
-/**
- * HOW IT WORKS — told by scrolling, the way product pages tell it.
- *
- * On a wide screen the phone holds still in the left column while three steps
- * scroll past on the right; whichever step is in the middle of the viewport
- * owns the screen, and the phone crossfades to it. On a phone there is no room
- * for a pinned device beside text, so each step carries its own, smaller one.
- */
+/** How it works: on wide screens a pinned phone crossfades to the step in mid-viewport; on phones each step has its own. */
 
 import { useEffect, useRef, useState } from 'react';
 import Device from '../phone/Device';

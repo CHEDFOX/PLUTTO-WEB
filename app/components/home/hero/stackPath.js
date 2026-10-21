@@ -1,14 +1,8 @@
-// THE PATH. A phone's place in the stack is u = (index − turn) mod 3:
-//   u = 0 front · u = 1, 2 behind, fanned up and to the right.
-// The front phone does not jump to the back: as the turn advances its u runs
-// 3 → 2 along a loop — a small lift, out to the right on top of everything,
-// then, once it is clear of the others, tucked in behind them into the last
-// slot. Every other phone steps one place forward.
-//
-// The path is ONE smooth curve (a Catmull-Rom spline through these points),
-// not straight legs joined at corners: with legs, a phone slowed to a stop at
-// every joint and each turn read as several small stop-and-go moves. The only
-// place the curve is allowed to stop is the front, where the phone holds.
+/** The path a phone of the hero stack follows as the stack turns, and its layer along the way. */
+// A phone's place is u = (index − turn) mod 3: 0 is the front, 1 and 2 are behind, fanned up and to the
+// right. Leaving the front, u runs 3 → 2 along a loop: a small lift, out to the right above everything,
+// then tucked in behind the others. The path is one Catmull-Rom curve through these points, so a phone
+// never stops at a joint; it only rests at the front.
 const PATH = [
   // u     x     y    scale  rotate  (unused)  bright
   [0,      0,    0,   1,     0,      0,    1],

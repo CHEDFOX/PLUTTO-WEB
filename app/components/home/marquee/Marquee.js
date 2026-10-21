@@ -1,14 +1,7 @@
 /**
- * THE LIBRARY, MOVING.
- *
- * Two rows of the app's real cards drifting in opposite directions: the tarot's
- * 22 trumps in their 1909 inks above, and the other five decks below. It is the
- * one picture that says "library" without a word. Each row is rendered twice
- * and slid by exactly half its width, so the loop has no seam. Hover pauses it;
- * reduced motion stops it.
- *
- * next/image serves each card at the size it is drawn (~240px wide at 2×), so
- * forty-odd cards cost a fraction of the originals.
+ * Two rows of the app's real cards drifting in opposite directions: the tarot's 22 trumps above, five other
+ * decks below. Each row is rendered twice and slid by half its width, so the loop has no seam; hover pauses
+ * it, reduced motion stops it. next/image serves each card at its drawn size.
  */
 
 import { DECKS } from '../../../lib/content/decks';

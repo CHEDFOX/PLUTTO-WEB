@@ -1,30 +1,9 @@
 'use client';
 
 /**
- * THE HERO STAGE — the first scrolls turn the phones, then the page moves on.
- *
- * On a wide screen the hero is pinned (position: sticky inside a tall section)
- * until every screen has been at the front — by the cycle, by scrolling, by the
- * wheel over the phones or by a dot. Then the pin is released: the section
- * drops to its natural height and the next scroll moves the page at once.
- *
- * The wheel OVER THE PHONES turns them instead of scrolling the page, before
- * and after the release, as long as the hero is up at the top of the window.
- * Anywhere else it scrolls the page (into the pin while pinned, which turns
- * them too). Scrolled past the hero, the wheel is the page's again everywhere.
- *
- * The phones are a fanned stack that keeps cycling. The front phone stands in
- * the middle; the next two wait behind it, each a step up, to the right and a
- * little smaller and darker, like a hand of cards. Every few seconds the front
- * phone swings out to the right and tucks in behind the others as the last
- * card, while each of them steps one place forward — and round again, forever.
- * Scrolling through the pinned hero turns the stack too (two turns over the
- * pin), on top of the cycle. A caption and three dots under the buttons say
- * which phone is in front; a dot turns the stack to its phone.
- *
- * Phones and tablets get the same stack and the same cycle, unpinned (a swipe
- * over the phones turns them too). Reduced motion gets the still version: the
- * chat alone on a phone, the three-up arrangement on a desktop.
+ * Home hero: a fanned stack of phones that keeps cycling. On wide screens the hero is pinned (sticky inside a
+ * tall section) until every phone has been in front, then released to its natural height. While the hero is at
+ * the top, the wheel over the phones turns them instead of scrolling; reduced motion gets the still layout.
  */
 
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
@@ -34,13 +13,11 @@ import Tilt from '../../motion/Tilt';
 import { wrap } from './stackPath';
 import { Phone } from './Phone';
 
-// The glow behind the front phone takes that screen's colour.
-// Magazine edition: the glow behind each phone is a warm grey shadow, not a colour.
+// The glow behind each phone while it is in front: a warm grey shadow.
 const GLOW = ['#CFC8BC', '#D9D3C8', '#CFC8BC'];
 
-// The cycle: a phone holds the front for HOLD ms, then the stack turns once on a
-// spring that lands with the softest settle (about MOVE s). Scrolling through
-// the pinned hero adds SCROLL_TURNS on top.
+// The cycle: how long a phone holds the front (ms), how long one turn on the spring takes (s), and
+// the turns that scrolling through the pinned hero adds.
 const HOLD = 3600;
 const MOVE = 1.6;
 const SCROLL_TURNS = 2;
@@ -50,11 +27,9 @@ export default function HeroStage({ copy, phones, neptune }) {
   const stage = useRef(null);
   const calm = useCalm();
   const [front, setFront] = useState(0);
-  // The stack, dots and glow run whenever motion is allowed. The PIN (the tall
-  // sticky section that turns scrolling into turns) lasts only until all three
-  // screens have been at the front; after that the page scrolls straight away.
-  // The breakpoint is CSS's (lg), so the server render and the first paint
-  // already agree with the device.
+  // The stack, dots and glow run whenever motion is allowed. The pin (the tall sticky section that turns
+  // scrolling into turns) lasts only until every screen has been at the front. Its breakpoint is the lg
+  // media query, so the server render and the first paint already agree with the device.
   const motionOn = !calm;
   const [released, setReleased] = useState(false);
   const pinned = motionOn && !released;
@@ -69,10 +44,8 @@ export default function HeroStage({ copy, phones, neptune }) {
   const effP = useTransform([scrollYProgress, releasedMV, bakedP], ([p, r, b]) => (r ? b : p));
   const scrollTurn = useTransform(effP, [0.04, 0.96], [0, SCROLL_TURNS], { clamp: true });
   const auto = useMotionValue(0);
-  // Scrolling turns the stack only where the hero is PINNED (a monitor): there
-  // the scroll is spent inside the pin. Unpinned — a phone, a tablet — the
-  // hero is short, the same two turns would whip past in a flick, and the
-  // cycle, a swipe or a dot turn it instead.
+  // Scrolling turns the stack only where the hero is pinned (a monitor). Unpinned, on a phone or tablet,
+  // the hero is short and the turns would whip past in a flick; the cycle, a swipe or a dot turn it instead.
   const scrollOn = useMotionValue(0);
   useEffect(() => {
     const el = document.documentElement;
@@ -85,9 +58,8 @@ export default function HeroStage({ copy, phones, neptune }) {
   const grow = useTransform(effP, [0, 1], [1, 1.08]);
   useMotionValueEvent(turn, 'change', (t) => setFront(wrap(Math.round(t))));
 
-  // RELEASE. The pinned hero looked the same at every scroll position inside
-  // the pin (it was stuck to the top), so the section can drop to its natural
-  // height and the scroll be set to the hero's top with nothing visibly moving.
+  // Release: the pinned hero looks the same at every scroll position inside the pin, so the section can
+  // drop to its natural height and the scroll be set to the hero's top with nothing visibly moving.
   const seen = useRef(new Set([0]));
   const pendingTop = useRef(null);
   const release = () => {
@@ -130,12 +102,10 @@ export default function HeroStage({ copy, phones, neptune }) {
     return () => { clearInterval(id); io.disconnect(); };
   }, [motionOn, auto]);
 
-  // THE WHEEL OVER THE PHONES always turns them instead of scrolling the page,
-  // before and after the release, for as long as the hero is up at the top of
-  // the window (the hero's own top at or above the nav, its bottom below the
-  // fold). Scrolled past it, the wheel is the page's again, so no one is held.
-  // Wheel deltas are accumulated (a trackpad sends many small ones) and one
-  // turn is taken per NOTCH, with a rest between turns.
+  // The wheel over the phones turns them instead of scrolling the page, before and after the release,
+  // while the hero is up at the top (its top at or above the nav, its bottom below the fold); scrolled past
+  // it, the wheel scrolls the page. Deltas are summed (a trackpad sends many small ones) into one turn
+  // per notch, with a rest between turns.
   const stackRef = useRef(null);
   useEffect(() => {
     const el = stackRef.current;
@@ -160,8 +130,8 @@ export default function HeroStage({ copy, phones, neptune }) {
     return () => el.removeEventListener('wheel', onWheel);
   }, [motionOn, auto]);
 
-  // A SWIPE over the phones turns them on a touch screen: sideways, one turn,
-  // either way. A mostly vertical move is the page scrolling and is left alone.
+  // On a touch screen a sideways swipe over the phones turns them one step either way; a mostly vertical
+  // move is the page scrolling and is left alone.
   useEffect(() => {
     const el = stackRef.current;
     if (!el || !motionOn) return undefined;
@@ -239,17 +209,15 @@ export default function HeroStage({ copy, phones, neptune }) {
             {motionOn ? (
               <div ref={stackRef} className="absolute inset-0 origin-top max-lg:-translate-x-[4%] max-lg:scale-[0.74]">
               <Tilt className="absolute inset-0" onHover={(v) => { hover.current = v; }} innerClassName="relative flex h-full w-full items-center justify-center pt-10 pr-20" max={4}>
-                {/* the glow: a soft pool of the front screen's colour, behind the stack */}
+                {/* the glow behind the stack, following the front phone */}
                 {GLOW.map((c, i) => (
                   <motion.div key={c} aria-hidden="true" className="pointer-events-none absolute h-[560px] w-[560px] rounded-full"
                               style={{ background: `radial-gradient(closest-side, ${c}b3 0%, ${c}66 38%, ${c}1f 70%, ${c}00 100%)` }}
                               initial={false} animate={{ opacity: front === i ? 0.42 : 0 }} transition={{ duration: 1.4, ease: 'easeInOut' }} />
                 ))}
-                {/* Flat, on purpose. A 3D rotation on a phone (rotateY) made the
-                    browser re-rasterise it on every frame of a turn, in Chrome and
-                    worse in Safari; position, scale, tilt and dimming carry the
-                    depth, and a flat layer keeps one cached raster for the whole
-                    move. Ordered by z-index, so nothing is sorted or sliced in 3D. */}
+                {/* Flat on purpose: a 3D rotation (rotateY) re-rasterises a phone on every frame of a turn,
+                    worst in Safari, while a flat layer keeps one cached raster. Position, scale, tilt and
+                    dimming carry the depth; z-index orders the phones, so nothing is sorted in 3D. */}
                 <div className="stack-bob relative flex items-center justify-center">
                   {phones.map((ph, i) => (
                     <Phone key={ph.key} turn={turn} index={i} isFront={front === i}>

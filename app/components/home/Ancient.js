@@ -1,17 +1,7 @@
 /**
- * THE FRIEZE — the same question, in the scripts that first asked it.
- *
- * One carved row, not a grid of cards: ten real words from ten real places,
- * each the word that culture used for fate, for asking, for knowing. The ankh
- * carved at Saqqara, NAM·TAR pressed into Sumerian clay, the 卜 that IS the
- * crack in a Shang oracle bone, the maxim cut over the door at Delphi. Nothing
- * is invented: every glyph is the Unicode sign the scholars use, and the four
- * scripts a phone has no face for (hieroglyphs, cuneiform, runes, ogham) ship
- * as subset fonts of a few hundred bytes each from this origin (globals.css).
- *
- * A rule above and below, the glyphs large and the captions small, so it reads
- * as an inscription along a wall rather than a table. On a phone it scrolls
- * sideways with snap, one word at a time.
+ * A frieze of ten words for fate and divination, each in its own script as the Unicode sign scholars use. The four
+ * scripts a phone has no font for (hieroglyphs, cuneiform, runes, ogham) ship as subset fonts from this origin
+ * (CSP font-src 'self', see globals.css). On a phone it scrolls sideways with snap.
  */
 
 import { Note } from '../ink/Note';

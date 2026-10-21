@@ -6,7 +6,7 @@ import { H2 } from '../H2';
 import { Tile } from '../Tile';
 import { TileText } from '../TileText';
 
-// The greetings the app's own language screen cycles through (onboarding_content.LANGUAGES).
+// The greetings the app's own language screen cycles through (the backend's onboarding_content).
 const GREETINGS = ['Hello', 'Hola', 'Bonjour', 'مرحبا', 'Olá', 'Привет', '你好', 'こんにちは', '안녕하세요', 'Hallo', 'नमस्ते', 'নমস্কার', 'வணக்கம்', 'నమస్కారం', 'السلام علیکم', 'ආයුබෝවන්'];
 
 export default function FeaturesSection() {
@@ -50,7 +50,7 @@ export default function FeaturesSection() {
             </Tile>
           </FadeUp>
 
-          {/* Exact — the arithmetic under it all */}
+          {/* Precision */}
           <FadeUp className="md:col-span-2">
             <Tile className="h-full min-h-[300px]">
               <TileText title="Your minute. Not your month." body={<Lines className="mt-1" text={'The heavens never stand still.\nNeither does your life.\n\nYesterday\u2019s sky is gone.\nTomorrow\u2019s has not arrived.\n\nThere is only this moment—\nand everything it contains.'} />} />
