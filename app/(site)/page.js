@@ -38,7 +38,7 @@ import Spotlight from '../components/site/motion/Spotlight';
 import Ancient from '../components/site/Ancient';
 import { Note, Arrow, Underline } from '../components/site/ink/Ink';
 import { ArticleCard } from '../components/site/magazine/Parts';
-import { ARTICLE_BY_SLUG } from '../lib/magazine';
+import { ARTICLE_BY_SLUG } from '../lib/content/magazine';
 
 // Three stories from the magazine, the cover first (app/lib/magazine.js).
 const FROM_THE_MAGAZINE = ['leibniz-binary-i-ching', 'the-computer-that-predicted-eclipses', 'ifa-256-signs-and-a-byte'];

@@ -4,10 +4,13 @@
  * still reads what the tool does and exactly how it computes.
  */
 import Link from 'next/link';
-import { TOOLS, toolPath, toolBySlug } from '../../../lib/tools';
-import { pageMeta, breadcrumbLd, faqLd, JsonLd, abs, SITE } from '../../../lib/seo';
+import { TOOLS, toolPath, toolBySlug } from '../../../lib/content/tools';
+import { pageMeta } from '../../../lib/seo/pageMeta';
+import { breadcrumbLd, faqLd } from '../../../lib/seo/structuredData';
+import { JsonLd } from '../../seo/JsonLd';
+import { abs, SITE } from '../../../lib/seo/site';
 import { Doc, DocDoor, LINK, MONO } from '../Doc';
-import { cardPath } from '../../../lib/cards';
+import { cardPath } from '../../../lib/seo/shareCards';
 
 export function toolMeta(slug) {
   const t = toolBySlug(slug);

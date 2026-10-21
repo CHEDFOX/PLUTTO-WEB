@@ -6,8 +6,11 @@
  * app/lib/magazine.js. Plain server markup, like the reading pages.
  */
 import Link from 'next/link';
-import { ARTICLES, ARTICLE_BY_SLUG, APP_PAGES, COVER, PUBLISHED } from '../../lib/magazine';
-import { pageMeta, breadcrumbLd, JsonLd, abs } from '../../lib/seo';
+import { ARTICLES, ARTICLE_BY_SLUG, APP_PAGES, COVER, PUBLISHED } from '../../lib/content/magazine';
+import { pageMeta } from '../../lib/seo/pageMeta';
+import { breadcrumbLd } from '../../lib/seo/structuredData';
+import { JsonLd } from '../../components/seo/JsonLd';
+import { abs } from '../../lib/seo/site';
 import { ArticleCard, AppPage, KICKER, LABEL } from '../../components/site/magazine/Parts';
 import { LINK } from '../../components/site/Doc';
 

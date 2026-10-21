@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { SECTIONS } from '../../../lib/refpages';
+import { SECTIONS } from '../../../lib/content/refpages';
 import { RefDetail, detailMeta } from '../../../components/site/Ref';
 
 export const dynamicParams = false;

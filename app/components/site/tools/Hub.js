@@ -3,8 +3,10 @@
  * no widget code at all.
  */
 import Link from 'next/link';
-import { TOOLS, toolPath } from '../../../lib/tools';
-import { breadcrumbLd, JsonLd, abs } from '../../../lib/seo';
+import { TOOLS, toolPath } from '../../../lib/content/tools';
+import { breadcrumbLd } from '../../../lib/seo/structuredData';
+import { JsonLd } from '../../seo/JsonLd';
+import { abs } from '../../../lib/seo/site';
 import { Doc, DocDoor, LINK } from '../Doc';
 
 export function ToolsHub() {

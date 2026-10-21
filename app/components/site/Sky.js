@@ -6,10 +6,12 @@
 import Link from 'next/link';
 import { Doc, DocDoor, LINK, MONO } from './Doc';
 import LocalTime from './LocalTime';
-import { JsonLd, articleLd, faqLd, breadcrumbLd, pageMeta } from '../../lib/seo';
-import { UPDATED } from '../../lib/guides';
-import { cardPath } from '../../lib/cards';
-import { SOURCE, CAL_YEARS, retrogrades, eclipses, ingresses, signAtStart, opposite, signAt, degIn, sanskrit, utcDate, utcShort, utcTime, istWhen } from '../../lib/skycal';
+import { JsonLd } from '../seo/JsonLd';
+import { articleLd, faqLd, breadcrumbLd } from '../../lib/seo/structuredData';
+import { pageMeta } from '../../lib/seo/pageMeta';
+import { UPDATED } from '../../lib/content/guides';
+import { cardPath } from '../../lib/seo/shareCards';
+import { SOURCE, CAL_YEARS, retrogrades, eclipses, ingresses, signAtStart, opposite, signAt, degIn, sanskrit, utcDate, utcShort, utcTime, istWhen } from '../../lib/astro/skycal';
 
 const TH = 'py-2 pr-4 text-left font-normal text-white/45';
 const TD = 'py-2.5 pr-4 align-top text-white/85';

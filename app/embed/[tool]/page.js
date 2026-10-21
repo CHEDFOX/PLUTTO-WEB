@@ -8,7 +8,7 @@
 import { notFound } from 'next/navigation';
 import MoonWidget from '../../components/site/tools/MoonWidget';
 import GunaWidget from '../../components/site/tools/GunaWidget';
-import { EMBEDS } from '../../lib/embeds';
+import { EMBEDS } from '../../lib/content/embeds';
 
 export const dynamicParams = false;
 export function generateStaticParams() { return Object.keys(EMBEDS).map((tool) => ({ tool })); }

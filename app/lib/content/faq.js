@@ -7,7 +7,7 @@
  * Each answer is true of the app as shipped. When something changes — a price,
  * a platform (the App Store listing is in review) — change it here.
  */
-import { SITE } from './seo';
+import { SITE } from '../seo/site';
 
 const p = SITE.plans;
 

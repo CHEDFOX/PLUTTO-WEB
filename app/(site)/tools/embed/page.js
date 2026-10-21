@@ -4,9 +4,11 @@
  * host's page; the frame is just the tool.
  */
 import Link from 'next/link';
-import { pageMeta, breadcrumbLd, JsonLd } from '../../../lib/seo';
-import { cardPath } from '../../../lib/cards';
-import { EMBEDS, snippet } from '../../../lib/embeds';
+import { pageMeta } from '../../../lib/seo/pageMeta';
+import { breadcrumbLd } from '../../../lib/seo/structuredData';
+import { JsonLd } from '../../../components/seo/JsonLd';
+import { cardPath } from '../../../lib/seo/shareCards';
+import { EMBEDS, snippet } from '../../../lib/content/embeds';
 import { Doc, DocDoor, LINK } from '../../../components/site/Doc';
 import CopyBox from '../../../components/site/CopyBox';
 

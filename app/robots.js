@@ -10,7 +10,7 @@
  * /app itself is NOT disallowed: it carries its own noindex header
  * (next.config.mjs), and a crawler has to be let in to read that.
  */
-import { SITE } from './lib/seo';
+import { SITE } from './lib/seo/site';
 
 const AI_CRAWLERS = [
   'GPTBot', 'OAI-SearchBot', 'ChatGPT-User',            // OpenAI

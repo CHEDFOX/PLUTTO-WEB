@@ -5,8 +5,8 @@
  */
 import { useEffect, useState } from 'react';
 import PanchangView from './PanchangView';
-import { CITIES } from '../../lib/panchang';
-import { localZone } from '../../lib/zone';
+import { CITIES } from '../../lib/astro/panchang';
+import { localZone } from '../../lib/astro/zone';
 
 const FIELD = 'h-12 w-full rounded-xl border border-white/15 bg-white/[0.04] px-4 text-[16px] text-white outline-none focus:border-white/50 [color-scheme:dark]';
 const LABEL = 'block text-[13px] font-semibold text-white/55';
@@ -26,7 +26,7 @@ export default function PanchangWidget() {
     if (!date) return;
     let live = true;
     (async () => {
-      const [sky, lib] = await Promise.all([import('../../lib/sky'), import('../../lib/panchang')]);
+      const [sky, lib] = await Promise.all([import('../../lib/astro/sky'), import('../../lib/astro/panchang')]);
       const [y, m, d] = date.split('-').map(Number);
       const r = lib.panchang(sky, y, m, d, place);
       if (live) { setP(r); setNote(r ? '' : 'The Sun does not rise or set at this place on this date.'); }

@@ -1,5 +1,5 @@
-import { pageMeta } from '../../lib/seo';
-import { cardPath } from '../../lib/cards';
+import { pageMeta } from '../../lib/seo/pageMeta';
+import { cardPath } from '../../lib/seo/shareCards';
 import { SkyHub } from '../../components/site/Sky';
 
 export const metadata = pageMeta({

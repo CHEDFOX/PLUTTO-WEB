@@ -7,7 +7,7 @@
  * Sade Sati is Saturn in the 12th, 1st and 2nd signs from the Moon; the two
  * "small panotis" (Dhaiya) are Saturn in the 4th (Kantaka) and 8th (Ashtama).
  */
-import SATURN from './data/saturn.json';
+import SATURN from '../data/saturn.json';
 
 const YEAR = 365.25 * 86400000;
 

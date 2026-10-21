@@ -13,7 +13,7 @@
  */
 
 import Link from 'next/link';
-import { pageMeta } from '../../lib/seo';
+import { pageMeta } from '../../lib/seo/pageMeta';
 import FadeUp from '../../components/FadeUp';
 
 export const metadata = pageMeta({

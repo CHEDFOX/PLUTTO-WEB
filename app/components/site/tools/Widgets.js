@@ -6,8 +6,9 @@
  */
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { lifePath, LIFE_PATH, nameNumbers, chineseZodiac } from '../../../lib/calc';
-import { zonedToUtc, zones, localZone, zoneLabel } from '../../../lib/zone';
+import { lifePath, LIFE_PATH, nameNumbers } from '../../../lib/astro/numerology';
+import { chineseZodiac } from '../../../lib/astro/chineseZodiac';
+import { zonedToUtc, zones, localZone, zoneLabel } from '../../../lib/astro/zone';
 
 const FIELD = 'h-12 w-full rounded-xl border border-white/15 bg-white/[0.04] px-4 text-[16px] text-white outline-none focus:border-white/50 [color-scheme:dark]';
 const LABEL = 'block text-[13px] font-semibold text-white/55';
@@ -96,7 +97,7 @@ function CuspCheck({ d, r }) {
   async function check(e) {
     e.preventDefault();
     if (!/^\d{2}:\d{2}/.test(time)) return;
-    const sky = await import('../../../lib/sky');
+    const sky = await import('../../../lib/astro/sky');
     const [h, mi] = time.split(':').map(Number);
     const birth = zonedToUtc(d.y, d.m, d.d, h, mi, zone).date;
     const lc = sky.liChun(d.y);

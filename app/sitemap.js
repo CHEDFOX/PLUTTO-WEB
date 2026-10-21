@@ -5,12 +5,12 @@
  */
 export const revalidate = 3600;   // /panchang's lastModified follows its hourly ISR
 
-import { GUIDES, UPDATED } from './lib/guides';
-import { abs } from './lib/seo';
-import { SECTIONS, refPath } from './lib/refpages';
-import { TOOLS, toolPath } from './lib/tools';
-import { CAL_YEARS } from './lib/skycal';
-import { ARTICLES } from './lib/magazine';
+import { GUIDES, UPDATED } from './lib/content/guides';
+import { abs } from './lib/seo/site';
+import { SECTIONS, refPath } from './lib/content/refpages';
+import { TOOLS, toolPath } from './lib/content/tools';
+import { CAL_YEARS } from './lib/astro/skycal';
+import { ARTICLES } from './lib/content/magazine';
 
 export default function sitemap() {
   const at = new Date(UPDATED);

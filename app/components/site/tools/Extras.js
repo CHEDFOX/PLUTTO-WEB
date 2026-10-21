@@ -3,9 +3,9 @@
  * sees every table a result comes from, and can check a score by hand.
  */
 import Link from 'next/link';
-import { VASHYA, VASHYA_TABLE, YONIS, YONI_TABLE, varnaOf, vashyaOf, signLord } from '../../../lib/guna';
-import { sadeSati, GENERATED } from '../../../lib/sadesati';
-import { NAKSHATRAS, SIGNS, GRAHAS } from '../../../lib/reference';
+import { VASHYA, VASHYA_TABLE, YONIS, YONI_TABLE, varnaOf, vashyaOf, signLord } from '../../../lib/astro/guna';
+import { sadeSati, GENERATED } from '../../../lib/astro/sadesati';
+import { NAKSHATRAS, SIGNS, GRAHAS } from '../../../lib/content/reference';
 import { LINK } from '../Doc';
 
 const TH = 'py-2 pr-3 text-left font-normal text-white/45';

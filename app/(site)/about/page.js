@@ -17,11 +17,11 @@
  */
 
 import Link from 'next/link';
-import { pageMeta } from '../../lib/seo';
+import { pageMeta } from '../../lib/seo/pageMeta';
 import FadeUp from '../../components/FadeUp';
 import StoreBadges from '../../components/StoreBadges';
 import PlanetMark from '../../components/site/PlanetMark';
-import { SHELF_COLOR } from '../../lib/traditions';
+import { SHELF_COLOR } from '../../lib/content/traditions';
 
 export const metadata = pageMeta({
   title: 'How Plutto Works',

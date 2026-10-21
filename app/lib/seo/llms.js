@@ -6,13 +6,13 @@
  * without parsing a page built for eyes. Generated from the same modules the
  * pages use, so it can never say something the site does not.
  */
-import { SITE } from './seo';
-import { FAQS } from './faq';
-import { GUIDES } from './guides';
-import ATLAS from './atlas.json';
-import { SECTIONS, refPath, flat } from './refpages';
-import { TOOLS, toolPath } from './tools';
-import { CAL_YEARS, SOURCE, retrogrades, eclipses, ingresses, signAt } from './skycal';
+import { SITE } from './site';
+import { FAQS } from '../content/faq';
+import { GUIDES } from '../content/guides';
+import ATLAS from '../data/atlas.json';
+import { SECTIONS, refPath, flat } from '../content/refpages';
+import { TOOLS, toolPath } from '../content/tools';
+import { CAL_YEARS, SOURCE, retrogrades, eclipses, ingresses, signAt } from '../astro/skycal';
 
 const url = (p) => `${SITE.url}${p}`;
 

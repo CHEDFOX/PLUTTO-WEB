@@ -19,7 +19,7 @@
 
 import { useRef, useState } from 'react';
 import Link from 'next/link';
-import { DECKS, cardSrc, backSrc, CARD_RATIO } from '../../lib/decks';
+import { DECKS, cardSrc, backSrc, CARD_RATIO } from '../../lib/content/decks';
 
 const FLIP_MS = 650;
 

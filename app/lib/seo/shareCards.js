@@ -4,10 +4,10 @@
  * art for it (a nakshatra shows its lord, a sign its ruler). A page about the
  * Moon never shows a picture of Neptune: without art the card is type alone.
  */
-import { GUIDES } from './guides';
-import { SECTIONS } from './refpages';
-import { TOOLS } from './tools';
-import { CAL_YEARS, retrogrades, eclipses, ingresses } from './skycal';
+import { GUIDES } from '../content/guides';
+import { SECTIONS } from '../content/refpages';
+import { TOOLS } from '../content/tools';
+import { CAL_YEARS, retrogrades, eclipses, ingresses } from '../astro/skycal';
 
 const ART = { Sun: 'sun', Mercury: 'mercury', Venus: 'venus', Mars: 'mars', Rahu: 'rahu', Ketu: 'ketu' };
 const art = (graha) => ART[graha] || null;

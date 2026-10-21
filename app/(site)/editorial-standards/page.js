@@ -7,10 +7,13 @@
  * statement, named as the organization's publishingPrinciples in the JSON-LD.
  */
 import Link from 'next/link';
-import { pageMeta, breadcrumbLd, JsonLd, abs, SITE } from '../../lib/seo';
-import { UPDATED } from '../../lib/guides';
+import { pageMeta } from '../../lib/seo/pageMeta';
+import { breadcrumbLd } from '../../lib/seo/structuredData';
+import { JsonLd } from '../../components/seo/JsonLd';
+import { abs, SITE } from '../../lib/seo/site';
+import { UPDATED } from '../../lib/content/guides';
 import { Doc, LINK, MONO } from '../../components/site/Doc';
-import { METHOD, FROM, EVIDENCE } from '../../lib/method';
+import { METHOD, FROM, EVIDENCE } from '../../lib/content/method';
 
 const PATH = '/editorial-standards';
 const TITLE = 'Method and Sources';

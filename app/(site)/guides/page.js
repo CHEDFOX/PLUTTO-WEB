@@ -2,10 +2,13 @@
  * /guides — every system Plutto reads, one guide each (app/lib/guides.js).
  */
 import Link from 'next/link';
-import { GUIDES } from '../../lib/guides';
-import { pageMeta, breadcrumbLd, JsonLd, SITE, abs } from '../../lib/seo';
+import { GUIDES } from '../../lib/content/guides';
+import { pageMeta } from '../../lib/seo/pageMeta';
+import { breadcrumbLd } from '../../lib/seo/structuredData';
+import { JsonLd } from '../../components/seo/JsonLd';
+import { SITE, abs } from '../../lib/seo/site';
 import { Doc, DocDoor, LINK } from '../../components/site/Doc';
-import { cardPath } from '../../lib/cards';
+import { cardPath } from '../../lib/seo/shareCards';
 
 const REFERENCE = [
   ['/nakshatras', 'The 27 nakshatras — the lunar mansions of Vedic astrology'],

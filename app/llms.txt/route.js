@@ -1,4 +1,4 @@
-import { llmsTxt } from '../lib/llms';
+import { llmsTxt } from '../lib/seo/llms';
 
 export const dynamic = 'force-static';
 export function GET() {

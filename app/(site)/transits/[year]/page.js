@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { TransitPage, skyMeta } from '../../../components/site/Sky';
-import { CAL_YEARS } from '../../../lib/skycal';
+import { CAL_YEARS } from '../../../lib/astro/skycal';
 
 export const dynamicParams = false;
 export function generateStaticParams() { return CAL_YEARS.map((y) => ({ year: String(y) })); }

@@ -1,6 +1,6 @@
 import { Bodoni_Moda, Source_Serif_4, IBM_Plex_Mono, Caveat } from 'next/font/google';
 import './globals.css';
-import { GTM_HEAD, GTM_NOSCRIPT_SRC } from './lib/gtm';
+import { GTM_HEAD, GTM_NOSCRIPT_SRC } from './lib/analytics/gtm';
 
 // THE MAGAZINE EDITION — three faces, one printed page.
 //   Bodoni Moda   the masthead, headlines, numerals, pull quotes (display, mark, editorial)

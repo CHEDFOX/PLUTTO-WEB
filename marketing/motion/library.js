@@ -23,7 +23,7 @@ export const LIB = {
 const CLOTH = ['#6e1f22', '#1d2c55', '#1f4a36', '#8c6526', '#4d2347', '#1d5a5c', '#8a3b1e', '#3b4250', '#5b5a2a', '#2b2463', '#5a1730', '#3d5a2c'];
 
 export async function atlas() {
-  const a = await (await fetch('../../app/lib/atlas.json')).json();
+  const a = await (await fetch('../../app/lib/data/atlas.json')).json();
   const order = a.regions.map((r) => r.id);
   a.list = a.regions.flatMap((r) => a.traditions.filter((x) => x.region === r.id));
   a.cloth = (t) => CLOTH[order.indexOf(t.region) % CLOTH.length];

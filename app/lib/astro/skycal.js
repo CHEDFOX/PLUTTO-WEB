@@ -3,7 +3,7 @@
  * from data/ephemeris.json (Swiss Ephemeris, scripts/ephemeris.py). Server
  * only: the pages print these as HTML, so nothing here reaches the browser.
  */
-import EPH from './data/ephemeris.json';
+import EPH from '../data/ephemeris.json';
 
 export const SOURCE = EPH.generated;
 export const CAL_YEARS = [2026, 2027, 2028];

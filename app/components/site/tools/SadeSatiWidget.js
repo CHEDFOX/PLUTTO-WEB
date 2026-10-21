@@ -6,9 +6,9 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { BirthFields, emptyBirth, useZones, birthError, birthMoon, FIELD, LABEL } from './birth';
-import { sadeSati, kantaka, ashtama, PHASE } from '../../../lib/sadesati';
-import { SIGNS } from '../../../lib/reference';
-import { track } from '../../../lib/meta';
+import { sadeSati, kantaka, ashtama, PHASE } from '../../../lib/astro/sadesati';
+import { SIGNS } from '../../../lib/content/reference';
+import { track } from '../../../lib/analytics/metaPixel';
 
 const day = (t) => new Date(t).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
 const YEAR = 365.25 * 86400000;
@@ -39,7 +39,7 @@ export default function SadeSatiWidget() {
     if (mode === 'sign') { setR(report(+sign, null)); return; }
     const problem = birthError(birth);
     if (problem) { setErr(problem); return; }
-    const sky = await import('../../../lib/sky');
+    const sky = await import('../../../lib/astro/sky');
     const m = birthMoon(sky, birth);
     setR({ ...report(Math.floor(m.sidereal / 30), m.at.date.getTime()), uncertain: m.changes.includes('sign') });
     track('Lead', { content_name: 'sade-sati' });

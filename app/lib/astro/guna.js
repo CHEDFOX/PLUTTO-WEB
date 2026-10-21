@@ -11,7 +11,7 @@
  *
  * Pure functions: the page and the tests use exactly this code.
  */
-import { NAKSHATRAS, SIGNS, GRAHAS } from './reference';
+import { NAKSHATRAS, SIGNS, GRAHAS } from '../content/reference';
 
 const NAK = 360 / 27;
 export const MAX = { Varna: 1, Vashya: 2, Tara: 3, Yoni: 4, 'Graha Maitri': 5, Gana: 6, Bhakoot: 7, Nadi: 8 };

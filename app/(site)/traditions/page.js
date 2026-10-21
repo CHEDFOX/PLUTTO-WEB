@@ -8,9 +8,12 @@
  * engine cites — so it is plain markup, a real list, and an ItemList of
  * DefinedTerms.
  */
-import ATLAS from '../../lib/atlas.json';
-import { SHELF_COLOR } from '../../lib/traditions';
-import { pageMeta, breadcrumbLd, JsonLd, abs, SITE } from '../../lib/seo';
+import ATLAS from '../../lib/data/atlas.json';
+import { SHELF_COLOR } from '../../lib/content/traditions';
+import { pageMeta } from '../../lib/seo/pageMeta';
+import { breadcrumbLd } from '../../lib/seo/structuredData';
+import { JsonLd } from '../../components/seo/JsonLd';
+import { abs, SITE } from '../../lib/seo/site';
 import { Doc, DocDoor, LINK } from '../../components/site/Doc';
 
 const KIND = {

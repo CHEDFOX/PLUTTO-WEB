@@ -10,7 +10,7 @@
  * then switches to the store once the device is known.
  */
 
-import usePlatform from '../lib/usePlatform';
+import usePlatform from './store/usePlatform';
 import { getAppHref } from '../lib/appStore';
 
 export default function GetAppLink({ className = '', children, onClick }) {

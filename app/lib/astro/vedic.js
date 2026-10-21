@@ -8,7 +8,7 @@
  * the Moon has still to cross, and a year is 365.25 days. So the free tool
  * and the app give the same dates.
  */
-import { NAKSHATRAS, SIGNS } from './reference';
+import { NAKSHATRAS, SIGNS } from '../content/reference';
 
 const DASHA_ORDER = ['Ketu', 'Venus', 'Sun', 'Moon', 'Mars', 'Rahu', 'Jupiter', 'Saturn', 'Mercury'];
 export const DASHA_YEARS = { Ketu: 7, Venus: 20, Sun: 6, Moon: 10, Mars: 7, Rahu: 18, Jupiter: 16, Saturn: 19, Mercury: 17 };

@@ -9,7 +9,7 @@
  * is answered from the item's own data — no two pages share an answer.
  */
 import { NAKSHATRAS, ANIMALS, GRAHAS, SIGNS, slugify } from './reference';
-import { sunReaches, lahiri, julianDayUT } from './sky';
+import { sunReaches, lahiri, julianDayUT } from '../astro/sky';
 
 /*
  * A fact's value is a string or a list of segments — strings and links — so

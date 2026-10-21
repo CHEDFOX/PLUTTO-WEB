@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { detectPlatform } from './appStore';
+import { detectPlatform } from '../../lib/appStore';
 
 /** 'desktop' on the server and first paint, then the device's real platform. */
 export default function usePlatform() {

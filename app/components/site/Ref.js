@@ -4,11 +4,14 @@
  * every word in the HTML as sent.
  */
 import Link from 'next/link';
-import { SECTIONS, refPath, flat } from '../../lib/refpages';
-import { UPDATED } from '../../lib/guides';
-import { pageMeta, breadcrumbLd, faqLd, articleLd, JsonLd, abs } from '../../lib/seo';
+import { SECTIONS, refPath, flat } from '../../lib/content/refpages';
+import { UPDATED } from '../../lib/content/guides';
+import { pageMeta } from '../../lib/seo/pageMeta';
+import { breadcrumbLd, faqLd, articleLd } from '../../lib/seo/structuredData';
+import { JsonLd } from '../seo/JsonLd';
+import { abs } from '../../lib/seo/site';
 import { Doc, DocDoor, MONO, LINK } from './Doc';
-import { cardPath } from '../../lib/cards';
+import { cardPath } from '../../lib/seo/shareCards';
 
 /** A fact's value: plain text, or segments where some are links. */
 function Val({ v }) {

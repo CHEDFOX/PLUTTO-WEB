@@ -14,7 +14,7 @@
  *                "Add to your Home Screen", to the web app's install steps.
  */
 
-import usePlatform from '../lib/usePlatform';
+import usePlatform from './store/usePlatform';
 import { ANDROID_LIVE, IOS_LIVE, IOS_WEB_APP, PLAY_URL, WEB_APP_INSTALL, storeUrl } from '../lib/appStore';
 
 export default function StoreBadges({ className = '' }) {

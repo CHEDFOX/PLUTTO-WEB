@@ -12,7 +12,7 @@
  */
 
 import Image from 'next/image';
-import { DECKS, cardSrc } from '../../lib/decks';
+import { DECKS, cardSrc } from '../../lib/content/decks';
 
 const deck = (id) => DECKS.find((d) => d.id === id);
 

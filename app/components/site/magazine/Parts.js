@@ -10,7 +10,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Picture from './Picture';
 import Plate from './Plates';
-import { commons, commonsPage, readMinutes, APP_PAGE } from '../../../lib/magazine';
+import { commons, commonsPage, readMinutes, APP_PAGE } from '../../../lib/content/magazine';
 
 export const KICKER = 'font-mono text-[11px] uppercase tracking-[0.2em] text-sindoor';
 export const LABEL = 'font-mono text-[11px] uppercase tracking-[0.2em] text-white/55';

@@ -7,7 +7,7 @@
  * Tithi and karana come from the Moon's elongation from the Sun (the same in
  * either zodiac); nakshatra and yoga from sidereal (Lahiri) longitudes.
  */
-import { NAKSHATRAS } from './reference';
+import { NAKSHATRAS } from '../content/reference';
 import { zonedToUtc } from './zone';
 
 const TITHIS = ['Pratipada', 'Dwitiya', 'Tritiya', 'Chaturthi', 'Panchami', 'Shashthi', 'Saptami', 'Ashtami', 'Navami', 'Dashami', 'Ekadashi', 'Dwadashi', 'Trayodashi', 'Chaturdashi'];

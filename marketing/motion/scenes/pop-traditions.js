@@ -8,7 +8,7 @@ export default {
   duration: 14,
   score() { return popScore({ duration: this.duration, end: END, hits: [0.4, 6.8, 7.1], cuts: [7.5], tick: [0.5, 6.6] }); },
   async setup(stage) {
-    const atlas = await (await fetch('../../app/lib/atlas.json')).json();
+    const atlas = await (await fetch('../../app/lib/data/atlas.json')).json();
     S.list = atlas.regions.flatMap((r) => atlas.traditions.filter((x) => x.region === r.id));
     S.total = atlas.traditions.length;
     const R = rng(5);

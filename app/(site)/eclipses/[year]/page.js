@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { EclipsePage, eclipseText, skyMeta } from '../../../components/site/Sky';
-import { CAL_YEARS, utcShort } from '../../../lib/skycal';
+import { CAL_YEARS, utcShort } from '../../../lib/astro/skycal';
 
 export const dynamicParams = false;
 export function generateStaticParams() { return CAL_YEARS.map((y) => ({ year: String(y) })); }

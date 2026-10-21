@@ -14,7 +14,8 @@ import Script from 'next/script';
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
 import SiteChrome from '../components/SiteChrome';
-import { JsonLd, organizationLd, websiteLd, appLd } from '../lib/seo';
+import { JsonLd } from '../components/seo/JsonLd';
+import { organizationLd, websiteLd, appLd } from '../lib/seo/structuredData';
 
 export default function SiteLayout({ children }) {
   return (

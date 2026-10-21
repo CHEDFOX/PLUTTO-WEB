@@ -7,10 +7,12 @@
  */
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { GUIDES, GUIDE_BY_SLUG, UPDATED } from '../../../lib/guides';
-import { pageMeta, breadcrumbLd, faqLd, articleLd, JsonLd } from '../../../lib/seo';
-import { cardPath } from '../../../lib/cards';
-import { CAL_YEARS } from '../../../lib/skycal';
+import { GUIDES, GUIDE_BY_SLUG, UPDATED } from '../../../lib/content/guides';
+import { pageMeta } from '../../../lib/seo/pageMeta';
+import { breadcrumbLd, faqLd, articleLd } from '../../../lib/seo/structuredData';
+import { JsonLd } from '../../../components/seo/JsonLd';
+import { cardPath } from '../../../lib/seo/shareCards';
+import { CAL_YEARS } from '../../../lib/astro/skycal';
 import { Doc, DocDoor, MONO, LINK } from '../../../components/site/Doc';
 
 export const dynamicParams = false;

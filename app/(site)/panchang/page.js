@@ -6,10 +6,13 @@
  * within 7 seconds.
  */
 import Link from 'next/link';
-import * as sky from '../../lib/sky';
-import { panchang, CITIES } from '../../lib/panchang';
-import { pageMeta, breadcrumbLd, faqLd, JsonLd, abs } from '../../lib/seo';
-import { cardPath } from '../../lib/cards';
+import * as sky from '../../lib/astro/sky';
+import { panchang, CITIES } from '../../lib/astro/panchang';
+import { pageMeta } from '../../lib/seo/pageMeta';
+import { breadcrumbLd, faqLd } from '../../lib/seo/structuredData';
+import { JsonLd } from '../../components/seo/JsonLd';
+import { abs } from '../../lib/seo/site';
+import { cardPath } from '../../lib/seo/shareCards';
 import { Doc, DocDoor, LINK, MONO } from '../../components/site/Doc';
 import PanchangView, { clock } from '../../components/site/PanchangView';
 import PanchangWidget from '../../components/site/PanchangWidget';

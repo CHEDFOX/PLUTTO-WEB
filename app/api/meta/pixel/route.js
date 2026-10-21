@@ -26,7 +26,7 @@
  * OFF until Vercel has META_PIXEL_ID (the dataset ID from Events Manager): with
  * no ID this serves a stub, so every call site can stay in place.
  */
-import { ASK_FIRST_COUNTRIES } from '../../../lib/consent';
+import { ASK_FIRST_COUNTRIES } from '../../../lib/analytics/consent';
 
 export const dynamic = 'force-dynamic';
 

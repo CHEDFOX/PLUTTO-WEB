@@ -12,7 +12,7 @@ let S = {};
 export default {
   duration: 14,
   async setup(stage) {
-    const atlas = await (await fetch('../../app/lib/atlas.json')).json();
+    const atlas = await (await fetch('../../app/lib/data/atlas.json')).json();
     const byRegion = atlas.regions.map((r) => atlas.traditions.filter((t) => t.region === r.id));
     S.list = byRegion.flat();
     S.regions = atlas.regions;

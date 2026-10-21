@@ -6,8 +6,8 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { BirthFields, emptyBirth, useZones, birthError, birthMoon } from './birth';
-import { gunaMilan, verdict, MAX } from '../../../lib/guna';
-import { track } from '../../../lib/meta';
+import { gunaMilan, verdict, MAX } from '../../../lib/astro/guna';
+import { track } from '../../../lib/analytics/metaPixel';
 
 const WHAT = {
   Varna: 'spiritual temperament',
@@ -39,7 +39,7 @@ export default function GunaWidget() {
     if (problem) return;
     setBusy(true);
     try {
-      const sky = await import('../../../lib/sky');
+      const sky = await import('../../../lib/astro/sky');
       const b = birthMoon(sky, bride), g = birthMoon(sky, groom);
       setR({ ...gunaMilan(b.sidereal, g.sidereal), uncertain: [...b.changes.map((c) => `the bride’s ${c}`), ...g.changes.map((c) => `the groom’s ${c}`)] });
       track('Lead', { content_name: 'kundli-matching' });

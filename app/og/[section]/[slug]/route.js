@@ -6,7 +6,7 @@
 import { ImageResponse } from 'next/og';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
-import { CARDS } from '../../../lib/cards';
+import { CARDS } from '../../../lib/seo/shareCards';
 
 export const dynamic = 'force-static';
 export const dynamicParams = false;

@@ -8,8 +8,10 @@
  */
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ARTICLES, ARTICLE_BY_SLUG, APP_PAGE, PUBLISHED, readMinutes } from '../../../lib/magazine';
-import { pageMeta, breadcrumbLd, articleLd, JsonLd } from '../../../lib/seo';
+import { ARTICLES, ARTICLE_BY_SLUG, APP_PAGE, PUBLISHED, readMinutes } from '../../../lib/content/magazine';
+import { pageMeta } from '../../../lib/seo/pageMeta';
+import { breadcrumbLd, articleLd } from '../../../lib/seo/structuredData';
+import { JsonLd } from '../../../components/seo/JsonLd';
 import { ArticleCard, AppPage, Figure, KICKER, LABEL } from '../../../components/site/magazine/Parts';
 import { LINK } from '../../../components/site/Doc';
 
