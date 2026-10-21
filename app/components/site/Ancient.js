@@ -14,7 +14,7 @@
  * sideways with snap, one word at a time.
  */
 
-import { Note } from './ink/Ink';
+import { Note } from '../ink/Note';
 
 const WORDS = [
   { glyph: '𓋹', font: 'script-hiero', say: 'ankh', means: 'life', where: 'Egypt', when: '3000 BC' },

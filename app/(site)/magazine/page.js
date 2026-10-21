@@ -12,7 +12,7 @@ import { breadcrumbLd } from '../../lib/seo/structuredData';
 import { JsonLd } from '../../components/seo/JsonLd';
 import { abs } from '../../lib/seo/site';
 import { ArticleCard, AppPage, KICKER, LABEL } from '../../components/site/magazine/Parts';
-import { LINK } from '../../components/site/Doc';
+import { LINK } from '../../components/doc/classes';
 
 const TITLE = 'The Plutto Magazine: stories the sky left behind';
 const DESCRIPTION = 'Short, sourced stories about the sky and what people did with it: the planetary clock that named your week, the I Ching counting in binary, a bronze computer that predicted eclipses, and more.';

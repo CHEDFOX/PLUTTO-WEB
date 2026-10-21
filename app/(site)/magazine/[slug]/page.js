@@ -13,7 +13,7 @@ import { pageMeta } from '../../../lib/seo/pageMeta';
 import { breadcrumbLd, articleLd } from '../../../lib/seo/structuredData';
 import { JsonLd } from '../../../components/seo/JsonLd';
 import { ArticleCard, AppPage, Figure, KICKER, LABEL } from '../../../components/site/magazine/Parts';
-import { LINK } from '../../../components/site/Doc';
+import { LINK } from '../../../components/doc/classes';
 
 export const dynamicParams = false;
 export function generateStaticParams() { return ARTICLES.map((a) => ({ slug: a.slug })); }

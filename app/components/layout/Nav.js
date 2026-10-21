@@ -11,7 +11,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import GetAppLink from './GetAppLink';
+import GetAppLink from '../store/GetAppLink';
 
 const LINKS = [
   { href: '/app', label: 'Ask' },

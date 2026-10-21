@@ -13,7 +13,9 @@ import { breadcrumbLd, faqLd } from '../../lib/seo/structuredData';
 import { JsonLd } from '../../components/seo/JsonLd';
 import { abs } from '../../lib/seo/site';
 import { cardPath } from '../../lib/seo/shareCards';
-import { Doc, DocDoor, LINK, MONO } from '../../components/site/Doc';
+import { Doc } from '../../components/doc/Doc';
+import { DocDoor } from '../../components/doc/DocDoor';
+import { LINK, MONO } from '../../components/doc/classes';
 import PanchangView, { clock } from '../../components/site/PanchangView';
 import PanchangWidget from '../../components/site/PanchangWidget';
 

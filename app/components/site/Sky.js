@@ -4,8 +4,10 @@
  * in UTC as sent, with the reader's local time filled in by LocalTime.
  */
 import Link from 'next/link';
-import { Doc, DocDoor, LINK, MONO } from './Doc';
-import LocalTime from './LocalTime';
+import { Doc } from '../doc/Doc';
+import { DocDoor } from '../doc/DocDoor';
+import { LINK, MONO } from '../doc/classes';
+import LocalTime from '../ui/LocalTime';
 import { JsonLd } from '../seo/JsonLd';
 import { articleLd, faqLd, breadcrumbLd } from '../../lib/seo/structuredData';
 import { pageMeta } from '../../lib/seo/pageMeta';

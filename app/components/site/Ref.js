@@ -10,7 +10,9 @@ import { pageMeta } from '../../lib/seo/pageMeta';
 import { breadcrumbLd, faqLd, articleLd } from '../../lib/seo/structuredData';
 import { JsonLd } from '../seo/JsonLd';
 import { abs } from '../../lib/seo/site';
-import { Doc, DocDoor, MONO, LINK } from './Doc';
+import { Doc } from '../doc/Doc';
+import { DocDoor } from '../doc/DocDoor';
+import { MONO, LINK } from '../doc/classes';
 import { cardPath } from '../../lib/seo/shareCards';
 
 /** A fact's value: plain text, or segments where some are links. */

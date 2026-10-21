@@ -9,8 +9,10 @@ import { breadcrumbLd } from '../../../lib/seo/structuredData';
 import { JsonLd } from '../../../components/seo/JsonLd';
 import { cardPath } from '../../../lib/seo/shareCards';
 import { EMBEDS, snippet } from '../../../lib/content/embeds';
-import { Doc, DocDoor, LINK } from '../../../components/site/Doc';
-import CopyBox from '../../../components/site/CopyBox';
+import { Doc } from '../../../components/doc/Doc';
+import { DocDoor } from '../../../components/doc/DocDoor';
+import { LINK } from '../../../components/doc/classes';
+import CopyBox from '../../../components/ui/CopyBox';
 
 export const metadata = pageMeta({
   title: 'Embed a Free Astrology Calculator on Your Site',

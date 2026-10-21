@@ -22,21 +22,23 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import FadeUp from '../components/FadeUp';
-import StoreBadges from '../components/StoreBadges';
-import GetAppLink from '../components/GetAppLink';
+import FadeUp from '../components/motion/FadeUp';
+import StoreBadges from '../components/store/StoreBadges';
+import GetAppLink from '../components/store/GetAppLink';
 import Draw from '../components/site/Draw';
-import Device from '../components/site/app/Device';
-import AppVideo from '../components/site/app/AppVideo';
-import Shot from '../components/site/app/Shot';
-import LockApp from '../components/site/app/LockApp';
+import Device from '../components/phone/Device';
+import AppVideo from '../components/phone/AppVideo';
+import Shot from '../components/phone/Shot';
+import LockApp from '../components/phone/LockApp';
 import Marquee from '../components/site/Marquee';
 import Story from '../components/site/Story';
-import Words from '../components/site/motion/Words';
+import Words from '../components/motion/Words';
 import HeroStage from '../components/site/HeroStage';
-import Spotlight from '../components/site/motion/Spotlight';
+import Spotlight from '../components/motion/Spotlight';
 import Ancient from '../components/site/Ancient';
-import { Note, Arrow, Underline } from '../components/site/ink/Ink';
+import { Note } from '../components/ink/Note';
+import { Arrow } from '../components/ink/Arrow';
+import { Underline } from '../components/ink/Underline';
 import { ArticleCard } from '../components/site/magazine/Parts';
 import { ARTICLE_BY_SLUG } from '../lib/content/magazine';
 

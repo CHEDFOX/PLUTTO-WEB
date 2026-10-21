@@ -18,8 +18,8 @@
 
 import Link from 'next/link';
 import { pageMeta } from '../../lib/seo/pageMeta';
-import FadeUp from '../../components/FadeUp';
-import StoreBadges from '../../components/StoreBadges';
+import FadeUp from '../../components/motion/FadeUp';
+import StoreBadges from '../../components/store/StoreBadges';
 import PlanetMark from '../../components/site/PlanetMark';
 import { SHELF_COLOR } from '../../lib/content/traditions';
 

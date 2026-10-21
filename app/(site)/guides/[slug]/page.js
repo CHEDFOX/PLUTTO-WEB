@@ -13,7 +13,9 @@ import { breadcrumbLd, faqLd, articleLd } from '../../../lib/seo/structuredData'
 import { JsonLd } from '../../../components/seo/JsonLd';
 import { cardPath } from '../../../lib/seo/shareCards';
 import { CAL_YEARS } from '../../../lib/astro/skycal';
-import { Doc, DocDoor, MONO, LINK } from '../../../components/site/Doc';
+import { Doc } from '../../../components/doc/Doc';
+import { DocDoor } from '../../../components/doc/DocDoor';
+import { MONO, LINK } from '../../../components/doc/classes';
 
 export const dynamicParams = false;
 export function generateStaticParams() { return GUIDES.map((g) => ({ slug: g.slug })); }

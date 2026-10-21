@@ -12,7 +12,8 @@ import { breadcrumbLd } from '../../lib/seo/structuredData';
 import { JsonLd } from '../../components/seo/JsonLd';
 import { abs, SITE } from '../../lib/seo/site';
 import { UPDATED } from '../../lib/content/guides';
-import { Doc, LINK, MONO } from '../../components/site/Doc';
+import { Doc } from '../../components/doc/Doc';
+import { LINK, MONO } from '../../components/doc/classes';
 import { METHOD, FROM, EVIDENCE } from '../../lib/content/method';
 
 const PATH = '/editorial-standards';

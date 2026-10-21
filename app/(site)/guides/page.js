@@ -7,7 +7,9 @@ import { pageMeta } from '../../lib/seo/pageMeta';
 import { breadcrumbLd } from '../../lib/seo/structuredData';
 import { JsonLd } from '../../components/seo/JsonLd';
 import { SITE, abs } from '../../lib/seo/site';
-import { Doc, DocDoor, LINK } from '../../components/site/Doc';
+import { Doc } from '../../components/doc/Doc';
+import { DocDoor } from '../../components/doc/DocDoor';
+import { LINK } from '../../components/doc/classes';
 import { cardPath } from '../../lib/seo/shareCards';
 
 const REFERENCE = [

@@ -10,9 +10,9 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
-import Device from './app/Device';
-import AppVideo from './app/AppVideo';
-import LockApp from './app/LockApp';
+import Device from '../phone/Device';
+import AppVideo from '../phone/AppVideo';
+import LockApp from '../phone/LockApp';
 
 const VoiceVideo = () => <AppVideo name="voice" poster="/app/screens/voice.png" label="Plutto's voice mode" />;
 const OnboardingShot = () => <AppVideo name="when" poster="/app/screens/when-start.jpg" still="/app/screens/onboarding.png" label="Plutto asking your name and when you were born" />;

@@ -6,7 +6,8 @@ import { FAQS } from '../../lib/content/faq';
 import { pageMeta } from '../../lib/seo/pageMeta';
 import { breadcrumbLd, faqLd } from '../../lib/seo/structuredData';
 import { JsonLd } from '../../components/seo/JsonLd';
-import { Doc, DocDoor } from '../../components/site/Doc';
+import { Doc } from '../../components/doc/Doc';
+import { DocDoor } from '../../components/doc/DocDoor';
 
 export const metadata = pageMeta({
   title: 'Plutto FAQ: Price, Accuracy, Languages, Systems',

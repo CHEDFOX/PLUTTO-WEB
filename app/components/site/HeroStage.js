@@ -29,8 +29,8 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { motion, animate, useMotionValue, useScroll, useSpring, useTransform, useMotionValueEvent, AnimatePresence } from 'framer-motion';
-import useCalm from './motion/useCalm';
-import Tilt from './motion/Tilt';
+import useCalm from '../motion/useCalm';
+import Tilt from '../motion/Tilt';
 
 // THE PATH. A phone's place in the stack is u = (index − turn) mod 3:
 //   u = 0 front · u = 1, 2 behind, fanned up and to the right.

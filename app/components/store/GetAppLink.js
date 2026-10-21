@@ -10,8 +10,8 @@
  * then switches to the store once the device is known.
  */
 
-import usePlatform from './store/usePlatform';
-import { getAppHref } from '../lib/appStore';
+import usePlatform from './usePlatform';
+import { getAppHref } from '../../lib/appStore';
 
 export default function GetAppLink({ className = '', children, onClick }) {
   const platform = usePlatform();

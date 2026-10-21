@@ -9,7 +9,9 @@ import { pageMeta } from '../../../lib/seo/pageMeta';
 import { breadcrumbLd, faqLd } from '../../../lib/seo/structuredData';
 import { JsonLd } from '../../seo/JsonLd';
 import { abs, SITE } from '../../../lib/seo/site';
-import { Doc, DocDoor, LINK, MONO } from '../Doc';
+import { Doc } from '../../doc/Doc';
+import { DocDoor } from '../../doc/DocDoor';
+import { LINK, MONO } from '../../doc/classes';
 import { cardPath } from '../../../lib/seo/shareCards';
 
 export function toolMeta(slug) {

@@ -11,9 +11,9 @@
  * /(site)/page.js is still /, /(site)/about is still /about.
  */
 import Script from 'next/script';
-import Nav from '../components/Nav';
-import Footer from '../components/Footer';
-import SiteChrome from '../components/SiteChrome';
+import Nav from '../components/layout/Nav';
+import Footer from '../components/layout/Footer';
+import SiteChrome from '../components/layout/SiteChrome';
 import { JsonLd } from '../components/seo/JsonLd';
 import { organizationLd, websiteLd, appLd } from '../lib/seo/structuredData';
 

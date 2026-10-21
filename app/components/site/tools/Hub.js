@@ -7,7 +7,9 @@ import { TOOLS, toolPath } from '../../../lib/content/tools';
 import { breadcrumbLd } from '../../../lib/seo/structuredData';
 import { JsonLd } from '../../seo/JsonLd';
 import { abs } from '../../../lib/seo/site';
-import { Doc, DocDoor, LINK } from '../Doc';
+import { Doc } from '../../doc/Doc';
+import { DocDoor } from '../../doc/DocDoor';
+import { LINK } from '../../doc/classes';
 
 export function ToolsHub() {
   const list = {
