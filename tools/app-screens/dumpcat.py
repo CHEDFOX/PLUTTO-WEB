@@ -1,3 +1,8 @@
+"""Writes the backend catalog (get_catalog for an English iOS client) to $OUT; an optional argument picks the system.
+
+Run with the backend venv and dummy OPENROUTER_API_KEY, OPENAI_API_KEY and GOOGLE_PLACES_API_KEY:
+    OUT=$WORK/catalog.json python3 tools/app-screens/dumpcat.py [system]
+"""
 import asyncio, json, sys, os
 BACKEND = os.environ.get('BACKEND_DIR') or os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', 'Plutto-Backend'))
 sys.path.insert(0, BACKEND)

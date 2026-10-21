@@ -1,3 +1,6 @@
+"""Writes the backend's Tarot screen to $OUT and its Explore hook to $OUT2. Run like dumpcat.py:
+    OUT=$WORK/div_tarot.json OUT2=$WORK/div_hook.json python3 tools/app-screens/dumpdiv.py
+"""
 import asyncio, json, sys, os
 BACKEND = os.environ.get('BACKEND_DIR') or os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', 'Plutto-Backend'))
 sys.path.insert(0, BACKEND); os.chdir(BACKEND)

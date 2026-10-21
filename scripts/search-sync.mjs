@@ -1,23 +1,11 @@
 #!/usr/bin/env node
 /**
- * SEARCH SYNC — after every production deploy (and once a day), tell Google and
- * Bing about exactly what changed. Run by .github/workflows/search-sync.yml.
+ * Announces changed pages to search engines, run by .github/workflows/search-sync.yml after each production deploy and
+ * daily. Each sitemap page's visible <main> text is fingerprinted against the last run's snapshot; new, changed and
+ * removed pages go to IndexNow (Bing, and through it ChatGPT search and Copilot, Yandex, Seznam, Naver), then the
+ * sitemap is re-submitted to Search Console (Google retired sitemap pings in 2023) and to Bing Webmaster.
  *
- *   1. Read the live sitemap, fetch every page, and fingerprint what a reader
- *      sees (the <main> text, scripts and build ids stripped). Compare with the
- *      fingerprints from the last run (the snapshot file): new pages and pages
- *      whose visible content changed are the ones to announce. A redeploy that
- *      changes nothing announces nothing — IndexNow asks for exactly that.
- *   2. IndexNow: one POST to api.indexnow.org reaches Bing (and so ChatGPT
- *      search and Copilot), Yandex, Seznam and Naver.
- *   3. Google: re-submit the sitemap through the Search Console API, so Google
- *      re-reads it now instead of on its own schedule. (Google retired sitemap
- *      "pings" in 2023, and its Indexing API is only for job posts and live
- *      streams — this is the supported route.) Needs GSC_SERVICE_ACCOUNT.
- *   4. Bing: re-submit the sitemap through the Bing Webmaster API too, if
- *      BING_WEBMASTER_API_KEY is set (IndexNow already covers the pages).
- *
- * Environment (all optional except where noted):
+ * Environment (all optional):
  *   SITE                     canonical origin (default https://plutto.space)
  *   FETCH_FROM               where to read pages from, if not SITE (testing)
  *   SNAPSHOT                 fingerprint file (default .search-sync/snapshot.json)
@@ -75,7 +63,7 @@ async function pool(items, n, fn) {
   return out;
 }
 
-// ── Google: Search Console API with a service account (RS256 JWT, no deps) ──
+// Google Search Console API with a service account: an RS256 JWT signed with node:crypto, no dependencies.
 const b64u = (x) => Buffer.from(x).toString('base64url');
 export function serviceJwt(sa, now = Math.floor(Date.now() / 1000)) {
   const head = b64u(JSON.stringify({ alg: 'RS256', typ: 'JWT' }));

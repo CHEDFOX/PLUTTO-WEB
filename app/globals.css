@@ -21,15 +21,12 @@ input, textarea, [contenteditable="true"] {
   :root {
     color-scheme: light;
 
-    /* THE MAGAZINE EDITION: the faces' registers, aliased onto the three loaded families (layout.js). */
+    /* --font-ui is the body face; app/layout.js loads the faces. */
     --font-ui: var(--font-body);
 
     --foreground: 0 0% 7%;              /* #111111 ink */
 
-    /* PRIMARY is the ACTION colour, and it is off-white — the same choice the
-       app makes (its auth arrow is a solid white circle, its Continue is white
-       text). A filled white button on void is stronger than any hue, and it
-       cannot look cheap. Gold is NOT the theme; see --gold below. */
+    /* The action colour (focus ring, caret): ink. */
     --primary: 0 0% 7%;                 /* ink */
 
     --border: 40 6% 74%;                /* a hairline on paper */
@@ -41,15 +38,12 @@ input, textarea, [contenteditable="true"] {
     scroll-behavior: smooth;
     background-color: #F2EFE8;
     overflow-x: hidden;
-    /* the height a "full screen" section fills: the screen, except on a
-       scaled tablet (see layout.js), where an upright screen is far taller
-       than the monitor the composition was drawn for — there it is capped at
-       the PC's own proportions (1440×900 → 62.5% of the width) */
+    /* The height a full-screen section fills: the screen, except on a scaled tablet (app/layout.js), where it is
+       capped at the PC's proportions (1440×900 → 62.5% of the width). */
     --screen-h: 100svh;
   }
   html.scaled-tab { --screen-h: min(100svh, 62.5vw); }
-  /* the pinned hero turns the phones as the page scrolls past it; on a tall
-     tablet the pin would leave a screen of black under it, so it scrolls */
+  /* On a tall tablet the pinned hero would leave a screen of empty ground under it, so it scrolls. */
   html.scaled-tab .hero-pin { height: auto !important; }
   html.scaled-tab .hero-pin-sticky { position: relative !important; top: auto !important; height: auto !important; }
 
@@ -67,7 +61,7 @@ input, textarea, [contenteditable="true"] {
     letter-spacing: -0.01em;
   }
 
-  /* Reduced-motion */
+  /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     *, *::before, *::after {
@@ -84,7 +78,7 @@ input, textarea, [contenteditable="true"] {
     border-radius: 4px;
   }
 
-  /* Selection — vivid navy */
+  /* Selection: a sindoor tint */
   ::selection {
     background: rgba(200, 52, 31, 0.18);
     color: #111111;
@@ -129,36 +123,27 @@ input, textarea, [contenteditable="true"] {
   }
 }
 
-/* ───────────────────────── Auto-capitalize ─────────────────────────
-   Match XOOTEQ: title-case everything on the page. `.uppercase` still
-   works, and inputs/textareas opt out via `data-no-auto-case` or by
-   being text inputs. */
+/* Text case: copy is set as written, in sentence case. `.uppercase` still works, and inputs, textareas and
+   [data-no-auto-case] blocks keep what was typed. */
 body :where(h1, h2, h3, h4, h5, h6, p, a, button, label, span, li) {
-  /* THE MAGAZINE EDITION sets copy as written: sentence case, like print. */
   text-transform: none;
 }
 body :where(.uppercase) { text-transform: uppercase; }
-/* …and everything inside it, for the same reason as the opt-out below: the
-   capitalize rule matches the <span class="bw"> that BinaryHover wraps each
-   word in, so an .uppercase eyebrow with wrapped words came out Title Case. */
+/* Spans, links and emphasis inside an .uppercase element are uppercase too: the body rule above matches them
+   directly, so they would not inherit it. */
 body :where(.uppercase) :where(span, em, strong, a, b, i) { text-transform: uppercase; }
 body :where(input, textarea, [data-no-auto-case]) { text-transform: none; }
-/* SENTENCE CASE for a whole page. The rule above title-cases every heading,
-   paragraph and span on the site; a product page is written in sentence case.
-   Class specificity (0,1,0) beats the body-scoped rule (0,0,1), and .uppercase
+/* Sentence case for a whole page: class specificity (0,1,0) beats the body-scoped rules (0,0,1), and .uppercase
    is restored after it so labels that ask for capitals still get them. */
 .sentence-case :where(h1, h2, h3, h4, h5, h6, p, a, button, label, span, li, dt, dd) { text-transform: none; }
 .sentence-case :where(.uppercase), .sentence-case :where(.uppercase) * { text-transform: uppercase; }
-/* …and everything inside it. The rule above matches the element itself; the
-   capitalize rule still matches any span, link or emphasis INSIDE it — which
-   includes the per-word <span class="bw"> that BinaryHover wraps every word
-   in, so without this line the opt-out silently does nothing to prose. */
+/* Spans, links and emphasis inside a [data-no-auto-case] block inherit its case instead of matching the body rule
+   themselves. */
 body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
   text-transform: inherit;
 }
 
-/* The product pages set their headings in the UI face. The base layer gives
-   h1–h6 Syne by element; inside a .font-ui block they take the block's face. */
+/* Headings inside a .font-ui block are set in the display face (Bodoni Moda). */
 .font-ui :where(h1, h2, h3, h4, h5, h6) { font-family: var(--font-display), "Bodoni Moda", Georgia, serif; }
 
 /* Landing-page motion. Every one of these stops under reduced motion. */
@@ -174,14 +159,13 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
 .app-screen :where(*) { text-transform: none; -webkit-font-smoothing: antialiased; }
 .app-screen :where(p) { margin: 0; }
 
-/* ── Landing-page motion, round two ── */
+/* Landing-page effects */
 .shimmer-text {
   background: linear-gradient(90deg, #111111, #55514C, #111111, #55514C, #111111);
   background-size: 300% 100%;
   -webkit-background-clip: text; background-clip: text; color: transparent;
-  /* One sweep as the word arrives, then still: a moving text gradient is
-     repainted on every frame for as long as it runs, and that repaint was
-     stealing the frame budget from the phones for the life of the page. */
+  /* One sweep as the word arrives, then still: a moving text gradient is repainted on every frame while it runs,
+     which takes the frame budget from the hero's phones. */
   animation: shimmer 2.6s ease-in-out 0.7s 1 both;
 }
 @keyframes shimmer { to { background-position: 300% 0; } }
@@ -205,34 +189,32 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
 @keyframes neptune { 0%, 100% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.025) rotate(1.5deg); } }
 
 .greet-chip { position: relative; }
-/* The highlight is an overlay fading in and out (compositor work), not a
-   background-colour animation, which is repainted on every frame it runs. */
+/* The highlight is an overlay fading in and out (compositor work), not a background-colour animation, which is
+   repainted on every frame it runs. */
 .greet-chip::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: rgba(200,52,31,.14); opacity: 0; animation: greet 9s ease-in-out infinite; animation-delay: inherit; pointer-events: none; }
 @keyframes greet { 0%, 8%, 100% { opacity: 0; } 3% { opacity: 1; } }
 
 @media (prefers-reduced-motion: reduce) {
   .shimmer-text, .fan-card, .neptune-breathe, .greet-chip::after { animation: none; }
 }
-/* While the hero is pinned, Neptune holds still: a looping transform on a huge
-   screen-blended image re-composites everything above it every frame. */
+/* While the hero is pinned, Neptune holds still: a looping transform on a huge screen-blended image re-composites
+   everything above it every frame. */
 @media (min-width: 1024px) { .neptune-still-lg { animation: none; } }
 /* The pinned stack breathes very slightly while it holds. */
 .stack-bob { animation: stack-bob 7s ease-in-out infinite; }
 @keyframes stack-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
 @media (prefers-reduced-motion: reduce) { .stack-bob { animation: none; } }
 
-/* Sections below the hero are not rendered until they are near the viewport.
-   Without this the browser keeps everything within ~4000px of the fold live —
-   the marquee, the deck fan, the greeting chips — and their animations
-   cost style and paint work on every frame while the hero is on screen. */
+/* Sections below the hero render only near the viewport. Otherwise the browser keeps everything within ~4000px of
+   the fold live, and the animations of the marquee, the deck fan and the greeting chips cost style and paint work
+   on every frame while the hero is on screen. */
 .lazy-section { content-visibility: auto; contain-intrinsic-size: auto 900px; }
 /* A store badge that is not live yet: softly blurred, a little dimmed. */
 .badge-soft { filter: blur(1.2px); opacity: .62; }
 
-/* ── THE ANCIENT SCRIPTS (components/site/Ancient.js) ─────────────────────────
-   A phone has no face for hieroglyphs, cuneiform, runes or ogham. These are
-   Google's Noto fonts cut down to the handful of signs the page shows (under
-   3 KB each), served from this origin so the CSP's font-src 'self' holds. */
+/* Ancient scripts (app/components/home/Ancient.js). A phone has no face for hieroglyphs, cuneiform, runes or ogham:
+   these are Google's Noto fonts cut down to the signs the page shows (under 3 KB each), served from this origin so
+   font-src 'self' in the CSP holds. */
 @font-face { font-family: 'Plutto Hiero'; src: url('/fonts/ancient/hieroglyphs.woff2') format('woff2'); font-display: swap; }
 @font-face { font-family: 'Plutto Cunei'; src: url('/fonts/ancient/cuneiform.woff2') format('woff2'); font-display: swap; }
 @font-face { font-family: 'Plutto Runic'; src: url('/fonts/ancient/runic.woff2') format('woff2'); font-display: swap; }
@@ -242,21 +224,19 @@ body :where([data-no-auto-case]) :where(span, em, strong, a, button, li, b, i) {
 .script-runic { font-family: 'Plutto Runic', 'Noto Sans Runic', 'Segoe UI Historic', sans-serif; letter-spacing: 0.08em; }
 .script-ogham { font-family: 'Plutto Ogham', 'Noto Sans Ogham', 'Segoe UI Historic', sans-serif; }
 .script-cjk { font-family: 'Noto Serif CJK SC', 'Songti SC', 'SimSun', 'PingFang SC', serif; }
-/* a glyph breathes in, one after the other, once */
+/* Each glyph fades in once, one after the other. */
 .ancient-glyph { animation: glyph-in 1.2s cubic-bezier(.22,1,.36,1) both; animation-delay: inherit; }
 @keyframes glyph-in { from { opacity: 0; filter: blur(8px); transform: translateY(6px); } to { opacity: 1; filter: blur(0); transform: none; } }
-/* the faint sign behind a section: a watermark, not a picture */
+/* The faint sign behind a section. */
 .watermark { position: absolute; left: 50%; top: 50%; translate: -50% -50%; pointer-events: none; user-select: none; line-height: 1; color: rgba(255,255,255,0.05); }
 @media (prefers-reduced-motion: reduce) { .ancient-glyph { animation: none; } }
-/* the frieze scrolls sideways on a phone without a visible bar */
+/* The frieze scrolls sideways on a phone without a visible bar. */
 .frieze ol { scrollbar-width: none; -webkit-overflow-scrolling: touch; }
 .frieze ol::-webkit-scrollbar { display: none; }
 
-/* THE MAGAZINE EDITION — readable greys. The site's text steps were tuned for
-   white on black, where half-white reads easily; half-ink on paper does not.
-   Each step is lifted here, so the hierarchy holds and the faintest line still
-   reads. (Plain CSS after the utilities layer, so it wins at equal weight;
-   hover and focus variants still win by their pseudo-class.) */
+/* Readable greys on paper: the text-white/NN steps were tuned for white on black, so each is lifted here to keep
+   the hierarchy and the faintest line legible. Plain CSS after the utilities layer, so it wins at equal weight;
+   hover and focus variants still win by their pseudo-class. */
 .text-white\/25, .text-white\/30, .text-white\/35 { color: rgb(17 17 17 / 0.56); }
 .text-white\/40, .text-white\/45 { color: rgb(17 17 17 / 0.64); }
 .text-white\/50, .text-white\/55 { color: rgb(17 17 17 / 0.72); }

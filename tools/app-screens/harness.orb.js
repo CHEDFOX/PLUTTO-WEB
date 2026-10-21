@@ -1,4 +1,4 @@
-// Minimal entry: Skia must load before ANY module that imports it.
+// Voice-orb harness entry (dist-orb, served on :3223): Skia must finish loading before any module imports it.
 import { LoadSkiaWeb } from '@shopify/react-native-skia/lib/module/web';
 
 LoadSkiaWeb({ locateFile: (f) => '/' + f }).then(() => {

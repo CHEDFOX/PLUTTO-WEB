@@ -1,4 +1,8 @@
-// Records the REAL ChatPanel (web harness) answering, streamed word by word.
+/**
+ * Chat screencast: the real ChatPanel in the web harness (:3222) answering each exchange in $WORK/exchanges.json (copy
+ * tools/app-screens/exchanges.json there), word by word. Screens go to $WORK/real; VIDEO=1 also writes frames and an
+ * ffmpeg concat list to $WORK/vid. Env: WORK (default /tmp/app-screens), VIDEO, BACKEND_DIR, CHROMIUM_PATH.
+ */
 import { chromium } from 'playwright';
 import fs from 'fs';
 import path from 'path';

@@ -1,10 +1,6 @@
 /**
- * WEB HARNESS — renders the app's REAL components at iPhone size so the
- * marketing site can show them exactly. Network is faked by the test driver.
- *   #chat      MainTabs (Oracle tab)
- *   #birth     BirthDetailsScreen
- *   #language  LanguageSelectScreen
- *   #auth      AuthGateScreen
+ * Web harness entry: the app's real components at iPhone size, with the network faked by drive.mjs. Routes: #chat
+ * MainTabs (Oracle tab), #birth BirthDetailsScreen, #language LanguageSelectScreen, #auth AuthGateScreen, #orb the orb.
  */
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
@@ -22,8 +18,7 @@ import { LoadSkiaWeb } from '@shopify/react-native-skia/lib/module/web';
 import { useSharedValue, withRepeat, withSequence, withTiming, Easing } from 'react-native-reanimated';
 import Icon from './src/render/Icon';
 
-// The realtime voice screen's own layout (RealtimeVoiceMode.js), with the real
-// VoiceOrb and Icon, in the SPEAKING state.
+// The realtime voice screen's layout (RealtimeVoiceMode.js) with the real VoiceOrb and Icon, in the speaking state.
 function OrbScreen() {
   const [Orb, setOrb] = useState(null);
   const amp = useSharedValue(0);

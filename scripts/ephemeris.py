@@ -1,17 +1,12 @@
 #!/usr/bin/env python3
-"""
-THE SKY CALENDAR'S DATA — generated with Swiss Ephemeris, the engine the
-Plutto app computes with, so every date the site publishes is the app's own.
+"""Sky calendar data from Swiss Ephemeris, the engine the Plutto app computes with.
 
-    pip install pyswisseph        # the backend already requires it
-    python3 scripts/ephemeris.py  # writes app/lib/data/ephemeris.json
+    pip install pyswisseph
+    python3 scripts/ephemeris.py  # writes app/lib/data/ephemeris.json and app/lib/data/saturn.json
 
-Sidereal positions are taken exactly as the backend takes them
-(app/services/core/ephemeris.py): the apparent tropical longitude minus
-swe.get_ayanamsa (Lahiri), and Rahu is the TRUE node (swe id 11) as in the
-app; the mean node is generated beside it, because most printed panchangs use it. Every event
-time is found by bisection to one second. Re-run it to extend the years; the
-output is deterministic, so a diff shows exactly what moved.
+Sidereal longitudes follow Plutto-Backend app/services/core/ephemeris.py: apparent tropical minus swe.get_ayanamsa
+(Lahiri). Rahu is the true node (swe id 11) as in the app; the mean node is written beside it for printed panchangs.
+Event times are bisected to one second and the output is deterministic. SE_EPHE_PATH selects the ephemeris files.
 """
 import json
 import os
@@ -137,8 +132,7 @@ def main():
         'stations': {NAMES[b]: stations(b, y0, y1) for b in (MERCURY, VENUS, MARS, JUPITER, SATURN, URANUS, NEPTUNE, PLUTO)},
         'eclipses': eclipses(y0, y1),
     }
-    # Saturn alone goes to the browser (the Sade Sati calculator), so it is
-    # its own small file rather than a slice of this one.
+    # Saturn alone goes to the browser (the Sade Sati calculator), so it gets its own small file.
     saturn = ingresses(SATURN, True, *SATURN_YEARS, 1)
     path = os.path.join(os.path.dirname(__file__), '..', 'app', 'lib', 'data', 'ephemeris.json')
     os.makedirs(os.path.dirname(path), exist_ok=True)

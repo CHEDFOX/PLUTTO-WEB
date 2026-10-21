@@ -1,3 +1,9 @@
+/**
+ * Renders the real app components from the web harness (:3222, the voice orb on :3223) at 393 × 852 pt, faking the
+ * API from $WORK/catalog.json and the backend's static/, and saves the screens as PNG. Run with node.
+ * Env: WORK (default /tmp/app-screens), OUT (default $WORK/real), MODE=chat|tarot|when|language|auth|orb, REC=<name>
+ * (screencast frames into $WORK/rec-<name>), ALLLOG (log every console line), BACKEND_DIR, CHROMIUM_PATH.
+ */
 import { chromium } from 'playwright';
 import fs from 'fs';
 import path from 'path';
@@ -39,6 +45,7 @@ await p.route(/^https:\/\/(api|auth)\.plutto\.space\/.*|.*supabase.*|.*revenueca
     if (fs.existsSync(f) && fs.statSync(f).isFile()) return route.fulfill({ status: 200, body: fs.readFileSync(f), headers: { 'access-control-allow-origin': '*' } });
     return route.fulfill({ status: 404, body: '' });
   }
+  // In tarot mode the screen is $WORK/div_tarot.json and the hook $WORK/div_hook.json, both written by dumpdiv.py.
   if (u.pathname === '/api/public/divination/tarot') return route.fulfill({ status: 200, contentType: 'application/json', body: fs.readFileSync(`${S}/div_tarot.json`), headers: { 'access-control-allow-origin': '*' } });
   if (u.pathname === '/api/public/divination/tarot/card') {
     let card = 'the_star';

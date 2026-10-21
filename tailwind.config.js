@@ -11,12 +11,8 @@ export default {
       colors: {
         border: 'hsl(var(--border))',
         foreground: 'hsl(var(--foreground))',
-        // THE MAGAZINE EDITION. The site was written in white-on-black classes
-        // (text-white/60, border-white/10, bg-black …); the palette is turned
-        // over here, once, so every page prints as ink on paper: "white" is the
-        // ink and "black" is the paper. Colour is otherwise sacred — sindoor for
-        // the one line or date to keep, gold for a reader's own sky, indigo for
-        // the night — and never a fill.
+        // Paper theme: white is ink (#111111) and black is paper (#F2EFE8), so the white-on-black utilities print
+        // dark on light; sindoor marks a highlight, graphite is secondary text.
         white: '#111111',
         black: '#F2EFE8',
         graphite: '#55514C',

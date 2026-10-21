@@ -1,3 +1,7 @@
+/**
+ * Voice-orb screencast: ten seconds of the orb harness (:3223, #orb) as frames and an ffmpeg concat list in
+ * $WORK/vidorb. Env: WORK (default /tmp/app-screens), CHROMIUM_PATH.
+ */
 import { chromium } from 'playwright';
 import fs from 'fs';
 const S = process.env.WORK || '/tmp/app-screens';

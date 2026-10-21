@@ -1,16 +1,11 @@
-# SEARCH SYNC — keeps Google and Bing current without anyone remembering to.
-#
-# Runs after every successful PRODUCTION deploy (Vercel reports deployments to
-# GitHub), once a day (the panchang changes daily), and on demand from the
-# Actions tab. scripts/search-sync.mjs announces only pages whose visible
-# content changed since the last run; the fingerprints live in the Actions
-# cache between runs.
+# Search sync: scripts/search-sync.mjs announces pages whose visible content changed since the last run. Runs after
+# every successful production deploy (Vercel reports deployments to GitHub), daily (the panchang changes daily) and
+# on demand from the Actions tab. The fingerprints are kept in the Actions cache between runs.
 #
 # Secrets (Settings → Secrets and variables → Actions), both optional:
 #   GSC_SERVICE_ACCOUNT     Google service account JSON key (Search Console user)
 #   BING_WEBMASTER_API_KEY  Bing Webmaster Tools → Settings → API access
-# Without them IndexNow still runs (Bing, Yandex, Seznam, Naver); Google then
-# re-reads the sitemap on its own schedule.
+# Without them IndexNow still runs (Bing, Yandex, Seznam, Naver) and Google re-reads the sitemap on its own schedule.
 name: Search sync
 
 on:
