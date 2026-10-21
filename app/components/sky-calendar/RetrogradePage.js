@@ -1,10 +1,14 @@
+/**
+ * /mercury-retrograde/<year>: Mercury's retrogrades in the year, then every planet's, from app/lib/astro/skycal.js
+ * (Swiss Ephemeris data). Every time is printed in UTC in the HTML; the reader's local time is filled in after
+ * hydration (ui/LocalTime).
+ */
 import { retrogrades, signAt, degIn, utcDate, utcShort } from '../../lib/astro/skycal';
 import { Table } from './Table';
 import { list, signLink } from './format';
 import { When } from './When';
 import { Shell } from './Shell';
 
-// ── Retrogrades ───────────────────────────────────────────────────────────
 export function retroText(year) {
   const r = retrogrades(year);
   const m = r.Mercury.filter((p) => new Date(p.from).getUTCFullYear() === year || new Date(p.to).getUTCFullYear() === year);

@@ -1,7 +1,7 @@
 'use client';
 /**
- * THE PANCHANG FOR YOUR PLACE AND DAY — a city from the list, or the browser's
- * own location (asked for only on a tap, used on the device, never sent).
+ * Client widget: the panchang for any date at a listed city or the browser's own location (asked for only on a
+ * tap, used on the device, never sent).
  */
 import { useEffect, useState } from 'react';
 import PanchangView from './PanchangView';

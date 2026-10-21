@@ -1,3 +1,4 @@
+/** A sky-calendar instant: printed in UTC in the HTML, the reader's local time filled in after hydration (ui/LocalTime). */
 import LocalTime from '../ui/LocalTime';
 import { utcShort, utcTime } from '../../lib/astro/skycal';
 

@@ -1,8 +1,4 @@
-/**
- * THE REFERENCE PAGES — a hub (every item, one table) and a detail page per
- * item, for any section in app/lib/refpages.js. Server markup only, like Doc:
- * every word in the HTML as sent.
- */
+/** Hub page of a reference section in app/lib/content/refpages.js: every item in one list, server markup only. */
 
 import Link from 'next/link';
 import { SECTIONS, refPath, flat } from '../../lib/content/refpages';

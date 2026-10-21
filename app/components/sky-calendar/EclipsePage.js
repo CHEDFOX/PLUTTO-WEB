@@ -1,10 +1,13 @@
+/**
+ * /eclipses/<year>: the year's eclipses from app/lib/astro/skycal.js (Swiss Ephemeris data). Every time is printed
+ * in UTC in the HTML; the reader's local time is filled in after hydration (ui/LocalTime).
+ */
 import { eclipses, signAt, degIn, sanskrit, utcDate, utcShort, utcTime } from '../../lib/astro/skycal';
 import { Table } from './Table';
 import { list } from './format';
 import { When } from './When';
 import { Shell } from './Shell';
 
-// ── Eclipses ──────────────────────────────────────────────────────────────
 const KIND = { total: 'Total', annular: 'Annular', hybrid: 'Hybrid', partial: 'Partial', penumbral: 'Penumbral' };
 const coord = (lat, lon) => `${Math.abs(lat).toFixed(1)}°${lat >= 0 ? 'N' : 'S'} ${Math.abs(lon).toFixed(1)}°${lon >= 0 ? 'E' : 'W'}`;
 

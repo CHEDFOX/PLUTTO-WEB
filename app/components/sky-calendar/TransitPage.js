@@ -1,10 +1,13 @@
+/**
+ * /transits/<year>: the year's sign changes from app/lib/astro/skycal.js (Swiss Ephemeris data), Vedic and Western.
+ * Every time is printed in UTC in the HTML; the reader's local time is filled in after hydration (ui/LocalTime).
+ */
 import { ingresses, signAtStart, opposite, sanskrit, utcDate, utcShort, utcTime, istWhen } from '../../lib/astro/skycal';
 import { Table } from './Table';
 import { signLink, list } from './format';
 import { When } from './When';
 import { Shell } from './Shell';
 
-// ── Transits ──────────────────────────────────────────────────────────────
 const VEDIC = ['Saturn', 'Jupiter', 'Rahu', 'Mars', 'Venus', 'Mercury'];
 const WESTERN = ['Pluto', 'Neptune', 'Uranus', 'Saturn', 'Jupiter', 'Mars'];
 

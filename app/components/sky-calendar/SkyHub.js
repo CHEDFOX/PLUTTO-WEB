@@ -1,7 +1,6 @@
 /**
- * THE SKY-CALENDAR PAGES — retrogrades, eclipses, transits for one year, from
- * Swiss Ephemeris (lib/skycal.js). Answer first, then the tables; every time
- * in UTC as sent, with the reader's local time filled in by LocalTime.
+ * The /sky-calendar hub: links to each year's retrogrades, eclipses and transits, computed from
+ * app/lib/astro/skycal.js (Swiss Ephemeris data).
  */
 
 import Link from 'next/link';
@@ -12,7 +11,6 @@ import { JsonLd } from '../seo/JsonLd';
 import { breadcrumbLd } from '../../lib/seo/structuredData';
 import { SOURCE, CAL_YEARS } from '../../lib/astro/skycal';
 
-// ── The hub ───────────────────────────────────────────────────────────────
 export function SkyHub() {
   return (
     <>

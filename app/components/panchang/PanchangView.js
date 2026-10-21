@@ -1,7 +1,7 @@
 /**
- * ONE DAY'S PANCHANG, DRAWN — used by the server page (today, New Delhi) and
- * the browser widget (any place, any date). No hooks, so it renders on both.
- * Times are the place's local clock, cut to the minute as panchangs print them.
+ * One day's panchang, rendered by the server page /panchang (today, New Delhi) and by the client widget
+ * PanchangWidget (any place and date); it has no hooks, so it renders in both. Times are the place's local
+ * clock, cut to the minute as printed panchangs give them.
  */
 import Link from 'next/link';
 

@@ -1,3 +1,4 @@
+/** Frame of a sky-calendar year page: the answer, the tables, FAQ, the source line and other years, with JSON-LD. */
 import { Doc } from '../doc/Doc';
 import { DocDoor } from '../doc/DocDoor';
 import { MONO } from '../doc/classes';

@@ -1,3 +1,4 @@
+/** Page metadata (title, description, share card) for the reference hub and detail pages. */
 import { SECTIONS, refPath } from '../../lib/content/refpages';
 import { pageMeta } from '../../lib/seo/pageMeta';
 import { cardPath } from '../../lib/seo/shareCards';

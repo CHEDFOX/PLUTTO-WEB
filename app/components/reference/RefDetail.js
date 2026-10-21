@@ -1,3 +1,4 @@
+/** Detail page of one reference item in app/lib/content/refpages.js: answer, facts table and FAQ, server markup only. */
 import Link from 'next/link';
 import { SECTIONS, refPath } from '../../lib/content/refpages';
 import { UPDATED } from '../../lib/content/guides';
