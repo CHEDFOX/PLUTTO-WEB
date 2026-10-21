@@ -244,7 +244,7 @@ story background.
 
 Plutto as what it is — the library of every way humankind has asked what comes
 next. A reading room at night: cloth-bound spines under a lamp (one per
-tradition in `app/lib/atlas.json`, coloured by region), a card catalogue, museum
+tradition in `app/lib/data/atlas.json`, coloured by region), a card catalogue, museum
 plates, script on old paper. Serif and quiet, the opposite of Pop — use it for
 the brand, the pinned post and premium placements. 14–17 s, own soundtrack (felt
 piano, pad, soft taiko; post as original audio). The 4:5 feed poster is
