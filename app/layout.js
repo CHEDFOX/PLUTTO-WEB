@@ -1,4 +1,4 @@
-import { Bodoni_Moda, Source_Serif_4, IBM_Plex_Mono, Baloo_2, Caveat } from 'next/font/google';
+import { Bodoni_Moda, Source_Serif_4, IBM_Plex_Mono, Caveat } from 'next/font/google';
 import './globals.css';
 import { GTM_HEAD, GTM_NOSCRIPT_SRC } from './lib/gtm';
 
@@ -26,15 +26,6 @@ const plexMono = IBM_Plex_Mono({
   subsets: ['latin', 'latin-ext'],
   weight: ['400', '500'],
   variable: '--font-mono',
-  display: 'swap',
-});
-
-// THE APP'S OWN FACE — Baloo 2, used only inside the phone frames on the landing
-// page, where it is the app's type, not the site's.
-const baloo = Baloo_2({
-  subsets: ['latin'],
-  weight: ['400', '500', '700'],
-  variable: '--font-app',
   display: 'swap',
 });
 
@@ -139,7 +130,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${bodoni.variable} ${sourceSerif.variable} ${plexMono.variable} ${baloo.variable} ${caveat.variable}`}
+      className={`${bodoni.variable} ${sourceSerif.variable} ${plexMono.variable} ${caveat.variable}`}
       suppressHydrationWarning
     >
       <head>
