@@ -1,6 +1,7 @@
-import { ToolPage, toolMeta } from '../../../components/site/tools/Tool';
-import SadeSatiWidget from '../../../components/site/tools/SadeSatiWidget';
-import { SadeSatiTable } from '../../../components/site/tools/Extras';
+import { ToolPage } from '../../../components/tools/ToolPage';
+import { toolMeta } from '../../../components/tools/toolMeta';
+import SadeSatiWidget from '../../../components/tools/SadeSatiWidget';
+import { SadeSatiTable } from '../../../components/tools/SadeSatiTable';
 
 export const metadata = toolMeta('sade-sati');
 

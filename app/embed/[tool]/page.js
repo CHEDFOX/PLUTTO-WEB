@@ -6,8 +6,8 @@
  * the frame, on the host page (/tools/embed gives it out).
  */
 import { notFound } from 'next/navigation';
-import MoonWidget from '../../components/site/tools/MoonWidget';
-import GunaWidget from '../../components/site/tools/GunaWidget';
+import MoonWidget from '../../components/tools/MoonWidget';
+import GunaWidget from '../../components/tools/GunaWidget';
 import { EMBEDS } from '../../lib/content/embeds';
 
 export const dynamicParams = false;

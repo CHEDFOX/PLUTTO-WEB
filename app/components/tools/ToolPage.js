@@ -3,21 +3,16 @@
  * Server markup around one client widget: a crawler that runs no JavaScript
  * still reads what the tool does and exactly how it computes.
  */
-import Link from 'next/link';
-import { TOOLS, toolPath, toolBySlug } from '../../../lib/content/tools';
-import { pageMeta } from '../../../lib/seo/pageMeta';
-import { breadcrumbLd, faqLd } from '../../../lib/seo/structuredData';
-import { JsonLd } from '../../seo/JsonLd';
-import { abs, SITE } from '../../../lib/seo/site';
-import { Doc } from '../../doc/Doc';
-import { DocDoor } from '../../doc/DocDoor';
-import { LINK, MONO } from '../../doc/classes';
-import { cardPath } from '../../../lib/seo/shareCards';
 
-export function toolMeta(slug) {
-  const t = toolBySlug(slug);
-  return pageMeta({ title: t.title, description: t.description, path: toolPath(slug), image: cardPath('tools', slug) });
-}
+import Link from 'next/link';
+import { TOOLS, toolPath, toolBySlug } from '../../lib/content/tools';
+import { breadcrumbLd, faqLd } from '../../lib/seo/structuredData';
+import { JsonLd } from '../seo/JsonLd';
+import { abs, SITE } from '../../lib/seo/site';
+import { Doc } from '../doc/Doc';
+import { DocDoor } from '../doc/DocDoor';
+import { LINK, MONO } from '../doc/classes';
+import { cardPath } from '../../lib/seo/shareCards';
 
 function toolLd(t) {
   return {

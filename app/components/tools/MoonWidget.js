@@ -10,11 +10,11 @@
  * minute the Moon changed nakshatra or sign.
  */
 import { useEffect, useState } from 'react';
-import { track } from '../../../lib/analytics/metaPixel';
+import { track } from '../../lib/analytics/metaPixel';
 import Link from 'next/link';
-import { slugify } from '../../../lib/content/reference';
-import { lunar, vimshottari, runningAt, fmtDeg, fmtSpan, DASHA_YEARS } from '../../../lib/astro/vedic';
-import { zonedToUtc, fmtOffset, zones, localZone, zoneLabel } from '../../../lib/astro/zone';
+import { slugify } from '../../lib/content/reference';
+import { lunar, vimshottari, runningAt, fmtDeg, fmtSpan, DASHA_YEARS } from '../../lib/astro/vedic';
+import { zonedToUtc, fmtOffset, zones, localZone, zoneLabel } from '../../lib/astro/zone';
 
 const FIELD = 'h-12 w-full rounded-xl border border-white/15 bg-white/[0.04] px-4 text-[16px] text-white outline-none focus:border-white/50 [color-scheme:dark]';
 const LABEL = 'block text-[13px] font-semibold text-white/55';
@@ -82,7 +82,7 @@ export default function MoonWidget() {
     if (!unknown && !/^\d{2}:\d{2}/.test(time)) { setErr('Enter the time of birth, or tick “I don’t know the time”.'); return; }
     setBusy(true);
     try {
-      const sky = await import('../../../lib/astro/sky');
+      const sky = await import('../../lib/astro/sky');
       setR({ ...compute(sky, { date, time: unknown ? '' : time.slice(0, 5), zone }), zone });
       track('Lead', { content_name: 'moon-sign-nakshatra' });
     } catch {

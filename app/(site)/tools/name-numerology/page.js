@@ -1,5 +1,6 @@
-import { ToolPage, toolMeta } from '../../../components/site/tools/Tool';
-import { NameNumerologyWidget } from '../../../components/site/tools/Widgets';
+import { ToolPage } from '../../../components/tools/ToolPage';
+import { toolMeta } from '../../../components/tools/toolMeta';
+import { NameNumerologyWidget } from '../../../components/tools/NameNumerologyWidget';
 
 export const metadata = toolMeta('name-numerology');
 

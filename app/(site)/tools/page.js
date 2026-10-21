@@ -1,6 +1,6 @@
 import { pageMeta } from '../../lib/seo/pageMeta';
 import { cardPath } from '../../lib/seo/shareCards';
-import { ToolsHub } from '../../components/site/tools/Hub';
+import { ToolsHub } from '../../components/tools/ToolsHub';
 
 export const metadata = pageMeta({
   title: 'Free Astrology & Numerology Calculators',

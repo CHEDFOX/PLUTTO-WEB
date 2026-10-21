@@ -1,5 +1,6 @@
-import { ToolPage, toolMeta } from '../../../components/site/tools/Tool';
-import { ChineseZodiacWidget } from '../../../components/site/tools/Widgets';
+import { ToolPage } from '../../../components/tools/ToolPage';
+import { toolMeta } from '../../../components/tools/toolMeta';
+import { ChineseZodiacWidget } from '../../../components/tools/ChineseZodiacWidget';
 
 export const metadata = toolMeta('chinese-zodiac');
 

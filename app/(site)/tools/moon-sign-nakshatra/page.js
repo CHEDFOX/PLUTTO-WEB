@@ -1,5 +1,6 @@
-import { ToolPage, toolMeta } from '../../../components/site/tools/Tool';
-import MoonWidget from '../../../components/site/tools/MoonWidget';
+import { ToolPage } from '../../../components/tools/ToolPage';
+import { toolMeta } from '../../../components/tools/toolMeta';
+import MoonWidget from '../../../components/tools/MoonWidget';
 
 export const metadata = toolMeta('moon-sign-nakshatra');
 

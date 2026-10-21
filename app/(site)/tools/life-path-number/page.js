@@ -1,5 +1,6 @@
-import { ToolPage, toolMeta } from '../../../components/site/tools/Tool';
-import { LifePathWidget } from '../../../components/site/tools/Widgets';
+import { ToolPage } from '../../../components/tools/ToolPage';
+import { toolMeta } from '../../../components/tools/toolMeta';
+import { LifePathWidget } from '../../../components/tools/LifePathWidget';
 
 export const metadata = toolMeta('life-path-number');
 
