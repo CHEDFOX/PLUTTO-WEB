@@ -1,4 +1,5 @@
-import { RefHub, hubMeta } from '../../components/site/Ref';
+import { RefHub } from '../../components/reference/RefHub';
+import { hubMeta } from '../../components/reference/refMeta';
 
 export const metadata = hubMeta('grahas');
 export default function Page() { return <RefHub keyName="grahas" />; }

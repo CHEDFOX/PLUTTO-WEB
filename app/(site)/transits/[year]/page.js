@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
-import { TransitPage, skyMeta } from '../../../components/site/Sky';
+import { TransitPage } from '../../../components/sky-calendar/TransitPage';
+import { skyMeta } from '../../../components/sky-calendar/skyMeta';
 import { CAL_YEARS } from '../../../lib/astro/skycal';
 
 export const dynamicParams = false;

@@ -16,8 +16,8 @@ import { cardPath } from '../../lib/seo/shareCards';
 import { Doc } from '../../components/doc/Doc';
 import { DocDoor } from '../../components/doc/DocDoor';
 import { LINK, MONO } from '../../components/doc/classes';
-import PanchangView, { clock } from '../../components/site/PanchangView';
-import PanchangWidget from '../../components/site/PanchangWidget';
+import PanchangView, { clock } from '../../components/panchang/PanchangView';
+import PanchangWidget from '../../components/panchang/PanchangWidget';
 
 export const revalidate = 3600;
 

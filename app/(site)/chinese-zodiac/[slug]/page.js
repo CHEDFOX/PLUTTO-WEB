@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { SECTIONS } from '../../../lib/content/refpages';
-import { RefDetail, detailMeta } from '../../../components/site/Ref';
+import { RefDetail } from '../../../components/reference/RefDetail';
+import { detailMeta } from '../../../components/reference/refMeta';
 
 export const dynamicParams = false;
 export function generateStaticParams() { return SECTIONS.animals.items.map((x) => ({ slug: x.slug })); }

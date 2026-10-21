@@ -1,6 +1,6 @@
 import { pageMeta } from '../../lib/seo/pageMeta';
 import { cardPath } from '../../lib/seo/shareCards';
-import { SkyHub } from '../../components/site/Sky';
+import { SkyHub } from '../../components/sky-calendar/SkyHub';
 
 export const metadata = pageMeta({
   title: 'Sky Calendar: Retrogrades, Eclipses and Transits',

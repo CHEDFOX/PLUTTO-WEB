@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
-import { EclipsePage, eclipseText, skyMeta } from '../../../components/site/Sky';
+import { EclipsePage, eclipseText } from '../../../components/sky-calendar/EclipsePage';
+import { skyMeta } from '../../../components/sky-calendar/skyMeta';
 import { CAL_YEARS, utcShort } from '../../../lib/astro/skycal';
 
 export const dynamicParams = false;

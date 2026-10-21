@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
-import { RetrogradePage, retroText, skyMeta } from '../../../components/site/Sky';
+import { RetrogradePage, retroText } from '../../../components/sky-calendar/RetrogradePage';
+import { skyMeta } from '../../../components/sky-calendar/skyMeta';
 import { CAL_YEARS, utcShort } from '../../../lib/astro/skycal';
 
 export const dynamicParams = false;
