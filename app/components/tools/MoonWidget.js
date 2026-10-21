@@ -1,13 +1,9 @@
 'use client';
 /**
- * MOON SIGN, NAKSHATRA AND DASHA — computed in the browser, nothing sent.
- *
- * The astronomy (lib/sky.js, astronomy-engine) is imported only when someone
- * asks, so the page itself stays light. Local time becomes UTC through the
- * browser's own time-zone history (lib/zone.js); the dasha is the app's
- * (lib/vedic.js). Without a birth time the whole day is checked, and the
- * result says whether the answer depends on the hour — and if so, at what
- * minute the Moon changed nakshatra or sign.
+ * Moon sign, nakshatra and dasha, computed in the browser with nothing sent. astronomy-engine (app/lib/astro/sky.js)
+ * is loaded with import() on first use. Local time becomes UTC through the browser's time-zone history
+ * (app/lib/astro/zone.js); the dasha is the app's (app/lib/astro/vedic.js). Without a birth time the whole day is
+ * checked, and the result says whether the hour matters and at what minute the Moon changed nakshatra or sign.
  */
 import { useEffect, useState } from 'react';
 import { track } from '../../lib/analytics/metaPixel';

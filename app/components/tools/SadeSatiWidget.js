@@ -1,7 +1,7 @@
 'use client';
 /**
- * SADE SATI — from a birth (the Moon computed in the browser) or straight from
- * a Moon sign, against Saturn's real ingresses (lib/sadesati.js).
+ * Sade Sati from a birth (the Moon computed in the browser; astronomy-engine is loaded with import() on first use)
+ * or straight from a Moon sign, against Saturn's real ingresses (app/lib/astro/sadesati.js).
  */
 import { useEffect, useState } from 'react';
 import Link from 'next/link';

@@ -1,7 +1,7 @@
 'use client';
 /**
- * KUNDLI MATCHING (GUNA MILAN) — two births, two Moons, eight kootas. The
- * astronomy loads only when someone asks; nothing is sent anywhere.
+ * Kundli matching (Guna Milan): two births, two Moons, eight kootas, computed in the browser with nothing sent.
+ * astronomy-engine (app/lib/astro/sky.js) is loaded with import() on first use.
  */
 import { useEffect, useState } from 'react';
 import Link from 'next/link';

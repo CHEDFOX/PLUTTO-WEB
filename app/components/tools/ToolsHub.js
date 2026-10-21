@@ -1,7 +1,4 @@
-/**
- * /tools — the calculators, listed. Kept apart from Tool.js so the hub imports
- * no widget code at all.
- */
+/** The /tools hub: the calculators, listed. Separate from ToolPage so the hub imports no widget code. */
 import Link from 'next/link';
 import { TOOLS, toolPath } from '../../lib/content/tools';
 import { breadcrumbLd } from '../../lib/seo/structuredData';

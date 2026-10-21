@@ -1,3 +1,4 @@
+/** Registry of the drawn SVG plates; currentColor is the ink. */
 import { Week } from './plates/Week';
 import { Zodiacs } from './plates/Zodiacs';
 import { Odu } from './plates/Odu';

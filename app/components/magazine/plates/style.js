@@ -1,11 +1,4 @@
-/**
- * THE MAGAZINE'S DRAWN PLATES — the pictures no photograph can give: the week as
- * a star, the two zodiacs on one dial, the sixteen figures of Ifá.
- *
- * Pure SVG, drawn from the facts in the text (nothing here is decorative
- * geometry), in ink on paper with the one sindoor line the eye should follow.
- * `currentColor` is the ink, so a plate sits on any ground the page gives it.
- */
+/** Shared ink, sindoor, fonts and geometry helpers for the plates. */
 
 export const INK = 'currentColor';
 export const SINDOOR = '#C8341F';

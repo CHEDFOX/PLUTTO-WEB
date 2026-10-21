@@ -1,9 +1,7 @@
 'use client';
 /**
- * ONE PERSON'S BIRTH, AS THE CALCULATORS ASK FOR IT — date, time (or "don't
- * know"), and the birthplace's time zone — and the sidereal Moon it gives.
- * Shared by the Guna Milan and Sade Sati calculators; the Moon calculator has
- * its own richer copy of the same steps.
+ * One person's birth as the Guna Milan and Sade Sati calculators ask for it (date, time or "don't know", the
+ * birthplace's time zone) and the sidereal Moon it gives. MoonWidget has its own richer copy of these steps.
  */
 import { zonedToUtc } from '../../lib/astro/zone';
 

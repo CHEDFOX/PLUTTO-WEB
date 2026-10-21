@@ -1,7 +1,6 @@
 /**
- * A CALCULATOR PAGE — the answer, the form, the method in full, the questions.
- * Server markup around one client widget: a crawler that runs no JavaScript
- * still reads what the tool does and exactly how it computes.
+ * Page around one calculator: the answer, the widget, the method and the questions, with WebApplication JSON-LD.
+ * Server markup around one client widget, so a crawler that runs no JavaScript still reads how the tool computes.
  */
 
 import Link from 'next/link';

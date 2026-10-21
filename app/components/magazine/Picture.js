@@ -1,10 +1,8 @@
 'use client';
 
 /**
- * A picture from Wikimedia Commons, with a way out. The files are loaded from
- * Commons itself (that is where their licences and histories live, and where
- * each credit links); if Commons is slow or refuses, the reader gets the
- * article's drawn plate or a plain caption plate instead of a broken image.
+ * A picture loaded from Wikimedia Commons itself (where its licence and history live, and where its credit links).
+ * If Commons is slow or refuses, the reader gets the fallback (the story's title plate) instead of a broken image.
  */
 import { useEffect, useRef, useState } from 'react';
 

@@ -6,8 +6,8 @@ import { zonedToUtc, zones, localZone, zoneLabel } from '../../lib/astro/zone';
 import { FIELD, LABEL } from './widgetClasses';
 
 /**
- * Born on 3, 4 or 5 February: Li Chun decides the animal, to the minute. The
- * Sun's position settles it (lib/sky.js, loaded only when asked).
+ * Born on 3, 4 or 5 February: Li Chun decides the animal, to the minute. The Sun's position settles it
+ * (app/lib/astro/sky.js, loaded with import() only when asked).
  */
 export function CuspCheck({ d, r }) {
   const [time, setTime] = useState('');

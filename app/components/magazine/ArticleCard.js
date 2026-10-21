@@ -1,10 +1,6 @@
 /**
- * THE MAGAZINE'S PARTS — the card a story is filed under, the page of the app a
- * story opens into, and the picture at the head of a story.
- *
- * Server markup like the reading pages (Doc.js): every word is in the HTML as
- * sent. Only the photograph is a client component, so it can fall back to a
- * drawn plate when Commons does not answer.
+ * A story's card, as the contents page and the home page file it: server markup, every word in the HTML as sent.
+ * Only the photograph (Picture) is a client component, so it can fall back to a title plate when Commons does not answer.
  */
 
 import Link from 'next/link';

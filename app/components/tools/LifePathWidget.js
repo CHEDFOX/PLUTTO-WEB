@@ -1,9 +1,8 @@
 'use client';
 
 /**
- * THE CALCULATOR FORMS — the only client code on the tool pages. Everything a
- * crawler needs (what the tool does, the method, the questions) is server HTML
- * around these; the result shows the working, so it can be checked by hand.
+ * Life path number calculator (app/lib/astro/numerology.js). The widgets are the only client code on the tool
+ * pages: method, FAQ and tables are server HTML for crawlers. The result shows the working, to check by hand.
  */
 
 import { useState } from 'react';

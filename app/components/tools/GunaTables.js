@@ -1,6 +1,6 @@
 /**
- * THE REFERENCE BESIDE THE CALCULATORS — server HTML, so a reader or crawler
- * sees every table a result comes from, and can check a score by hand.
+ * The Guna Milan tables beside the kundli-matching calculator: server HTML, so a reader or crawler sees every
+ * table a score comes from and can check it by hand.
  */
 
 import Link from 'next/link';
