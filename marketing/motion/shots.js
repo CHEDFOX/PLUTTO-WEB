@@ -1,18 +1,11 @@
 /**
- * THE SHOTS — the places the cinematic films happen, drawn on the world
- * canvas. Each is made once (textures are built at setup) and returns
- * draw(g, t, opts), a pure function of time.
- *
- *   clock  — 3:07 on a bedside clock; a phone asleep beside it, then awake
- *   city   — a night skyline through a window; someone standing at it
- *   rain   — rain on glass, a street's lights melting behind it
- *   road   — a night drive; streetlights pass on the beat
- *   wall   — carved script on stone, found by firelight
- *   sky    — star trails over a desert; one figure looking up
+ * The places of the cinematic series, drawn on cine.js's world canvas: clock (a bedside clock at 3:07 and a phone),
+ * city (a skyline through a window), rain (on glass), road (a night drive), wall (carved script by firelight), sky (star
+ * trails over a desert). Each builds its textures once and returns draw(g, t, opts), a pure function of time.
  */
 import { rng, clamp, lerp, W, H } from './lib.js';
 
-// ── textures ───────────────────────────────────────────────────────────────
+// Textures
 /** Fractal value noise in [0,1], w×h. */
 export function fbm(w, h, { scale = 64, oct = 5, seed = 1 } = {}) {
   const out = new Float32Array(w * h);
@@ -59,7 +52,7 @@ export function bokehSprite(r, rgb) {
 }
 const rr = (g, x, y, w, h, r) => { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); };
 
-// ── clock ──────────────────────────────────────────────────────────────────
+// Clock
 const SEG = { 0: 'abcdef', 1: 'bc', 2: 'abged', 3: 'abgcd', 4: 'fgbc', 5: 'afgcd', 6: 'afgedc', 7: 'abc', 8: 'abcdefg', 9: 'abcdfg' };
 function segments(g, x, y, w, h, th, lit, on, off) {
   const hw = th / 2, m = y + h / 2;
@@ -143,7 +136,7 @@ export async function clockShot() {
   };
 }
 
-// ── city ───────────────────────────────────────────────────────────────────
+// City
 function skyline(seed, { w = 1500, top = [900, 1100], bottom = 1400, color, win, cell, lit = 0.25, dim = 1 }) {
   const c = canvas(w, H), g = c.getContext('2d'), R = rng(seed), beacons = [];
   let x = -20;
@@ -197,7 +190,7 @@ export async function cityShot() {
       g.globalAlpha = a; g.drawImage(red, x0 - o * k + bx - 26, by - 26);
     }));
     g.globalAlpha = 1;
-    g.drawImage(lamp, -260, 180);                 // a lamp behind us, reflected in the glass
+    g.drawImage(lamp, -260, 180);                 // a lamp behind the camera, reflected in the glass
     g.globalCompositeOperation = 'source-over';
     // The window frame.
     g.fillStyle = '#010102'; g.fillRect(790, 0, 30, H); g.fillRect(0, 630, W, 24);
@@ -218,7 +211,7 @@ export async function cityShot() {
   };
 }
 
-// ── rain ───────────────────────────────────────────────────────────────────
+// Rain
 const RAIN_COLORS = [['255,178,90', 5], ['255,90,70', 3], ['70,210,200', 2], ['255,236,205', 3], ['120,150,255', 2]];
 export async function rainShot() {
   const R = rng(21);
@@ -275,7 +268,7 @@ export async function rainShot() {
   };
 }
 
-// ── road ───────────────────────────────────────────────────────────────────
+// Road
 /** passes: the seconds at which a streetlight goes overhead — put them on the beat. */
 export async function roadShot({ passes = [] } = {}) {
   const VX = 540, VY = 860, F = 900, CH = 1.25, V = 24;
@@ -343,7 +336,7 @@ export async function roadShot({ passes = [] } = {}) {
   };
 }
 
-// ── wall ───────────────────────────────────────────────────────────────────
+// Wall
 /** Carved script on a stone wall, 2500 px wide so the camera can track along it (pan = x - 540 centres one). */
 export const CARVINGS = [
   { g: '𓋹', font: 'Hiero', size: 360, x: 560, y: 900 },
@@ -394,7 +387,7 @@ export async function wallShot() {
   };
 }
 
-// ── sky ────────────────────────────────────────────────────────────────────
+// Sky
 export async function skyShot() {
   const R = rng(51), PX = 560, PY = 360;
   const stars = Array.from({ length: 1100 }, () => {

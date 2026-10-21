@@ -1,12 +1,7 @@
 /**
- * THE PRINT SHOP — the kit for the print series (scenes/print-*.js). Each film
- * is a different hand-print technique, speaks in the orb's indirect voice (it
- * never says what Plutto is; it names what the viewer carries), and ends on a
- * poster frame that stands alone.
- *
- * A poster keeps everything that matters between SAFE.top and SAFE.bottom:
- * clear of the Reels/TikTok UI, and inside the 4:5 feed crop (y 285–1635), so
- * one frame serves the story, the reel cover and the feed post.
+ * The print series' kit (print-*, asked-quit, library-scripts; paper and filters for takes, dossier and abstract):
+ * paper, ink filters, printer's marks, overprinted type, stamps and the voice under the words. A poster keeps what
+ * matters between SAFE.top and SAFE.bottom, clear of the Reels/TikTok UI and inside the 4:5 feed crop (y 285–1635).
  */
 import { el, prog, ease, lerp, rng, W, H } from './lib.js';
 import { fbm, paint } from './shots.js';

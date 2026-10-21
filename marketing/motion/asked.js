@@ -1,14 +1,7 @@
 /**
- * ASKED — the shared kit for the "Asked Plutto" series (scenes/asked-*.js).
- *
- * Each film is a question someone would never ask a friend, typed into the REAL
- * app: the Oracle answers word by word, and the chip under its reply opens the
- * real feature (a room drawn from the reader's own chart). The footage is a
- * recording of the app's web build (public/app/screens/ask-*.webm, 590×1280,
- * 30 fps); only the reply is scripted, so every film carries the `honest()` tag.
- *
- * Every film keeps the app INSIDE A DEVICE — never full screen — and dresses the
- * device in its own art style (`device(…, { skin })`).
+ * The asked and demo series' kit (asked-*, demo-*, edu-library, journey-message, manifesto-meter): recordings of the
+ * app's web build (public/app/screens/ask-*.webm, 590×1280, 30 fps) always inside a styled device, never full screen.
+ * Only the reply is scripted, so every film carries honest().
  *
  *   const ev = await events('ask-toxic');      // when things happen in the recording (s)
  *   const d = device(stage, 'ask-toxic', { skin: 'ink' });
@@ -41,13 +34,9 @@ export function remap(segments) {
 export const SRC = { w: 590, h: 1280 };
 
 /**
- * The phone, holding the real app. Skins:
- *   'glass' — a real phone, dark aluminium and glass, soft shadow (studio/editorial, pop)
- *   'ink'   — a cartoon phone: flat body, thick ink outline, hard offset shadow (cartoon, comic)
- *   'paper' — a cut-paper phone: torn edge, paper shadow, slight tilt (cutout, print)
- *   'paint' — a hand-painted phone for folk/truck art: a painted frame of colour bands
- * Options: w (screen width, px), body (body colour), ink (outline colour), shadow, frame (array of colours for 'paint').
- * pose(t, { x, y, s, rx, ry, rz, o }) — 3D placement around the stage centre.
+ * The phone holding the app. skin: 'glass' (aluminium and glass), 'ink' (cartoon outline, hard shadow), 'paper'
+ * (cut paper, torn edge) or 'paint' (painted frame of colour bands, `frame`); options w (screen px), body, ink, shadow.
+ * pose(t, { x, y, s, rx, ry, rz, o }) places it in 3D around the stage centre.
  */
 export function device(parent, name, { skin = 'glass', w = 520, body = null, ink = '#14102B', shadow = null, frame = null, persp = 2400, crop = null } = {}) {
   const h = Math.round(w * SRC.h / SRC.w);

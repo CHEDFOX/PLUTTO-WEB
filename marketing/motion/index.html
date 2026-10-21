@@ -4,10 +4,8 @@
 <meta charset="utf-8">
 <title>Plutto motion</title>
 <!--
-  THE STAGE. One film at a time (?scene=<id>), drawn frame by frame: the
-  renderer calls window.__frame(t) and screenshots, so every frame is exact —
-  no dropped frames, no real-time animation. Open it in a browser with
-  &play=1 to preview in real time.
+  The stage: one film (?scene=<id>, loaded as ./scenes/<id>.js), drawn frame by frame. render.mjs calls
+  window.__frame(t) and screenshots, so every frame is exact. Add &play=1 to preview in real time.
 -->
 <style>
   @font-face { font-family: Inter; font-weight: 400; src: url(fonts/inter-latin-400-normal.woff2) format('woff2'); }

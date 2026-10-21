@@ -1,13 +1,12 @@
 /**
- * THE MOTION KIT — everything the films share, in the site's own language:
- * black, a slow violet haze, heavy tight Inter, the four-colour gradient, a
- * handwritten aside, real app footage in a phone. Every function is a pure
- * function of time: frame(t) always draws the same picture for the same t.
+ * The kit every series shares: timing and easing, DOM helpers, haze and grain, app footage in a phone, the end card,
+ * boot() for index.html, and the vivid kit of the pop series. Every function is a pure function of time: frame(t)
+ * always draws the same picture for the same t.
  */
 export const ASSET = '../../public';
 export const W = 1080, H = 1920;
 
-// ── time ───────────────────────────────────────────────────────────────────
+// Time
 export const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
 export const lerp = (a, b, p) => a + (b - a) * p;
 export const prog = (t, a, b) => clamp((t - a) / (b - a));
@@ -26,7 +25,7 @@ export function rng(seed) {
   return () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let x = Math.imul(seed ^ (seed >>> 15), 1 | seed); x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x; return ((x ^ (x >>> 14)) >>> 0) / 4294967296; };
 }
 
-// ── DOM ────────────────────────────────────────────────────────────────────
+// DOM
 export function el(tag, cls = '', style = {}, parent = null, html = '') {
   const e = document.createElement(tag);
   if (cls) e.className = cls;
@@ -63,7 +62,7 @@ export function rise(spans, p, { stagger = 0.07, dur = 0.9, dist = 1.05, out = n
   });
 }
 
-// ── atmosphere ─────────────────────────────────────────────────────────────
+// Atmosphere
 export function haze(stage, { color = '124,58,237', x = 0.3, y = 0.28, size = 1500, alpha = 0.22 } = {}) {
   const e = el('div', 'layer', { background: `radial-gradient(${size}px ${size * 0.8}px at ${x * 100}% ${y * 100}%, rgba(${color},${alpha}), transparent 70%)` }, stage);
   return (t) => { e.style.transform = `translate(${Math.sin(t * 0.35) * 40}px, ${Math.cos(t * 0.27) * 50}px) scale(${1 + Math.sin(t * 0.2) * 0.04})`; };
@@ -105,19 +104,16 @@ export function vignette(stage) {
   el('div', 'layer', { background: 'radial-gradient(130% 90% at 50% 45%, transparent 55%, rgba(0,0,0,0.75))', zIndex: 40, pointerEvents: 'none' }, stage);
 }
 
-// ── media ──────────────────────────────────────────────────────────────────
+// Media
 export function img(parent, src, style = {}) {
   const i = el('img', 'abs', style, parent);
   i.src = src;
   return i;
 }
 /**
- * Real app footage. The recordings (public/app/screens/*.webm) are decoded
- * once by render.mjs into frames/<name>/NNNN.jpg at 30 fps, and a film draws
- * the frame for time t onto a canvas — whole, or a crop of it. (The renderer's
- * Chromium decodes video but will not hand its frames to a canvas or a
- * screenshot, so a <video> element would record as black.)
- * crop = [sx, sy, sw, sh] in the recording's pixels (590×1280).
+ * Real app footage: render.mjs decodes public/app/screens/*.webm into frames/<name>/ at 30 fps, and a film draws the
+ * frame for t onto a canvas, whole or cropped (crop = [sx, sy, sw, sh] in the recording's 590×1280 pixels). The
+ * renderer's Chromium will not hand video frames to a canvas or a screenshot, so a <video> would record as black.
  */
 export function footage(parent, name, { crop = [0, 0, 590, 1280], w = 560, h = 1215, cls = '', style = {}, fps = 30 } = {}) {
   const box = el('div', cls, { position: 'absolute', width: `${w}px`, height: `${h}px`, overflow: 'hidden', ...style }, parent);
@@ -161,7 +157,7 @@ export function scribble(parent, d, style = {}, { width = 5, color = 'rgba(255,2
   return (p) => { if (!len) len = path.getTotalLength(); path.style.strokeDasharray = len; path.style.strokeDashoffset = len * (1 - p); };
 }
 
-// ── the end card every film closes on ─────────────────────────────────────
+// The end card of the ten films
 export function endCard(stage, { line = 'Five thousand years old. Talks back.', grad = 'Talks back.', cta = 'plutto.space', sub = 'Free to start · Android · Web' } = {}) {
   const box = el('div', 'layer', { display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 30, opacity: 0 }, stage);
   const mark = el('div', '', { display: 'flex', alignItems: 'center', gap: '26px' }, box);
@@ -182,7 +178,7 @@ export function endCard(stage, { line = 'Five thousand years old. Talks back.', 
   };
 }
 
-// ── boot ───────────────────────────────────────────────────────────────────
+// Boot
 export async function boot(params) {
   const stage = document.getElementById('stage');
   const id = params.get('scene') || 'talks-back';
@@ -197,7 +193,7 @@ export async function boot(params) {
   window.__fps = fps;
   window.__poster = scene.poster;
   window.__frame = async (t) => { await scene.frame(t); drawGrain(Math.round(t * fps)); };
-  // Films with a score (the cinematic series) synthesise their soundtrack here; render.mjs muxes it.
+  // A film with a score() synthesises its soundtrack here (sound.js); render.mjs muxes it.
   const track = async () => { const { render } = await import('./sound.js'); return render(scene.score(), scene.duration); };
   window.__audio = scene.score ? async () => (await import('./sound.js')).wavBase64(await track()) : null;
   await window.__frame(Number(params.get('t') || 0));
@@ -214,11 +210,8 @@ export async function boot(params) {
   }
 }
 
-// ════════════════════════════════════════════════════════════════════════
-// PLUTTO POP — the vivid kit. The brand's twelve shelf colours at full
-// voltage, ink-black outlines, stickers with hard offset shadows, spinning
-// sunbursts, halftone, sparkles, marquee tape, and type that slams in.
-// ════════════════════════════════════════════════════════════════════════
+// The vivid kit (pop series, also used by vivid.js): saturated colours, ink outlines, stickers with hard offset
+// shadows, sunbursts, halftone, sparkles, marquee tape and type that slams in.
 export const POP = {
   violet: '#7C3AED', pink: '#FF4FA3', cyan: '#1FC8F0', lime: '#B6F23C', orange: '#FF8A2A', yellow: '#FFE03D',
   blue: '#3355FF', teal: '#10D1B2', red: '#FF4545', magenta: '#E23BD0', ink: '#14102B', cream: '#FFF6E6', white: '#FFFFFF',
@@ -310,11 +303,9 @@ export function badge(parent, name, { size = 520, fill = 0.94, bg = POP.ink, sty
 }
 
 /**
- * The pop series' score (cues for sound.js): a bright 120 bpm four-on-the-floor
- * with a bouncing 808, a hit and a plucked note on every landing (`hits`), a
- * whoosh and boom on every scene change (`cuts`), an optional ticking pulse
- * (`tick: [from, to]`), then the beat drops out under a riser into the end card,
- * which lands on a boom and Plutto's sting.
+ * The pop score (cues for sound.js): 120 bpm four-on-the-floor with an 808, a hit and a pluck on each landing
+ * (`hits`), a whoosh and boom on each cut (`cuts`), an optional pulse (`tick: [from, to]`), then a riser into the
+ * end card at `end`, which lands on a boom and Plutto's sting.
  */
 export function popScore({ duration, end, hits = [], cuts = [], tick }) {
   const B = 0.5, stop = end - 1;

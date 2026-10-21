@@ -1,13 +1,7 @@
 /**
- * ABSTRACT — modern art, set to music. Each film paints in one movement's
- * hand (Kandinsky's Bauhaus compositions, Hilma af Klint's temple paintings,
- * Suprematism's flying planes) on a sheet of paper, and its song is written
- * together with its picture: one function returns the cue list AND the
- * shapes, so every mark lands on the note that made it.
- *
- * The kit: a paper sheet with an ink layer over it (multiplied, with a slight
- * hand-drawn wobble), shape primitives that draw themselves as p goes 0 → 1,
- * lines of type that come and go, and the end card.
+ * The abstract series' kit (abstract-*: Kandinsky, Hilma af Klint, Suprematism): a paper sheet with an ink layer,
+ * shapes that draw themselves as p goes 0 → 1, lines of type and the end card. Each film writes its cue list and its
+ * marks in one function, so every mark lands on the note that made it.
  */
 import { el, set, prog, ease, lerp, rng, W, H, spring } from './lib.js';
 import { paper, filter } from './print.js';

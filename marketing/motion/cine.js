@@ -1,13 +1,7 @@
 /**
- * PLUTTO CINEMA — the kit for the cinematic series. A world drawn on one
- * canvas (the shots in shots.js), a camera that pushes and shakes, highlight
- * bloom, a colour grade, letterbox bars that snap open on the drop, serif
- * titles that settle like a trailer's, flash frames, the real app in a 3D
- * phone, and the end card. Every function is a pure function of time.
- *
- * Music and picture share one clock: 100 BPM, a beat every 0.6 s. Films place
- * cuts and cues with b(n) — n beats in — so the score (sound.js) and the
- * pictures can't drift apart.
+ * The cinematic series' kit (cine-*; ringEnd also closes demo-plutto and demo-everything): the world canvas for
+ * shots.js, camera, bloom, grade, letterbox bars, titles, flash frames, the app in a 3D phone and the end cards. Picture
+ * and score share one clock, 100 BPM (a beat every 0.6 s): films place cuts and cues with b(n), n beats in.
  */
 import { el, set, clamp, lerp, prog, ease, rng, W, H, footage, words, rise } from './lib.js';
 
@@ -100,7 +94,7 @@ export function cinema(stage, { bloom = 0.85 } = {}) {
   };
 }
 
-// ── titles ─────────────────────────────────────────────────────────────────
+// Titles
 /**
  * A title line. kind: 'serif' (Cormorant, the voice of the films), 'italic',
  * 'caps' (small, wide-tracked Inter — the credits register), 'slab' (big
@@ -141,7 +135,7 @@ export function show(e, t, a, b, { mode = 'settle', d = 0.9, out = 0.35 } = {}) 
   if (mode === 'settle') e.style.letterSpacing = `${base + (1 - ease.outCubic(prog(t, a, a + d * 2.2))) * 0.14}em`;
 }
 
-// ── the phone ──────────────────────────────────────────────────────────────
+// The phone
 /**
  * The real app in a phone, in 3D. The footage (a decoded recording, see
  * lib.footage) fills the screen; a glare sweeps the glass; the screen can be
@@ -176,7 +170,7 @@ export function phone3d(parent, name, { w = 560, persp = 2600, lit = 0 } = {}) {
   };
 }
 
-// ── kinetic type ───────────────────────────────────────────────────────────
+// Kinetic type
 /**
  * A line whose words rise out of their own masks, one after another — for
  * hooks and payoffs. `em`: indices of words set upright and lit (the word
@@ -212,13 +206,11 @@ export function quote(parent, text, by, { size = 96, top = 560, em = [] } = {}) 
   };
 }
 
-// ── the end card ───────────────────────────────────────────────────────────
+// The ring end card
 /**
- * The end: something round in the film's world (from: its centre, diameter
- * and colour on screen) swells into the Plutto ring and settles into the
- * lockup; then the line, the button, and a question for the comments.
- * end(te, gone): te = seconds since it began; gone = 1 cuts it away (for a
- * callback after it).
+ * Something round in the film's world (from: centre, diameter and colour on screen) swells into the Plutto ring and
+ * the lockup, then the line, the button and a question for the comments. end(te, gone): te = seconds since it began;
+ * gone = 1 cuts it away (for a callback after it).
  */
 export function ringEnd(stage, { from = { x: 540, y: 960, d: 60, rgb: '255,255,255' }, line = 'Five thousand years old.<br>Talks back.', cta = 'Ask yours · plutto.space',
   sub = 'Free to start · Android · Web · iPhone soon', prompt = '' } = {}) {
@@ -258,7 +250,7 @@ export function ringEnd(stage, { from = { x: 540, y: 960, d: 60, rgb: '255,255,2
   };
 }
 
-// ── the old end card ───────────────────────────────────────────────────────
+// The black end card
 /** Black. The mark and the wordmark, an anamorphic flare, the line, the address. */
 export function cineEnd(stage, { line = 'Five thousand years old. Talks back.', cta = 'plutto.space', sub = 'Free to start · Android · Web' } = {}) {
   const box = el('div', 'layer', { background: '#000', opacity: 0, zIndex: 20 }, stage);

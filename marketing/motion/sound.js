@@ -1,15 +1,7 @@
 /**
- * THE SCORE — a trailer soundtrack synthesised in the browser's own audio
- * engine (OfflineAudioContext) from a list of cues each film writes beside
- * its pictures, off the same clock, so every hit lands on the frame it
- * belongs to. No samples and no licences: kick, 808, snare, clap, hats, toms,
- * impacts, braams, risers, whooshes, pads, rain, an engine and the three-note
- * sting every film ends on — all oscillators and noise.
- *
- *   cues: [{ i: 'boom', t: 9 }, { i: 'groove', t: 9, bars: 2 }, …]
- *
- * Rendering is deterministic: the noise is seeded, so a film always gets the
- * same track.
+ * Soundtracks for every scored film (scene.score()), synthesised in an OfflineAudioContext from oscillators and seeded
+ * noise, so a film always gets the same track and every cue lands on its frame. No samples.
+ *   cues: [{ i: 'boom', t: 9 }, { i: 'groove', t: 9, bars: 2 }, …]   (i names a Kit method)
  */
 import { rng } from './lib.js';
 
@@ -23,7 +15,7 @@ export function kickTimes(t, bars = 2, bpm = BPM) {
   for (let b = 0; b < bars; b++) [...KICK[b % 2]].forEach((c, i) => { if (c === 'x') out.push(t + (b * 16 + i) * st); });
   return out;
 }
-/** MIDI note → Hz. */
+/** Note number → Hz (69 is A4, 440 Hz). */
 export const hz = (n) => 440 * Math.pow(2, (n - 69) / 12);
 
 export async function render(cues, duration) {
@@ -57,7 +49,7 @@ export function wavBase64(buf) {
   return btoa(s);
 }
 
-// ── building blocks ────────────────────────────────────────────────────────
+// Building blocks
 function curve(drive) {
   const c = new Float32Array(4096), d = Math.tanh(drive);
   for (let i = 0; i < c.length; i++) { const x = (i / (c.length - 1)) * 2 - 1; c[i] = Math.tanh(drive * x) / d; }
@@ -127,7 +119,7 @@ class Kit {
     g.setValueAtTime(0, end - 0.01); g.linearRampToValueAtTime(v, end);
   }
 
-  // ── drums ────────────────────────────────────────────────────────────────
+  // Drums
   kick({ t, g = 1 }) {
     const o = this.osc('sine', 190, t, t + 0.7);
     o.frequency.exponentialRampToValueAtTime(52, t + 0.06);
@@ -225,7 +217,7 @@ class Kit {
     }
   }
 
-  // ── cinema ───────────────────────────────────────────────────────────────
+  // Cinema
   /** The trailer impact: a falling sub, a dark body, a crack and a metal ring. */
   boom({ t, g = 1 }) {
     const o = this.osc('sine', 95, t, t + 3.6); o.frequency.exponentialRampToValueAtTime(27, t + 2.2);
@@ -279,7 +271,7 @@ class Kit {
     const p = this.ctx.createStereoPanner(); p.pan.setValueAtTime(from, t); p.pan.linearRampToValueAtTime(to, t + dur);
     this.noise(t, t + dur + 0.05).connect(bp).connect(e).connect(p).connect(this.out);
   }
-  /** A dark pad: detuned saws and a sub, under a slow filter. ns: MIDI notes. */
+  /** A dark pad: detuned saws and a sub, under a slow filter. ns: note numbers. */
   pad({ t, end, ns = [50, 57, 62], g = 0.2, bright = 520, verb = 0.5 }) {
     const lp = this.filt('lowpass', bright, 0.9);
     const lfo = this.osc('sine', 0.13, t, end + 2); lfo.connect(this.gain(bright * 0.35)).connect(lp.frequency);
@@ -331,7 +323,7 @@ class Kit {
     [[0, 74], [0.16, 81], [0.34, 86]].forEach(([k, n], i) => this.bell({ t: t + k, n, g: (i === 2 ? 0.3 : 0.22) * g, dur: i === 2 ? 4.5 : 2.4 }));
   }
 
-  // ── places ───────────────────────────────────────────────────────────────
+  // Places
   room({ t, end, g = 0.05 }) {
     const e = this.ctx.createGain(); e.gain.setValueAtTime(0, t); e.gain.linearRampToValueAtTime(g, t + 0.8); e.gain.setValueAtTime(g, end); e.gain.linearRampToValueAtTime(0, end + 0.8);
     this.noise(t, end + 1).connect(this.filt('lowpass', 260)).connect(e).connect(this.out);
@@ -360,7 +352,7 @@ class Kit {
     this.osc('sine', del ? 120 : 160, t, t + 0.06).connect(this.env(t, { a: 0.001, peak: g * 0.35, d: 0.03 })).connect(this.out);
   }
 
-  // ── music (the Signal series) ────────────────────────────────────────────
+  // Music (the songs of the signal, abstract and demo films)
   // Songs, not cues: melodic instruments go through a music bus that pumps
   // with the kick (`pump`), with a ping-pong delay at the song's tempo. A song
   // starts with { i: 'tempo', bpm } so the delay knows the beat.

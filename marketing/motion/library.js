@@ -1,17 +1,7 @@
 /**
- * THE LIBRARY — Plutto as what it is: the library of every way humankind has
- * asked what comes next. A reading room at night: cloth-bound spines under a
- * lamp, a card catalogue, museum plates, script on old paper. Serif and quiet,
- * the opposite of the Pop series' shout — it should feel like the place.
- *
- * The kit the five library-* scenes are made from:
- *   shelves()   — endless bookshelves, one spine per tradition in the atlas
- *   lines()     — serif lines that rise out of a blur
- *   libEnd()    — the end card (the one hairline of gold in the series)
- *   libScore()  — felt piano, a slow pad, soft taiko, page turns, the sting
- *
- * The atlas (app/lib/atlas.json) is the site's own list: 102 traditions in 12
- * regions. Every number a film shows comes from it.
+ * The library series' kit (library-*, also edu-library and manifesto-meter): shelves() with one spine per tradition in
+ * app/lib/data/atlas.json, lines() of serif that rise out of a blur, the libEnd() card and the libScore() score. Every
+ * number a film shows comes from the atlas.
  */
 import { el, set, prog, ease, lerp, rng, W, H, ASSET } from './lib.js';
 

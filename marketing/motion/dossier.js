@@ -1,19 +1,8 @@
 /**
- * THE FILES — the On the Record idea in a second hand: documented history where
- * divination reached into power, drawn as a declassified case file.
- *
- * A manila folder on a desk under a lamp. It opens; the sheet inside is a typed
- * Plutto Archive file with the claim blacked out. The redaction bars come off one
- * word at a time, a red DECLASSIFIED stamp comes down, and the receipt is typed
- * underneath with its key facts highlighted. A sticky note asks the question for
- * the comments. The last frame (the cover) is the whole file, readable at a glance.
- *
- * Same rules as the record: true, sourced, decades or centuries old; never live
- * wars, disasters or elections.
- *
- *   file({ n, system, subject, period,
- *          claim: [['THE US PAID', 'k'], ['PSYCHICS FOR', 'k'], ['23 YEARS.', 'r']],
- *          fact: 'text with *highlighted* spans', source: '…', prompt: 'the question ↓' })
+ * The files series' kit (files-*): a declassified case file on a desk; the redaction bars come off the claim, a stamp
+ * comes down, the sourced receipt is typed with its facts highlighted, and a sticky note asks the question. Stories are
+ * true, sourced and decades or centuries old, never current wars, disasters or elections.
+ *   file({ n, system, subject, period, claim: [[line, 'k' | 'r'], …], fact, source, prompt })
  */
 import { el, prog, ease, lerp, rng, W, H } from './lib.js';
 import { paper } from './print.js';
@@ -82,7 +71,7 @@ export function file({ n, system, subject, period, claim, fact, source, prompt, 
       paper(folder, { color: MANILA, fibre: [120, 88, 48], wash: 0.55, specks: 260, seed: 50 + n });
       const tab = el('div', 'abs', { left: '86px', top: '162px', width: '320px', height: '70px', background: MANILA, borderRadius: '10px 10px 0 0', boxShadow: '0 -6px 14px rgba(0,0,0,0.25)' }, S.root);
       el('div', 'abs', { left: '28px', top: '14px', font: '400 34px/1 Stencil', letterSpacing: '0.12em', color: '#5a4322' }, tab, `FILE N° ${String(n).padStart(2, '0')}`);
-      // a coffee ring, because someone read this before you
+      // a coffee ring
       el('div', 'abs', { left: '700px', top: '1470px', width: '250px', height: '250px', borderRadius: '50%', border: '10px solid rgba(110,70,30,0.22)', filter: 'blur(1.5px)' }, S.root);
 
       // the sheet

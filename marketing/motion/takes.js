@@ -1,15 +1,8 @@
 /**
- * HOT TAKES — the side series (scenes/take-*.js). Letterpress protest placards:
- * a claim stamped in wood type, black and fire-red on newsprint, to a stomp.
- * Then the receipt, typed: the fact that makes the claim true. Then the fight,
- * a question stamped for the comments. The claim frame is the thumbnail.
- *
- * Controversial about astrology itself (the zodiac, the horoscope, Mercury),
- * never about people, beliefs or named rivals. Every claim is true, and the
- * receipt says why. That is what makes a take travel: people argue, then check.
- *
- *   take({ n, claim: [['YOUR SIGN', 'k'], ['IS PROBABLY', 'k'], ['WRONG.', 'r']],
- *          fact: 'text with *red* spans', prompt: 'the question ↓' })
+ * The takes and record series' kit (take-*, record-*): a claim stamped in wood type on newsprint, the receipt typed
+ * under it, and a question stamped for the comments; the claim frame is the thumbnail. Claims are about astrology
+ * itself, never people or beliefs, and each is true.
+ *   take({ n, claim: [[line, 'k' | 'r'], …], fact: 'text with *red* spans', prompt: 'the question ↓' })
  */
 import { el, prog, ease, lerp, rng, W, H } from './lib.js';
 import { paper, marks } from './print.js';

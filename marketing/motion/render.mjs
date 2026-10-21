@@ -1,13 +1,15 @@
 #!/usr/bin/env node
 /**
- * RENDER — every film, frame by frame, to an MP4 ready for Reels, Shorts and
- * TikTok (1080×1920, 30 fps, H.264 High, yuv420p, faststart).
+ * Renders films frame by frame from index.html to MP4 for Reels, Shorts and TikTok (1080×1920, 30 fps, H.264 High,
+ * yuv420p, faststart), with a cover frame; films with a score get their soundtrack muxed in.
  *
- *   FFMPEG=/path/to/ffmpeg node marketing/motion/render.mjs            # all films
- *   node marketing/motion/render.mjs talks-back mercury-retrograde     # some
+ *   node marketing/motion/render.mjs                                   # the ten films, pop and cine
+ *   node marketing/motion/render.mjs talks-back cine takes             # films by id, or whole series by name
  *   STILLS=1.5,6,12 node marketing/motion/render.mjs talks-back        # stills only, for review
+ *   AUDIO_ONLY=1 node marketing/motion/render.mjs cine                 # soundtracks only (.wav)
  *
- * Needs Playwright's Chromium and an ffmpeg (FFMPEG, or `ffmpeg` on PATH).
+ * Series: noir pop cine print takes record files truth library signal abstract asked demo. Env: FFMPEG (default
+ * `ffmpeg` on PATH), OUT (default marketing/motion/out), PLAYWRIGHT_MODULE (where to load Playwright from).
  */
 import { spawn } from 'node:child_process';
 import { mkdir, writeFile, unlink } from 'node:fs/promises';
@@ -23,30 +25,30 @@ const OUT = process.env.OUT || path.join(HERE, 'out');
 const FFMPEG = process.env.FFMPEG || 'ffmpeg';
 const PORT = 4100 + Math.floor(Math.random() * 500);
 export const FILMS = ['talks-back', 'ask-out-loud', 'vedic-sign', 'mercury-retrograde', 'eclipse-2027', 'saturn-aries', 'nakshatras', 'gunas', 'tarot', 'traditions'];
-// The vivid series: the same ten stories, scenes/pop-*.js. `node render.mjs pop` renders all of them.
+// pop: the ten stories in the vivid kit (scenes/pop-*.js).
 export const POP_FILMS = FILMS.map((f) => `pop-${f}`);
-// The cinematic series, with its own synthesised soundtrack (sound.js) — `node render.mjs cine`. Written to out/cine/.
+// cine: the cinematic series (cine.js, shots.js), scored by sound.js. Written to out/cine/.
 export const CINE_FILMS = ['cine-3am', 'cine-rain', 'cine-drive', 'cine-origin', 'cine-trailer'];
-// The print shop: one hand-print technique per film, each ending on a poster — `node render.mjs print`. Written to out/print/.
+// print: one hand-print technique per film, each ending on a poster (print.js). Written to out/print/.
 export const PRINT_FILMS = ['orb-sheet', 'print-cyanotype', 'print-cutouts', 'print-saturn', 'print-marbling'];
-// Hot takes, the side series: letterpress claims with receipts — `node render.mjs takes`. Written to out/takes/.
+// takes: letterpress claims with receipts (takes.js). Written to out/takes/.
 export const TAKE_FILMS = ['take-sign', 'take-thirteen', 'take-mercury', 'take-horoscope', 'take-compatible'];
-// On the record: documented history where astrology reached into power — `node render.mjs record`. Written to out/record/.
+// record: documented history where astrology reached into power (takes.js). Written to out/record/.
 export const RECORD_FILMS = ['record-reagan', 'record-war', 'record-1524', 'record-popes', 'record-queen',
-  'record-tarot', 'record-palms', 'record-iching', 'record-616', 'record-maya', 'record-rune'];   // 06–11: beyond astrology
-// The files: the record's idea as declassified case files (dossier.js) — `node render.mjs files`. Written to out/files/.
+  'record-tarot', 'record-palms', 'record-iching', 'record-616', 'record-maya', 'record-rune'];   // 06–11: divination beyond astrology
+// files: the record's stories as declassified case files (dossier.js). Written to out/files/.
 export const FILE_FILMS = ['files-stargate', 'files-newton', 'files-bones', 'files-chickens', 'files-delphi', 'files-ouija'];
-// True story: the same six, vivid (vivid.js) — `node render.mjs truth`. Written to out/truth/.
+// truth: the same six stories in the vivid kit (vivid.js). Written to out/truth/.
 export const TRUTH_FILMS = ['truth-stargate', 'truth-newton', 'truth-bones', 'truth-chickens', 'truth-delphi', 'truth-ouija'];
-// The library: Plutto as the library of every divination tradition (library.js) — `node render.mjs library`. Written to out/library/.
+// library: Plutto as the library of every divination tradition (library.js). Written to out/library/.
 export const LIBRARY_FILMS = ['library-shelves', 'library-catalogue', 'library-question', 'library-scripts', 'library-librarian'];
-// Signal: generative light set to its own music (signal.js) — `node render.mjs signal`. Written to out/signal/.
+// signal: generative light set to its own music (signal.js). Written to out/signal/.
 export const SIGNAL_FILMS = ['signal-signs', 'signal-orbit', 'signal-bloom'];
-// Abstract: modern art movements painted to music (abstract.js) — `node render.mjs abstract`. Written to out/abstract/.
+// abstract: modern art movements painted to music (abstract.js). Written to out/abstract/.
 export const ABSTRACT_FILMS = ['abstract-composition', 'abstract-temple', 'abstract-zero'];
-// Asked Plutto: questions you'd never ask a friend, typed into the real app, each in its own art style (asked.js) — `node render.mjs asked`. Written to out/asked/.
+// asked: questions nobody asks a friend, typed into the real app, each film in its own art style (asked.js). Written to out/asked/.
 export const ASKED_FILMS = ['asked-toxic', 'asked-ex', 'asked-fake', 'asked-shaadi', 'asked-quit', 'asked-quickfire'];
-// The product demo: the whole app in thirty seconds, real screens in a phone (asked.js) — `node render.mjs demo`. Written to out/demo/.
+// demo: the app in thirty seconds, real screens in a phone (asked.js). Written to out/demo/.
 export const DEMO_FILMS = ['demo-plutto', 'edu-library', 'demo-everything', 'demo-worlds', 'manifesto-meter', 'journey-message'];
 
 const server = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1', '--directory', ROOT], { stdio: 'ignore' });
@@ -117,9 +119,8 @@ async function renderFilm(browser, id) {
 }
 
 /**
- * Put the soundtrack under the picture at a steady loudness: two-pass EBU R128
- * (measure, then a linear gain) to -12 LUFS, peaks under -1 dBTP — loud and
- * punchy, but not so hot that the platforms turn it down and flatten it.
+ * Mux the soundtrack under the picture with two-pass EBU R128 (measure, then a linear gain) to -12 LUFS, peaks under
+ * -1 dBTP: loud, but under the level at which the platforms turn a track down.
  */
 const LOUD = 'loudnorm=I=-12:TP=-1:LRA=11';
 function run(args) {
@@ -139,8 +140,8 @@ async function mux(video, wav, out) {
 }
 
 /**
- * Decode each app recording into frames/<name>/NNNN.jpg (30 fps) once, and
- * write frames/index.json with the counts. Skipped when already done.
+ * Decode each recording in public/app/screens into frames/<name>/0001.jpg… (30 fps) once, and write
+ * frames/index.json with the frame counts. A recording already decoded is skipped.
  */
 async function prepareFootage() {
   const { readdir, access } = await import('node:fs/promises');

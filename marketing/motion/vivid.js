@@ -1,18 +1,8 @@
 /**
- * TRUE STORY — the record's idea at full voltage (scenes/truth-*.js).
- *
- * One mystery number slams in first, huge, in chromatic split (2060, 1899,
- * 93/123, C₂H₄…), on a saturated field with a spinning sunburst and halftone.
- * Then it lifts away and the claim arrives on tilted colour slabs, a TRUE STORY
- * starburst spins on, and the receipt is typed onto a white card with its facts
- * marked in the film's colour. A speech bubble asks the question; marquee tape
- * carries the sign-off. Each film has its own three-colour palette, so a grid
- * of them reads loud and distinct. Same rules as the record: true, sourced,
- * decades or centuries old.
- *
- *   truth({ n, system, hero: '2060', label: 'NOT ONE YEAR SOONER',
- *           palette: [field, a, b], claim: ['ISAAC NEWTON', 'DATED THE END', 'OF THE WORLD.'],
- *           fact: 'text with *marked* spans', source: '…', prompt: 'the question ↓' })
+ * The truth series' kit (truth-*): the files stories in the vivid kit. A hero number slams in, the claim arrives on
+ * tilted slabs under a starburst, the sourced receipt is typed on a card, a speech bubble asks the question; each film
+ * has its own three-colour palette.
+ *   truth({ n, system, hero, label, palette: [field, a, b], claim: [line, …], fact, source, prompt })
  */
 import { el, prog, ease, lerp, rng, W, H, POP, spring, popBg, sticker, sparkles, marquee, blob, set } from './lib.js';
 
@@ -87,7 +77,7 @@ export function truth({ n, system, hero, label, palette: [FIELD, A, B], claim, f
       });
       S.claimBottom = 520 + claim.length * 150;
 
-      // TRUE STORY starburst
+      // the starburst badge
       S.star = el('div', 'abs', { left: '752px', top: '176px', width: '310px', height: '310px', opacity: 0 }, S.root);
       let d = ''; for (let i = 0; i < 32; i++) { const r = i % 2 ? 128 : 158, a = (i / 32) * Math.PI * 2; d += (i ? 'L' : 'M') + (160 + r * Math.cos(a)).toFixed(1) + ' ' + (160 + r * Math.sin(a)).toFixed(1); }
       S.star.innerHTML = `<svg viewBox="0 0 320 320" width="320" height="320"><path d="${d}Z" fill="${FIELD === POP.yellow ? POP.white : POP.yellow}" stroke="${INK}" stroke-width="7" stroke-linejoin="round"/></svg>`;

@@ -1,26 +1,14 @@
 /**
- * SIGNAL — generative light set to music. Five thousand particles of light
- * drift as a nebula, gather into a symbol, get sucked into a vortex on the
- * build, burst on the drop and snap into a new sign on every bar, breathing
- * with the kick; the last bar they become Plutto's ring.
- *
- * The music comes first: each film writes a real song (sound.js's music
- * instruments — supersaws, vocal chops, plucks, 808s, a pumping bus) and the
- * picture reads its kicks and claps off the same cue list, so every pulse
- * and flash is on the beat by construction.
- *
- * Every particle's position is a closed-form function of t (no simulation),
- * so any frame renders on its own and stills are exact. Each is drawn as a
- * streak from t − 1/30 s to t, added in light, then bloomed.
- *
- *   signal({ duration, end, palette: [a, b, c, bgA, bgB], keys: [{ t, s, m, stagger, spin }],
- *            texts: [{ t0, t1, html, y, kind }], song(), endLine, endSub })
+ * The signal series' kit (signal-*; abstract-* use its beat grid): particles of light that gather into symbols on the
+ * beat of a song written with sound.js's music instruments, reading kicks and claps off the same cue list. Positions
+ * are closed-form in t (no simulation), so any frame renders on its own; each is a streak from t − 1/30 s to t.
+ *   signal({ duration, end, palette: [a, b, c, bgA, bgB], keys: [{ t, s, m, stagger, spin }], texts, song(), endLine, endSub })
  */
 import { el, set, prog, ease, lerp, rng, W, H } from './lib.js';
 
 const N = 5200, CX = 540, CY = 860, DT = 1 / 30, MAX = 46;
 
-// ── shapes, drawn white on a 1080² canvas and sampled to N points ─────────
+// Shapes, drawn white on a 1080² canvas and sampled to N points
 const ray = (g, a, r0, r1) => { g.beginPath(); g.moveTo(540 + Math.cos(a) * r0, 540 + Math.sin(a) * r0); g.lineTo(540 + Math.cos(a) * r1, 540 + Math.sin(a) * r1); g.stroke(); };
 const circle = (g, r, fill = false, x = 540, y = 540) => { g.beginPath(); g.arc(x, y, r, 0, 6.2832); fill ? g.fill() : g.stroke(); };
 export const SHAPES = {
