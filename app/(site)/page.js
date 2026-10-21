@@ -25,69 +25,31 @@ import Image from 'next/image';
 import FadeUp from '../components/motion/FadeUp';
 import StoreBadges from '../components/store/StoreBadges';
 import GetAppLink from '../components/store/GetAppLink';
-import Draw from '../components/site/Draw';
+import Draw from '../components/home/Draw';
 import Device from '../components/phone/Device';
 import AppVideo from '../components/phone/AppVideo';
 import Shot from '../components/phone/Shot';
 import LockApp from '../components/phone/LockApp';
-import Marquee from '../components/site/Marquee';
-import Story from '../components/site/Story';
+import Marquee from '../components/home/marquee/Marquee';
+import Story from '../components/home/Story';
 import Words from '../components/motion/Words';
-import HeroStage from '../components/site/HeroStage';
-import Spotlight from '../components/motion/Spotlight';
-import Ancient from '../components/site/Ancient';
+import HeroStage from '../components/home/hero/HeroStage';
+import Ancient from '../components/home/Ancient';
 import { Note } from '../components/ink/Note';
 import { Arrow } from '../components/ink/Arrow';
 import { Underline } from '../components/ink/Underline';
 import { ArticleCard } from '../components/site/magazine/Parts';
 import { ARTICLE_BY_SLUG } from '../lib/content/magazine';
+import { Lines } from '../components/home/Lines';
+import { H2 } from '../components/home/H2';
+import { Tile } from '../components/home/Tile';
+import { TileText } from '../components/home/TileText';
 
 // Three stories from the magazine, the cover first (app/lib/magazine.js).
 const FROM_THE_MAGAZINE = ['leibniz-binary-i-ching', 'the-computer-that-predicted-eclipses', 'ifa-256-signs-and-a-byte'];
 
 // The greetings the app's own language screen cycles through (onboarding_content.LANGUAGES).
 const GREETINGS = ['Hello', 'Hola', 'Bonjour', 'مرحبا', 'Olá', 'Привет', '你好', 'こんにちは', '안녕하세요', 'Hallo', 'नमस्ते', 'নমস্কার', 'வணக்கம்', 'నమస్కారం', 'السلام علیکم', 'ආයුබෝවන්'];
-
-/** The longer passages: small, quiet, one line per line, a breath between stanzas. */
-function Lines({ text, className = '' }) {
-  return (
-    <span className={`block text-[15px] leading-[1.9] text-white/50 ${className}`}>
-      {text.split('\n\n').map((stanza, i) => (
-        <span key={i} className={`block ${i ? 'mt-5' : ''}`}>
-          {stanza.split('\n').map((l) => <span key={l} className="block">{l}</span>)}
-        </span>
-      ))}
-    </span>
-  );
-}
-
-function H2({ children, className = '' }) {
-  return (
-    <h2 className={`text-[clamp(2rem,4.6vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-white ${className}`}>
-      {typeof children === 'string' ? <Words text={children} stagger={0.06} /> : children}
-    </h2>
-  );
-}
-
-function Tile({ className = '', children }) {
-  return (
-    <Spotlight
-      glow="rgba(17,17,17,0.05)"
-      className={`relative overflow-hidden rounded-[2px] bg-black p-7 ring-1 ring-white transition-transform duration-500 hover:-translate-y-1 md:p-8 ${className}`}
-    >
-      <div className="relative z-10 h-full">{children}</div>
-    </Spotlight>
-  );
-}
-
-function TileText({ title, body }) {
-  return (
-    <>
-      <h3 className="text-[22px] font-semibold leading-tight tracking-[-0.02em] text-white md:text-[24px]">{title}</h3>
-      <p className="mt-2 max-w-[38ch] text-[15px] leading-relaxed text-white/55">{body}</p>
-    </>
-  );
-}
 
 // The sentence Google's OAuth brand verification needs (it once rejected this
 // page for not saying what the app does) lives in the description now, not on

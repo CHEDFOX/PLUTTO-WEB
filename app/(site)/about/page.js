@@ -20,8 +20,10 @@ import Link from 'next/link';
 import { pageMeta } from '../../lib/seo/pageMeta';
 import FadeUp from '../../components/motion/FadeUp';
 import StoreBadges from '../../components/store/StoreBadges';
-import PlanetMark from '../../components/site/PlanetMark';
+import PlanetMark from '../../components/about/PlanetMark';
 import { SHELF_COLOR } from '../../lib/content/traditions';
+import { MONO } from '../../components/about/classes';
+import { Lines } from '../../components/about/Lines';
 
 export const metadata = pageMeta({
   title: 'How Plutto Works',
@@ -29,17 +31,6 @@ export const metadata = pageMeta({
     'Plutto computes real charts with Swiss Ephemeris, reads them through the tradition that fits your question — a library of the world’s traditions — and answers out loud in your language.',
   path: '/about',
 });
-
-const MONO = 'font-mono text-[12px] uppercase tracking-[0.2em] text-white';
-
-/** The longer passages: small, quiet, one line per line, a breath between stanzas. */
-function Lines({ text }) {
-  return text.split('\n\n').map((stanza, i) => (
-    <span key={i} className={`block ${i ? 'mt-5' : ''}`}>
-      {stanza.split('\n').map((l) => <span key={l} className="block">{l}</span>)}
-    </span>
-  ));
-}
 
 const MOVEMENTS = [
   {
