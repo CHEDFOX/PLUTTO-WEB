@@ -16,8 +16,6 @@
 
 export const SCREEN_W = 393;
 export const SCREEN_H = 852;
-export const INSET_TOP = 59;
-export const INSET_BOTTOM = 34;
 const BEZEL = 13;
 const OUTER_W = SCREEN_W + BEZEL * 2;
 const OUTER_H = SCREEN_H + BEZEL * 2;

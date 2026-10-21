@@ -14,7 +14,6 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 import { PUSH } from './push';
-export { PUSH };
 
 /**
  * `live` — whether the push has arrived. Off, the lock screen is just the

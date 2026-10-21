@@ -61,9 +61,9 @@ export function detectPlatform(ua, nav) {
   return 'desktop';
 }
 
-/** The store URL for a platform, preferring the catalog's values. */
-export function storeUrl(platform, store) {
-  const s = { ...DEFAULT_STORE, ...(store || {}) };
+/** The store URL for a platform. */
+export function storeUrl(platform) {
+  const s = DEFAULT_STORE;
   if (platform === 'ios') return s.ios || IOS_SEARCH;
   if (platform === 'android') return s.android || DEFAULT_STORE.android;
   return s.fallback || DEFAULT_STORE.fallback;
@@ -74,9 +74,9 @@ export function storeUrl(platform, store) {
  * Where "Get the app" goes for this visitor: the store that is live for the
  * device in their hand, else the download band on the page.
  */
-export function getAppHref(platform, store) {
+export function getAppHref(platform) {
   if (platform === 'ios' && IOS_WEB_APP) return WEB_APP_INSTALL;
-  if (platform === 'android' && ANDROID_LIVE) return storeUrl('android', store);
-  if (platform === 'ios' && IOS_LIVE) return storeUrl('ios', store);
+  if (platform === 'android' && ANDROID_LIVE) return storeUrl('android');
+  if (platform === 'ios' && IOS_LIVE) return storeUrl('ios');
   return '/#download';
 }

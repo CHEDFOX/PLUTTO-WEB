@@ -67,7 +67,7 @@ function H2({ children, className = '' }) {
   );
 }
 
-function Tile({ className = '', glow, children }) {
+function Tile({ className = '', children }) {
   return (
     <Spotlight
       glow="rgba(17,17,17,0.05)"
@@ -215,7 +215,7 @@ export default function Home() {
           <div className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-6">
             {/* Decks */}
             <FadeUp className="md:col-span-2">
-              <Tile className="h-full min-h-[340px]" glow="rgba(56,189,248,0.25)">
+              <Tile className="h-full min-h-[340px]">
                 <TileText title="Real cards. Your hand." body="You shuffle, you choose, it reads what you drew. Never the same draw twice." />
                 <div aria-hidden="true" className="relative mt-8 h-[150px]">
                   {[['tarot/the_sun', -14, -60, -26, -92], ['runes/sowilo', 0, 0, 0, 0], ['tarot/the_moon', 14, 60, 26, 92]].map(([src, r, x, r2, x2], i) => (
@@ -229,7 +229,7 @@ export default function Home() {
 
             {/* Languages */}
             <FadeUp className="md:col-span-4" delay={0.05}>
-              <Tile className="h-full min-h-[300px]" glow="rgba(244,114,182,0.22)">
+              <Tile className="h-full min-h-[300px]">
                 <div className="md:pr-[170px]">
                   <TileText title="It speaks yours." body="Pick your language once. The reading arrives in the one you dream in." />
                   <div aria-hidden="true" className="mt-8 flex flex-wrap gap-2">
@@ -247,7 +247,7 @@ export default function Home() {
 
             {/* Exact — the arithmetic under it all */}
             <FadeUp className="md:col-span-2">
-              <Tile className="h-full min-h-[300px]" glow="rgba(251,146,60,0.25)">
+              <Tile className="h-full min-h-[300px]">
                 <TileText title="Your minute. Not your month." body={<Lines className="mt-1" text={'The heavens never stand still.\nNeither does your life.\n\nYesterday\u2019s sky is gone.\nTomorrow\u2019s has not arrived.\n\nThere is only this moment—\nand everything it contains.'} />} />
                 <div aria-hidden="true" data-no-auto-case className="mt-8 space-y-1.5 font-mono text-[13px] text-white/60">
                   {[['☉', 'Sun', '14°32′', 'Gemini'], ['☽', 'Moon', '02°08′', 'Scorpio'], ['↑', 'Rising', '27°51′', 'Leo'], ['♄', 'Saturn', '19°44′', 'Pisces']].map(([g, n, d, sgn]) => (
@@ -264,7 +264,7 @@ export default function Home() {
 
             {/* Traditions */}
             <FadeUp className="md:col-span-2" delay={0.05}>
-              <Tile className="h-full min-h-[260px]" glow="rgba(52,211,153,0.2)">
+              <Tile className="h-full min-h-[260px]">
                 <h3 className="text-[22px] font-semibold leading-tight tracking-[-0.02em] text-white md:text-[24px]">
                   The divine has many languages.
                 </h3>

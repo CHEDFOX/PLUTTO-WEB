@@ -12,14 +12,10 @@
 
 import Image from 'next/image';
 
-export const PLANETS = {
+const PLANETS = {
   sun: '/planets/sun.png',
-  mercury: '/planets/mercury.png',
   venus: '/planets/venus.png',
   mars: '/planets/mars.png',
-  rahu: '/planets/rahu.png',
-  ketu: '/planets/ketu.png',
-  uranus: '/planets/Uranus.png',
   neptune: '/planets/Neptune.png',
 };
 

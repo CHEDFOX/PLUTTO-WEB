@@ -80,19 +80,3 @@ export function Underline({ children, className = '', delay = 0.7 }) {
     </span>
   );
 }
-
-/** A ring drawn round a word, the way a reader circles the one that matters. */
-export function Ring({ children, className = '', delay = 0.4 }) {
-  return (
-    <span className={`relative inline-block px-[0.15em] ${className}`}>
-      {children}
-      <Stroke
-        box="0 0 200 80"
-        d="M 100 8 C 150 4, 198 20, 196 42 C 194 66, 140 78, 92 74 C 40 70, 2 56, 6 36 C 10 16, 60 6, 118 10"
-        strokeWidth={2.6}
-        className="absolute -inset-x-[0.2em] -inset-y-[0.12em] h-[calc(100%+0.24em)] w-[calc(100%+0.4em)]"
-        delay={delay} duration={1}
-      />
-    </span>
-  );
-}
