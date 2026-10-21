@@ -1,9 +1,6 @@
 /**
- * /embed/<tool> — a calculator alone, for other sites to frame. The only
- * pages on plutto.space that may be framed (next.config.mjs), noindex so they
- * never compete with the real tool page, and with a visible credit link. The
- * link that earns Plutto anything is the one in the embed SNIPPET, outside
- * the frame, on the host page (/tools/embed gives it out).
+ * /embed/<tool>: one calculator alone, for other sites to frame; the only pages that may be framed
+ * (next.config.mjs). Noindex with the tool page as canonical, so they never compete with it.
  */
 import { notFound } from 'next/navigation';
 import MoonWidget from '../../components/tools/MoonWidget';

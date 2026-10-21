@@ -1,7 +1,6 @@
 /**
- * The share card — what WhatsApp, X, LinkedIn, iMessage and search results show
- * for any plutto.space link that has no card of its own. Drawn in code (next/og)
- * so the words are the site's and it never goes stale as a hand-made PNG would.
+ * Default share card (next/og) for any plutto.space link without a card of its own, drawn in code
+ * from the site's own words.
  */
 import { ImageResponse } from 'next/og';
 import { readFile } from 'node:fs/promises';

@@ -1,10 +1,7 @@
 /**
- * /editorial-standards — THE METHOD (the nav's "Method"): every system Plutto reads,
- * what each is read from and what it rests on (app/lib/method.js, written from the
- * backend's provenance registry), then how the site's own pages are written and how
- * to report a mistake. Search engines and answer engines weigh a source by whether
- * it says who stands behind it and how it checks itself; this page is that
- * statement, named as the organization's publishingPrinciples in the JSON-LD.
+ * /editorial-standards (the nav's "Method"): every system Plutto reads and its sources (app/lib/content/method.js,
+ * from the backend's provenance registry), how the site's pages are written and how to report a mistake.
+ * The organization's publishingPrinciples in the JSON-LD.
  */
 import Link from 'next/link';
 import { pageMeta } from '../../lib/seo/pageMeta';
@@ -22,7 +19,7 @@ const DESC = 'Every tradition Plutto reads, what each one is read from and the c
 
 export const metadata = pageMeta({ title: TITLE, description: DESC, path: PATH });
 
-// The site's own pages and calculators (the app's systems are in app/lib/method.js).
+// The site's own pages and calculators (the app's systems are in app/lib/content/method.js).
 const SOURCES = [
   ['Astronomy', 'Swiss Ephemeris (Astrodienst), for every planetary position, house cusp and ayanamsa. Vedic charts use the Lahiri ayanamsa; KP the Krishnamurti ayanamsa with Placidus cusps; Western charts the tropical zodiac with Placidus houses.'],
   ['Vedic astrology (Jyotish)', 'Brihat Parashara Hora Shastra for the grahas, nakshatras, the Vimshottari dasha and the vargas; Phaladeepika and Saravali for yogas and interpretation.'],

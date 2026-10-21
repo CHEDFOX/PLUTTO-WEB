@@ -1,10 +1,6 @@
 /**
- * /magazine/<slug> — one story (content: app/lib/magazine.js).
- *
- * Set like a feature: kicker, headline, standfirst; the picture with its
- * caption and credit; the text with a drop cap, one pull quote and one fact in
- * the margin; then the page of the app the story leads to, the sources, and
- * what to read next. Article + BreadcrumbList structured data.
+ * /magazine/<slug>: one story (app/lib/content/magazine.js): headline, picture, text, the app page it
+ * leads to, sources and what to read next. Article and BreadcrumbList structured data.
  */
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -73,7 +69,7 @@ export default async function MagazineArticle({ params }) {
           ) : null}
         </div>
 
-        {/* THE PAGE OF THE APP THIS STORY LEADS TO */}
+        {/* The app page this story leads to */}
         {app ? (
           <section aria-labelledby="in-the-app" className="mx-auto mt-20 max-w-4xl px-6">
             <div className="grid items-center gap-10 border-y-2 border-white py-12 md:grid-cols-[220px_1fr]">

@@ -1,15 +1,7 @@
 /**
- * THE PRICING PAGE — what Plutto Star costs, and what a reader gets for free.
- *
- * Quiet on purpose: not in the nav, but in the footer on every page (beside the
- * legal links) and on the information page (/about). A payment provider approves
- * a selling site only when it says what is sold and at what price before the
- * checkout does.
- *
- * The prices are written here by hand. The web paywall sells the Razorpay plans
- * in the catalog (`subscription.razorpay.plans`): change a plan there and change
- * the figure here too. The paywall itself shows the live price of each plan,
- * so this page says so rather than promising one figure everywhere.
+ * /pricing: what Plutto Star costs and what is free. Linked from the footer and /about, not the nav; the
+ * payment provider requires the price to be stated before checkout. The figures are written by hand from
+ * the Razorpay plans in the catalog (subscription.razorpay.plans): change them together.
  */
 
 import Link from 'next/link';
@@ -35,7 +27,6 @@ const PLANS = [
 export default function PricingPage() {
   return (
     <div data-no-auto-case className="sentence-case relative z-10 font-ui">
-      {/* ───────────────────────── HEAD ───────────────────────── */}
       <section className="mx-auto max-w-4xl px-6 pb-16 pt-8 md:pt-16">
         <FadeUp>
           <p className={MONO}>Pricing</p>
@@ -59,7 +50,7 @@ export default function PricingPage() {
         </FadeUp>
       </section>
 
-      {/* ───────────────────────── PLANS ───────────────────────── */}
+      {/* Plans */}
       <section className="border-t border-white/[0.07] bg-white/[0.03]">
         <div className="mx-auto max-w-4xl px-6 py-16 md:py-20">
           <FadeUp>
@@ -108,7 +99,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* ───────────────────────── THE DOOR ───────────────────────── */}
+      {/* Open the app; legal links */}
       <section className="border-t border-white/[0.07]">
         <div className="mx-auto max-w-4xl px-6 py-16 text-center md:py-20">
           <FadeUp>

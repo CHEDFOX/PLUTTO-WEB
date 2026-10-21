@@ -1,19 +1,6 @@
 /**
- * THE INFORMATION PAGE.
- *
- * The landing page's job is to make someone curious; this page's job is to make
- * them trust it, which is a different job and wants a different shape. So it is
- * built as a document rather than as a sequence of scenes: a numbered spine of
- * three movements down the left, one claim each, with the plain machinery
- * spelled out beside it — and then, before the close, the list of things Plutto
- * will NOT do. That list is the most persuasive block on the page. Anyone who
- * has been sold a horoscope app already suspects everything here; naming the
- * suspicions in our own words, in the affirmative, is what answers them.
- *
- * Every number on this page is real and comes from the backend catalog: 79
- * sections, 102 traditions on the globe, 19 vargas, the languages already
- * warmed in onboarding_translations.json. If a claim here cannot be pointed at
- * in the code, it does not belong on this page.
+ * /about: how Plutto works, what it will not do and what it costs. Sections live in
+ * app/components/about/sections.
  */
 
 import { pageMeta } from '../../lib/seo/pageMeta';

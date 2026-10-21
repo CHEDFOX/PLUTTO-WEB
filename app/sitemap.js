@@ -1,7 +1,6 @@
 /**
- * sitemap.xml — every page meant to be found, built from the same data the
- * pages are, so a new guide is in the sitemap the moment it exists.
- * The web app (/app) is not listed: it is a signed-in tool, not a page.
+ * sitemap.xml: every page meant to be found, built from the same data as the pages. The web app
+ * (/app) is a signed-in tool, not a page, and is not listed.
  */
 export const revalidate = 3600;   // /panchang's lastModified follows its hourly ISR
 

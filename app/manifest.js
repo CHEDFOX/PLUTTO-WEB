@@ -1,5 +1,4 @@
-// Android's "Add to Home screen" reads this. The icons are the app's own
-// (see the note on `icons` in layout.js).
+/** Web app manifest, read by Android's "Add to Home screen". The icons are the app's own (public/m/icons). */
 export default function manifest() {
   return {
     name: 'Plutto',

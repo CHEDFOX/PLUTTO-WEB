@@ -1,7 +1,6 @@
 /**
- * /og/<section>/<slug> — each guide, reference and tool page's own share card,
- * rendered once at build (static params) from app/lib/cards.js. Same look as
- * the home card: black, the violet eyebrow, the page's words, its body's art.
+ * /og/<section>/<slug>: the share card of each guide, reference and tool page, rendered once at build
+ * from app/lib/seo/shareCards.js in the look of the default card.
  */
 import { ImageResponse } from 'next/og';
 import { readFile } from 'node:fs/promises';

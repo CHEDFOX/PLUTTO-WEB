@@ -1,14 +1,6 @@
 /**
- * THE SITE — everything except the app.
- *
- * The marketing chrome lives here and nowhere else: the nav, the footer, the
- * grain, the custom cursor, the floating logo. It used to sit in the ROOT
- * layout, which meant /app inherited all of it — the app opened with a website
- * header over it, a wordmark and an About link across the top, and a floating
- * badge in the corner. None of that exists on the phone.
- *
- * A route group (this folder's parentheses) keeps the URLs exactly as they were:
- * /(site)/page.js is still /, /(site)/about is still /about.
+ * Layout of every marketing route (route group, no URL segment). /app is public/m through a rewrite
+ * and never renders this layout.
  */
 import Script from 'next/script';
 import Nav from '../components/layout/Nav';
@@ -20,8 +12,7 @@ import { organizationLd, websiteLd, appLd } from '../lib/seo/structuredData';
 export default function SiteLayout({ children }) {
   return (
     <>
-      {/* Who makes Plutto, what the site is, what the app is and costs — on every
-          page of the site (not the web app), from app/lib/seo.js. */}
+      {/* Organization, WebSite and app JSON-LD on every marketing page (app/lib/seo/structuredData.js). */}
       <JsonLd data={organizationLd()} />
       <JsonLd data={websiteLd()} />
       <JsonLd data={appLd()} />
@@ -29,7 +20,7 @@ export default function SiteLayout({ children }) {
       <div className="flex-1 pt-[68px]">{children}</div>
       <Footer />
       <SiteChrome />
-      {/* Meta pixel + consent (app/api/meta/pixel). A stub until META_PIXEL_ID is set. */}
+      {/* Meta pixel and consent (app/api/meta/pixel); a stub until META_PIXEL_ID is set. */}
       <Script src="/api/meta/pixel" strategy="afterInteractive" />
     </>
   );

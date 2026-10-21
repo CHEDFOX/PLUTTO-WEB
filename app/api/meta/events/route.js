@@ -1,20 +1,15 @@
 /**
- * /api/meta/events — the server's copy of each pixel event, sent on to Meta's
- * Conversions API. The browser posts here (from /api/meta/pixel's loader, only
- * after consent where consent is asked), and this adds what only a server sees
- * well: the visitor's IP and user agent, and Meta's own _fbp/_fbc cookies.
- *
- * Same event ID as the browser's pixel, so Meta counts it once.
- *
- * Env (Vercel → Settings → Environment Variables):
- *   META_PIXEL_ID          the dataset ID (also turns the loader on)
- *   META_CAPI_TOKEN        the Conversions API access token — secret, server only
- *   META_TEST_EVENT_CODE   optional: route events to Events Manager → Test events
- *   META_GRAPH_VERSION     optional: the Graph API version (default below)
- *
- * Only the standard events the site sends are accepted, with only the fields
- * below, and an email only as a SHA-256 hash. Nothing is logged but a status.
+ * /api/meta/events: the server copy of each pixel event, forwarded to Meta's Conversions API with the
+ * visitor's IP, user agent and _fbp/_fbc cookies. Posted by the /api/meta/pixel loader (after consent where
+ * it is asked) with the browser event's ID, so Meta deduplicates the pair.
  */
+// Env (Vercel project settings):
+//   META_PIXEL_ID          the dataset ID (also turns the loader on)
+//   META_CAPI_TOKEN        the Conversions API access token; secret, server only
+//   META_TEST_EVENT_CODE   optional: route events to Events Manager, Test events
+//   META_GRAPH_VERSION     optional: the Graph API version (default below)
+// Accepts only the standard events the site sends, only the fields below, and an email only as a
+// SHA-256 hash. Logs nothing but a status.
 export const dynamic = 'force-dynamic';
 
 const GRAPH = process.env.META_GRAPH_VERSION || 'v23.0';

@@ -1,9 +1,6 @@
 /**
- * /magazine — the contents page.
- *
- * A cover story, the pages of the app (each opens the app), the rest of the
- * issue, and the facts from the margins of every story. Content and sources:
- * app/lib/magazine.js. Plain server markup, like the reading pages.
+ * /magazine: the contents page (cover story, pages from the app, the rest of the issue, facts from the
+ * margins), plain server markup. Content and sources: app/lib/content/magazine.js.
  */
 import Link from 'next/link';
 import { ARTICLES, ARTICLE_BY_SLUG, APP_PAGES, COVER, PUBLISHED } from '../../lib/content/magazine';
@@ -39,7 +36,6 @@ export default function MagazinePage() {
       <JsonLd data={list} />
       <JsonLd data={breadcrumbLd([{ name: 'Magazine', path: '/magazine' }])} />
       <div data-no-auto-case className="sentence-case relative z-10 font-ui">
-        {/* THE MASTHEAD */}
         <header className="mx-auto max-w-6xl px-6 pt-10 md:pt-14">
           <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-white pb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-white/70">
             <span>The Plutto Magazine</span>
@@ -54,14 +50,12 @@ export default function MagazinePage() {
           </p>
         </header>
 
-        {/* THE COVER STORY */}
         <section aria-labelledby="cover" className="mx-auto mt-14 max-w-6xl px-6">
           <p className={`${LABEL} mb-5`}>Cover story</p>
           <h2 id="cover" className="sr-only">Cover story</h2>
           <ArticleCard a={cover} wide eager headingLevel={3} />
         </section>
 
-        {/* PAGES FROM THE APP */}
         <section aria-labelledby="from-the-app" className="mt-20 border-y-2 border-white bg-white/[0.035] py-14">
           <div className="mx-auto max-w-6xl px-6">
             <div className="flex flex-wrap items-end justify-between gap-6">
@@ -84,7 +78,6 @@ export default function MagazinePage() {
           </div>
         </section>
 
-        {/* THE REST OF THE ISSUE */}
         <section aria-labelledby="in-this-issue" className="mx-auto mt-20 max-w-6xl px-6">
           <div className="flex items-baseline justify-between border-b border-white pb-3">
             <h2 id="in-this-issue"><span className="font-mono text-[12px] uppercase tracking-[0.2em] text-white">In this issue</span></h2>
@@ -95,7 +88,6 @@ export default function MagazinePage() {
           </div>
         </section>
 
-        {/* FROM THE MARGINS */}
         <section aria-labelledby="margins" className="mx-auto mt-24 max-w-6xl px-6">
           <div className="border-t-2 border-white pt-10">
             <p className={KICKER}>From the margins</p>

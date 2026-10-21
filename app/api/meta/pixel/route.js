@@ -1,38 +1,26 @@
 /**
- * /api/meta/pixel — THE META PIXEL, with the consent it needs, as one script.
- *
- * Loaded by every page of the site ((site)/layout.js) and by the web app at /app
- * (Plutto-Frontend scripts/build-web.mjs puts it in index.html), so both report
- * into one Meta dataset. It defines `window.plutto_meta`:
- *
- *   plutto_meta.track(name, data?, { email? })   a standard Meta event
- *   plutto_meta.open()                            the consent bar (the footer's "Cookie choices")
- *   plutto_meta.enabled                           false until META_PIXEL_ID is set
- *
- * Every event goes twice with one event ID: to the pixel in the browser, and to
- * /api/meta/events, which sends it on through the Conversions API — the copy that
- * survives ad blockers and Safari. Meta keeps one of the two (deduplication).
- *
- * CONSENT. Where the law asks first (the EU, the EEA, the UK, Switzerland, or a
- * country we cannot tell), nothing loads and nothing is sent until the visitor
- * says yes; events wait in a queue and are dropped on no. Elsewhere it runs, and
- * "Cookie choices" in the footer turns it off. The answer is kept in localStorage.
- *
- * WHAT IS SENT: page views, which reading page was opened, a calculator used, a
- * sign-up, a checkout opened, a subscription bought (plan price and currency).
- * An email only with a sign-up, and only hashed (SHA-256, in the browser).
- * Never a question, a reading, a chat or a birth detail.
- *
- * OFF until Vercel has META_PIXEL_ID (the dataset ID from Events Manager): with
- * no ID this serves a stub, so every call site can stay in place.
+ * /api/meta/pixel: the Meta pixel and its consent bar as one script, loaded by every marketing page
+ * ((site)/layout.js) and by the web app at /app (Plutto-Frontend scripts/build-web.mjs), so both report
+ * into one dataset. Until META_PIXEL_ID is set it serves a stub (OFF), so every call site can stay.
  */
+// The script defines window.plutto_meta:
+//   track(name, data?, { email? })   a standard Meta event
+//   open()                           the consent bar (the footer's "Cookie choices")
+//   enabled                          false in the stub
+// Each event goes to the browser pixel and, with the same event ID, to /api/meta/events for the
+// Conversions API, the copy that survives ad blockers and Safari; Meta deduplicates the pair.
+// Sent: page views, the reading page opened, a calculator used, a sign-up, a checkout opened, a
+// subscription bought (plan price and currency); an email only with a sign-up, SHA-256 hashed in the
+// browser. Never a question, a reading, a chat or a birth detail.
 import { ASK_FIRST_COUNTRIES } from '../../../lib/analytics/consent';
 
 export const dynamic = 'force-dynamic';
 
-// The EU, the rest of the EEA, the UK and Switzerland (app/lib/consent.js — the
-// same list Google Tag Manager's consent defaults use). META_CONSENT_COUNTRIES
-// replaces it here (comma-separated ISO codes), e.g. to add IN.
+// Consent comes first in the EU, the rest of the EEA, the UK and Switzerland (app/lib/analytics/consent.js,
+// the list Google Tag Manager's consent defaults use) and wherever the country is unknown: nothing loads
+// or is sent until the visitor accepts, queued events are dropped on refusal. Elsewhere it runs until
+// "Cookie choices" turns it off. The answer is kept in localStorage (plutto_ads).
+// META_CONSENT_COUNTRIES (comma-separated ISO codes) replaces the list, e.g. to add IN.
 const ASK_FIRST = (process.env.META_CONSENT_COUNTRIES || ASK_FIRST_COUNTRIES.join(','))
   .split(',').map((c) => c.trim().toUpperCase()).filter(Boolean);
 

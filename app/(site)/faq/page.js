@@ -1,7 +1,4 @@
-/**
- * /faq — questions about Plutto, answered in the first sentence
- * (app/lib/faq.js). FAQPage structured data.
- */
+/** /faq: questions about Plutto, answered in the first sentence (app/lib/content/faq.js). FAQPage structured data. */
 import { FAQS } from '../../lib/content/faq';
 import { pageMeta } from '../../lib/seo/pageMeta';
 import { breadcrumbLd, faqLd } from '../../lib/seo/structuredData';

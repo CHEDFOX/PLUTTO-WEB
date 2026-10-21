@@ -1,9 +1,7 @@
 /**
- * /panchang — today's panchang, rendered on the server for New Delhi and
- * regenerated every hour (ISR), so the HTML a crawler reads is always today's;
- * below it, any place and any date in the browser. Verified against Swiss
- * Ephemeris: 300 random city-days, every limb the same at sunrise, end times
- * within 7 seconds.
+ * /panchang: today's panchang for New Delhi, rendered on the server and regenerated hourly (ISR) so
+ * the HTML is always today's; any place and date below it, in the browser. Checked against Swiss
+ * Ephemeris: 300 random city-days, every limb equal at sunrise, end times within 7 seconds.
  */
 import Link from 'next/link';
 import * as sky from '../../lib/astro/sky';

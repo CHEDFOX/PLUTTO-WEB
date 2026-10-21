@@ -1,9 +1,6 @@
 /**
- * /guides/<slug> — one system, in full (content: app/lib/guides.js).
- *
- * Order is for the reader who asked a question: the answer first, in one
- * paragraph; then how the system works; then what Plutto reads for it; then
- * the short questions. Article + FAQPage + BreadcrumbList structured data.
+ * /guides/<slug>: one system in full (app/lib/content/guides.js): the answer first, then how the system
+ * works, what Plutto reads for it and the short questions. Article, FAQPage and BreadcrumbList structured data.
  */
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -27,9 +24,9 @@ export async function generateMetadata({ params }) {
   return pageMeta({ title: g.title, description: g.description, path: `/guides/${g.slug}`, type: 'article', image: cardPath('guides', g.slug) });
 }
 
-// From each guide into the reference pages and calculators it explains. The
-// sky-calendar links follow the build's year within the years published.
-export const revalidate = 86400;   // Y below follows the calendar, not the last deploy
+// Links from each guide to the reference pages and calculators it explains. The sky-calendar
+// links use the current year, clamped to the published years.
+export const revalidate = 86400;   // daily, so Y follows the calendar rather than the last deploy
 const Y = Math.min(Math.max(new Date().getUTCFullYear(), CAL_YEARS[0]), CAL_YEARS[CAL_YEARS.length - 1]);
 const DEEPER = {
   'vedic-astrology': [['/tools/moon-sign-nakshatra', 'Find your Moon sign, nakshatra and dasha'], ['/tools/kundli-matching', 'Kundli matching (Guna Milan)'], ['/tools/sade-sati', 'Sade Sati calculator'], ['/panchang', 'Today’s panchang'], [`/transits/${Y}`, 'Saturn, Jupiter and Rahu–Ketu transits'], ['/nakshatras', 'The 27 nakshatras'], ['/grahas', 'The 9 grahas'], ['/zodiac-signs', 'The 12 signs (rashis)']],

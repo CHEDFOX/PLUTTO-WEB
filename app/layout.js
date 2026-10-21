@@ -1,13 +1,9 @@
+/** Root layout: the document, its four faces, Google Tag Manager and the touch-screen viewport scaling. */
 import { Bodoni_Moda, Source_Serif_4, IBM_Plex_Mono, Caveat } from 'next/font/google';
 import './globals.css';
 import { GTM_HEAD, GTM_NOSCRIPT_SRC } from './lib/analytics/gtm';
 
-// THE MAGAZINE EDITION — three faces, one printed page.
-//   Bodoni Moda   the masthead, headlines, numerals, pull quotes (display, mark, editorial)
-//   Source Serif  everything read: body, captions, buttons (body, reading, ui)
-//   IBM Plex Mono kickers, labels, folios (mono)
-// The CSS variable names are kept, so every class that asked for a register
-// (font-display, font-ui, font-mono …) gets the magazine's face for it.
+// Faces: Bodoni Moda --font-display, Source Serif 4 --font-body, IBM Plex Mono --font-mono, Caveat --font-hand (app/components/ink).
 const bodoni = Bodoni_Moda({
   subsets: ['latin', 'latin-ext'],
   weight: ['400', '500', '600', '700', '800'],
@@ -29,7 +25,6 @@ const plexMono = IBM_Plex_Mono({
   display: 'swap',
 });
 
-// THE HAND IN THE MARGINS — Caveat, for the handwritten asides (components/site/ink).
 const caveat = Caveat({
   subsets: ['latin'],
   weight: ['500', '600'],
@@ -37,11 +32,8 @@ const caveat = Caveat({
   display: 'swap',
 });
 
-// SEARCH: the title leads with what people type ("astrology app"), the brand
-// stays first, and the description is the entity sentence answer engines lift
-// (app/lib/seo.js). No canonical here on purpose — a root canonical is inherited
-// by every page that forgets its own and tells Google they are all the home
-// page; each page sets its own (pageMeta).
+// No canonical here: a root canonical is inherited by every page without its own and tells Google
+// they are all the home page. Each page sets its own through pageMeta.
 export const metadata = {
   metadataBase: new URL('https://plutto.space'),
   title: {
@@ -81,10 +73,7 @@ export const metadata = {
     description:
       'Vedic, Western, Chinese, KP and numerology readings from your real birth chart, spoken in your language.',
   },
-  // The favicon and the home-screen icon are the app's own: app/icon.png and
-  // app/apple-icon.png are Plutto-Frontend/assets/icon.png resized (Next's
-  // file-based icons, which it links on every page), so the tab, a search
-  // result and a home screen all wear the face the phone app has.
+  // app/icon.png and app/apple-icon.png (Next's file-based icons) are Plutto-Frontend/assets/icon.png resized.
   appleWebApp: { title: 'Plutto', statusBarStyle: 'black' },
 };
 
@@ -94,18 +83,11 @@ export const viewport = {
   initialScale: 1,
 };
 
-// ONE PICTURE, SCALED BY RATIO. The site is designed at the PC's composition;
-// every other screen gets a scaled copy of a layout rather than its own sizes:
-//   · a tablet (touch, short side ≥ 600) is given a layout viewport TABLET_W
-//     wide — the PC composition — drawn to fit its width;
-//   · a phone held upright is given PHONE_W — the one-column layout, the same
-//     proportions on every phone, never oversized; turned sideways it is its
-//     own width.
-// The browser does the scaling (the viewport tag), so taps land where they
-// look on every engine. Next renders the tag as device-width and may set it
-// again while hydrating, so it is re-asserted whenever it changes.
-// `html.scaled-tab` caps the screen-height sections at the PC's proportions
-// (globals.css), since a tablet held upright is far taller than a monitor.
+// Touch screens get a scaled copy of a layout instead of their own sizes: a tablet (short side ≥ 600)
+// a TABLET_W-wide layout viewport, an upright phone PHONE_W, a sideways phone its own width. The
+// viewport tag does the scaling, so taps land where they look. Next renders the tag as device-width
+// and may set it again while hydrating, so SCALE_SCRIPT re-asserts it whenever it changes.
+// html.scaled-tab caps the screen-height sections at desktop proportions (globals.css).
 const TABLET_W = 1280;
 const PHONE_W = 450;
 const SCALE_SCRIPT = `(function(){try{
@@ -134,13 +116,11 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <head>
-        {/* Google Tag Manager, first in <head> as Google asks (app/lib/gtm.js). */}
+        {/* Google Tag Manager, first in <head> as Google asks (app/lib/analytics/gtm.js). */}
         <script dangerouslySetInnerHTML={{ __html: GTM_HEAD }} />
         <script dangerouslySetInnerHTML={{ __html: SCALE_SCRIPT }} />
       </head>
-      {/* Root carries the document and the faces, and nothing else. The site's
-          chrome moved into (site)/layout.js so that /app inherits none of it —
-          see the note there. */}
+      {/* The marketing chrome (nav, footer, JSON-LD, pixel) is in (site)/layout.js. */}
       <body className="min-h-screen bg-black text-foreground font-body antialiased">
         <noscript>
           <iframe src={GTM_NOSCRIPT_SRC} height="0" width="0" style={{ display: 'none', visibility: 'hidden' }} />

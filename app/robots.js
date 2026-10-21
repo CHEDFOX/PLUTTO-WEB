@@ -1,15 +1,11 @@
 /**
- * robots.txt — everyone is welcome to read the site, the answer engines by name.
- *
- * Being QUOTED by ChatGPT, Perplexity, Claude and Google's AI answers needs
- * their crawlers to be allowed in; naming each one says it on purpose rather
- * than by omission, and survives a future default-deny on their side.
- *
- * /m/ is the web app's bundle (JavaScript, wasm, fonts): nothing there is a page,
- * so it stays out of the index — except the icons, which the manifest names.
- * /app itself is NOT disallowed: it carries its own noindex header
- * (next.config.mjs), and a crawler has to be let in to read that.
+ * robots.txt: every crawler may read the site. Being quoted by ChatGPT, Perplexity, Claude and Google's
+ * AI answers needs their crawlers let in, so each is named: allowed on purpose, and still allowed if
+ * their default turns to deny.
  */
+// /m/ is the web app's bundle (JavaScript, wasm, fonts) and stays out of the index, except the icons
+// the manifest names. /app is not disallowed: its noindex header (next.config.mjs) is only read by a
+// crawler that is let in.
 import { SITE } from './lib/seo/site';
 
 const AI_CRAWLERS = [

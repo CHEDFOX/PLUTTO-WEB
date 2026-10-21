@@ -1,7 +1,6 @@
 /**
- * /tools/embed — the calculators, free for any site to embed. The credit link
- * sits in the snippet itself, outside the frame, so it is a real link on the
- * host's page; the frame is just the tool.
+ * /tools/embed: the calculators, free for any site to embed. The credit link is in the snippet, outside
+ * the frame, so it is a real link on the host's page.
  */
 import Link from 'next/link';
 import { pageMeta } from '../../../lib/seo/pageMeta';

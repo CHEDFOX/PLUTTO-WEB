@@ -1,6 +1,4 @@
-/**
- * /guides — every system Plutto reads, one guide each (app/lib/guides.js).
- */
+/** /guides: one guide for each system Plutto reads (app/lib/content/guides.js). */
 import Link from 'next/link';
 import { GUIDES } from '../../lib/content/guides';
 import { pageMeta } from '../../lib/seo/pageMeta';

@@ -1,12 +1,7 @@
 /**
- * /traditions — the atlas: all 102 traditions on Plutto's globe, by region,
- * each with the place it began and why it is pinned there.
- *
- * The data is the backend's own (library_map.build_map → app/lib/atlas.json):
- * a considered answer to "where was this first practised" for every one. It is
- * the most specific, most checkable page on the site — the kind an answer
- * engine cites — so it is plain markup, a real list, and an ItemList of
- * DefinedTerms.
+ * /traditions: the atlas of the traditions on Plutto's globe, by region, each with the place it began and
+ * why it is pinned there. Data: app/lib/data/atlas.json, from the backend's library_map.build_map.
+ * Plain markup, a list and an ItemList of DefinedTerms.
  */
 import ATLAS from '../../lib/data/atlas.json';
 import { SHELF_COLOR } from '../../lib/content/traditions';
