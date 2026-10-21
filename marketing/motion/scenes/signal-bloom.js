@@ -1,4 +1,4 @@
-/** SIGNAL 03 · BLOOM — afro house, 122 bpm, A minor. A lotus of light; the build pulls it in; the drop writes hello in Hindi, Arabic and Japanese; it ends as Plutto's ring. */
+/** Signal 03, Bloom (signal series): afro house, 122 bpm, A minor; a lotus of light, pulled in on the build, writes hello in Hindi, Arabic and Japanese on the drop and ends as Plutto's ring. */
 import { signal, grid, hits, word } from '../signal.js';
 
 const G = grid(122);

@@ -1,4 +1,4 @@
-/** ON THE RECORD 09 · GEMATRIA — Papyrus Oxyrhynchus 4499 (P115) gives 616 at Rev 13:18; Hebrew gematria of "Neron Qesar" = 666, of "Nero Qesar" = 616. */
+/** On the record 09, Gematria (record series): Papyrus Oxyrhynchus 4499 (P115) gives 616 at Rev 13:18; Hebrew gematria of "Neron Qesar" = 666, of "Nero Qesar" = 616. */
 import { take } from '../takes.js';
 export default take({
   n: 9, label: 'ON THE RECORD', system: 'GEMATRIA', accent: '#1F4FD6', tag: '102 TRADITIONS · PLUTTO.SPACE',

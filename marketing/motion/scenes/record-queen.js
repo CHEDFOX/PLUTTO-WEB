@@ -1,4 +1,4 @@
-/** ON THE RECORD 05 — John Dee chose Elizabeth I's coronation date, 15 January 1559. */
+/** On the record 05 (record series): John Dee chose Elizabeth I's coronation date, 15 January 1559. */
 import { take } from '../takes.js';
 export default take({
   n: 5, label: 'ON THE RECORD',

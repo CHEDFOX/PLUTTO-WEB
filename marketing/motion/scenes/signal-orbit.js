@@ -1,4 +1,4 @@
-/** SIGNAL 02 · ORBIT — trap, 140 bpm half-time, C minor. A sun of light; the build pulls it in; the drop throws it into the twelve houses, an eight-pointed star, a galaxy; it ends as Plutto's ring. */
+/** Signal 02, Orbit (signal series): trap, 140 bpm half-time, C minor; a sun of light thrown into the twelve houses, an eight-pointed star and a galaxy, ending as Plutto's ring. */
 import { signal, grid } from '../signal.js';
 
 const G = grid(140);

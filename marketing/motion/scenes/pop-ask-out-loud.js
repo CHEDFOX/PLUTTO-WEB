@@ -1,4 +1,4 @@
-/** POP 02 · ASK IT OUT LOUD — the real voice orb as a badge, questions as stickers, hello on colour. */
+/** Pop 02, Ask it out loud (pop series): the real voice orb as a badge, questions as stickers, hello on colour. */
 import { el, set, footage, prog, ease, lerp, POP, spring, popBg, sticker, slab, sparkles, popEnd, popScore } from '../lib.js';
 
 const QS = [['should I move cities?', 70, 620, -6], ['is it him?', 690, 700, 5], ['why does this keep happening?', 90, 1420, 4], ['what is this year for?', 560, 1540, -5], ['am I on the right path?', 150, 1660, -2]];

@@ -1,10 +1,6 @@
 /**
- * PRINT · MARBLING — ebru, done with the real mathematics of it (Jaffer's
- * marbling maps): every ink drop pushes all the ink before it outward, combs
- * drag parallel tines through the bath, a stylus swirls it. Each pixel is
- * found by running those operations backwards to the drop it came from, so
- * every frame is exact. Over the bath, a label pasted in like a bookplate on a
- * marbled endpaper; at the end two last drops (ink, then clear) print the ring.
+ * Print, Marbling (print series): ebru computed with Jaffer's marbling maps (drops, combs, a stylus), each pixel traced
+ * back to the drop it came from so every frame is exact, under a bookplate label; two last drops print the ring.
  */
 import { el, prog, ease, lerp, rng, W, H, fbm, paint, develop, stamp, stampIn, colophon, colophonIn, voice } from '../print.js';
 

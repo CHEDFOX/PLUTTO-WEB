@@ -1,4 +1,4 @@
-/** POP 06 · SATURN ENTERS ARIES — 3 June 2027, 04:43 IST (sidereal); what it does to Sade Sati. */
+/** Pop 06, Saturn enters Aries (pop series): 3 June 2027, 04:43 IST (sidereal), and what it does to Sade Sati. */
 import { el, set, prog, ease, lerp, W, POP, spring, popBg, sticker, slab, sparkles, popEnd, popScore } from '../lib.js';
 
 const END = 12.4;

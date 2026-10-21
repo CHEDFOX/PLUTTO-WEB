@@ -1,4 +1,4 @@
-/** TRUE STORY 03 — The oracle bones (Wang Yirong, 1899; Anyang, 1928–37). */
+/** True story 03 (truth series): the oracle bones (Wang Yirong, 1899; Anyang, 1928–37). */
 import { truth } from '../vivid.js';
 import { POP } from '../lib.js';
 export default truth({

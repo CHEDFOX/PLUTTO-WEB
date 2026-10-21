@@ -1,9 +1,9 @@
-/** SIGNAL 01 · SIGNS — house, 120 bpm, F minor. An eye forms out of light; the build pulls it into a vortex; the drop throws it into a hexagram, the moon, Saturn; it ends as Plutto's ring. */
+/** Signal 01, Signs (signal series): house, 120 bpm, F minor; an eye of light pulled into a vortex, then a hexagram, the moon and Saturn, ending as Plutto's ring. */
 import { signal, grid, hits } from '../signal.js';
 
 const G = grid(120);
 const DROP = G.t(3), END = G.t(6);
-// voicings (MIDI) and roots, one chord a bar
+// voicings (note numbers) and roots, one chord a bar
 const CH = { Fm: [53, 56, 60, 65], Db: [49, 53, 56, 61], Eb: [51, 55, 58, 63], Ab: [48, 51, 56, 60] };
 const ROOT = { Fm: 41, Db: 37, Eb: 39, Ab: 44 };
 const BARS = ['Fm', 'Db', 'Eb', 'Fm', 'Db', 'Eb'];

@@ -1,4 +1,4 @@
-/** HOT TAKE 05 — sun-sign compatibility compares one point of each chart. */
+/** Hot take 05 (takes series): sun-sign compatibility compares one point of each chart. */
 import { take } from '../takes.js';
 export default take({
   n: 5,

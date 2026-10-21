@@ -1,4 +1,4 @@
-/** POP 10 · 102 TRADITIONS — fat colour dots gather into a ring by region; the names pass on stickers. */
+/** Pop 10, Traditions (pop series): colour dots from app/lib/data/atlas.json gather into a ring by region; the names pass on stickers. */
 import { el, set, prog, ease, lerp, rng, W, POP, spring, popBg, sticker, slab, sparkles, popEnd, popScore } from '../lib.js';
 
 const COLORS = { south_asia: '#FF9A2E', himalaya: '#FFD23D', china: '#FF4545', east_asia: '#FF4FA3', pacific: '#E23BD0', persia: '#9B5CFF', letters: '#3355FF', sky: '#1FC8F0', folk: '#10D1B2', americas: '#2EE08E', africa: '#9BE33C', body: '#E6E63A' };

@@ -1,8 +1,6 @@
 /**
- * 03 · YOUR VEDIC SIGN IS PROBABLY DIFFERENT — the hook everyone argues
- * about, explained in one picture: two zodiacs, 24° apart. The numbers are
- * the site's: Lahiri ayanamsa 24°13′ in 2026; the Sun enters sidereal Leo on
- * 17 August 2026 (computed with Swiss Ephemeris).
+ * 03, The Vedic sign is probably different (the ten films): two zodiacs 24° apart in one picture, with the site's
+ * numbers: Lahiri ayanamsa 24°13′ in 2026, the Sun entering sidereal Leo on 17 August 2026 (Swiss Ephemeris).
  */
 import { el, set, words, rise, haze, stars, vignette, scribble, endCard, prog, ease, inOut, lerp, W } from '../lib.js';
 

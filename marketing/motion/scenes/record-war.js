@@ -1,4 +1,4 @@
-/** ON THE RECORD 02 — astrology as a weapon in the Second World War: Louis de Wohl for Britain, Nostradamus propaganda, and the Aktion Hess round-up of June 1941. */
+/** On the record 02 (record series): astrology as a weapon in the Second World War: Louis de Wohl for Britain, Nostradamus propaganda, and the Aktion Hess round-up of June 1941. */
 import { take } from '../takes.js';
 export default take({
   n: 2, label: 'ON THE RECORD',

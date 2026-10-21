@@ -1,7 +1,6 @@
 /**
- * POP 01 · TALKS BACK — the brand film, loud. Each script of the frieze cuts
- * in on its own colour field; the line slams in; the app answers on a
- * sticker card (the real recording).
+ * Pop 01, Talks back (pop series, the brand film): each script of the frieze cuts in on its own colour field, the line
+ * slams in, and the app answers on a sticker card (the real recording).
  */
 import { el, set, haze, footage, prog, ease, inOut, lerp, POP, spring, popBg, sticker, slab, sparkles, marquee, popEnd, popScore } from '../lib.js';
 

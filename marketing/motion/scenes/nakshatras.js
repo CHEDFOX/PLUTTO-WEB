@@ -1,7 +1,4 @@
-/**
- * 07 · 27 NAKSHATRAS — the lunar mansions as a turning wheel; a light sweeps
- * them one by one. The names and order are the site's reference data.
- */
+/** 07, 27 nakshatras (the ten films): the lunar mansions as a turning wheel swept by a light, in the order of app/lib/content/reference.js. */
 import { el, set, words, rise, haze, stars, vignette, endCard, prog, ease, inOut, lerp, W } from '../lib.js';
 
 const NAMES = ['Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu', 'Pushya', 'Ashlesha', 'Magha', 'Purva Phalguni', 'Uttara Phalguni', 'Hasta', 'Chitra', 'Swati', 'Vishakha', 'Anuradha', 'Jyeshtha', 'Mula', 'Purva Ashadha', 'Uttara Ashadha', 'Shravana', 'Dhanishta', 'Shatabhisha', 'Purva Bhadrapada', 'Uttara Bhadrapada', 'Revati'];

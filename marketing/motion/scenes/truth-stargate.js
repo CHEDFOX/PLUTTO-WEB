@@ -1,4 +1,4 @@
-/** TRUE STORY 01 — Project Stargate (CIA Reading Room; AIR evaluation, 1995). */
+/** True story 01 (truth series): Project Stargate (CIA Reading Room; AIR evaluation, 1995). */
 import { truth } from '../vivid.js';
 import { POP } from '../lib.js';
 export default truth({

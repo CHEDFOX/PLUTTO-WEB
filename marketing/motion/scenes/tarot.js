@@ -1,7 +1,6 @@
 /**
- * 09 · DRAW A CARD — the real tarot screen (recorded in the app) in a phone,
- * the deck's own art fanning out behind it, then the other shelves. "Draw a
- * card, no sign-up" is the site's own offer (plutto.space → Try it).
+ * 09, Draw a card (the ten films): the real tarot screen recorded in the app, in a phone, with the deck's own art fanning
+ * out behind it, then the other shelves. "Draw a card, no sign-up" is the site's offer (plutto.space → Try it).
  */
 import { ASSET, el, set, words, rise, haze, stars, vignette, phone, img, endCard, prog, ease, inOut, lerp } from '../lib.js';
 

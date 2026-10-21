@@ -1,4 +1,4 @@
-/** POP 05 · THE 2 AUGUST 2027 ECLIPSE — total, greatest over Egypt at 10:06 UTC; five eclipses in 2027. */
+/** Pop 05, The 2 August 2027 eclipse (pop series): total, greatest over Egypt at 10:06 UTC; five eclipses in 2027. */
 import { ASSET, el, set, img, prog, ease, lerp, W, POP, spring, popBg, sticker, slab, sparkles, popEnd, popScore } from '../lib.js';
 
 const TOT = 4.2, END = 12.2;

@@ -1,4 +1,4 @@
-/** POP 04 · MERCURY RETROGRADE — 24 Oct → 13 Nov 2026 (UTC), then 2027; the true loop drawn. */
+/** Pop 04, Mercury retrograde (pop series): 24 Oct → 13 Nov 2026 (UTC), then 2027, with the true loop drawn. */
 import { el, set, prog, ease, lerp, W, POP, spring, popBg, sticker, slab, sparkles, badge, popEnd, popScore } from '../lib.js';
 
 const TH0 = 0.75 * Math.PI, TH1 = 3.25 * Math.PI, R0 = 118, D0 = 210;

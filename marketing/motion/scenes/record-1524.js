@@ -1,4 +1,4 @@
-/** ON THE RECORD 03 — the predicted flood of February 1524 (Stöffler's almanac; 133 pamphlets by 56 authors, per Zambelli). */
+/** On the record 03 (record series): the predicted flood of February 1524 (Stöffler's almanac; 133 pamphlets by 56 authors, per Zambelli). */
 import { take } from '../takes.js';
 export default take({
   n: 3, label: 'ON THE RECORD',

@@ -1,7 +1,6 @@
 /**
- * 10 · 102 TRADITIONS — one dot per tradition on Plutto's globe, gathering
- * into a ring coloured by its region (the site's twelve shelf colours), while
- * the names pass. Everything is read from app/lib/atlas.json.
+ * 10, Traditions (the ten films): one dot per tradition on Plutto's globe, gathering into a ring coloured by region (the
+ * site's twelve shelf colours) while the names pass. Everything is read from app/lib/data/atlas.json.
  */
 import { el, set, words, rise, haze, stars, vignette, endCard, prog, ease, inOut, lerp, rng, W } from '../lib.js';
 

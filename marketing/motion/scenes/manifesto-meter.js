@@ -1,17 +1,8 @@
 /**
- * MANIFESTO · THE METER — guidance was never meant to run on a meter.
- *
- * Restraint throughout: black, one cold red for the meter, one warm amber for
- * the turn, white type. No app is named; the meter is a genre, not a brand.
- *
- * Act 1  The meter: a taxi-meter counter in red, a plain consult chat, a clock
- *        that ticks too fast. Then the sound and picture cut to nothing.
- * Act 2  The turn, in serif, on black.
- * Act 3  The roll: every tradition in the app's atlas rises through a band of
- *        warm light, one at a time, like the credits of humanity.
- * Act 4  The real app, out of the light. The reply is an example (tagged).
- * Act 5  The line.
+ * Manifesto, The meter (demo series): a taxi-meter consult chat that runs too fast, a cut to nothing, every tradition in
+ * the atlas rising through warm light, then the real app with a tagged example reply. No app is named.
  */
+// Acts: 1 the meter · 2 the turn, in serif on black · 3 the roll of traditions · 4 the real app · 5 the line.
 import { el, prog, ease, lerp, rng } from '../lib.js';
 import { atlas } from '../library.js';
 import { device, honest } from '../asked.js';
@@ -68,7 +59,7 @@ export default {
     // a fixed order that mixes regions, so neighbours differ
     const R0 = rng(21); S.names.sort(() => R0() - 0.5);
 
-    // ── Act 1: the meter ──
+    // Act 1: the meter
     S.a1 = el('div', 'layer', {}, stage);
     el('div', 'layer', { background: 'radial-gradient(60% 40% at 50% 58%, rgba(255,59,48,0.10), transparent 70%)' }, S.a1);
     S.meterL = el('div', 'abs center', { top: '330px', font: '500 26px/1 Mono', letterSpacing: '0.3em', color: 'rgba(242,238,230,0.45)' }, S.a1, 'CHARGED · ₹30 / MIN');
@@ -89,11 +80,11 @@ export default {
     S.w1 = [[0.3, 1.8, 'Right now, someone<br>is paying by the minute'], [1.9, 3.4, 'to hear it will<br>get better.'], [3.5, 5.3, 'The advice is free.'], [5.4, CUT, 'The timer<br>is the product.']].map(([a, b, h]) => ({ a, b, e: el('div', 'abs center', { top: '120px', font: '800 76px/1.04 Inter', letterSpacing: '-0.04em',
       color: WHITE, opacity: 0, zIndex: 5 }, stage, h) }));
 
-    // ── Act 2 ──
+    // Act 2
     S.w2 = [[A2 + 0.5, 11.0, 'Guidance was never meant<br>to run on a meter.'], [11.3, A3 - 0.3, 'Every culture wrote theirs down,<br><i>so it could be passed on.</i>']].map(([a, b, h]) => ({ a, b, e: el('div', 'abs center', { top: '840px', font: '500 76px/1.14 Cormorant',
       color: WHITE, opacity: 0, zIndex: 30, padding: '0 70px' }, stage, h) }));
 
-    // ── Act 3: the roll ──
+    // Act 3: the roll
     const SCRIPTS = [['Runic', 'ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒᛖᛗᛚᛜᛞᛟ'], ['Ogham', 'ᚁᚂᚃᚄᚅᚆᚇᚈᚉᚊᚋᚌᚍᚎᚏ'], ['InterGreek', 'ΑΒΓΔΘΛΞΠΣΦΨΩ'], ['JP', 'あいうえおかきくけこさしすせそ'],
       ['Deva', 'ॐअकगजञतनमरशह'], ['Hebrew', 'אבגדהוזחטיכלמנסעפצקרשת'], ['Arabic', 'ابجدهوزحطيكلمنسعفصقرشت'], ['CJK', '天地人乾坤震巽坎離艮兌命運福吉星月日']];
     await Promise.all(SCRIPTS.map(([f, cs]) => document.fonts.load(`40px ${f}`, cs)));
@@ -139,13 +130,13 @@ export default {
     S.w3 = [[14.2, 16.6, 'Every deck. Every stone.'], [17.0, 19.5, 'Every sky<br>anyone ever read.'], [19.9, 22.2, 'Carved. Painted. Memorised.'], [22.5, A4 - 0.4, 'All of it.<br><i>In one place.</i>']].map(([a, b, h]) => ({ a, b, e: el('div', 'abs center', { top: '1560px',
       font: 'italic 500 84px/1.06 Cormorant', color: '#FFF1DA', opacity: 0, zIndex: 30, textShadow: '0 0 30px rgba(255,140,60,0.9), 0 4px 30px rgba(0,0,0,0.9)' }, stage, h) }));
 
-    // ── Act 4 ──
+    // Act 4
     S.dev = { lib: device(stage, 'feat-library', { skin: 'glass', w: 520 }), ask: device(stage, 'ask-quickfire', { skin: 'glass', w: 520 }) };
     [S.dev.lib, S.dev.ask].forEach((d) => { d.body.style.boxShadow = `0 0 0 1.5px rgba(255,255,255,0.12), 0 0 160px rgba(${AMBER},0.22), 0 60px 120px rgba(0,0,0,0.8)`; });
     S.w4 = [[A4 + 0.4, 28.0, 'Ask it anything.'], [28.3, A5 - 0.2, 'No meter. No wallet.<br>No timer.']].map(([a, b, h]) => ({ a, b, e: el('div', 'abs center', { top: '140px', font: '800 84px/1.04 Inter', letterSpacing: '-0.04em', color: WHITE, opacity: 0, zIndex: 30 }, stage, h) }));
     S.honest = honest(stage, { text: 'Real app · example reply', bottom: 90, color: 'rgba(242,238,230,0.6)', bg: 'rgba(255,255,255,0.05)', style: { fontSize: '22px' } });
 
-    // ── Act 5 ──
+    // Act 5
     S.end = el('div', 'layer', { zIndex: 60, opacity: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '56px',
       background: 'repeating-conic-gradient(from 0deg at 50% 46%, rgba(255,170,60,0.10) 0deg 4deg, transparent 4deg 12deg), radial-gradient(70% 45% at 50% 46%, #3b1d6e 0%, #1a0f3d 50%, #07051a 100%)' }, stage);
     S.endW = el('div', '', { font: '700 140px/1 Inter', letterSpacing: '-0.045em', color: '#fff' }, S.end, 'Plutto');
@@ -155,7 +146,7 @@ export default {
   },
 
   async frame(t) {
-    // ── Act 1 ──
+    // Act 1
     const on1 = t < CUT;
     S.a1.style.opacity = on1 ? 1 : 0;
     if (on1) {
@@ -170,10 +161,10 @@ export default {
     }
     S.w1.forEach(({ a, b, e }) => { e.style.opacity = t < CUT ? inout(t, a, b, 0.35, 0.15) : 0; e.style.transform = `translateY(${(1 - ease.outExpo(prog(t, a, a + 0.5))) * 26}px)`; });
 
-    // ── Act 2 ──
+    // Act 2
     S.w2.forEach(({ a, b, e }) => { const i = inout(t, a, b, 1.0, 0.5); e.style.opacity = i; e.style.filter = `blur(${(1 - ease.outCubic(prog(t, a, a + 1.0))) * 10}px)`; });
 
-    // ── Act 3: the rose window — every deck, stone and sky, turning ──
+    // Act 3: the rose window — every deck, stone and sky, turning
     const on3 = t >= A3 - 0.3 && t < A4 + 0.4;
     S.rose.style.opacity = on3 ? ease.outCubic(prog(t, A3 - 0.3, A3 + 0.5)) * (1 - ease.inCubic(prog(t, A4 - 0.1, A4 + 0.4))) : 0;
     if (on3) {
@@ -202,7 +193,7 @@ export default {
     } else S.flash.style.opacity = 0;
     S.w3.forEach(({ a, b, e }) => { const i = inout(t, a, b, 0.9, 0.4); e.style.opacity = i; e.style.filter = `blur(${(1 - ease.outCubic(prog(t, a, a + 0.9))) * 8}px)`; });
 
-    // ── Act 4 ──
+    // Act 4
     const lib = t >= A4 - 0.6 && t < 28.2, ask = t >= 28.0 && t < A5;
     if (lib) {
       await S.dev.lib.at(11.4 + (t - A4) * 1.1);
@@ -217,7 +208,7 @@ export default {
     S.w4.forEach(({ a, b, e }) => { e.style.opacity = inout(t, a, b, 0.5, 0.3); e.style.transform = `translateY(${(1 - ease.outExpo(prog(t, a, a + 0.6))) * 24}px)`; });
     S.honest(t >= 29.0 && t < A5 ? 1 : 0);
 
-    // ── Act 5 ──
+    // Act 5
     const te = t - A5;
     S.end.style.opacity = te >= 0 ? ease.outCubic(prog(te, 0, 0.6)) : 0;
     [[S.endW, 0.3], [S.endL, 0.9], [S.endC, 1.8], [S.endS, 2.1]].forEach(([e, a]) => { const p = ease.outCubic(prog(te, a, a + 1.0)); e.style.opacity = p; e.style.transform = `translateY(${(1 - p) * 30}px)`; e.style.filter = `blur(${(1 - p) * 8}px)`; });

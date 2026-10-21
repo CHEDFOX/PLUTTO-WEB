@@ -1,4 +1,4 @@
-/** POP 03 · YOUR VEDIC SIGN IS PROBABLY DIFFERENT — two zodiacs, 24°13′ apart (Lahiri, 2026). */
+/** Pop 03, The Vedic sign (pop series): two zodiacs, 24°13′ apart (Lahiri, 2026). */
 import { el, set, scribble, prog, ease, lerp, W, POP, spring, popBg, sticker, slab, sparkles, popEnd, popScore } from '../lib.js';
 
 const SIGNS = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];

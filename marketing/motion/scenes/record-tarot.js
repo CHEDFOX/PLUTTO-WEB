@@ -1,4 +1,4 @@
-/** ON THE RECORD 06 · TAROT — tarocchi was an Italian trick-taking game from the 1440s; Court de Gébelin's Egyptian theory dates from 1781 (Le Monde primitif). */
+/** On the record 06, Tarot (record series): tarocchi was an Italian trick-taking game from the 1440s; Court de Gébelin's Egyptian theory dates from 1781 (Le Monde primitif). */
 import { take } from '../takes.js';
 export default take({
   n: 6, label: 'ON THE RECORD', system: 'TAROT', accent: '#6B3FD6', tag: '102 TRADITIONS · PLUTTO.SPACE',

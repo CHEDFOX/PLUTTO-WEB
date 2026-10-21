@@ -1,4 +1,4 @@
-/** ON THE RECORD 10 · MAYA — 21 Dec 2012 = Long Count 13.0.0.0.0; the Temple of the Inscriptions at Palenque projects a date in AD 4772. */
+/** On the record 10, Maya (record series): 21 Dec 2012 = Long Count 13.0.0.0.0; the Temple of the Inscriptions at Palenque projects a date in AD 4772. */
 import { take } from '../takes.js';
 export default take({
   n: 10, label: 'ON THE RECORD', system: 'MAYA', accent: '#0F8F6B', tag: '102 TRADITIONS · PLUTTO.SPACE',

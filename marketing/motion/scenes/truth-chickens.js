@@ -1,4 +1,4 @@
-/** TRUE STORY 04 — The sacred chickens of Drepana (Cicero, De natura deorum 2.7; Polybius 1.51). */
+/** True story 04 (truth series): the sacred chickens of Drepana (Cicero, De natura deorum 2.7; Polybius 1.51). */
 import { truth } from '../vivid.js';
 import { POP } from '../lib.js';
 export default truth({

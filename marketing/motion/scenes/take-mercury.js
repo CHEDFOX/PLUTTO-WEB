@@ -1,4 +1,4 @@
-/** HOT TAKE 03 — Mercury retrograde is real, frequent, and not the author of your ex's text. */
+/** Hot take 03 (takes series): Mercury retrograde is real, frequent, and not the author of an ex's text. */
 import { take } from '../takes.js';
 export default take({
   n: 3,

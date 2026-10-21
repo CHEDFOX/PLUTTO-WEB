@@ -1,4 +1,4 @@
-/** HOT TAKE 04 — a sun-sign horoscope is addressed to a twelfth of humanity. */
+/** Hot take 04 (takes series): a sun-sign horoscope is addressed to a twelfth of humanity. */
 import { take } from '../takes.js';
 export default take({
   n: 4,

@@ -1,4 +1,4 @@
-/** POP 09 · DRAW A CARD — the real tarot screen in a chunky phone, the deck fanning out in ink frames. */
+/** Pop 09, Draw a card (pop series): the real tarot screen in a chunky phone, the deck fanning out in ink frames. */
 import { ASSET, el, set, img, phone, prog, ease, lerp, POP, spring, popBg, sticker, slab, sparkles, marquee, popEnd, popScore } from '../lib.js';
 
 const CARDS = ['cups_ace', 'cups_queen', 'cups_knight', 'cups_king', 'cups_page', 'cups_seven'];

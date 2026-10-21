@@ -1,4 +1,4 @@
-/** ON THE RECORD 01 — Joan Quigley and the Reagan schedule (Donald Regan, "For the Record", 1988; Quigley, "What Does Joan Say?", 1990). */
+/** On the record 01 (record series): Joan Quigley and the Reagan schedule (Donald Regan, "For the Record", 1988; Quigley, "What Does Joan Say?", 1990). */
 import { take } from '../takes.js';
 export default take({
   n: 1, label: 'ON THE RECORD',

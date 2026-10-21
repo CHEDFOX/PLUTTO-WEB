@@ -1,4 +1,4 @@
-/** ON THE RECORD 07 · PALMISTRY — Vagrancy Act 1824, s.4 ("by palmistry or otherwise"); that clause was repealed by the Fraudulent Mediums Act 1951. */
+/** On the record 07, Palmistry (record series): Vagrancy Act 1824, s.4 ("by palmistry or otherwise"), a clause repealed by the Fraudulent Mediums Act 1951. */
 import { take } from '../takes.js';
 export default take({
   n: 7, label: 'ON THE RECORD', system: 'PALMISTRY', accent: '#C2185B', tag: '102 TRADITIONS · PLUTTO.SPACE',

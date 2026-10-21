@@ -1,9 +1,6 @@
 /**
- * PRINT · CUT-OUTS — papiers découpés, after Matisse's Jazz. Gouache-painted
- * paper cut with scissors, laid on ultramarine: fronds that sway, stars that
- * drop in and settle (their shadows tighten as they land), and every word on
- * its own scrap of paper. A walking bass and brushed swing underneath. At the
- * end a coral ring is laid down: the Plutto ring, cut by hand.
+ * Print, Cut-outs (print series): Matisse-style papiers découpés on ultramarine, fronds that sway, stars that drop in,
+ * every word on its own paper scrap, to a walking bass and brushed swing; it ends on a hand-cut coral Plutto ring.
  */
 import { el, prog, ease, lerp, rng, W, H, fbm, paint, filter, wordsOf, stamp, stampIn, colophon, colophonIn, voice } from '../print.js';
 

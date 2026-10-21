@@ -1,4 +1,4 @@
-/** ON THE RECORD 04 — Paul III's court astrology, and Sixtus V's bull Coeli et terrae (1586). */
+/** On the record 04 (record series): Paul III's court astrology, and Sixtus V's bull Coeli et terrae (1586). */
 import { take } from '../takes.js';
 export default take({
   n: 4, label: 'ON THE RECORD',

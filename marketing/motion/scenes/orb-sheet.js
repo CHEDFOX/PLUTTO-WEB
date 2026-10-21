@@ -1,16 +1,6 @@
 /**
- * ORB · THE SHEET — a risograph. The orb is Plutto's voice, and it never says
- * what Plutto is: it notices the viewer, names the question they carry and the
- * reason they haven't asked it, and invites them — the brand line resolves it.
- * A sheet of paper; the voice orb is PRINTED
- * on it: three fluorescent ink plates (pink, blue, yellow), each a halftone
- * screen at its own angle, overprinting into the orb's own colours (pink+blue =
- * violet, blue+yellow = green, pink+yellow = orange). When it speaks the plates
- * shake out of register. Every word arrives as two ink plates that slam into
- * register — a print pass — and the sheet fills into a finished poster of what
- * it said. At the end the orb rises, swells, and its screens open into the
- * Plutto ring — a finished riso poster: the mark overprinted across the print,
- * the line it speaks, the address stamped, the printer's colophon.
+ * Orb, The sheet (print series): the voice orb printed as a three-plate risograph that shakes out of register as it
+ * speaks, each word slamming into register until the sheet is a poster, then the orb opening into the Plutto ring.
  */
 import { el, prog, ease, lerp, rng, W, H } from '../lib.js';
 import { fbm, paint } from '../shots.js';

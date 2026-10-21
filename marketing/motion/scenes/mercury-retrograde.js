@@ -1,9 +1,7 @@
 /**
- * 04 · MERCURY RETROGRADE — the next one and the three after it, from the
- * site's Swiss Ephemeris data (app/lib/data/ephemeris.json): stations
- * 24 Oct 2026 07:12 UTC and 13 Nov 2026 15:53 UTC, in tropical Scorpio /
- * sidereal Libra; 2027: 9 Feb–3 Mar, 10 Jun–4 Jul, 7–28 Oct. The loop is what
- * retrograde looks like from Earth: the planet slows, backs up, and goes on.
+ * 04, Mercury retrograde (the ten films): the next retrograde and the three after it, from app/lib/data/ephemeris.json:
+ * stations 24 Oct 2026 07:12 UTC and 13 Nov 2026 15:53 UTC (tropical Scorpio, sidereal Libra); 2027: 9 Feb–3 Mar,
+ * 10 Jun–4 Jul, 7–28 Oct. The loop is retrograde as seen from Earth: the planet slows, backs up and goes on.
  */
 import { ASSET, el, set, words, rise, haze, stars, vignette, img, endCard, prog, ease, inOut, lerp, W } from '../lib.js';
 

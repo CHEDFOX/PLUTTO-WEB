@@ -1,4 +1,4 @@
-/** TRUE STORY 02 — Newton’s 2060 (Yahuda MS 7.3g, National Library of Israel). */
+/** True story 02 (truth series): Newton’s 2060 (Yahuda MS 7.3g, National Library of Israel). */
 import { truth } from '../vivid.js';
 import { POP } from '../lib.js';
 export default truth({

@@ -1,11 +1,10 @@
 /**
- * 01 · TALKS BACK — the brand film. The same question in the scripts that
- * first asked it, 3000 BC to 700 AD, then the line the site opens with, then
- * the app answering it for real (the actual chat recording from the app).
+ * 01, Talks back (the ten films, the brand film): the same question in the scripts that first asked it, 3000 BC to
+ * 700 AD, then the site's opening line, then the app answering it in the real chat recording.
  */
 import { ASSET, el, set, words, rise, haze, stars, vignette, footage, scribble, endCard, prog, ease, inOut, lerp } from '../lib.js';
 
-// The site's frieze (components/site/Ancient.js), word for word.
+// The site's frieze (app/components/home/Ancient.js), word for word.
 const FRIEZE = [
   { glyph: '𓋹', font: 'Hiero', size: 330, say: 'ankh', means: 'life', where: 'Egypt · 3000 BC' },
   { glyph: '𒉆𒋻', font: 'Cunei', size: 250, say: 'nam·tar', means: 'fate, as decreed', where: 'Sumer · 2500 BC' },

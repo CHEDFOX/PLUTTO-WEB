@@ -1,9 +1,7 @@
 /**
- * 06 · SATURN ENTERS ARIES — 3 June 2027, 04:43 IST (2 June 23:13 UTC),
- * sidereal (Lahiri), from the site's Swiss Ephemeris data; a retrograde
- * return to Pisces 20 Oct 2027 and back into Aries 23 Feb 2028. What that
- * does to Sade Sati, sign by sign (Saturn in the 12th/1st/2nd from the Moon).
- * The site has no Saturn render, so Saturn is drawn: a banded sphere, rings.
+ * 06, Saturn enters Aries (the ten films): 3 June 2027, 04:43 IST (2 June 23:13 UTC), sidereal Lahiri, back to Pisces
+ * 20 Oct 2027 and into Aries again 23 Feb 2028 (the site's Swiss Ephemeris data), and what that does to Sade Sati sign
+ * by sign. The site has no Saturn render, so Saturn is drawn: a banded sphere and rings.
  */
 import { el, set, words, rise, haze, stars, vignette, endCard, prog, ease, inOut, lerp, W } from '../lib.js';
 

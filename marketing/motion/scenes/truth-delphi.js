@@ -1,4 +1,4 @@
-/** TRUE STORY 05 — The vapour at Delphi (Plutarch, Moralia; de Boer, Hale & Chanton, Geology, 2001). */
+/** True story 05 (truth series): the vapour at Delphi (Plutarch, Moralia; de Boer, Hale & Chanton, Geology, 2001). */
 import { truth } from '../vivid.js';
 import { POP } from '../lib.js';
 export default truth({

@@ -1,4 +1,4 @@
-/** TRUE STORY 06 — The Ouija patent (US 446,054, 10 Feb 1891). */
+/** True story 06 (truth series): the Ouija patent (US 446,054, 10 Feb 1891). */
 import { truth } from '../vivid.js';
 import { POP } from '../lib.js';
 export default truth({

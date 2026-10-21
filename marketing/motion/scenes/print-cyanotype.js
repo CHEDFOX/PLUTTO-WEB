@@ -1,9 +1,6 @@
 /**
- * PRINT · CYANOTYPE — a sun print. The sheet starts the colour of unexposed
- * emulsion (ferric yellow-green) and develops to Prussian blue; whatever
- * blocked the light stays paper-white. What develops is the night the viewer
- * was born: the stars, the moon, then the chart of it, drawn in light. The
- * wheel's rim thickens into the Plutto ring, and the print is a poster.
+ * Print, Cyanotype (print series): a sun print developing from ferric yellow-green to Prussian blue, showing the stars,
+ * the moon and the chart of a birth night drawn in light; the wheel's rim thickens into the Plutto ring.
  */
 import { el, prog, ease, lerp, rng, W, H, fbm, paint, wordsOf, develop, label, labelIn, stamp, stampIn, colophon, colophonIn, voice } from '../print.js';
 
@@ -122,7 +119,7 @@ export default {
     g.drawImage(S.unexp, 0, 0);
     g.globalAlpha = dev; g.drawImage(S.exp, 0, 0);
     g.globalAlpha = Math.min(1, dev * 1.15); g.drawImage(S.sky, 0, 0); g.globalAlpha = 1;
-    // A slow push in, the way you'd lean over a print.
+    // A slow push in, as one leans over a print.
     const push = `scale(${1 + 0.035 * ease.inOutSine(prog(t, 0, END))})`; S.print.style.transform = S.bg.style.transform = push;
     // The constellation, drawn as the photograph is named.
     const cn = ease.inOutCubic(prog(t, 3.6, 5.4)) * (1 - ease.inCubic(prog(t, 7.8, 8.6)));

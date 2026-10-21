@@ -1,4 +1,4 @@
-/** HOT TAKE 01 — the tropical zodiac is pinned to the seasons, and the sky has drifted since it was fixed. */
+/** Hot take 01 (takes series): the tropical zodiac is pinned to the seasons, and the sky has drifted since it was fixed. */
 import { take } from '../takes.js';
 export default take({
   n: 1,

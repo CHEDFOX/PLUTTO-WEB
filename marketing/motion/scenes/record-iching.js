@@ -1,4 +1,4 @@
-/** ON THE RECORD 08 · I CHING — Bouvet's letter of 4 Nov 1701 sent Leibniz the Fuxi hexagram order; Leibniz's "Explication de l'arithmétique binaire" (1703) cites it. */
+/** On the record 08, Yijing (record series): Bouvet's letter of 4 Nov 1701 sent Leibniz the Fuxi hexagram order; Leibniz's "Explication de l'arithmétique binaire" (1703) cites it. */
 import { take } from '../takes.js';
 export default take({
   n: 8, label: 'ON THE RECORD', system: 'I CHING', accent: '#D7261E', tag: '102 TRADITIONS · PLUTTO.SPACE',

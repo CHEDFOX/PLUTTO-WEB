@@ -1,9 +1,6 @@
 /**
- * PRINT · SATURN — a Swiss screenprint: three flat inks (vermilion, cobalt,
- * black) overprinted on cream, a grid, flush-left type that wipes up out of
- * its line. Saturn is a halftone; a numeral counts the 29½ years it takes to
- * come back, and a small orbit diagram clicks home into the notch marked
- * BIRTH. The line never says "astrology": it says why 28 felt like that.
+ * Print, Saturn (print series): a three-ink Swiss screenprint, Saturn in halftone, a numeral counting the 29½ years of
+ * its return and an orbit diagram clicking into the notch marked birth.
  */
 import { el, prog, ease, lerp, rng, W, H, paper, marks, wordsOf, stamp, stampIn, colophon, colophonIn, voice } from '../print.js';
 

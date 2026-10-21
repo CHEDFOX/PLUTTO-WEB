@@ -1,4 +1,4 @@
-/** ON THE RECORD 11 · RUNES — the blank "Odin's rune" first appears in Ralph Blum, The Book of Runes (1982); no historical futhark has one. */
+/** On the record 11, Runes (record series): the blank "Odin's rune" first appears in Ralph Blum, The Book of Runes (1982); no historical futhark has one. */
 import { take } from '../takes.js';
 export default take({
   n: 11, label: 'ON THE RECORD', system: 'RUNES', accent: '#127C8C', tag: '102 TRADITIONS · PLUTTO.SPACE',
