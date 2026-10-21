@@ -1,21 +1,14 @@
-/**
- * CINEMA 04 · FIVE THOUSAND YEARS — the brand film, built for the scroll.
- *   0.0  HOOK: a taiko hit, a torch flares, an ankh cut in stone. "Life."
- *   1.2  cuneiform: "Fate."   2.4  runes: "What becomes."  (the site's frieze)
- *   3.6  the sky wheeling over a desert; one figure looking up.
- *        "Every age asked the same thing:" — "What happens next?"
- *   6.0  DROP: the turn — the app asking you its first question, for real.
- *   8.4  the payoff: "When did you arrive on Earth?"
- *  10.5  the camera falls into the star trails round the pole — the rings of
- *        the sky become the Plutto ring.
- */
+/** Cinema 04, Five thousand years (cine series, the brand film): ancient scripts and a desert sky, then the app's first question. */
+// Beats (s): 0.0 a taiko hit, an ankh in stone, "Life." · 1.2 cuneiform, "Fate." · 2.4 runes, "What becomes." · 3.6 star
+// trails over a desert, "What happens next?" · 6.0 drop: the app asking its first question · 8.4 "When did you arrive on
+// Earth?" · 10.5 the camera falls into the star trails round the pole, whose rings become the Plutto ring.
 import { cinema, title, show, phone3d, ringEnd, kinetic, kin, quote, impulse, drift, b, lerp, prog, ease } from '../cine.js';
 import { wallShot, skyShot, CARVINGS } from '../shots.js';
 import { kickTimes } from '../sound.js';
 
 const DRUMS = [0, b(2), b(4)], SKY = b(6), ASK = b(8), HOLE = b(9.5), DROP = b(10), QUOTE = b(14), POLE = b(17.3), END = b(18);
 const KICKS = kickTimes(DROP, 2);
-// As the site's frieze has them (components/site/Ancient.js).
+// As the site's frieze has them (app/components/home/Ancient.js).
 const MEANS = ['Life.', 'Fate.', 'What becomes.'], WHERE = ['Egypt · 3000 BC', 'Sumer · 2500 BC', 'The North · 700 AD'];
 let S = {};
 export default {

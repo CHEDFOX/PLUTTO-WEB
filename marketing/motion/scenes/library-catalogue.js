@@ -1,4 +1,4 @@
-/** THE LIBRARY 02 · THE CATALOGUE — flick through the drawer, land on one card, then ask it. */
+/** Library 02, The catalogue (library series): flicking through a card drawer, landing on one card, then asking it. */
 import { LIB, atlas, night, lines, libEnd, libScore, el, set, prog, ease, rng } from '../library.js';
 
 const N = 22, F0 = 0.9, SPAN = 5.3;

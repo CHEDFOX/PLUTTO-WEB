@@ -1,4 +1,4 @@
-/** THE LIBRARY 04 · EVERY ALPHABET — the words for fate in the scripts that first wrote them, then the page turns: read in yours. */
+/** Library 04, Every alphabet (library series): the words for fate in the scripts that first wrote them, then the page turns. */
 import { LIB, lines, caps, libEnd, libScore, el, set, prog, ease, W, H } from '../library.js';
 import { paper } from '../print.js';
 

@@ -1,4 +1,4 @@
-/** THE FILES 04 — The sacred chickens of Drepana (Cicero, De natura deorum 2.7; Polybius 1.51). */
+/** Files 04 (files series): the sacred chickens of Drepana (Cicero, De natura deorum 2.7; Polybius 1.51). */
 import { file } from '../dossier.js';
 export default file({
   "n": 4,

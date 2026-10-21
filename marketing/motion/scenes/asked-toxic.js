@@ -1,15 +1,6 @@
 /**
- * ASKED · TOXIC — "I asked an app if I'm the toxic one."
- *
- * A hand-drawn cartoon: ink outlines that boil (the line is re-drawn every third
- * frame, as a hand-inked film is), flat cream / tomato / sky / mustard fills,
- * a pair of cartoon gloves holding the real app, sweat drops, "?!" and "!!",
- * speech bubbles, squash-and-stretch type and speed lines. One ink weight and
- * one hard shadow everywhere (LINE, SHADOW), set in stage pixels even on the
- * phone, so a zoom never fattens a line.
- *
- * The footage is a real recording of the app (asked/ask-toxic); only the reply
- * is scripted, so the honesty tag rides along whenever the reply is on screen.
+ * Asked, Toxic (asked series, cartoon): asking the app who is the toxic one, as a hand-inked cartoon whose outlines boil
+ * (redrawn every third frame), with gloves holding the real app. LINE and SHADOW are stage px, on the phone too.
  */
 import { el, prog, ease, lerp, rng, spring } from '../lib.js';
 import { events, remap, device, honest, tapRing } from '../asked.js';
@@ -23,7 +14,7 @@ const BODY = { w: 572, h: 1180 };      // the phone's body (screen 520 + a 26 px
 // Film time. The footage times these land on are in setup().
 const T = {
   send: 2.933, reply: 3.92, freeze: 4.02, go: 5.10,
-  words: [5.28, 5.42, 5.50, 5.66, 5.72, 5.85],   // YOU · LEAVE · FIRST, · IN · YOUR · HEAD. — as each streams in
+  words: [5.28, 5.42, 5.50, 5.66, 5.72, 5.85],   // the payoff's six words, as each streams in
   tap: 8.618, room: 9.04, three: 9.72, argue: 10.02, me: 13.60, fill: 13.72, accurate: 14.02,
   iris: 15.70, end: 16.06,
 };
@@ -36,7 +27,7 @@ const ROOM = { x: 0, y: 565, s: 1.5, rz: 0 };
 
 let S = {};
 
-// ── helpers ────────────────────────────────────────────────────────────────
+// Helpers
 const mix = (a, b, k) => ({ x: lerp(a.x, b.x, k), y: lerp(a.y, b.y, k), s: lerp(a.s, b.s, k), rz: lerp(a.rz, b.rz, k) });
 /** Squash and stretch: up tall, land wide, settle. Returns [scaleX, scaleY]. */
 function squash(p, amt = 0.4) {
@@ -147,7 +138,7 @@ function pose(t) {
   return p;
 }
 
-// ── the gloves (body coordinates; the right hand is the left one, mirrored) ──
+// The gloves (body coordinates; the right hand is the left one, mirrored)
 const PALM = 'M 160 700 C 40 690 -40 720 -90 800 C -114 846 -114 932 -108 1010 C -102 1090 -98 1140 -82 1188 L 170 1188 Z';
 const CUFF = 'M -112 1176 Q 30 1156 192 1176 L 184 1262 Q 30 1244 -104 1262 Z';
 const RIDGE = 'M -106 1220 Q 30 1202 188 1220';
@@ -339,7 +330,7 @@ export default {
     // The field: tomato hook, ink while it thinks, sky for the reply, cream for the room, tomato for the verdict.
     S.bg.style.background = t < T.send ? C.tomato : t < T.reply ? C.ink : t < T.room ? C.sky : t < T.fill ? C.cream : C.tomato;
 
-    // ── the phone ──
+    // The phone
     const P = pose(t), live = t < T.end;
     if (live) await S.d.at(S.clock(t));
     S.d.pose(t, { x: P.x, y: P.y, s: P.s, rz: P.rz, o: live ? 1 : 0 });
@@ -359,7 +350,7 @@ export default {
     draw(S.marks[1], T.words[0], T.words[3]);
     draw(S.marks[2], T.words[3], T.words[5] + 0.08);
 
-    // ── speed lines ──
+    // Speed lines
     const BURSTS = [{ a: -0.25, b: T.send, cx: 540, cy: 470, r: 520 }, { a: T.words[5], b: T.words[5] + 0.75, cx: 540, cy: 440, r: 540 },
       { a: T.room, b: T.room + 0.5, cx: 540, cy: 1000, r: 600 }, { a: T.fill, b: T.iris, cx: 540, cy: 430, r: 520 }];
     const bu = BURSTS.find((x) => t >= x.a && t < x.b);
@@ -376,7 +367,7 @@ export default {
       S.speed.style.opacity = fade;
     } else S.speed.style.opacity = 0;
 
-    // ── HOOK ──
+    // Hook
     [[S.hook[0], -0.12], [S.hook[1], 0.14], [S.hook[2], 0.4]].forEach(([e, a], i) => {
       if (t >= T.send) { const q = prog(t, T.send + i * 0.03, T.send + 0.2 + i * 0.03); if (q >= 1) { e.style.opacity = 0; return; } zip(e, q); return; }
       if (i === 2) { const [sx, sy, o] = slam(prog(t, a, a + 0.55)); e.style.opacity = o; e.style.transform = `scale(${sx}, ${sy})`; return; }
@@ -385,7 +376,7 @@ export default {
     });
     popDoodle(S.bang, t, 0.62, T.send);
 
-    // ── the wait: "?!" and sweat ──
+    // The wait: "?!" and sweat
     popDoodle(S.huh, t, T.send + 0.12, T.reply);
     const P1 = mix(HOOK, PAY, 1);
     [[0, 3.42, 40, -1], [1, 3.56, 532, 1], [2, 3.7, 70, -1]].forEach(([i, a, bx, dir]) => {
@@ -399,13 +390,13 @@ export default {
       g.setAttribute('transform', `translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${(ang + 180).toFixed(1)}) scale(${(1.5 * s).toFixed(3)})`);
     });
 
-    // ── the reply: the aside, then the payoff ──
+    // The reply: the aside, then the payoff
     showBubble(S.aside1, t, T.freeze + 0.02, T.go - 0.06);
     const outPay = T.tap - 0.36;   // gone before the chip's bubble pops
     const order = [0, 1, 2, 3, 4, 5];
     order.forEach((k) => popWord(S.pay[k], t, T.words[k], outPay + k * 0.02));
 
-    // ── the chip ──
+    // The chip
     showBubble(S.aside2, t, T.tap - 0.06, T.room + 0.56);
     const chip = onStage(pose(T.tap), 160, 522);
     const btn = onStage(pose(T.me), 113, 348);
@@ -424,14 +415,14 @@ export default {
     if (!impact(T.tap, chip[0], chip[1])) impact(T.me, btn[0], btn[1]);
     S.ring(t, t < T.me - 0.1 ? T.tap : T.me, t < T.me - 0.1 ? chip[0] : btn[0], t < T.me - 0.1 ? chip[1] : btn[1]);
 
-    // ── the room ──
+    // The room
     const outRoom = T.me - 0.1;
     popWord(S.three, t, T.three, outRoom);
     if (t < T.argue || t > outRoom + 0.2) S.argue.style.opacity = 0;
     else if (t > outRoom) zip(S.argue, prog(t, outRoom, outRoom + 0.2));
     else { const [sx, sy] = squash(prog(t, T.argue, T.argue + 0.4), 0.3); S.argue.style.opacity = 1; S.argue.style.transform = `scale(${sx}, ${sy}) rotate(-1.5deg)`; }
 
-    // ── rude. accurate. ──
+    // The verdict: "rude. accurate."
     [[S.rude, T.fill], [S.acc, T.accurate]].forEach(([e, a]) => {
       if (t < a || t >= T.end) { e.style.opacity = 0; return; }
       const [sx, sy, o] = slam(prog(t, a, a + 0.5));
@@ -439,13 +430,13 @@ export default {
     });
     popDoodle(S.bang2, t, T.accurate + 0.3, T.end);
 
-    // ── the honesty tag, whenever the reply (or the room it opened) is on screen ──
+    // The honesty tag, whenever the reply (or the room it opened) is on screen
     const hon = t >= T.reply && t < T.iris + 0.3;
     S.honest(hon ? 1 : 0);
     const [hx, hy] = squash(prog(t, T.reply, T.reply + 0.4), 0.3);
     S.honestEl.style.transform = `translateX(-50%) scale(${hon ? hx : 1}, ${hon ? hy : 1}) rotate(-1deg)`;
 
-    // ── the iris and the end card ──
+    // The iris and the end card
     const te = t - T.end;
     if (t >= T.iris && t < T.end + 0.5) {
       S.iris.style.display = 'block';

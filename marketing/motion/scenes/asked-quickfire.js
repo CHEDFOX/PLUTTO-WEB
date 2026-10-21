@@ -1,19 +1,6 @@
 /**
- * ASKED · QUICKFIRE — "3 questions I was scared to ask."
- *
- * A printed comic page come alive. Newsprint cream, ink panel borders and
- * cream gutters, Ben-Day dots in cyan / magenta / yellow, caption boxes,
- * speech balloons and starbursts. The camera travels across one page: a tier
- * of panels for each question (it pulls back as it travels, so the page
- * shows), a close-up panel for the answer that lands, and a last panel for
- * the end card. The real app sits in an ink phone inside each panel, panned so
- * the newest exchange is centred; the panel border crops it, as a comic would.
- *
- * One ink weight (LINE) and one hard shadow (SHADOW) everywhere, in page px;
- * the phones counter-scale theirs so a zoom never fattens a line.
- *
- * The footage is a real recording (asked/ask-quickfire); only the replies are
- * scripted, so the honesty tag rides along whenever a reply is on screen.
+ * Asked, Quickfire (asked series, comic): three hard questions on a printed comic page the camera travels across, the
+ * real app in an ink phone in each panel. LINE and SHADOW are page px; the phones counter-scale theirs.
  */
 import { el, prog, ease, lerp, rng, spring, popScore } from '../lib.js';
 import { events, remap, device, honest } from '../asked.js';
@@ -47,7 +34,7 @@ const TRAVEL = [[T.go1, 0, 1, 0.62], [T.go2, 1, 2, 0.62], [T.go3, 2, 3, 0.5], [T
 
 let S = {};
 
-// ── helpers ────────────────────────────────────────────────────────────────
+// Helpers
 function svg(parent, style, vb) {
   const s = document.createElementNS(NS, 'svg');
   if (vb) s.setAttribute('viewBox', vb);
@@ -133,7 +120,7 @@ function camera(t) {
     c = { x: lerp(A.x, B.x, e), y: lerp(A.y, B.y, e) };
     s = 1 - 0.36 * Math.sin(Math.PI * ease.inOutSine(p));
   }
-  // OUCH: the page takes the hit.
+  // Ouch: the page takes the hit.
   const u = t - T.ouch;
   if (u > 0 && u < 0.6) { const k = Math.exp(-u * 7); c.x += Math.sin(u * 70) * 16 * k; c.y += Math.cos(u * 55) * 12 * k; s *= 1 + 0.04 * k; }
   return { ...c, s };
@@ -198,7 +185,7 @@ export default {
     S.d = [...S.panels.map(phone), phone(S.close)];
     S.d.forEach((d) => { d.el.style.zIndex = 1; });
 
-    // HOOK: one caption box over the first panel.
+    // Hook: one caption box over the first panel.
     S.hook = caption(S.tiers[0], `<div style="font-family:Anton;font-weight:400;font-size:178px;line-height:1;color:${C.magenta};-webkit-text-stroke:${LINE * 2}px ${C.ink};paint-order:stroke fill;text-shadow:${LINE}px ${LINE}px 0 ${C.ink};letter-spacing:0.01em">3 QUESTIONS</div>`
       + `<div style="font-family:Anton;font-weight:400;font-size:92px;line-height:1.05;margin-top:10px;letter-spacing:0.02em">I WAS SCARED TO ASK.</div>`,
       { x: 72, y: 196, w: 936, bg: C.yellow, pad: '30px 0 34px', style: { textAlign: 'center', zIndex: 5, transformOrigin: '50% 50%' } });
@@ -222,7 +209,7 @@ export default {
     S.sayLines = [...S.say.txt.children];
     S.ouch = burst(S.tiers[3], 'OUCH.', { cx: 790, cy: 872, rx: 220, ry: 144, spikes: 18, seed: 11, fill: C.magenta, text: C.yellow, size: 156, rot: 8 });
     S.ouch.box.style.zIndex = 7;
-    // Under OUCH: ink over the cropped tail of the question bubble, so no stray letters peek past the burst.
+    // Under the ouch burst: ink over the cropped tail of the question bubble, so no stray letters peek past the burst.
     S.mask = el('div', 'abs', { right: 0, top: 0, width: '420px', height: '92px', background: '#000', zIndex: 2, opacity: 0 }, S.close);
     // The chip under the reply, ringed in marker (it is the next thing to ask).
     S.ring = svg(S.tiers[3], { left: 0, top: 0, width: '1px', height: '1px', zIndex: 6 });
@@ -248,11 +235,11 @@ export default {
   },
 
   async frame(t) {
-    // ── camera ──
+    // Camera
     const c = camera(t);
     S.page.style.transform = `translate(540px, 960px) scale(${c.s}) translate(${-c.x}px, ${-c.y}px)`;
 
-    // ── phones: each panel keeps its own moment (a comic panel holds still once read) ──
+    // Phones: each panel keeps its own moment (a comic panel holds still once read)
     const span = [[0, T.go1 + 0.3], [T.go1 + 0.25, T.go2 + 0.3], [T.go2 + 0.25, T.go3 + 0.3], [T.go3, DUR]];
     const ft = [];
     for (let i = 0; i < 4; i++) {
@@ -279,14 +266,14 @@ export default {
     dc.pose(t, { x: CX, y: focusY(fc, CU), s: CU });
     dc.body.style.borderWidth = `${LINE / CU}px`; dc.body.style.boxShadow = `${SHADOW / CU}px ${SHADOW / CU}px 0 ${C.ink}`;
 
-    // ── HOOK ──
+    // Hook
     if (t < T.send1 + 0.4) {
       const p = prog(t, 0, 0.28), q = ease.inCubic(prog(t, T.send1, T.send1 + 0.22));
       S.hook.style.opacity = 1 - q;
       S.hook.style.transform = `translate(0px, ${-q * 520}px) rotate(${-2 - q * 4}deg) scale(${lerp(1.18, 1, ease.outBack(p))})`;
     } else S.hook.style.opacity = 0;
 
-    // ── questions and counters ──
+    // Questions and counters
     popIn(S.q[0], t, T.send1 + 0.24, { r: -1 });
     popIn(S.q[1], t, T.go1 + 0.42, { r: 1 });
     popIn(S.q[2], t, T.go2 + 0.42, { r: -1 });
@@ -295,13 +282,13 @@ export default {
     popIn(S.n[2], t, T.go2 + 0.5, { r: 0 });
     popIn(S.n[3], t, T.go3 + 0.35, { r: 0 });
 
-    // ── reactions ──
+    // Reactions
     showBurst(S.oof, t, T.oof);
     showBalloon(S.fair, t, T.fair);
     S.speed.style.opacity = 0.16 * ease.outCubic(prog(t, T.send3, T.send3 + 0.6));
     S.speed.style.transform = `scale(${1.6 - 0.15 * prog(t, T.send3, T.r3)}) rotate(${t * 2}deg)`;
 
-    // ── the payoff ──
+    // The payoff
     showBalloon(S.say, t, T.words[0] - 0.12);
     S.sayLines.forEach((e, k) => {
       const p = prog(t, T.words[k], T.words[k] + 0.3);
@@ -327,10 +314,10 @@ export default {
       S.ring.style.opacity = t >= T.chip ? 1 : 0;
     }
 
-    // ── honesty: whenever a reply is on screen ──
+    // Honesty: whenever a reply is on screen
     S.honest(t >= T.r1 && t < T.go4 + 0.25 ? 1 : 0);
 
-    // ── end card ──
+    // End card
     const te = t - T.end;
     const pop = (e, a, base = '', r = 0) => {
       const p = prog(te, a, a + 0.45);

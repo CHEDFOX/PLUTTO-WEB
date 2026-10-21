@@ -1,4 +1,4 @@
-/** ABSTRACT 01 · COMPOSITION — Kandinsky's Bauhaus hand: circles, bars and triangles land on cream paper, one per note of a piano-stab house track. "Every chart is a composition." */
+/** Abstract 01, Composition (abstract series): Kandinsky's Bauhaus circles, bars and triangles land on cream paper, one per note of a piano-stab house track. */
 import { sheet, draw, paintAll, captions, showCaptions, absEnd, el, prog, ease } from '../abstract.js';
 import { grid } from '../signal.js';
 

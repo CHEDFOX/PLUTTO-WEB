@@ -1,13 +1,7 @@
-/**
- * CINEMA 05 · THE TRAILER — every world of the series, cut on the beat.
- *   0.0  HOOK: 3:07 and a buzzing phone. "Everyone has a 3 AM question."
- *   1.8  one per beat: The offer. The ex. The drive home. (recognition, three
- *        times — the viewer finds theirs)
- *   3.6  stone, then stars: "Five thousand years of asking."
- *   4.8  faster, and faster; silence; "Ask."
- *   6.0  DROP: TALKS BACK. — the real app, the real answer, the quote.
- *  10.8  the clock's colon becomes the Plutto ring. "What's yours?"
- */
+/** Cinema 05, The trailer (cine series): every world of the series cut on the beat, then the real app and its answer. */
+// Beats (s): 0.0 3:07 and a buzzing phone, "Everyone has a 3 AM question." · 1.8 one per beat: the offer, the ex, the drive
+// home · 3.6 stone, then stars: "Five thousand years of asking." · 4.8 faster, silence, "Ask." · 6.0 drop: "Talks back.",
+// the real app, the quote · 10.8 the clock's colon becomes the ring, "What's yours?"
 import { cinema, title, show, phone3d, ringEnd, kinetic, kin, quote, impulse, b, lerp, prog, ease } from '../cine.js';
 import { clockShot, cityShot, rainShot, roadShot, wallShot, skyShot, CARVINGS } from '../shots.js';
 import { kickTimes } from '../sound.js';

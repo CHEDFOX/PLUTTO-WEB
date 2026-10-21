@@ -1,16 +1,7 @@
 /**
- * JOURNEY · ONE MESSAGE — what happens after you press send.
- *
- * Minimal on purpose: black, white letters, one warm accent, one line of words
- * per step. The message is sent in the real app (public/app/screens/ask-quit),
- * holds in the chat, then its letters peel off the screen as a wave, and the
- * wave's SHAPE tells the story — the real steps of the server's path
- * (app/services/oracle/pipeline.py):
- *   read (a line of light) · your sky (an orbit) · traditions (strands, each in
- *   its own script) · memory (older waves join) · council (they converge into
- *   one) · timing (flat, one pulse: a date) · your voice (the reply forms).
- * Then the wave flows back into the phone as the answer, and holds.
- * The reply is an example written for the film; the tag says so.
+ * Journey, One message (demo series): a message sent in the real app (public/app/screens/ask-quit) peels off as a wave
+ * whose shape follows the server's oracle pipeline (Plutto-Backend oracle/pipeline.py): read, sky, traditions, memory,
+ * council, timing, voice. Then it flows back into the phone as the answer, a tagged example.
  */
 import { el, prog, ease, lerp, rng } from '../lib.js';
 import { device, honest, events } from '../asked.js';
@@ -119,7 +110,7 @@ export default {
     const qv = S.qv, g = S.g;
     g.clearRect(0, 0, 1080, 1920);
 
-    // ── the phone ──
+    // The phone
     let P = N, ph = 1, ft;
     if (t < SENT) { ft = 1.0 + t * ((qv.send_0 - 1.0) / SENT); }
     else if (t < BACK) {
@@ -135,7 +126,7 @@ export default {
     if (ph > 0.001) { await S.dev.at(ft); S.dev.pose(t, { x: P.x, y: P.y, s: P.s, rx: 0, o: ph }); } else S.dev.pose(t, { o: 0 });
     S.cover.style.opacity = t >= PEEL && t < BACK ? 1 : 0;
 
-    // ── the wave ──
+    // The wave
     const live = t >= PEEL && t < HOLD + 0.2;
     if (live) {
       const flow = (t - PEEL) * 150;
@@ -224,7 +215,7 @@ export default {
         g.fillStyle = `rgba(${WARM},${pulse})`; g.beginPath(); g.arc(540, 960, 9, 0, 6.283); g.fill(); }
     }
 
-    // ── words on screen ──
+    // Words on screen
     S.title.style.opacity = inout(t, 0.3, SENT + 0.4, 0.6, 0.5);
     const k = Math.floor((t - J0) / SD), ki = Math.min(k, STEPS.length - 1);
     const inJ = t >= J0 && t < BACK;
@@ -238,7 +229,7 @@ export default {
     S.ans.style.opacity = inout(t, HOLD - 0.2, END - 0.4, 0.6, 0.4);
     S.honest(t >= HOLD - 0.2 && t < END ? ease.outCubic(prog(t, HOLD - 0.2, HOLD + 0.3)) : 0);
 
-    // ── the end ──
+    // The end
     const te = t - END;
     S.end.style.opacity = te >= 0 ? ease.outCubic(prog(te, 0, 0.5)) : 0;
     [[S.endA, 0.2], [S.endW, 1.1], [S.endC, 1.7]].forEach(([e, a]) => { const p = ease.outCubic(prog(te, a, a + 0.9)); e.style.opacity = p; e.style.transform = `translateY(${(1 - p) * 24}px)`; e.style.filter = `blur(${(1 - p) * 8}px)`; });

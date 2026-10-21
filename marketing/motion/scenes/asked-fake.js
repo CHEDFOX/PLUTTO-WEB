@@ -1,23 +1,9 @@
 /**
- * ASKED PLUTTO · FAKE — "Is astrology fake?", asked of the astrology app itself.
- *
- * Plutto Pop: full-voltage colour fields that cut on the beat (blue → ink →
- * yellow → pink → blue → yellow → violet), Inter Black slabs that slam in with
- * an elastic overshoot, the narrator's asides in Caveat on stickers, one ink
- * outline and one hard shadow everywhere (LINE, SHADOW — in stage px, also on
- * the phone, so a zoom never fattens a line), a slow sunburst and halftone
- * behind, sparkles only where a word lands.
- *
- * The phone is a flat cartoon phone (cream body, ink outline, hard offset
- * shadow) holding the real recording (asked/ask-fake). Only the reply is
- * scripted, so the honesty tag rides the top rail whenever the reply — or the
- * room it opened — is on screen.
- *
- * Footage (s): type 1.18 · send 4.21 · reply fades in 6.70, line one done 6.80
- *   · "A chart cast to the minute you / were born can," streams 7.17–7.60
- *   · chips 8.40 · tap "Show me the score" 10.73 · Receipts 11.03
- *   · tap "It happened" 15.70 → "1 of 1 came true" 15.77.
+ * Asked Plutto, Fake (asked series, pop): "Is astrology fake?" asked of the app itself, in colour fields cut on the beat,
+ * slab type and stickers, with the real recording in a cartoon phone. LINE and SHADOW are stage px, on the phone too.
  */
+// Footage ask-fake (s): type 1.18 · send 4.21 · reply 6.70, line one done 6.80 · "A chart cast to the minute you / were
+// born can," 7.17–7.60 · chips 8.40 · tap "Show me the score" 10.73 · Receipts 11.03 · "It happened" 15.70 → 15.77.
 import { el, prog, ease, lerp, clamp, rng, POP, spring, popBg, sticker, sparkle, marquee, popScore, footage } from '../lib.js';
 import { events, remap, honest, pulse } from '../asked.js';
 
@@ -27,7 +13,7 @@ const LINE = 6, SHADOW = 12, STROKE = 8;     // ink outline, hard shadow, text s
 const K = 520 / 590;                          // recording px → screen px
 const SW = 520, SH = 1128, BEZ = 24, BW = SW + 2 * BEZ, BH = SH + 2 * BEZ, RAD = 84;
 
-// ── the clock ───────────────────────────────────────────────────────────────
+// The clock
 // Footage moments (asked/ask-fake.events.json, and the reply's stream read off its frames).
 const F = { start: 1.05, send: 4.21, reply: 6.70, line1: 6.805, pay: 7.12, payEnd: 7.65, chips: 8.40, tap: 10.73, open: 11.10, hap: 15.70, flip: 15.767 };
 const RATE = { type: 1.25, wait: 1.8, slow: 0.4 };
@@ -61,7 +47,7 @@ const CAN_AT = 7.600;
 const U3 = [[7.167, 157], [7.267, 269], [7.367, 335], [7.433, 460]];
 const U4 = [[7.533, 145], [7.600, 191]];
 
-// ── where the phone sits (centre offset from the stage centre; top = its top edge) ──
+// Where the phone sits (centre offset from the stage centre; top = its top edge)
 const top = (y, s) => y + (BH / 2) * s - 960;
 const HOOK = { x: 0, y: top(744, 0.75), s: 0.75, rz: -3 };
 const READ = { x: 0, y: top(800, 1.6), s: 1.6, rz: 0 };
@@ -117,7 +103,7 @@ function popRing(parent) {
   };
 }
 
-// ── type and stickers ───────────────────────────────────────────────────────
+// Type and stickers
 // Tracking opens a little as the size drops, so the outlines of small slabs never fuse letter to letter.
 const slabCss = (size, color) => ({ position: 'absolute', left: 0, top: 0, fontFamily: 'Inter', fontWeight: 900, fontSize: `${size}px`, lineHeight: 1, letterSpacing: size >= 140 ? '-0.02em' : '0.03em',
   textTransform: 'uppercase', color, whiteSpace: 'nowrap', WebkitTextStroke: `${STROKE}px ${C.ink}`, paintOrder: 'stroke fill', textShadow: `${SHADOW}px ${SHADOW}px 0 ${C.ink}`, opacity: 0 });
@@ -231,18 +217,18 @@ export default {
 
     const ov = el('div', 'layer', { zIndex: 20 }, S.cam);
     S.ov = ov;
-    // HOOK
+    // Hook
     S.is = slab(ov, 'Is astrology', { size: 116 });
     S.fake = slab(ov, 'fake?', { size: 260, color: C.yellow, echoes: 2, echo: C.white });
     S.asked = aside(ov, 'I asked the astrology app.', C.white, 72);
-    // THE WAIT: the Oracle's typing bubble.
+    // The wait: the Oracle's typing bubble.
     S.wait = el('div', 'abs', { left: 0, top: 0, width: '375px', height: '268px', opacity: 0 }, ov);
     const bub = `M 75 0 H 225 A 75 75 0 0 1 225 150 H 138 L 64 212 L 86 150 H 75 A 75 75 0 0 1 75 0 Z`;
     svg(S.wait, { left: 0, top: 0, width: '375px', height: '268px' }, '0 0 300 214').innerHTML =   // drawn at 1.25×: line and shadow divided back
       `<path d="${bub}" transform="translate(${SHADOW / 1.25},${SHADOW / 1.25})" fill="${C.ink}"/><path d="${bub}" fill="${C.white}" stroke="${C.ink}" stroke-width="${LINE / 1.25}" stroke-linejoin="round"/>`
       + [96, 150, 204].map((x) => `<circle class="dot" cx="${x}" cy="75" r="17" fill="${C.ink}"/>`).join('');
     S.dots = [...S.wait.querySelectorAll('.dot')];
-    // THE REPLY
+    // The reply
     S.agreed = slab(ov, 'It agreed.', { size: 168 });
     S.mostly = aside(ov, '(mostly)', C.pink, 84);
     S.rows = [0, 1, 2].map(() => el('div', 'abs', { left: 0, top: 0, whiteSpace: 'nowrap', textAlign: 'center' }, ov));
@@ -254,7 +240,7 @@ export default {
     const wide = Math.max(...S.rows.map((r) => r.offsetWidth));
     if (wide > 920) S.words.forEach((w) => { w.style.fontSize = `${(96 * 920) / wide}px`; });
     S.can = slab(ov, 'can.', { size: 236, color: C.yellow, echoes: 2, echo: C.white });
-    // THE ROOM
+    // The room
     S.then = slab(ov, 'Then it showed me', { size: 86 });
     S.its = slab(ov, 'its score.', { size: 156, color: C.yellow });
     S.itself = slab(ov, 'It marks itself.', { size: 104 });
@@ -278,7 +264,7 @@ export default {
     S.honestEl = stage.lastElementChild;
     S.ring = popRing(stage);
 
-    // THE END CARD — violet, behind an iris that opens from the score.
+    // The end card — violet, behind an iris that opens from the score.
     const end = el('div', 'layer', { zIndex: 39, background: C.violet, overflow: 'hidden', opacity: 0 }, stage);
     S.endL = end;
     S.iris = el('div', 'abs', { left: 0, top: 0, borderRadius: '50%', border: `${LINE}px solid ${C.ink}`, boxSizing: 'border-box', zIndex: 40, opacity: 0, pointerEvents: 'none' }, stage);
@@ -299,7 +285,7 @@ export default {
   },
 
   async frame(t) {
-    // ── the field: one colour per beat, cut on the beat ──
+    // The field: one colour per beat, cut on the beat
     const can = filmAt(CAN_AT + 0.004), wordA = filmAt(PAY[0][1] + 0.004);
     const field = t < T.send ? C.blue : t < T.reply ? C.ink : t < wordA ? C.yellow : t < T.room ? C.pink : t < T.flip ? C.blue : C.yellow;
     const dark = field === C.ink;
@@ -310,7 +296,7 @@ export default {
     const punch = [0.12, T.send, T.reply, T.freeze + 0.1, wordA, can, T.room, T.flip].reduce((m, a) => Math.max(m, pulse(t, a, 0.28)), 0);
     S.cam.style.transform = `scale(${1 + punch * 0.022})`;
 
-    // ── the phone ──
+    // The phone
     const P = pose(t);
     if (t < T.end + 0.6) await S.d.at(S.clock(t));
     S.d.pose(P);
@@ -327,7 +313,7 @@ export default {
     S.box.style.strokeDashoffset = 1 - ease.inOutCubic(prog(t, T.flip + 0.35, T.flip + 0.85));
     S.box.style.opacity = t > T.flip + 0.35 ? 1 : 0;
 
-    // ── HOOK ──
+    // Hook
     life(S.is.box, t, -0.12, T.send, { x: 540, y: 296 });
     life(S.fake.box, t, 0.1, T.send + 0.03, { x: 540, y: 464, r: -2 });
     S.fake.ech.forEach((e, k) => { const q = ease.outCubic(prog(t, 0.3, 0.75)) * (k + 1) * 13; e.style.transform = `translate(${q}px, ${q}px)`; });
@@ -338,16 +324,16 @@ export default {
     S.honest(hon ? 1 : 0);
     if (hon) put(S.honestEl, 540, 187, spring(prog(t, T.reply, T.reply + 0.45)), 0);
 
-    // ── THE WAIT ──
+    // The wait
     if (life(S.wait, t, T.send + 0.2, T.reply - 0.16, { x: 540, y: 480, kind: 'pop' })) {
       S.dots.forEach((d, k) => d.setAttribute('cy', 75 - Math.max(0, Math.sin((t - T.send) * 9 - k * 0.9)) * 16));
     }
 
-    // ── THE REPLY: it agreed (mostly) ──
+    // The reply: it agreed (mostly)
     life(S.agreed.box, t, T.freeze + 0.08, T.go + 0.05, { x: 540, y: 470, r: -2 });
     life(S.mostly, t, T.freeze + 0.6, T.go, { x: 760, y: 628, r: 5, kind: 'pop' });
 
-    // ── THE PAYOFF, word by word as it streams ──
+    // The payoff, word by word as it streams
     const out = T.tap - 0.04;
     const rowY = [304, 404, 504];
     S.rows.forEach((r, i) => { const q = ease.inCubic(prog(t, out + i * 0.03, out + 0.18 + i * 0.03)); put(r, 540, rowY[i], 1 - 0.85 * q, 0, t > wordA - 0.01 && q < 0.7 ? 1 : 0); });
@@ -361,10 +347,10 @@ export default {
     life(S.can.box, t, can, out + 0.09, { x: 540, y: 670, r: -3, from: 2.4 });
     S.can.ech.forEach((e, k) => { const q = ease.outCubic(prog(t, can + 0.15, can + 0.6)) * (k + 1) * 13; e.style.transform = `translate(${q}px, ${q}px)`; });
 
-    // ── THE ROOM ──
+    // The room
     life(S.then.box, t, T.room + 0.06, T.hap - 0.12, { x: 540, y: 292 });
     life(S.its.box, t, T.room + 0.24, T.hap - 0.09, { x: 540, y: 420, r: -2 });
-    // ── IT MARKS ITSELF. IN PUBLIC. ──
+    // It marks itself, in public
     life(S.itself.box, t, T.flip + 0.14, T.end + 0.6, { x: 540, y: 300, r: -1.5 });
     life(S.public, t, T.flip + 0.6, T.end + 0.6, { x: 704, y: 436, r: 4, kind: 'pop' });
 
@@ -377,12 +363,12 @@ export default {
       s.e.style.transform = `translate(${s.x}px, ${s.y}px) translate(-50%, -50%) rotate(${(t - a) * 50}deg) scale(${k})`;
     });
 
-    // ── the taps ──
+    // The taps
     // The ring rides the glass: it stays on the screen point that was tapped, even as the phone moves.
     if (t < T.room) S.ring(t, T.tap, ...onStage(P, 143, 448));                 // the chip's ring ends on the cut
     else S.ring(t, t < T.hap - 0.1 ? -9 : T.hap, ...onStage(P, 124, 770));
 
-    // ── THE END CARD ──
+    // The end card
     const te = t - T.end;
     S.endL.style.opacity = te >= 0 ? 1 : 0;
     S.iris.style.opacity = te >= 0 && te < 0.56 ? 1 : 0;   // the iris has an ink edge, like everything else

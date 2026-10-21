@@ -1,4 +1,4 @@
-/** ABSTRACT 02 · THE TEMPLE — Hilma af Klint: spirals, petals and concentric colour on pale paper, to bells and a choir. True story: she painted abstraction five years before anyone, and said the paintings were dictated. */
+/** Abstract 02, The temple (abstract series): Hilma af Klint's spirals, petals and concentric colour on pale paper, to bells and a choir. */
 import { sheet, draw, paintAll, captions, showCaptions, absEnd, el, prog, ease } from '../abstract.js';
 import { grid } from '../signal.js';
 

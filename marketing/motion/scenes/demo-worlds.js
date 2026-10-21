@@ -1,9 +1,6 @@
 /**
- * DEMO · SIX WORLDS — what Plutto is and what it does, one idea per chapter,
- * each chapter in a different art style (the Asked Plutto styles): cartoon,
- * studio editorial, pop, Indian truck art, riso cut paper, comic. The real app
- * rides through all six in a device dressed for each world. Chat replies are
- * examples; the tag says so while one is on screen.
+ * Demo, Six worlds (demo series): what Plutto does, one idea per chapter, each in one of the asked series' styles
+ * (cartoon, editorial, pop, truck art, riso, comic), with the real app in a device dressed for each world.
  */
 import { el, prog, ease, lerp, rng } from '../lib.js';
 import { device, honest } from '../asked.js';

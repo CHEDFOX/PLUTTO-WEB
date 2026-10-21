@@ -1,4 +1,4 @@
-/** THE FILES 01 — Project Stargate (CIA Reading Room; American Institutes for Research evaluation, 1995). */
+/** Files 01 (files series): Project Stargate (CIA Reading Room; American Institutes for Research evaluation, 1995). */
 import { file } from '../dossier.js';
 export default file({
   "n": 1,

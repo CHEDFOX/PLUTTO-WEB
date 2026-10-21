@@ -1,7 +1,6 @@
 /**
- * 08 · 36 GUNAS — kundli matching, koota by koota: each bar fills to its
- * classical maximum while the total counts to 36. (The maxima are the
- * Ashtakoota's: Varna 1 … Nadi 8.)
+ * 08, 36 gunas (the ten films): kundli matching koota by koota, each bar filling to its classical Ashtakoota maximum
+ * (Varna 1 … Nadi 8) while the total counts to 36.
  */
 import { el, set, words, rise, haze, stars, vignette, endCard, prog, ease, inOut, lerp } from '../lib.js';
 

@@ -1,4 +1,4 @@
-/** THE FILES 03 — The oracle bones (Wang Yirong, 1899; Anyang excavations from 1928). */
+/** Files 03 (files series): the oracle bones (Wang Yirong, 1899; Anyang excavations from 1928). */
 import { file } from '../dossier.js';
 export default file({
   "n": 3,

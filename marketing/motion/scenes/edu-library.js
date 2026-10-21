@@ -1,13 +1,6 @@
 /**
- * EDU · THE LIBRARY — what Plutto is, told the way an AI lab launches a model.
- *
- * Every culture that ever looked up asked one question. The board clatters
- * through seven of the ways they asked (each a real tradition in the app's
- * atlas, app/lib/atlas.json), rattles through the rest, lands on "102
- * TRADITIONS", and then becomes the guide to the app itself: one birth minute,
- * every book reads it, ask anything, the right book opens. The screens are the
- * real app (recordings in public/app/screens); chat replies are examples, and
- * the honesty tag says so while one is on screen.
+ * Edu, The library (demo series, cut like a product-launch keynote): a split-flap board clatters through the ways cultures
+ * asked one question, each a tradition in app/lib/data/atlas.json, then guides through the real app (tagged replies).
  */
 import { el, prog, ease, lerp, rng } from '../lib.js';
 import { LIB, atlas, libEnd, libScore } from '../library.js';
@@ -43,7 +36,7 @@ const spring = (p) => (p <= 0 ? 0 : p >= 1 ? 1 : 1 - Math.pow(2, -9 * p) * Math.
 
 let S = {};
 
-// ── the film ───────────────────────────────────────────────────────────────
+// The film
 export default {
   duration: DUR,
   poster: 5.9,

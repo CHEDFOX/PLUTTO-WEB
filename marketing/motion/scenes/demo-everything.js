@@ -1,11 +1,6 @@
 /**
- * DEMO · EVERYTHING INSIDE — sixteen features in thirty-two seconds, then the
- * wall: nine phones, nine features, all playing at once.
- *
- * Every screen is the real app (public/app/screens). Chat replies are written
- * for the film; the tag says so whenever one is on screen. Readings recorded
- * offline show their computed parts (wheels, chapters, planets) as the app
- * draws them.
+ * Demo, Everything inside (demo series): sixteen features in thirty-two seconds, then a wall of nine phones playing at
+ * once. Every screen is the real app (public/app/screens); chat replies are written for the film and tagged as such.
  */
 import { el, prog, ease, lerp } from '../lib.js';
 import { device, honest } from '../asked.js';

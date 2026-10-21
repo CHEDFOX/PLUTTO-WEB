@@ -1,15 +1,7 @@
-/**
- * CINEMA 02 · UNSENT — built for the scroll.
- *   0.0  HOOK: "Draft eleven." over rain, a message already being typed —
- *        the sound of keys from frame 0. (Specific, a little embarrassing,
- *        instantly familiar.)
- *   2.4  on a hit: "Don't send it." — and it deletes, fast, which feels good.
- *   3.6  the reframe, with a smile: "Ask something that won't leave you on read."
- *   6.0  DROP: a real tarot draw in the app.
- *   8.4  the payoff: "Recovery, or asking for the help at last."
- *  10.8  a raindrop swells into the Plutto ring; "Who were you about to text?"
- *  14.1  the callback: the empty draft. "Unsent. Proud of you."
- */
+/** Cinema 02, Unsent (cine series): a message drafted and deleted over rain, then a real tarot draw in the app. */
+// Beats (s): 0.0 "Draft eleven." over rain, keys typing · 2.4 "Don't send it.", deleted on a hit · 3.6 "Ask something that
+// won't leave you on read." · 6.0 drop: a tarot draw in the app · 8.4 "Recovery, or asking for the help at last." · 10.8 a
+// raindrop becomes the ring, "Who were you about to text?" · 14.1 the empty draft, "Unsent. Proud of you."
 import { cinema, title, show, phone3d, ringEnd, kinetic, kin, quote, impulse, drift, b, lerp, prog, ease } from '../cine.js';
 import { el } from '../lib.js';
 import { rainShot } from '../shots.js';

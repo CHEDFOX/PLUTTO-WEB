@@ -1,4 +1,4 @@
-/** THE LIBRARY 03 · ONE QUESTION — the same question put to six traditions, hung like museum plates. */
+/** Library 03, One question (library series): the same question put to six traditions, hung like museum plates. */
 import { LIB, night, lines, caps, libEnd, libScore, el, set, prog, ease, ASSET } from '../library.js';
 
 const PLATES = [

@@ -1,4 +1,4 @@
-/** THE LIBRARY 01 · ONE SHELF — the brand film: every tradition in the atlas as a spine, panning past under a lamp. */
+/** Library 01, One shelf (library series, the brand film): every tradition in app/lib/data/atlas.json as a spine, panning past under a lamp. */
 import { LIB, atlas, night, shelves, lines, caps, libEnd, libScore, el, set, prog, ease } from '../library.js';
 
 // The litany: what people have asked, each over the word for it in its own script.

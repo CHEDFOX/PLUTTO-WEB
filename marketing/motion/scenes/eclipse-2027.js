@@ -1,8 +1,6 @@
 /**
- * 05 · THE ECLIPSE OF 2 AUGUST 2027 — a total solar eclipse, greatest at
- * 10:06 UTC at 25.5°N 33.2°E (Egypt), the Sun in tropical Leo / sidereal
- * Cancer; one of five eclipses in 2027. All from the site's Swiss Ephemeris
- * data. The Moon crosses the Sun art; at totality the corona opens.
+ * 05, The eclipse of 2 August 2027 (the ten films): the total solar eclipse, greatest at 10:06 UTC at 25.5°N 33.2°E
+ * (Egypt), Sun in tropical Leo and sidereal Cancer, one of five in 2027 (app/lib/data/ephemeris.json).
  */
 import { ASSET, el, set, words, rise, haze, stars, vignette, img, endCard, prog, ease, inOut, lerp, W } from '../lib.js';
 

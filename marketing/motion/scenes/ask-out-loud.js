@@ -1,7 +1,6 @@
 /**
- * 02 · ASK IT OUT LOUD — the voice orb (real recording) with the questions
- * people actually carry, handwritten around it; then hello in the languages
- * it answers in. 109 is the count of languages onboarding offers.
+ * 02, Ask it out loud (the ten films): the voice orb from the real recording with the questions people carry
+ * handwritten around it, then hello in the languages it answers in (109, the count onboarding offers).
  */
 import { el, set, words, rise, haze, stars, vignette, footage, endCard, prog, ease, inOut, lerp } from '../lib.js';
 

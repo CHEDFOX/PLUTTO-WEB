@@ -1,4 +1,4 @@
-/** THE FILES 05 — The vapour at Delphi (Plutarch, Moralia; de Boer, Hale & Chanton, Geology, 2001). */
+/** Files 05 (files series): the vapour at Delphi (Plutarch, Moralia; de Boer, Hale & Chanton, Geology, 2001). */
 import { file } from '../dossier.js';
 export default file({
   "n": 5,

@@ -1,17 +1,9 @@
 /**
- * ASKED PLUTTO · THE EX — studio editorial.
- *
- * Warm ivory paper, near-black ink, one clay accent. Three continuous-line
- * drawings draw themselves on beside the real app in a real phone: a door left
- * ajar (the question), a phone put face down (the advice), a full moon (the
- * night it names). Cormorant set large on a strict left margin, Mono for the
- * small print, slow eases, one move per beat. A soft score: pads, a felt-piano
- * pulse, a few plucks, two knocks on wood.
- *
- * Footage: ask-ex (real recording; only the reply is scripted → honest tag).
- *   type 1.19 · send 4.52 · reply streams 7.00–8.45 · chip 10.75 · room 11.2
- *   · scroll ends 14.4 · "Knock on the night" 16.18 · end 18.59
+ * Asked Plutto, The ex (asked series, studio editorial): continuous-line drawings on ivory paper (a door ajar, a phone
+ * face down, a full moon) draw themselves beside the real app in a phone, to a soft score of pads and felt piano.
  */
+// Footage ask-ex (s): type 1.19 · send 4.52 · reply streams 7.00–8.45 · chip 10.75 · room 11.2 · scroll ends 14.4
+// · "Knock on the night" 16.18 · end 18.59.
 import { el, prog, ease, lerp, clamp, rng, W, H } from '../lib.js';
 import { remap, device, honest } from '../asked.js';
 
@@ -49,7 +41,7 @@ const C = { x: 0, y: 613, s: 1.55, rx: 0, ry: 0 };
 
 let S = {};
 
-// ── the pen ─────────────────────────────────────────────────────────────────
+// The pen
 /** A smooth path through points (Catmull-Rom as cubic Béziers). */
 function smooth(pts) {
   const f = (p) => `${p[0].toFixed(1)} ${p[1].toFixed(1)}`;
@@ -124,7 +116,7 @@ function svg(parent, w, h, style = {}, vb = `0 0 ${w} ${h}`) {
 }
 function group(parent, x = 0, y = 0) { const g = document.createElementNS(NS, 'g'); g.setAttribute('transform', `translate(${x} ${y})`); parent.appendChild(g); return g; }
 
-// ── type ────────────────────────────────────────────────────────────────────
+// Type
 /** A block of serif lines, each word in its own mask (generous, so Cormorant's descenders never clip). */
 function lines(parent, rows, { size, top, left = ML, italic = false, weight = 500, lh = 1.0, align = 'left', width = null, color = INK, track = '-0.012em' }) {
   const box = el('div', 'abs', { left: `${left}px`, top: `${top}px`, width: width ? `${width}px` : 'auto', fontFamily: 'Cormorant', fontStyle: italic ? 'italic' : 'normal',
@@ -194,7 +186,7 @@ export default {
     stage.style.background = PAPER;
     S.clock = remap(CLOCK);
 
-    // ── the paper: ivory, a soft tooth, a few fibres, the faintest falloff ──
+    // The paper: ivory, a soft tooth, a few fibres, the faintest falloff
     const pc = el('canvas', 'layer', { zIndex: 0 }, stage); pc.width = W; pc.height = H;
     const g = pc.getContext('2d'), R = rng(5);
     g.fillStyle = PAPER; g.fillRect(0, 0, W, H);
@@ -211,7 +203,7 @@ export default {
     vg.addColorStop(0, 'rgba(80,60,40,0)'); vg.addColorStop(1, 'rgba(80,60,40,0.09)');
     g.fillStyle = vg; g.fillRect(0, 0, W, H);
 
-    // ── the drawings on the paper (under the phone) ──
+    // The drawings on the paper (under the phone)
     const ink = svg(stage, W, H, { zIndex: 5 });
     // A door left ajar: the frame on its floor, the leaf swung in, a knob — and light in the gap.
     const DK = 1.15, dk = (pts) => pts.map(([x, y]) => [x * DK, y * DK]);
@@ -258,7 +250,7 @@ export default {
       handLine([[-14, 170], [14, 170]], { seed: 24, amp: 0.3 }),
     ]);
 
-    // ── the phone: a real one, on paper, with a soft diffuse shadow ──
+    // The phone: a real one, on paper, with a soft diffuse shadow
     S.d = device(stage, 'ask-ex', { skin: 'glass', w: 540, persp: 2600,
       shadow: '0 0 0 1.5px rgba(25,25,25,0.55), 0 30px 60px -12px rgba(70,50,30,0.30), 0 80px 140px -30px rgba(70,50,30,0.26)' });
     S.d.el.style.zIndex = 10;
@@ -276,7 +268,7 @@ export default {
       return { c };
     });
 
-    // ── the words ──
+    // The words
     S.kicker = mono(stage, 'Asked Plutto', { left: `${ML}px`, top: '166px', color: 'rgba(25,25,25,0.62)' });
     S.hook = lines(stage, ['Is my ex', 'coming back?'], { size: 168, top: 236, lh: 0.98 });
     S.asked = lines(stage, ['I asked.'], { size: 68, top: 616, italic: true });
@@ -287,7 +279,7 @@ export default {
     S.told = lines(stage, ['It told me', 'which night', 'to wait for.'], { size: 92, top: 252, lh: 1.04 });
     S.knockL = lines(stage, ['It’ll knock', 'on the night.'], { size: 92, top: 252, lh: 1.04 });
 
-    // ── the end card ──
+    // The end card
     const end = el('div', 'layer', { zIndex: 25 }, stage);
     S.endBox = end;
     // The line is the hero; the name signs it; the address and the small print close it.
@@ -303,7 +295,7 @@ export default {
   },
 
   async frame(t) {
-    // ── the phone ──
+    // The phone
     let p;
     if (t < T.pushA) {
       const k = ease.outExpo(prog(t, -0.3, 1.0));
@@ -324,7 +316,7 @@ export default {
     S.d.pose(t, p);
     await S.d.at(S.clock(t));
 
-    // ── the hook ──
+    // The hook
     S.kicker.style.opacity = (1 - ease.inCubic(prog(t, 2.15, 2.5)));
     S.kicker.style.transform = `translateY(${-14 * ease.inCubic(prog(t, 2.15, 2.5))}px)`;
     play(S.hook, t, -0.5, 2.2, { stagger: 0.07, dur: 0.9 });
@@ -335,7 +327,7 @@ export default {
     S.doorG.setAttribute('transform', `translate(${ML - 60 * doorOut} ${DOOR_Y})`);
     S.doorG.style.opacity = 1 - doorOut;
 
-    // ── the answer ──
+    // The answer
     S.honest(ease.outCubic(prog(t, 3.55, 3.95)) * (1 - ease.inCubic(prog(t, T.out - 0.1, T.out + 0.3))));
     play(S.payoff, t, T.answer, 5.88);
     S.under1(ease.inOutCubic(prog(t, 4.8, 5.25)) * (1 - ease.inOutCubic(prog(t, 5.95, 6.2))));
@@ -344,7 +336,7 @@ export default {
     S.phone(ease.inOutCubic(prog(t, 6.5, 7.75)));
     S.phoneG.style.opacity = 1 - ease.inCubic(prog(t, 8.72, 9.1));
 
-    // ── the room ──
+    // The room
     play(S.told, t, T.told, 13.88);
     S.loop(ease.inOutCubic(prog(t, T.circle, T.circle + 0.75)) * (1 - ease.inOutCubic(prog(t, 13.85, 14.2))));
     play(S.knockL, t, T.knockLine, T.out - 0.25);
@@ -357,12 +349,12 @@ export default {
       c.setAttribute('opacity', on ? 1 - ease.inCubic(q) : 0);
     });
 
-    // ── the moon: drawn in the room, then carried to the centre for the end ──
+    // The moon: drawn in the room, then carried to the centre for the end
     S.moon(ease.inOutCubic(prog(t, 10.1, 11.6)));
     const mv = ease.inOutCubic(prog(t, T.out, T.end + 0.5));
     S.moonG.setAttribute('transform', `translate(${lerp(840, 540, mv)} ${lerp(352, 466, mv)})`);
 
-    // ── the end card ──
+    // The end card
     const e = t - T.end;
     play(S.endLine, t, T.end + 0.25, 99, { stagger: 0.1, dur: 1.2 });
     S.ring(ease.inOutCubic(prog(e, 0.75, 1.45)));

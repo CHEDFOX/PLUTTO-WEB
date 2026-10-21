@@ -1,4 +1,4 @@
-/** THE FILES 02 — Newton’s 2060 (Yahuda MS 7.3g, National Library of Israel). */
+/** Files 02 (files series): Newton’s 2060 (Yahuda MS 7.3g, National Library of Israel). */
 import { file } from '../dossier.js';
 export default file({
   "n": 2,

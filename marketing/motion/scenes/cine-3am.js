@@ -1,19 +1,7 @@
-/**
- * CINEMA 01 · 3:07 — built for the scroll.
- *   0.0  HOOK: the phone buzzing on the nightstand at 3:07. "Can't sleep?"
- *        (a question in the second person, on screen from frame 0, with the
- *        one sound everybody turns their head for).
- *   1.5  a joke that lands the relatability: "It's not the coffee."
- *   2.4  the turn, on a hit: "It's the offer." Three more hits, three more
- *        options: Take it? Stay? Start over? — escalation.
- *   5.7  dead air. "So you ask."
- *   6.0  DROP: the real app, the real question, the real answer.
- *   8.4  the payoff as a pull quote: "Yes — but not for the reason you keep
- *        giving." (an open loop: which reason?)
- *  10.8  the clock's colon swells into the Plutto ring; the lockup; a question
- *        for the comments.
- *  14.1  the callback: 3:08. Sleep. (relief, a laugh, and a reason to loop)
- */
+/** Cinema 01, 3:07 (cine series): a phone buzzing at 3:07 a.m., the real app answering, the clock's colon becoming the ring. */
+// Beats (s): 0.0 the buzzing phone, "Can't sleep?" · 1.5 "It's not the coffee." · 2.4 "It's the offer.", then three options
+// on hits · 5.7 dead air, "So you ask." · 6.0 drop: the real app · 8.4 the pull quote · 10.8 the colon becomes the ring,
+// the lockup, a question for the comments · 14.1 the callback: 3:08, "Sleep."
 import { cinema, title, show, phone3d, ringEnd, kinetic, kin, quote, impulse, drift, b, lerp, prog, ease } from '../cine.js';
 import { clockShot, cityShot } from '../shots.js';
 import { kickTimes } from '../sound.js';

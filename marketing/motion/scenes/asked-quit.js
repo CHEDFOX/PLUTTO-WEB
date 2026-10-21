@@ -1,19 +1,7 @@
 /**
- * ASKED · QUIT — "Should I quit my job without a plan?"
- *
- * A two-colour risograph and torn-paper collage. Two inks only, fluorescent
- * pink and blue, printed on cream stock: where they overprint they go purple,
- * and the blue plate never quite sits on the pink one. Every word is printed on
- * a scrap of torn paper (a white fibre fringe shows where it was torn); the
- * office around the phone (a door with an EXIT sign, a tie on a hook, sticky
- * notes, a coffee cup on the desk) is cut from the same two inks.
- *
- * It is animated as stop-motion: every pose is held for two frames (15 poses a
- * second), the footage included, and paper is laid down, never faded.
- *
- * The footage is a real recording of the app (asked/ask-quit); only the reply
- * is scripted, so the honesty label is taped to the phone whenever the reply
- * (or the room it opened) is on screen.
+ * Asked, Quit (asked series): quitting a job without a plan, as a two-ink risograph and torn-paper collage (fluorescent
+ * pink and blue on cream) round the real app. Animated on twos like stop-motion: every pose, footage included, is held
+ * for two frames, and paper is laid down, never faded.
  */
 import { el, prog, ease, lerp, rng, W, H } from '../lib.js';
 import { events, remap, device, tapRing } from '../asked.js';
@@ -30,7 +18,7 @@ const DUR = 18.6;
 const T = {
   slam: [0, 0.2, 0.47],                 // the hook's three scraps
   send: 2.375, said: 2.62, no: 2.88, reply: 3.35, outNo: 3.3,
-  pay: [3.62, 3.87, 4.12],               // QUIT WITH · A DATE, · NOT A MOOD. — as the first line streams
+  pay: [3.62, 3.87, 4.12],               // the payoff's three phrases, as the first line streams
   go: 5.3, nov: 5.75, outPay: 6.45, torn: 6.62, rip: 7.0,
   chip: 8.77, room: 8.9, throw: 10.88, land: 11.02, sixteen: 11.12, straight: 11.5,
   end: 14.4,
@@ -44,7 +32,7 @@ const CALL = { x: 0, y: 392, s: 1.4, rz: 0 };
 
 let S = {};
 
-// ── helpers ────────────────────────────────────────────────────────────────
+// Helpers
 const twos = (t) => Math.floor(t * 15 + 1e-6) / 15;            // stop-motion: a pose every second frame
 const mix = (a, b, k) => ({ x: lerp(a.x, b.x, k), y: lerp(a.y, b.y, k), s: lerp(a.s, b.s, k), rz: lerp(a.rz, b.rz, k) });
 /** A point on the phone's body (0…552, 0…1160) → the stage, for pose P. */
@@ -141,13 +129,13 @@ function svg(parent, style, vb) {
   return s;
 }
 
-// ── the office, cut from two inks (stage coordinates) ──────────────────────
+// The office, cut from two inks (stage coordinates)
 function office(R) {
   const P = (pts, fill, extra = '') => `<polygon points="${polySvg(pts)}" fill="${fill}" style="mix-blend-mode:multiply" ${extra}/>`;
   const box = (x, y, w, h, fill, amp = 4) => P(torn(w, h, R, amp, 26).map(([a, b]) => [a + x, b + y]), fill);
   // The desk: a blue slab with a pink lip, overprinted.
   const desk = box(-20, 1690, 1120, 260, C.blue, 8) + box(-20, 1672, 1120, 34, C.pink, 6);
-  // The door, its panels (pink over blue → purple), the knob, the EXIT sign.
+  // The door, its panels (pink over blue → purple), the knob, the exit sign.
   const door = box(44, 762, 254, 930, C.blue, 5) + box(78, 860, 186, 300, C.pink, 4) + box(78, 1210, 186, 400, C.pink, 4)
     + `<circle cx="266" cy="1244" r="17" fill="${C.pink}" style="mix-blend-mode:multiply"/><circle cx="270" cy="1240" r="17" fill="${C.blue}" style="mix-blend-mode:multiply" opacity="0.7"/>`;
   const exit = `<polygon points="${polySvg(torn(148, 60, R, 3, 26).map(([a, b]) => [a + 96, b + 780]))}" fill="${C.sheet}"/>`;
@@ -175,7 +163,7 @@ const cowrie = (R) => {
     <path d="M ${R() * 2 - 1} -28 Q 3 0 0 28" stroke="${C.blue}" stroke-width="5" fill="none" style="mix-blend-mode:multiply"/><path d="${teeth}" stroke="${C.pink}" stroke-width="3" style="mix-blend-mode:multiply"/>`;
 };
 
-// ── the phone's pose at t ─────────────────────────────────────────────────
+// The phone's pose at t
 function pose(t) {
   let p;
   if (t < T.send) p = { ...HOOK };
@@ -211,7 +199,7 @@ export default {
     const slap = (t, g = 0.3, f = 210) => c.push({ i: 'tom', t, f, g: g * 0.5, verb: 0.15, d: 0.07 }, { i: 'hit', t, g });   // paper laid down
     const rip = (t, g = 0.3) => c.push({ i: 'whoosh', t: t - 0.04, dur: 0.2, g, from: -0.3, to: 0.3 }, { i: 'shaker', t, g: 0.2 }, { i: 'shaker', t: t + 0.05, g: 0.14 });
 
-    // HOOK: three scraps slammed down, typing under the groove.
+    // Hook: three scraps slammed down, typing under the groove.
     groove(0, T.send);
     [[0, 77], [0.2, 80], [0.47, 84]].forEach(([t, n], k) => { slap(t, k === 2 ? 0.48 : 0.34, 190 + k * 20); c.push({ i: 'pluck', t, n, g: 0.18, dur: 1 }); });
     c.push({ i: 'boom', t: 0.47, g: 0.4 });
@@ -301,7 +289,7 @@ export default {
     S.office.innerHTML = `<g style="filter:drop-shadow(4px 7px 5px ${C.shadow})">${off.back}<g class="tieHang">${off.tie}</g>${off.cup}</g>`;
     S.tie = S.office.querySelector('.tieHang');
     S.steam = S.office.querySelector('.steam');
-    // The words on the office: EXIT on its sign, notes in pencil-blue hand.
+    // The words on the office: the exit sign, notes in pencil-blue hand.
     const word = (txt, st) => el('div', 'abs', { mixBlendMode: 'multiply', filter: 'url(#riso)', whiteSpace: 'nowrap', ...st }, stage, txt);
     word('EXIT', { left: '96px', top: '780px', width: '148px', textAlign: 'center', fontFamily: 'Anton', fontSize: '46px', lineHeight: '60px', color: C.blue, letterSpacing: '0.12em' });
     word('plan?', { left: '97px', top: '960px', width: '150px', textAlign: 'center', fontFamily: 'Hand', fontWeight: 700, fontSize: '58px', color: C.blue, transform: 'rotate(-5deg)' });
@@ -374,7 +362,7 @@ export default {
     el('div', 'abs', { right: '-26px', top: '-10px', width: '74px', height: '30px', background: C.pink, opacity: 0.55, mixBlendMode: 'multiply', transform: 'rotate(28deg)' }, S.tag);
     S.tagW = tagFace.offsetWidth; S.tagH = tagFace.offsetHeight;
 
-    // ── the end sheet: slides over from the right, torn on its leading edge ──
+    // The end sheet: slides over from the right, torn on its leading edge
     S.endL = el('div', 'abs', { left: 0, top: 0, width: `${W + 60}px`, height: `${H}px`, zIndex: 40, transform: `translateX(${W + 120}px)`, filter: `drop-shadow(-10px 0 14px ${C.shadow})` }, stage);
     const RE = rng(12);
     const sheet = el('div', 'abs', { left: 0, top: 0, width: `${W + 60}px`, height: `${H}px`, background: C.paper }, S.endL);
@@ -406,17 +394,17 @@ export default {
     S.turb[0].setAttribute('seed', String(2 + (f % 7)));
     S.turb[2].setAttribute('seed', String(7 + (f % 3)));
 
-    // ── the office: the tie sways on its hook, steam curls (on twos) ──
+    // The office: the tie sways on its hook, steam curls (on twos)
     S.tie.setAttribute('transform', `translate(900,750) rotate(${(Math.sin(t * 2.1) * 3.2).toFixed(2)})`);
     const steam = (k) => { let p = ''; [0, 1].forEach((j) => { const x0 = 862 + j * 46; p += `M ${x0} 1520 `; for (let i = 1; i <= 5; i++) p += `Q ${x0 + (i % 2 ? 16 : -16) * (1 + ((k + i + j) % 3) * 0.2)} ${1520 - i * 22 + 11} ${x0} ${1520 - i * 22} `; }); return p; };
     S.steam.setAttribute('d', steam(f));
 
-    // ── the phone ──
+    // The phone
     const P = pose(t), live = t < T.end + 0.3;
     if (live) await S.d.at(S.clock(t));
     S.d.pose(t, { x: P.x, y: P.y, s: P.s, rz: P.rz, o: live ? 1 : 0 });
 
-    // ── the circle round "4 November" ──
+    // The circle round "4 November"
     S.circ.forEach((p, k) => {
       const len = +p.dataset.len, q = ease.inOutCubic(prog(t, T.nov + k * 0.03, T.nov + 0.47 + k * 0.03));
       p.style.strokeDasharray = len; p.style.strokeDashoffset = len * (1 - q);
@@ -424,18 +412,18 @@ export default {
       p.style.opacity = t >= T.nov && t < T.room ? 1 : 0;
     });
 
-    // ── HOOK ── (on screen from the first frame; the first scrap is already landing)
+    // Hook (on screen from the first frame; the first scrap is already landing)
     const hookRot = [-2, 1.5, -1.5];
     S.hook.forEach((e, i) => life(e, t, T.slam[i] - (i === 0 ? 0.08 : 0), T.send + i * 0.05, hookRot[i], i % 2 ? 1 : -1));
 
-    // ── the wait: "It said" … "No." ──
+    // The wait: "It said" … "No."
     life(S.said, t, T.said, T.outNo, -2, -1);
     life(S.no, t, T.no, T.outNo + 0.05, 3, 1);
 
-    // ── the payoff ──
+    // The payoff
     [[-1.5, -1], [2, 1], [-1, -1]].forEach(([r, dir], k) => life(S.pay[k], t, T.pay[k], T.outPay + k * 0.05, r, dir));
 
-    // ── Still torn? — laid as one scrap, then ripped apart ──
+    // Still torn? — laid as one scrap, then ripped apart
     const rip = ease.outBack(prog(t, T.rip, T.rip + 0.27));
     const tornOut = T.chip - 0.05;
     S.torn.forEach((e, k) => {
@@ -444,7 +432,7 @@ export default {
       if (t >= T.rip) e.style.transform += ` translate(${(k ? 1 : -1) * 26 * rip}px, ${(k ? 10 : -6) * rip}px) rotate(${(k ? 5 : -4) * rip}deg)`;
     });
 
-    // ── the chip: tapped, then lifted out of the app and pinned up top ──
+    // The chip: tapped, then lifted out of the app and pinned up top
     const chipAt = onStage(pose(T.chip), 120, 490);
     if (t >= T.throw + 0.04 && t < T.throw + 1) S.ring(t, -10, 0, 0);
     else S.ring(t, t < T.chip + 0.3 ? T.chip : t < T.throw - 0.6 ? -10 : T.throw - 0.42, ...(t < T.throw - 0.6 ? chipAt : onStage(ROOM, 295, 760)));
@@ -461,7 +449,7 @@ export default {
       }
     }
 
-    // ── the throw: shells tossed into the margins, the callout ──
+    // The throw: shells tossed into the margins, the callout
     S.shells.forEach(({ g, x, y, r, a, fx }) => {
       const p = prog(t, a, a + 0.27);
       if (t < a || t >= T.end) { g.setAttribute('opacity', 0); return; }
@@ -472,7 +460,7 @@ export default {
     life(S.sixteen, t, T.sixteen, T.end + 2, -1.5);
     life(S.straight, t, T.straight, T.end + 2, 1.5);
 
-    // ── the honesty label: taped to the top of the phone while the reply or its room is up ──
+    // The honesty label: taped to the top of the phone while the reply or its room is up
     const tagOn = t >= T.reply && t < T.end + 0.3;
     if (tagOn) {
       const [tx, ty] = bodyOnStage(P, BODY.w / 2, 4);
@@ -481,7 +469,7 @@ export default {
       S.tag.style.transform = `translate(${tx - S.tagW / 2}px, ${ty - S.tagH / 2}px) rotate(${P.rz - 1.5}deg) scale(${lerp(1.2, 1, q)})`;
     } else S.tag.style.opacity = 0;
 
-    // ── the end sheet ──
+    // The end sheet
     const slide = ease.inOutCubic(prog(t, T.end - 0.3, T.end + 0.13));
     S.endL.style.transform = `translateX(${(1 - slide) * (W + 120) - 30}px)`;
     S.endL.style.display = slide > 0 ? 'block' : 'none';

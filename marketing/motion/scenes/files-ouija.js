@@ -1,4 +1,4 @@
-/** THE FILES 06 — The Ouija patent (US 446,054, 10 Feb 1891). */
+/** Files 06 (files series): the Ouija patent (US 446,054, 10 Feb 1891). */
 import { file } from '../dossier.js';
 export default file({
   "n": 6,

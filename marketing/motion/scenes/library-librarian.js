@@ -1,4 +1,4 @@
-/** THE LIBRARY 05 · THE LIBRARIAN — the app, in front of the shelves: the one who has read every book. */
+/** Library 05, The librarian (library series): the app in front of the shelves, the one who has read every book. */
 import { LIB, atlas, night, shelves, lines, libEnd, libScore, el, set, prog, ease } from '../library.js';
 import { phone } from '../lib.js';
 

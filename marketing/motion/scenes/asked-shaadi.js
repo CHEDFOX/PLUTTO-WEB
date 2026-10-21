@@ -1,17 +1,6 @@
 /**
- * ASKED · SHAADI — "Shaadi kab hogi?", asked in Hinglish, answered in Hinglish.
- *
- * Indian truck art: hand-lettered Anton slabs with an ink edge and a painted
- * block shadow, a marigold garland and hanging ladis framing the stage, a
- * chevron border, painted nazar eyes and a "Pooch ke dekho!" rear panel on the
- * end card, all on deep indigo. Five paint colours (saffron, magenta, emerald,
- * cobalt, yellow) plus ink and cream; one edge weight (EDGE) everywhere.
- *
- * The rhythm is a dhol chaal (low dagga on the beat, the tilli on the swung
- * third) at 120 BPM; every big beat lands on a dagga hit.
- *
- * The footage is a real recording of the app (asked/ask-shaadi); only the reply
- * is scripted, so the honesty tag rides along whenever the reply is on screen.
+ * Asked, Shaadi (asked series, Indian truck art): "Shaadi kab hogi?", asked and answered in Hinglish, in hand-lettered
+ * slabs on indigo under a marigold garland, to a dhol chaal at 120 BPM; every big beat lands on a dagga hit.
  */
 import { el, prog, ease, lerp, rng, spring } from '../lib.js';
 import { events, remap, device, honest, tapRing } from '../asked.js';
@@ -38,7 +27,7 @@ const ROOM = { x: 0, y: 450, s: 1.4, rz: 0 };   // high enough that the tag clea
 
 let S = {};
 
-// ── helpers ────────────────────────────────────────────────────────────────
+// Helpers
 const mix = (a, b, k) => ({ x: lerp(a.x, b.x, k), y: lerp(a.y, b.y, k), s: lerp(a.s, b.s, k), rz: lerp(a.rz, b.rz, k) });
 function svg(parent, style, vb) {
   const s = document.createElementNS(NS, 'svg');
@@ -146,7 +135,7 @@ export default {
       for (let t = a, k = 0; t < b - 0.01; t += 4 * B, k++) c.push({ i: 'bass', t, n: [38, 38, 41, 36][k % 4], dur: 0.7, g: 0.32 * g });
     };
     const dagga = (t, g = 0.9) => c.push({ i: 'tom', t, f: 52, g, verb: 0.5, d: 1.1 }, { i: 'boom', t, g: 0.42 * g });
-    // HOOK: two daggas on the two words, then the chaal under the typing.
+    // Hook: two daggas on the two words, then the chaal under the typing.
     dagga(0.02, 1); dagga(0.36, 0.8);
     c.push({ i: 'crash', t: 0.02, g: 0.22 });
     chaal(0.5, T.send - 0.1);
@@ -206,7 +195,7 @@ export default {
       [T.remind, ev.tap_remind, 1],
     ]);
 
-    // ── the ground: indigo, a soft lamp, a painted flower pattern ──
+    // The ground: indigo, a soft lamp, a painted flower pattern
     S.bg = el('div', 'layer', { background: `radial-gradient(ellipse 80% 55% at 50% 46%, #2A1F74 0%, ${C.indigo} 60%, ${C.deep} 100%)` }, stage);
     const pat = svg(stage, { left: 0, top: 0, width: '1080px', height: '1920px', opacity: 0.1 }, '0 0 1080 1920');
     pat.innerHTML = `<defs><pattern id="fl" width="120" height="120" patternUnits="userSpaceOnUse">
@@ -215,7 +204,7 @@ export default {
       <g transform="translate(0,120)" fill="${C.emerald}"><circle r="4"/></g><g transform="translate(120,120)" fill="${C.emerald}"><circle r="4"/></g></pattern></defs>
       <rect width="1080" height="1920" fill="url(#fl)"/>`;
 
-    // ── the border: painted chevrons down both edges, a yellow keyline inside ──
+    // The border: painted chevrons down both edges, a yellow keyline inside
     const bd = svg(stage, { left: 0, top: 0, width: '1080px', height: '1920px', zIndex: 41 }, '0 0 1080 1920');
     const cols = [C.saffron, C.magenta, C.emerald, C.cobalt];
     let chev = '';
@@ -227,7 +216,7 @@ export default {
     bd.innerHTML = `${chev}<line x1="37" y1="0" x2="37" y2="1920" stroke="${C.ink}" stroke-width="6"/><line x1="1043" y1="0" x2="1043" y2="1920" stroke="${C.ink}" stroke-width="6"/>
       <line x1="42" y1="0" x2="42" y2="1920" stroke="${C.yellow}" stroke-width="4"/><line x1="1038" y1="0" x2="1038" y2="1920" stroke="${C.yellow}" stroke-width="4"/>`;
 
-    // ── the phone, painted: chevron bezel, reflector dots, a yellow keyline ──
+    // The phone, painted: chevron bezel, reflector dots, a yellow keyline
     const d = device(stage, 'ask-shaadi', { skin: 'paint', w: 520, ink: C.ink, frame: [C.saffron, C.magenta, C.emerald, C.cobalt], shadow: `14px 18px 0 ${C.ink}` });
     Object.assign(d.body.style, { padding: `${BEZ - 6}px`, transformStyle: 'flat' });
     d.screen.style.zIndex = 1; d.screen.style.border = `0`;
@@ -246,10 +235,10 @@ export default {
     marks.innerHTML = [u(264, 470, 327), u(34, 90, 367)].map((dd) => `<path d="${dd}" fill="none" stroke="${C.yellow}" stroke-width="5" stroke-linecap="round"/>`).join('');
     S.marks = [...marks.querySelectorAll('path')];
 
-    // ── the garland: a marigold string across the top, two ladis down the sides ──
+    // The garland: a marigold string across the top, two ladis down the sides
     S.gar = svg(stage, { left: 0, top: 0, width: '1080px', height: '1920px', zIndex: 42 }, '0 0 1080 1920');
 
-    // ── type ──
+    // Type
     const ov = el('div', 'layer', { zIndex: 30 }, stage);
     S.hook = [line(ov, 'Shaadi', 168, letter(C.yellow, 236, C.magenta)), line(ov, 'kab hogi?', 404, letter(C.cream, 172, C.cobalt))];
     S.sub = line(ov, 'Hinglish mein poocha…', 612, brush(C.saffron, 66));
@@ -270,12 +259,12 @@ export default {
     S.honest = honest(stage, { color: C.ink, bg: C.yellow, bottom: 290, style: { fontFamily: 'Anton', fontWeight: 400, fontSize: '36px', letterSpacing: '0.08em', padding: '8px 26px 10px', borderRadius: '10px', border: `5px solid ${C.ink}`, boxShadow: `6px 7px 0 ${C.magenta}` } });
     S.honestEl = stage.lastElementChild;
 
-    // ── the wipe: painted rings bursting out from the button ──
+    // The wipe: painted rings bursting out from the button
     S.wipe = svg(stage, { left: 0, top: 0, width: '1080px', height: '1920px', zIndex: 38, display: 'none' }, '0 0 1080 1920');
     S.wipe.innerHTML = [C.yellow, C.magenta, C.emerald, C.cobalt, C.indigo].map((f) => `<circle fill="${f}" stroke="${C.ink}" stroke-width="10"/>`).join('');
     S.wipeC = [...S.wipe.querySelectorAll('circle')];
 
-    // ── the end card ──
+    // The end card
     S.endL = el('div', 'layer', { zIndex: 39, opacity: 0, background: `radial-gradient(ellipse 80% 55% at 50% 40%, #2A1F74 0%, ${C.indigo} 60%, ${C.deep} 100%)` }, stage);
     const ep = svg(S.endL, { left: 0, top: 0, width: '1080px', height: '1920px', opacity: 0.1 }, '0 0 1080 1920');
     ep.innerHTML = '<rect width="1080" height="1920" fill="url(#fl)"/>';
@@ -298,12 +287,12 @@ export default {
   },
 
   async frame(t) {
-    // ── the phone ──
+    // The phone
     const P = pose(t), live = t < T.end;
     if (live) await S.d.at(S.clock(t));
     S.d.pose(t, { x: P.x, y: P.y, s: P.s, rz: P.rz, o: live ? 1 : 0 });
 
-    // ── the garland: swings a little; the ladis sway ──
+    // The garland: swings a little; the ladis sway
     {
       const sw = Math.sin(t * 1.3) * 4;
       let g = '';
@@ -325,7 +314,7 @@ export default {
       S.gar.innerHTML = g;
     }
 
-    // ── HOOK: two painted words, slammed in on the first frames ──
+    // Hook: two painted words, slammed in on the first frames
     slam(S.hook[0], t, 0.0, T.send - 0.12, { from: 1.12, rot: -2 });
     slam(S.hook[1], t, 0.32, T.send - 0.06, { from: 1.2, rot: -1 });
     if (t < 0.02) { S.hook[0].style.opacity = 1; S.hook[0].style.transform = 'scale(1.12) rotate(-2deg)'; }
@@ -351,13 +340,13 @@ export default {
       }
     }
 
-    // ── the payoff: one word per stream, slammed ──
+    // The payoff: one word per stream, slammed
     S.pay.forEach((e, k) => slam(e, t, T.words[k], T.room - 0.2 + k * 0.03, { from: 1.12 }));
     const draw = (e, a, b) => { const len = e.getTotalLength(); e.style.strokeDasharray = len; e.style.strokeDashoffset = len * (1 - ease.outCubic(prog(t, a, b))); e.style.opacity = t < T.tap + 0.1 ? 1 : 0; };
     draw(S.marks[0], T.words[0], T.words[2] + 0.1);
     draw(S.marks[1], T.words[2] + 0.1, T.words[3] + 0.25);
 
-    // ── the chip, the room ──
+    // The chip, the room
     const chip = onStage(pose(T.tap), 144, 488);
     const btn = onStage(pose(T.remind), 120, 288);
     S.ring(t, t < T.remind - 0.2 ? T.tap : T.remind, t < T.remind - 0.2 ? chip[0] : btn[0], t < T.remind - 0.2 ? chip[1] : btn[1]);
@@ -365,17 +354,17 @@ export default {
     slam(S.dates, t, T.room, T.remind - 0.12, { rot: -1.5 });
     wipeOn(S.kundli, t, T.room + 0.35, T.remind - 0.08);
 
-    // ── "Remind me" → "Reminder set": Yaad bhi dilayega. ──
+    // "Remind me" → "Reminder set": Yaad bhi dilayega.
     slam(S.yaad, t, T.remind + 0.1, T.wipe - 0.05, { rot: -1.5 });
     slam(S.dilayega, t, T.remind + 0.3, T.wipe, { from: 1.2, rot: -1 });
 
-    // ── the honesty tag, whenever the reply (or the room it opened) is on screen ──
+    // The honesty tag, whenever the reply (or the room it opened) is on screen
     const hon = t >= T.reply && t < T.end;
     S.honest(hon ? Math.min(1, prog(t, T.reply, T.reply + 0.15) * 1) : 0);
     // In the room it drops to the floor of the safe area, clear of the next row's button.
     S.honestEl.style.transform = `translateX(-50%) translateY(${28 * ease.inOutCubic(prog(t, T.tap + 0.1, T.room + 0.5))}px) rotate(-1.5deg)`;
 
-    // ── the wipe: rings burst from the Remind button ──
+    // The wipe: rings burst from the Remind button
     if (t >= T.wipe && t < T.end + 0.05) {
       S.wipe.style.display = 'block';
       const [x, y] = onStage(pose(t), 120, 288);
@@ -385,7 +374,7 @@ export default {
       });
     } else S.wipe.style.display = 'none';
 
-    // ── the end card ──
+    // The end card
     const te = t - T.end;
     S.endL.style.opacity = te >= 0 ? 1 : 0;
     if (te >= 0) {

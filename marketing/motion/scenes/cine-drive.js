@@ -1,14 +1,7 @@
-/**
- * CINEMA 03 · OUT LOUD — built for the scroll.
- *   0.0  HOOK: a streetlight goes over, the cabin flares orange. "You took the
- *        long way home again." (the second person, a small true thing)
- *   2.4  "Radio off. Still thinking about it."
- *   3.6  three hits, three words, a streetlight on each: Say it. Out. Loud.
- *   6.0  DROP: Plutto's voice mode, listening (the real recording).
- *   7.8  the real language screen — Hello, Aloha, Talofa… "It answers in yours."
- *   9.6  the orb, huge, breathing on the kick — and it becomes the Plutto ring.
- *  14.1  the callback: the car rolls to a stop. "Home."
- */
+/** Cinema 03, Out loud (cine series): a night drive home, then Plutto's voice mode listening, the orb becoming the ring. */
+// Beats (s): 0.0 a streetlight flares the cabin, "You took the long way home again." · 2.4 "Radio off. Still thinking about
+// it." · 3.6 "Say it. Out. Loud.", a streetlight on each word · 6.0 drop: voice mode (real recording) · 7.8 the language
+// screen, "It answers in yours." · 9.6 the orb breathes on the kick and becomes the ring · 14.1 the car stops, "Home."
 import { cinema, title, show, phone3d, ringEnd, kinetic, kin, impulse, drift, b, lerp, prog, ease } from '../cine.js';
 import { el, footage } from '../lib.js';
 import { roadShot } from '../shots.js';

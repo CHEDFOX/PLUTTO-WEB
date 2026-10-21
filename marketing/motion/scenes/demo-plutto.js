@@ -1,16 +1,6 @@
 /**
- * DEMO · PLUTTO — the product film. Thirty-two seconds, 120 BPM, one cut per
- * idea: the line for your day, the dead hour, what is coming; ask anything, the
- * answer opens the right tool, it speaks your language, it keeps score, and a
- * whole sky to explore. Then the ring and the address.
- *
- * Studio look: black stage, a slow violet glow behind a glass phone in 3D, an
- * outlined marquee word per chapter, heavy tight Inter headlines that turn on
- * one Cormorant italic word, small mono chapter marks, whip cuts on the beat.
- *
- * Every screen is the REAL app (its web build, recorded: public/app/screens/
- * tour-*.webm and ask-*.webm). The chat replies are written for the film, so
- * the honesty tag rides along while a reply or the room it opened is on screen.
+ * Demo, Plutto (demo series, the product film): thirty-two seconds at 120 BPM, one cut per idea, the real app's
+ * recordings (public/app/screens/tour-*.webm, ask-*.webm) in a glass phone in 3D, ending on the ring and the address.
  */
 import { el, prog, ease, lerp, footage, rng } from '../lib.js';
 import { events, remap, device, honest, tapRing } from '../asked.js';
@@ -30,7 +20,7 @@ const N = { x: 0, y: 150, s: 0.94, rx: 3, ry: 0, rz: 0 };
 
 let S = {};
 
-// ── helpers ────────────────────────────────────────────────────────────────
+// Helpers
 const mix = (a, b, k) => Object.fromEntries(Object.keys(a).map((key) => [key, lerp(a[key], b[key] ?? a[key], k)]));
 /** The pose that puts the recording's point (sx, sy) at stage (tx, ty), at scale s. */
 const focus = (sx, sy, s, ty = 1000, tx = 540) => ({ x: tx - 540 - (BEZ + sx * K - BW / 2) * s, y: ty - 960 - (BEZ + sy * K - BH / 2) * s, s, rx: 0, ry: 0, rz: 0 });
@@ -74,7 +64,7 @@ function showHead(h, t, a, b) {
   });
 }
 
-// ── the film ───────────────────────────────────────────────────────────────
+// The film
 export default {
   duration: DUR,
   poster: 9.95,
@@ -209,7 +199,7 @@ export default {
     const cuts = [CUT.home, CUT.ask, CUT.tool, CUT.lang, CUT.score, CUT.sky];
     const kick = t >= CUT.home && t < CUT.end && !(t >= 9.5 && t < 11) && !(t >= 25.5 && t < 26) ? Math.pow(1 - ((t - CUT.home) % BEAT) / BEAT, 3) : 0;
 
-    // ── atmosphere ──
+    // Atmosphere
     S.glow.style.opacity = t < CUT.home ? 0.5 * prog(t, 1.4, 2.0) : 0.75 + kick * 0.25;
     S.glow.style.transform = `translateY(${110 + Math.sin(t * 0.7) * 30}px) scale(${1 + kick * 0.04})`;
     const MW = [[CUT.home, 'TODAY'], [CUT.ask, 'ASK'], [CUT.tool, 'OPEN'], [CUT.lang, 'HAAN'], [CUT.score, 'SCORE'], [CUT.sky, 'EXPLORE'], [CUT.fan, 'PLUTTO']];
@@ -222,7 +212,7 @@ export default {
       S.marq.style.transform = `translateX(${-((t - mw[0]) * 160 + 120) % 2000 - 200}px)`;
     } else S.marq.style.opacity = 0;
 
-    // ── chapter marks ──
+    // Chapter marks
     const CH = [[CUT.home, '01 · Today'], [CUT.ask, '02 · Ask'], [CUT.tool, '03 · Tools'], [CUT.lang, '04 · Your language'], [CUT.score, '05 · Receipts'], [CUT.sky, '06 · Explore'], [CUT.fan, '']];
     let ch = '';
     for (const c of CH) if (t >= c[0]) ch = c[1];
@@ -230,7 +220,7 @@ export default {
     const chOn = t >= CUT.home && t < CUT.end ? 1 : 0;
     S.chap.style.opacity = chOn; S.chapR.style.opacity = chOn;
 
-    // ── the cold open: four slams ──
+    // The cold open: four slams
     S.slams.forEach((e, i) => {
       const a = i * 0.5;
       if (t < a || t >= CUT.home + 0.35) { e.style.opacity = 0; return; }
@@ -240,7 +230,7 @@ export default {
       e.style.filter = k < 1 ? `blur(${(1 - k) * 8}px)` : 'none';
     });
 
-    // ── the phones ──
+    // The phones
     const P = {};
     const idle = (p, ry = 0) => ({ ...p, y: p.y + Math.sin(t * 1.4) * 7, ry: p.ry + ry + Math.sin(t * 0.6) * 3 });
     // Whip: the new phone flies in from `dir`, the old one leaves the other way.
@@ -306,7 +296,7 @@ export default {
       d.body.style.filter = p.blur > 0.3 ? `blur(${p.blur.toFixed(1)}px)` : 'none';
     }
 
-    // ── the callout: the dead hour, lifted out ──
+    // The callout: the dead hour, lifted out
     const cIn = spring(prog(t, 4.42, 4.95)), cOut = ease.inCubic(prog(t, 5.45, 5.65));
     if (t >= 4.42 && t < 5.65) {
       await S.cardF.at(S.clock.home(t));
@@ -314,21 +304,21 @@ export default {
       S.card.style.transform = `translate(${-40 * (1 - cIn)}px, ${60 * (1 - cIn) - cOut * 40}px) rotate(${lerp(-9, -3, cIn)}deg) scale(${lerp(0.6, 1, cIn) * (1 - cOut * 0.1)})`;
     } else S.card.style.opacity = 0;
 
-    // ── taps ──
+    // Taps
     const taps = [[TAP.chip, 'quit', 120, 488], [TAP.throw, 'quit', 294, 760], [TAP.hinglish, 'lang', 144, 488], [TAP.happened, 'fake', 124, 768]];
     let tp = taps.filter(([a]) => t >= a - 0.02).pop();
     if (tp && P[tp[1]]) { const [x, y] = onStage(P[tp[1]], tp[2], tp[3]); S.ring(t, tp[0], x, y); } else S.ring(t, -9, 0, 0);
 
-    // ── headlines ──
+    // Headlines
     S.heads.forEach(({ a, b, h }) => showHead(h, t, a, b));
 
-    // ── honesty: whenever a written reply, or the room it opened, is on screen ──
+    // Honesty: whenever a written reply, or the room it opened, is on screen
     S.honest(inOutTag(t));
 
-    // ── flash on the cuts and the slams ──
+    // Flash on the cuts and the slams
     S.flash.style.opacity = Math.min(0.5, impulse(t, [0, 0.5, 1, 1.5], 0.18) * 0.22 + impulse(t, cuts, 0.16) * 0.16 + impulse(t, [CUT.fan], 0.25) * 0.2);
 
-    // ── the end ──
+    // The end
     S.end(t - CUT.end);
   },
 };

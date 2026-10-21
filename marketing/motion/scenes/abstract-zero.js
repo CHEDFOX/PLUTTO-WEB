@@ -1,4 +1,4 @@
-/** ABSTRACT 03 · ZERO — Malevich's Suprematism: a black square, then red and black planes fly across white to a techno pulse. "A horoscope is a picture. A chart is a system." */
+/** Abstract 03, Zero (abstract series): Malevich's black square, then red and black Suprematist planes fly across white to a techno pulse. */
 import { sheet, draw, paintAll, captions, showCaptions, absEnd, el, prog, ease } from '../abstract.js';
 import { grid } from '../signal.js';
 
