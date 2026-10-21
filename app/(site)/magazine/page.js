@@ -33,7 +33,7 @@ export default function MagazinePage() {
     <>
       <JsonLd data={list} />
       <JsonLd data={breadcrumbLd([{ name: 'Magazine', path: '/magazine' }])} />
-      <div data-no-auto-case data-no-binary className="sentence-case relative z-10 font-ui">
+      <div data-no-auto-case className="sentence-case relative z-10 font-ui">
         {/* THE MASTHEAD */}
         <header className="mx-auto max-w-6xl px-6 pt-10 md:pt-14">
           <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-white pb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-white/70">

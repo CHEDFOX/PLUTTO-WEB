@@ -63,7 +63,7 @@ export default async function MagazineArticle({ params }) {
     <>
       <JsonLd data={articleLd({ title: a.title, description: a.standfirst, path, updated: PUBLISHED })} />
       <JsonLd data={breadcrumbLd([{ name: 'Magazine', path: '/magazine' }, { name: a.title, path }])} />
-      <article data-no-auto-case data-no-binary className="sentence-case relative z-10 font-ui">
+      <article data-no-auto-case className="sentence-case relative z-10 font-ui">
         <header className="mx-auto max-w-4xl px-6 pt-8 md:pt-14">
           <nav aria-label="Breadcrumb" className="text-[13px] text-white/45">
             <Link href="/" className="hover:text-white">Plutto</Link>

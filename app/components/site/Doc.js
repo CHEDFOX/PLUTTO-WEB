@@ -14,7 +14,7 @@ export const LINK = 'text-white underline decoration-white/30 underline-offset-4
 
 export function Doc({ eyebrow, title, lead, crumbs = [], children }) {
   return (
-    <article data-no-auto-case data-no-binary className="sentence-case relative z-10 font-ui">
+    <article data-no-auto-case className="sentence-case relative z-10 font-ui">
       <header className="mx-auto max-w-4xl px-6 pb-12 pt-8 md:pt-16">
         {crumbs.length ? (
           <nav aria-label="Breadcrumb" className="mb-6 text-[13px] text-white/40">

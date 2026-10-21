@@ -119,7 +119,6 @@ export default function Draw() {
             </p>
             <Link
               href="/app"
-              data-no-binary
               className="mt-6 inline-flex items-center rounded-full bg-white/[0.08] px-5 py-2.5 font-ui text-[14px] font-medium text-white ring-1 ring-white/15 transition-colors hover:bg-white/[0.14]"
             >
               What does it mean for you →

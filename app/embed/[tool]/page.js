@@ -26,7 +26,7 @@ export default async function Embed({ params }) {
   if (!e) notFound();
   const W = WIDGET[tool];
   return (
-    <div data-no-auto-case data-no-binary className="sentence-case font-ui p-5 text-[16px] text-white/80">
+    <div data-no-auto-case className="sentence-case font-ui p-5 text-[16px] text-white/80">
       <p className="mb-5 text-[18px] font-semibold text-white">{e.title}</p>
       <W />
       <p className="mt-8 text-[13px] text-white/45">

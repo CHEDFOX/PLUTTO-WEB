@@ -34,7 +34,7 @@ const PLANS = [
 
 export default function PricingPage() {
   return (
-    <div data-no-auto-case data-no-binary className="sentence-case relative z-10 font-ui">
+    <div data-no-auto-case className="sentence-case relative z-10 font-ui">
       {/* ───────────────────────── HEAD ───────────────────────── */}
       <section className="mx-auto max-w-4xl px-6 pb-16 pt-8 md:pt-16">
         <FadeUp>

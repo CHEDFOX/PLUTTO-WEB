@@ -91,7 +91,7 @@ export default function AboutPage() {
   return (
     <>
 
-      <div data-no-auto-case data-no-binary className="sentence-case relative z-10 font-ui">
+      <div data-no-auto-case className="sentence-case relative z-10 font-ui">
         {/* ───────────────────────── HEAD ───────────────────────── */}
         <section className="mx-auto max-w-6xl px-6 pb-20 pt-8 md:pt-16">
           <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-12">
@@ -254,7 +254,6 @@ export default function AboutPage() {
               <div className="mt-12 flex justify-center">
                 <Link
                   href="/app"
-                  data-no-binary
                   className="inline-flex h-12 items-center justify-center rounded-[2px] bg-white px-7 font-mono text-[13px] uppercase tracking-[0.18em] text-black transition-opacity hover:opacity-90"
                 >
                   Open it in this browser

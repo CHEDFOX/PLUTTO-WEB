@@ -99,7 +99,7 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <div data-no-auto-case data-no-binary className="sentence-case relative z-10 font-ui">
+    <div data-no-auto-case className="sentence-case relative z-10 font-ui">
       {/* ─────────────────────────── HERO ───────────────────────────
           Text left, the product right — the product visible in the first
           screen, and running. Neptune rises behind the phones: the brand's
