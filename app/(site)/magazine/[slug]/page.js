@@ -12,7 +12,10 @@ import { ARTICLES, ARTICLE_BY_SLUG, APP_PAGE, PUBLISHED, readMinutes } from '../
 import { pageMeta } from '../../../lib/seo/pageMeta';
 import { breadcrumbLd, articleLd } from '../../../lib/seo/structuredData';
 import { JsonLd } from '../../../components/seo/JsonLd';
-import { ArticleCard, AppPage, Figure, KICKER, LABEL } from '../../../components/site/magazine/Parts';
+import { ArticleCard } from '../../../components/magazine/ArticleCard';
+import { AppPage } from '../../../components/magazine/AppPage';
+import { Figure } from '../../../components/magazine/Figure';
+import { KICKER, LABEL } from '../../../components/magazine/classes';
 import { LINK } from '../../../components/doc/classes';
 import { Block } from '../../../components/magazine/Block';
 

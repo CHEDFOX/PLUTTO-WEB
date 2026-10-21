@@ -38,7 +38,7 @@ import Ancient from '../components/home/Ancient';
 import { Note } from '../components/ink/Note';
 import { Arrow } from '../components/ink/Arrow';
 import { Underline } from '../components/ink/Underline';
-import { ArticleCard } from '../components/site/magazine/Parts';
+import { ArticleCard } from '../components/magazine/ArticleCard';
 import { ARTICLE_BY_SLUG } from '../lib/content/magazine';
 import { Lines } from '../components/home/Lines';
 import { H2 } from '../components/home/H2';

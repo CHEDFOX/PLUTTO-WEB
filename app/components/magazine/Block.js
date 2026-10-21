@@ -1,4 +1,4 @@
-import { LABEL } from '../site/magazine/Parts';
+import { LABEL } from './classes';
 
 export function Block({ b, first }) {
   if (b.h) return <h2 className="mt-14 font-display text-[clamp(1.5rem,2.6vw,1.9rem)] leading-tight text-white">{b.h}</h2>;

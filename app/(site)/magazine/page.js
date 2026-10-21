@@ -11,7 +11,9 @@ import { pageMeta } from '../../lib/seo/pageMeta';
 import { breadcrumbLd } from '../../lib/seo/structuredData';
 import { JsonLd } from '../../components/seo/JsonLd';
 import { abs } from '../../lib/seo/site';
-import { ArticleCard, AppPage, KICKER, LABEL } from '../../components/site/magazine/Parts';
+import { ArticleCard } from '../../components/magazine/ArticleCard';
+import { AppPage } from '../../components/magazine/AppPage';
+import { KICKER, LABEL } from '../../components/magazine/classes';
 import { LINK } from '../../components/doc/classes';
 
 const TITLE = 'The Plutto Magazine: stories the sky left behind';
