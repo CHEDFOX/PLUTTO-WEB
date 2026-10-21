@@ -1,9 +1,4 @@
-/**
- * EVERY PAGE'S SHARE CARD, IN WORDS — what /og/<section>/<slug> draws: the
- * page's own title, its key facts, and the body it is about where the site has
- * art for it (a nakshatra shows its lord, a sign its ruler). A page about the
- * Moon never shows a picture of Neptune: without art the card is type alone.
- */
+/** What /og/<section>/<slug> draws per page: its title, key facts and the planet's art; a body without art gets none. */
 import { GUIDES } from '../content/guides';
 import { SECTIONS } from '../content/refpages';
 import { TOOLS } from '../content/tools';

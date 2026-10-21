@@ -1,11 +1,4 @@
-/**
- * /llms.txt and /llms-full.txt — the site as plain Markdown for language models
- * (the llms.txt convention: a title, a one-paragraph summary, then links).
- *
- * An answer engine that reads this gets Plutto's facts in Plutto's own words,
- * without parsing a page built for eyes. Generated from the same modules the
- * pages use, so it can never say something the site does not.
- */
+/** /llms.txt and /llms-full.txt as Markdown, generated from the modules the pages use and app/lib/data/atlas.json. */
 import { SITE } from './site';
 import { FAQS } from '../content/faq';
 import { GUIDES } from '../content/guides';

@@ -1,28 +1,16 @@
 /**
- * THE REFERENCE LIBRARY — the fixed correspondences of the traditions Plutto
- * reads, one page each: /nakshatras/<slug>, /chinese-zodiac/<slug>,
- * /grahas/<slug>, /zodiac-signs/<slug>.
- *
- * Every field below is a standard, published correspondence of its tradition
- * (nakshatra lords follow the Vimshottari order; gana, deity and symbol are the
- * common classical attributions; the Chinese trines, secret friends and clashes
- * are the San He, Liu He and Chong pairs; exaltations are the Parāśari ones).
- * Where schools genuinely disagree — Rahu's exaltation, the sidereal dates —
- * the page says so rather than picking a side silently.
- *
- * The `about` lines are interpretation, written as what the tradition
- * associates with each, never as a promise about anyone's life.
+ * Fixed correspondences for /nakshatras, /chinese-zodiac, /grahas and /zodiac-signs, each a standard published one
+ * (Vimshottari lords, classical gana, deity and symbol, the San He, Liu He and Chong pairs, Parāśari exaltations).
+ * Where schools disagree the page says so. `about` lines say what a tradition associates with each, never a prediction.
  */
 
 const SIGN_NAMES = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
-// An END that falls exactly on a sign boundary is written as the texts write it:
-// Ashlesha ends at 30°00′ Cancer, not 0°00′ Leo.
+// An end exactly on a sign boundary is written as the texts write it: Ashlesha ends at 30°00′ Cancer, not 0°00′ Leo.
 const degEnd = (x) => { const r = Math.round(x * 3600) / 3600; return r % 30 === 0 ? `30°00′ ${SIGN_NAMES[(r / 30 - 1 + 12) % 12]}` : deg(x); };
 const deg = (x) => { const s = Math.floor(x / 30); const d = x - s * 30; const whole = Math.floor(d + 1e-9); const min = Math.round((d - whole) * 60); return `${whole}°${String(min).padStart(2, '0')}′ ${SIGN_NAMES[s % 12]}`; };
 export const slugify = (s) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
-// ── NAKSHATRAS ───────────────────────────────────────────────────────────────
-// [name, ruling graha, deity, symbol, gana, what the tradition associates with it]
+// Nakshatras: [name, ruling graha, deity, symbol, gana, what the tradition associates with it]
 const N = [
   ['Ashwini', 'Ketu', 'the Ashvini Kumaras, physicians of the gods', "a horse's head", 'Deva', 'speed, healing and first steps — the nakshatra of beginnings and of help that arrives quickly'],
   ['Bharani', 'Venus', 'Yama, lord of death and restraint', 'the yoni', 'Manushya', 'bearing and carrying through — creation, restraint and the weight of what must be held until it is born'],
@@ -86,8 +74,7 @@ export const NAKSHATRAS = N.map(([name, lord, deity, symbol, gana, about], i) =>
   signs: [...new Set([0, 1, 2, 3].map((q) => SIGN_NAMES[Math.floor(((i * 4 + q) * PADA) / 30)]))],
 }));
 
-// ── CHINESE ZODIAC ───────────────────────────────────────────────────────────
-// [animal, fixed element, yin/yang, what the tradition associates with it]
+// Chinese zodiac: [animal, fixed element, yin/yang, what the tradition associates with it]
 const A = [
   ['Rat', 'Water', 'Yang', 'quick-witted, resourceful and adaptable — the first to arrive, as the race story tells it'],
   ['Ox', 'Earth', 'Yin', 'steady, patient and dependable — strength that comes from endurance'],
@@ -133,7 +120,7 @@ export const ANIMALS = A.map(([name, element, polarity, about], i) => {
   };
 });
 
-// ── GRAHAS ───────────────────────────────────────────────────────────────────
+// Grahas
 const FRIENDSHIP = {
   Sun: { friends: ['Moon', 'Mars', 'Jupiter'], neutral: ['Mercury'], enemies: ['Venus', 'Saturn'] },
   Moon: { friends: ['Sun', 'Mercury'], neutral: ['Mars', 'Jupiter', 'Venus', 'Saturn'], enemies: [] },
@@ -162,8 +149,7 @@ export const GRAHAS = [
     ...FRIENDSHIP[g.key],
   }));
 
-// ── ZODIAC SIGNS ─────────────────────────────────────────────────────────────
-// Tropical dates are the usual ones (they shift by a day with the year); the
+// Zodiac signs. Tropical dates are the usual ones (they shift by a day with the year); the
 // sidereal (Lahiri) dates are approximate Sun ingresses and are labelled so.
 export const SIGNS = [
   { name: 'Aries', sanskrit: 'Mesha', symbol: 'the Ram', element: 'Fire', mode: 'Cardinal', ruler: 'Mars', trop: 'March 21 – April 19', sid: 'about April 14 – May 14', about: 'initiative, courage and the urge to begin' },

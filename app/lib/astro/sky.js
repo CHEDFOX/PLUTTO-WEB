@@ -1,15 +1,8 @@
 /**
- * THE SKY, IN THE BROWSER — the Moon and the Sun as the app computes them.
- *
- * The backend reads a Vedic chart as Swiss Ephemeris' apparent tropical
- * longitude minus swe.get_ayanamsa (Lahiri, the mean value, no nutation);
- * app/services/core/ephemeris.py. This module does the same with
- * astronomy-engine (MIT, VSOP87/ELP-grade), and the ayanamsa below is a fit to
- * swe.get_ayanamsa itself: 0.0001″ worst case from 1800 to 2200. Tested against
- * pyswisseph on random births (see the page's accuracy note for the figure).
- *
- * astronomy-engine is ~40 kB gzipped, so callers import this module lazily —
- * the page ships none of it until someone asks for a chart.
+ * The Moon and the Sun as the app computes them: apparent tropical longitude minus Lahiri ayanamsa (mean, no nutation),
+ * as Plutto-Backend app/services/core/ephemeris.py does with Swiss Ephemeris, here with astronomy-engine (MIT,
+ * VSOP87/ELP-grade). The ayanamsa is a fit to swe.get_ayanamsa, 0.0001″ worst case 1800–2200, tested against pyswisseph
+ * on random births. astronomy-engine is ~40 kB gzipped, so callers import this module lazily, on the first chart.
  */
 import * as A from 'astronomy-engine';
 

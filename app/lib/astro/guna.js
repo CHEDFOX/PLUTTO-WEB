@@ -1,15 +1,7 @@
 /**
- * GUNA MILAN — the eight kootas (36 points) from two sidereal Moon longitudes.
- *
- * The tables are the classical ones as the standard references publish them
- * (Drik Panchang's Ashtakuta tutorials and the widely reproduced koota tables):
- * the Vashya groups with Sagittarius and Capricorn split at 15°, the 14×14
- * Yoni table, the directional Vashya table (bride's group down, groom's
- * across), Tara both ways, and Graha Maitri derived from the natural
- * friendships of Brihat Parashara Hora Shastra (reference.js). Where schools
- * differ — Gana's cross scores, the dosha exceptions — the page says so.
- *
- * Pure functions: the page and the tests use exactly this code.
+ * Guna Milan: the eight kootas (36 points) from two sidereal Moon longitudes, as pure functions. Classical tables as
+ * Drik Panchang's Ashtakuta tutorials and the common koota tables publish them; Graha Maitri uses the natural
+ * friendships of Brihat Parashara Hora Shastra (app/lib/content/reference.js). Where schools differ, the page says so.
  */
 import { NAKSHATRAS, SIGNS, GRAHAS } from '../content/reference';
 
@@ -21,7 +13,7 @@ const VARNA = ['Kshatriya', 'Vaishya', 'Shudra', 'Brahmin'];
 const VARNA_RANK = { Brahmin: 4, Kshatriya: 3, Vaishya: 2, Shudra: 1 };
 export const varnaOf = (r) => VARNA[r % 4];
 
-// Vashya group of a sidereal longitude (the sign, and for two signs the half).
+// Vashya group of a sidereal longitude: by sign, with Sagittarius and Capricorn split at 15°.
 export const VASHYA = ['Chatushpada', 'Manava', 'Jalachara', 'Vanachara', 'Keeta'];
 export function vashyaOf(lon) {
   const r = Math.floor(lon / 30), d = lon - r * 30;
@@ -29,7 +21,7 @@ export function vashyaOf(lon) {
   if (r === 9) return d < 15 ? 'Chatushpada' : 'Jalachara';
   return ['Chatushpada', 'Chatushpada', 'Manava', 'Jalachara', 'Vanachara', 'Manava', 'Manava', 'Keeta', null, null, 'Manava', 'Jalachara'][r];
 }
-// Bride's group (row) × groom's group (column), in VASHYA order.
+// Bride's group (row) × groom's group (column), both in the order above.
 export const VASHYA_TABLE = [
   [2, 1, 1, 1.5, 1],
   [1, 2, 1.5, 0, 1],
@@ -44,7 +36,7 @@ const TARA_NAMES = ['Janma', 'Sampat', 'Vipat', 'Kshema', 'Pratyak', 'Sadhana', 
 const taraOf = (from, to) => ((((to - from) % 27) + 27) % 27) % 9 + 1;
 const taraGood = (t) => ![3, 5, 7].includes(t);
 
-// Yoni: 14 animals; symmetric table.
+// Yoni: 14 animals, a symmetric 14×14 table.
 export const YONIS = ['Horse', 'Elephant', 'Sheep', 'Serpent', 'Dog', 'Cat', 'Rat', 'Cow', 'Buffalo', 'Tiger', 'Deer', 'Monkey', 'Mongoose', 'Lion'];
 export const YONI_TABLE = [
   [4, 2, 2, 3, 2, 2, 2, 1, 0, 1, 3, 3, 2, 1],

@@ -1,7 +1,4 @@
-/**
- * THE CALCULATORS' ARITHMETIC — pure functions, shared by the tools at /tools
- * and by nothing else, so what a page explains is exactly what it computes.
- */
+/** Numerology for the /tools calculators: digit reduction, life path and name numbers, as pure functions. */
 
 const MASTER = new Set([11, 22, 33]);
 const digitSum = (n) => String(n).split('').reduce((s, d) => s + Number(d), 0);
@@ -39,7 +36,7 @@ export const LIFE_PATH = {
   33: 'Master number 33: the master teacher — service and compassion, a heightened 6.',
 };
 
-// ── Names ────────────────────────────────────────────────────────────────────
+// Name numbers: Pythagorean and Chaldean letter values.
 const PYTH = Object.fromEntries('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map((c, i) => [c, (i % 9) + 1]));
 const CHALD = { A: 1, B: 2, C: 3, D: 4, E: 5, F: 8, G: 3, H: 5, I: 1, J: 1, K: 2, L: 3, M: 4, N: 5, O: 7, P: 8, Q: 1, R: 2, S: 3, T: 4, U: 6, V: 6, W: 6, X: 5, Y: 1, Z: 7 };
 const VOWELS = new Set(['A', 'E', 'I', 'O', 'U']);

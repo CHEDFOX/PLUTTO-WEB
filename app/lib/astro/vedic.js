@@ -1,12 +1,7 @@
 /**
- * THE MOON'S READING, AS ARITHMETIC — nakshatra, pada, rashi and the
- * Vimshottari dasha from a sidereal Moon longitude. Pure functions, no
- * astronomy: sky.js supplies the longitude.
- *
- * The dasha follows the backend exactly (app/services/dashas/vimshottari.py):
- * the balance at birth is the lord's years times the part of the nakshatra
- * the Moon has still to cross, and a year is 365.25 days. So the free tool
- * and the app give the same dates.
+ * Nakshatra, pada, rashi and the Vimshottari dasha from a sidereal Moon longitude (from app/lib/astro/sky.js), as pure
+ * functions. The dasha matches Plutto-Backend app/services/dashas/vimshottari.py: the balance at birth is the lord's
+ * years times the part of the nakshatra still to cross, and a year is 365.25 days, so the tool and the app agree.
  */
 import { NAKSHATRAS, SIGNS } from '../content/reference';
 

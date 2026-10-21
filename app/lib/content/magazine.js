@@ -1,16 +1,7 @@
 /**
- * THE MAGAZINE — short features at /magazine/<slug>, for the reader who came for
- * the sky and stayed for the story.
- *
- * Every piece is built on a fact that can be checked, and lists where to check
- * it. Where a story is famous but shaky (the "dragon bones" chemist, the root of
- * "consider"), the text says so. Nothing here claims astrology predicts events;
- * the pieces are about what people did with the sky, and what it left behind.
- *
- * Pictures: public-domain or openly licensed files on Wikimedia Commons, loaded
- * from Commons and credited with a link to their page, or plates drawn here
- * (`plate`). `app` is the page of the real app each piece ends on; the images
- * in public/magazine/app are screens recorded from it.
+ * Magazine features at /magazine/<slug>, each built on a checkable fact with its sources listed. Pictures are openly
+ * licensed Wikimedia Commons files loaded from Commons and credited with a link, or plates drawn in code (`plate`);
+ * `app` is the app page a piece ends on, with screens recorded from the app in public/magazine/app.
  */
 
 export const PUBLISHED = '2026-10-13';

@@ -1,19 +1,7 @@
 /**
- * THE SHELVES — the whole library, and the colour each part of it is filed in.
- *
- * A STATIC EXCERPT of the live library (`/api/public/library-map`), copied out
- * of the backend so the marketing pages can name a hundred and two real
- * traditions without a request. The `shelf` is the backend's own grouping (the
- * twelve REGIONS in library_map.py) — not a category invented for the website.
- *
- * THE COLOUR IS INFORMATION. Twelve shelves, twelve hues, evenly spaced around
- * the wheel and ordered as the library is: South Asia through to the body. A
- * spine's colour tells you which shelf it stands on, so the wall of them reads
- * as an organised collection rather than as decoration. Gold is NOT in this
- * palette — it stays the brand's own accent, spent on one thing at a time.
- *
- * The names are the traditions' own: `Merindinlogun` is not "African
- * astrology", and printing all of them is the point — none is a footnote.
+ * The library's shelves and their colours, a static excerpt of the backend's /api/public/library-map so the marketing
+ * pages need no request; `shelf` is the backend's grouping (the regions in library_map.py). Twelve evenly spaced hues,
+ * in library order, mark which shelf a spine stands on; gold stays out of them. Names are the traditions' own.
  */
 
 /** The twelve shelves, in the order the library keeps them. */

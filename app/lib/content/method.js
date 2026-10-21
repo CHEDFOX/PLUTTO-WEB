@@ -1,15 +1,7 @@
 /**
- * THE METHOD — every system Plutto reads, what it is read from, and what it rests on.
- *
- * Written from the backend's own record, not from memory: the method registry and
- * bibliography in Plutto-Backend app/services/provenance (every computed technique is
- * declared there beside the work it comes from), the tradition table in
- * features/library_shelves.py, and each engine's own notes (the Maya correlation, the
- * tarot deck, the calendar a Vietnamese chart is cast on). A line here that the code
- * cannot back is a line to delete. When a system is added to the app, it gets a line.
- *
- * `from` is what a reading needs: a chart, a date, a name, a throw you make, the
- * moment you ask, or something you look at yourself. No counts of systems anywhere.
+ * Every system Plutto reads, what a reading needs (`from`) and the work it rests on, taken from Plutto-Backend's
+ * app/services/provenance, features/library_shelves.py and each engine's notes. A line the code cannot back is
+ * deleted, a new system gets a line, and systems are never counted.
  */
 
 export const FROM = {
@@ -209,5 +201,5 @@ export const METHOD = [
   },
 ];
 
-/** Kept beside the methods: what the published tests found, the negative results included. */
+/** What the published tests of astrology found, negative results included. */
 export const EVIDENCE = 'Shawn Carlson’s double-blind test (Nature, 1985); Michel Gauquelin’s “Mars effect”, the French committee’s test of it and Suitbert Ertel’s re-analysis; Geoffrey Dean and Ivan Kelly’s review (2003); and Lois Rodden’s rating of birth data, which every timing claim depends on.';

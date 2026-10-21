@@ -1,9 +1,6 @@
 /**
- * LOCAL BIRTH TIME → THE INSTANT. A birth certificate gives a wall-clock time
- * in a place, and that place's offset from UTC has changed over the years
- * (India ran +6:30 war time from 1942 to 1945; Britain kept summer time all
- * year from 1968 to 1971). The browser ships the IANA time-zone history, so
- * the offset is read from it for that exact date rather than assumed.
+ * Local wall-clock birth time to the UTC instant, with the offset read from the browser's IANA time-zone history for
+ * that exact date (India ran +6:30 war time 1942–1945; Britain kept summer time all year 1968–1971).
  */
 
 function partsIn(tz, ms) {
@@ -41,9 +38,8 @@ export function fmtOffset(min) {
   return `UTC${s}${h}${m || sec ? `:${String(m).padStart(2, '0')}` : ''}${sec ? `:${String(sec).padStart(2, '0')}` : ''}`;
 }
 
-// Browsers list ICU's canonical IDs, some of them names a city dropped long
-// ago: India is only "Asia/Calcutta" in Chrome's list. Offer the name people
-// know; both spellings carry the same history.
+// Browsers list the ICU canonical IDs, some of them old city names: India is only "Asia/Calcutta" in Chrome's
+// list. Offer the name people know; both spellings carry the same history.
 const MODERN = {
   'Asia/Calcutta': 'Asia/Kolkata', 'Asia/Saigon': 'Asia/Ho_Chi_Minh', 'Asia/Katmandu': 'Asia/Kathmandu', 'Asia/Rangoon': 'Asia/Yangon',
   'Asia/Dacca': 'Asia/Dhaka', 'Asia/Thimbu': 'Asia/Thimphu', 'Asia/Ulan_Bator': 'Asia/Ulaanbaatar', 'Europe/Kiev': 'Europe/Kyiv',

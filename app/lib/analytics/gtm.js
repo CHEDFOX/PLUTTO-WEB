@@ -1,20 +1,7 @@
 /**
- * GOOGLE TAG MANAGER — the marketing team's container, on every page of the site.
- *
- * In the ROOT layout, first in <head> as Google asks, so it covers the site and
- * not /app (a static page, public/m) nor /embed (calculators framed on other
- * people's sites — skipped below, since those visits are not ours to measure).
- *
- * CONSENT MODE v2 before the container loads. Where the law asks first
- * (app/lib/consent.js) every Google storage starts DENIED, and Google's tags run
- * cookieless until the visitor answers; elsewhere they start granted. The answer
- * is the same one the Meta consent bar keeps (plutto_ads): read here on load, and
- * pushed to Google the moment it is given (app/api/meta/pixel, decide()).
- *
- * THE CSP decides what a tag in the container may load. next.config.mjs allows
- * GTM itself, Google Analytics and GTM's Preview mode. A tag for anything else
- * (Google Ads, TikTok, LinkedIn…) is blocked by the browser, silently, until its
- * hosts are added there.
+ * Google Tag Manager, first in <head> of the root layout on every page except /embed (calculators framed on other
+ * sites); /app is the static public/m and has no tag. The CSP in next.config.mjs allows GTM, Google Analytics and
+ * Preview mode only: a tag for any other host (Google Ads, TikTok…) is blocked until that host is added there.
  */
 import { ASK_FIRST_COUNTRIES, CONSENT_KEY } from './consent';
 
@@ -22,8 +9,10 @@ export const GTM_ID = 'GTM-KH975V6M';
 
 const KINDS = ['ad_storage', 'ad_user_data', 'ad_personalization', 'analytics_storage'];
 
-// Plain ES5 in a string, run inline before anything else on the page. The tail
-// is Google's own snippet, unchanged but for the id.
+// Plain ES5 in a string, run inline before anything else on the page; the tail is Google's snippet with the id.
+// Consent Mode v2 defaults are set before the container loads: in ASK_FIRST_COUNTRIES (app/lib/analytics/consent.js)
+// every Google storage starts denied and tags run cookieless until the visitor answers; elsewhere they start granted.
+// A stored answer under plutto_ads wins; the Meta consent bar pushes a new one to Google (app/api/meta/pixel, decide()).
 export const GTM_HEAD = `(function(w,d){
 if(w.location.pathname.indexOf('/embed')===0)return;
 w.dataLayer=w.dataLayer||[];

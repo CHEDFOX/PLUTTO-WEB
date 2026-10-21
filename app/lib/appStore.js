@@ -1,39 +1,26 @@
-/**
- * SMART STORE LINK — send each visitor to the right store for the device
- * they are actually holding.
- *
- * URLs come from the catalog (`catalog.store`) when the backend supplies them,
- * so the real Apple link can be dropped in the moment the app is approved with
- * no web release. The defaults below are the fallback when the catalog is not
- * loaded yet (the panel must never render a dead button).
- */
+/** Where "Get the app" sends a visitor: the store for their device, the web app on Apple handhelds, or the download band. */
 
 const ANDROID_PACKAGE = 'space.plutto.app';
 
 /**
- * WHICH STORES ARE LIVE. The Play listing is public; the App Store one is in
- * review. Flip IOS_LIVE the day it lands (and put the id in DEFAULT_STORE.ios):
- * the badge un-blurs and becomes a link, and "Get the app" on an iPhone goes
- * straight to it. Until then an iPhone is sent to the download band, where the
- * badge says so.
+ * The Play listing is public. Flip IOS_LIVE (and put the id in DEFAULT_STORE.ios) when the App Store listing is
+ * live: the badge becomes a link and "Get the app" on an iPhone goes to it. Until then an iPhone gets the download band.
  */
 export const ANDROID_LIVE = true;
 export const IOS_LIVE = false;
 
 /**
- * IPHONE AND IPAD GET THE WEB APP. Every "get the app" on an Apple handheld goes
- * to the web app with ?install=1, which opens its Add to Home Screen steps at
- * once — on the sign-in screen too, so the Home Screen copy is the one they sign
- * in to. False sends them to the App Store again (once IOS_LIVE).
+ * On an iPhone or iPad "get the app" opens the web app with ?install=1, which shows its Add to Home Screen steps at
+ * once, on the sign-in screen too, so the Home Screen copy is the one signed in to. False sends them to the App Store
+ * (once IOS_LIVE).
  */
 export const IOS_WEB_APP = true;
 export const WEB_APP_INSTALL = '/app?install=1';
 export const PLAY_URL = `https://play.google.com/store/apps/details?id=${ANDROID_PACKAGE}`;
 
 const DEFAULT_STORE = {
-  // Filled in once the App Store id exists: https://apps.apple.com/app/id<ID>.
-  // Until then we send iOS visitors to an App Store search for Plutto, which is
-  // a real destination — never a 404.
+  // https://apps.apple.com/app/id<ID> once the App Store id exists; while empty, iOS gets an App Store search for
+  // Plutto (IOS_SEARCH), never a 404.
   ios: '',
   android: `https://play.google.com/store/apps/details?id=${ANDROID_PACKAGE}`,
   fallback: 'https://plutto.space',
@@ -42,11 +29,8 @@ const DEFAULT_STORE = {
 const IOS_SEARCH = 'https://apps.apple.com/search?term=plutto';
 
 /**
- * Which platform is this? Returns 'ios' | 'android' | 'desktop'.
- *
- * iPadOS is the awkward one: since iPadOS 13 Safari reports a *Macintosh* user
- * agent, so an iPad is only distinguishable from a Mac by the presence of touch
- * points. Without that check every iPad would be sent to the desktop state.
+ * 'ios' | 'android' | 'desktop'. Since iPadOS 13 Safari reports a Macintosh user agent: an iPad is told from a Mac
+ * only by its touch points, and without that check every iPad would get the desktop state.
  */
 export function detectPlatform(ua, nav) {
   if (typeof window === 'undefined' && !ua) return 'desktop';
@@ -69,7 +53,6 @@ export function storeUrl(platform) {
   return s.fallback || DEFAULT_STORE.fallback;
 }
 
-/** Label for the button, given the detected platform. */
 /**
  * Where "Get the app" goes for this visitor: the store that is live for the
  * device in their hand, else the download band on the page.

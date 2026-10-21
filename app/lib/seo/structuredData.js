@@ -1,6 +1,6 @@
+/** schema.org JSON-LD for the organization, the website, the app, breadcrumbs, FAQs and articles. */
 import { SITE, abs } from './site';
 
-// ── JSON-LD ────────────────────────────────────────────────────────────────
 const ORG_ID = `${SITE.url}/#organization`;
 const APP_ID = `${SITE.url}/#app`;
 const SITE_ID = `${SITE.url}/#website`;

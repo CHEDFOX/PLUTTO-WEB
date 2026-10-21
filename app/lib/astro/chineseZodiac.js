@@ -1,6 +1,5 @@
 import { ANIMALS, yearAnimalIndex, yearElement } from '../content/reference';
 
-// ── Chinese zodiac ─────────────────────────────────────────────────────────
 /**
  * The animal of a birth date, as BaZi counts it: the year turns at Li Chun, the
  * start of spring, which falls on 3, 4 or 5 February. A birth on those days is

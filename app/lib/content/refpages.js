@@ -1,22 +1,13 @@
 /**
- * THE REFERENCE PAGES' WORDS — built from app/lib/reference.js, one entry per
- * item: the answer paragraph, the facts table, the questions it answers, where
- * to read next. Kept apart from the markup so /llms-full.txt and the pages say
- * exactly the same thing.
- *
- * The questions are the ones people actually search per item ("which planet
- * rules Rohini", "Year of the Horse years", "Saturn exaltation sign") and each
- * is answered from the item's own data — no two pages share an answer.
+ * The reference pages' words, built from app/lib/content/reference.js: per item the answer paragraph, the facts table,
+ * the questions it answers and where to read next. Kept apart from the markup so /llms-full.txt and the pages say the
+ * same thing; each question is answered from the item's own data, so no two pages share an answer.
  */
 import { NAKSHATRAS, ANIMALS, GRAHAS, SIGNS, slugify } from './reference';
 import { sunReaches, lahiri, julianDayUT } from '../astro/sky';
 
-/*
- * A fact's value is a string or a list of segments — strings and links — so
- * every fact that names another entity links to that entity's page: the
- * library reads as one connected graph, and `flat` gives the same words back
- * as text for llms-full.txt and the hub lines.
- */
+// A fact's value is a string or a list of segments (strings and links), so a fact that names another entity links to
+// its page; `flat` gives the same words back as text for llms-full.txt and the hub lines.
 const to = (base) => (name, t = name) => ({ t, href: `${base}/${slugify(name)}` });
 const sign = to('/zodiac-signs'), graha = to('/grahas'), nak = to('/nakshatras'), animal = to('/chinese-zodiac');
 const join = (segs, last = ' and ') => segs.flatMap((x, i) => (i === 0 ? [x] : [i === segs.length - 1 ? last : ', ', x]));

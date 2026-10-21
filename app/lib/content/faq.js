@@ -1,11 +1,6 @@
 /**
- * THE FAQ — the questions people ask about Plutto, answered in the first
- * sentence. Rendered at /faq with FAQPage structured data, and folded into
- * /llms.txt, so the answer a search result, a voice assistant or a chatbot
- * gives about Plutto is this one.
- *
- * Each answer is true of the app as shipped. When something changes — a price,
- * a platform (the App Store listing is in review) — change it here.
+ * Questions about Plutto, each answered in its first sentence. Rendered at /faq with FAQPage structured data and
+ * folded into /llms.txt. Every answer must be true of the app as shipped: a price or a platform changes here.
  */
 import { SITE } from '../seo/site';
 

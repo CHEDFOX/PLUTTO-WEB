@@ -1,13 +1,7 @@
 /**
- * THE DECKS — the app's own cards, as the landing page draws them.
- *
- * These are the same files the Oracle deals from in the app (backend
- * static/<deck>/), copied into /public/library so the marketing page never
- * waits on the API to show its best picture. The tarot is Pamela Colman
- * Smith's 1909 deck, public domain; the other five are Plutto's own line art.
- *
- * A card's name is derived from its file name, so adding a card is dropping a
- * file in and adding its id here — no second list of names to keep in step.
+ * The app's card decks for the landing page: the backend's static/<deck>/ files, copied into public/library. The tarot
+ * is Pamela Colman Smith's 1909 deck (public domain); the other five are Plutto's own line art. A card's name comes
+ * from its file name, so adding a card is adding the file and its id here.
  */
 
 const TAROT_MAJOR = [

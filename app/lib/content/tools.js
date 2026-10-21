@@ -1,7 +1,6 @@
 /**
- * THE FREE CALCULATORS — what each one is, in words. The arithmetic is in
- * calc.js; the widgets in components/site/tools. Every page states its method
- * in full, so a reader (or an answer engine) can check a result by hand.
+ * The free calculators in words. The arithmetic is in app/lib/astro (numerology.js, chineseZodiac.js, guna.js,
+ * sadesati.js, sky.js, vedic.js), the widgets in app/components/tools. Each page states its method in full.
  */
 export const TOOLS = [
   {

@@ -1,19 +1,7 @@
 /**
- * THE GUIDES — one page per system Plutto reads, at /guides/<slug>.
- *
- * Built for the question someone actually types ("what is BaZi", "how does KP
- * astrology work", "what is a mahadasha") and for the engines that answer it:
- *
- *   • `answer` is the whole answer in one paragraph, first on the page. Answer
- *     engines lift the first plain definition under a matching heading.
- *   • sections are the long form: how the system works, in its own vocabulary.
- *   • `inPlutto` says what the app computes for it — named as the app names it,
- *     and only what the app does (checked against the backend catalog).
- *   • faqs become FAQPage structured data on the page.
- *
- * Accuracy over reach: these describe the traditions as they are practised and
- * make no claim that astrology predicts anything — the same stance the app
- * takes ("it does not pretend to be certain").
+ * The guides at /guides/<slug>, one per system Plutto reads. `answer` is the whole answer in one paragraph, first on the
+ * page; `sections` are the long form; `inPlutto` names only what the app computes (checked against the backend catalog);
+ * `faqs` become FAQPage structured data. The guides describe practice and claim no predictive power.
  */
 
 export const UPDATED = '2026-09-28';

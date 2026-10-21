@@ -1,11 +1,7 @@
 /**
- * THE PANCHANG — the five limbs of the Hindu day (tithi, nakshatra, yoga,
- * karana, vara) with the instant each one ends, plus sunrise, sunset and
- * Rahu Kaal. `sky` is lib/sky.js, passed in so the browser can load it lazily;
- * the server page imports it directly. Verified against Swiss Ephemeris.
- *
- * Tithi and karana come from the Moon's elongation from the Sun (the same in
- * either zodiac); nakshatra and yoga from sidereal (Lahiri) longitudes.
+ * The panchang: the five limbs of the Hindu day (tithi, nakshatra, yoga, karana, vara) with the instant each ends,
+ * plus sunrise, sunset and Rahu Kaal, verified against Swiss Ephemeris. `sky` is app/lib/astro/sky.js, passed in so
+ * the browser can load it lazily; the server page imports it directly.
  */
 import { NAKSHATRAS } from '../content/reference';
 import { zonedToUtc } from './zone';
@@ -22,7 +18,10 @@ const norm = (x) => ((x % 360) + 360) % 360;
 const tithiName = (i) => (i === 14 ? 'Purnima' : i === 29 ? 'Amavasya' : TITHIS[i % 15]);
 const karanaName = (k) => (k === 0 ? 'Kimstughna' : k >= 57 ? ['Shakuni', 'Chatushpada', 'Naga'][k - 57] : MOVABLE[(k - 1) % 7]);
 
-/** Every limb's index at one instant. */
+/**
+ * Every limb's index at one instant. Tithi and karana come from the Moon's elongation from the Sun (the same in
+ * either zodiac); nakshatra and yoga from sidereal (Lahiri) longitudes.
+ */
 export function limbs(sky, t) {
   const d = new Date(t);
   const s = sky.sun(d), m = sky.moon(d);

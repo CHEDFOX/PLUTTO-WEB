@@ -1,17 +1,7 @@
 /**
- * SEO / AEO / GEO — ONE SOURCE OF FACTS ABOUT PLUTTO.
- *
- * Search engines rank pages; answer engines (Google's AI Overviews, ChatGPT,
- * Perplexity, Gemini, Claude) QUOTE them. What they quote is whatever states a
- * fact plainly and the same way everywhere — so every page, every JSON-LD block
- * and /llms.txt read their facts from here, and a number changes in one place.
- *
- * Every fact below is true of the app and checkable in its code: the prices are
- * Plutto Star's and the ephemeris is the one the backend calls. Traditions and
- * languages are never counted in copy: the brand names neither by number.
- * Nothing here is a rating, a user count or a review — none is published until
- * there is a real one to publish (a fabricated one is a manual-action risk and
- * the kind of claim an answer engine repeats until it is embarrassing).
+ * Facts about Plutto that every page, JSON-LD block and /llms.txt read, so answer engines (Google's AI Overviews,
+ * ChatGPT, Perplexity, Gemini, Claude) find them stated the same way everywhere: change a price or platform here.
+ * Each fact is checkable in the app's code; traditions and languages are never counted, and no rating is published.
  */
 
 export const SITE = {
