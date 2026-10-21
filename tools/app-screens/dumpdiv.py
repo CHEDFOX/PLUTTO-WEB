@@ -1,5 +1,6 @@
 import asyncio, json, sys, os
-sys.path.insert(0, '/home/user/Plutto-Backend'); os.chdir('/home/user/Plutto-Backend')
+BACKEND = os.environ.get('BACKEND_DIR') or os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', 'Plutto-Backend'))
+sys.path.insert(0, BACKEND); os.chdir(BACKEND)
 from app.services.features import divination as D
 from app.services.features.explore_showcase import build_divination_hook
 req = D._Req(language='en') if hasattr(D, '_Req') else None

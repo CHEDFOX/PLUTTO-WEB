@@ -2,10 +2,12 @@
 import { chromium } from 'playwright';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 const S = process.env.WORK || '/tmp/app-screens';
 const OUT = `${S}/real`; fs.mkdirSync(OUT, { recursive: true });
 const VID = `${S}/vid`; fs.rmSync(VID, { recursive: true, force: true }); fs.mkdirSync(VID);
-const STATIC = '/home/user/Plutto-Backend/static';
+const BACKEND = process.env.BACKEND_DIR || fileURLToPath(new URL('../../../Plutto-Backend', import.meta.url));
+const STATIC = path.join(BACKEND, 'static');
 const catalog = fs.readFileSync(`${S}/catalog.json`);
 const EX = JSON.parse(fs.readFileSync(`${S}/exchanges.json`, 'utf8'));
 
@@ -16,7 +18,7 @@ textarea { height: 20px !important; min-height: 20px !important; }
 @font-face { font-family: "BlinkMacSystemFont"; src: url(/fonts/inter.woff2) format("woff2"); font-weight: 100 900; }
 @font-face { font-family: "System"; src: url(/fonts/inter.woff2) format("woff2"); font-weight: 100 900; }`;
 
-const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+const b = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined });
 const ctx = await b.newContext({ viewport: { width: 393, height: 852 }, deviceScaleFactor: process.env.VIDEO ? 2 : 3, isMobile: true, hasTouch: true });
 const T0 = Date.now();
 const p = await ctx.newPage();

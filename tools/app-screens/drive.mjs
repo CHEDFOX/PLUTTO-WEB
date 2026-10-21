@@ -1,10 +1,12 @@
 import { chromium } from 'playwright';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 const S = process.env.WORK || '/tmp/app-screens';
 const OUT = process.env.OUT || `${S}/real`;
 fs.mkdirSync(OUT, { recursive: true });
-const STATIC = '/home/user/Plutto-Backend/static';
+const BACKEND = process.env.BACKEND_DIR || fileURLToPath(new URL('../../../Plutto-Backend', import.meta.url));
+const STATIC = path.join(BACKEND, 'static');
 const catalog = fs.readFileSync(`${S}/catalog.json`);
 const MODE = process.env.MODE || 'chat';
 
@@ -16,7 +18,7 @@ textarea { height: 20px !important; min-height: 20px !important; }
 @font-face { font-family: "System"; src: url(/fonts/inter.woff2) format("woff2"); font-weight: 100 900; }
 `;
 
-const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--use-gl=swiftshader', '--enable-webgl', '--ignore-gpu-blocklist'] });
+const b = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined, args: ['--use-gl=swiftshader', '--enable-webgl', '--ignore-gpu-blocklist'] });
 const ctx = await b.newContext({ viewport: { width: 393, height: 852 }, deviceScaleFactor: process.env.REC ? 2 : 3, isMobile: true, hasTouch: true,
   userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Mobile/15E148 Safari/604.1' });
 const p = await ctx.newPage();

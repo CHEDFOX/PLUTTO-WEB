@@ -2,7 +2,7 @@ import { chromium } from 'playwright';
 import fs from 'fs';
 const S = process.env.WORK || '/tmp/app-screens';
 const VID = `${S}/vidorb`; fs.rmSync(VID, { recursive: true, force: true }); fs.mkdirSync(VID);
-const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--use-gl=swiftshader', '--enable-webgl', '--ignore-gpu-blocklist'] });
+const b = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined, args: ['--use-gl=swiftshader', '--enable-webgl', '--ignore-gpu-blocklist'] });
 const ctx = await b.newContext({ viewport: { width: 393, height: 852 }, deviceScaleFactor: 2 });
 const p = await ctx.newPage();
 await p.goto('http://localhost:3223/#orb', { waitUntil: 'load' });

@@ -1,6 +1,7 @@
 import asyncio, json, sys, os
-sys.path.insert(0, '/home/user/Plutto-Backend')
-os.chdir('/home/user/Plutto-Backend')
+BACKEND = os.environ.get('BACKEND_DIR') or os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', 'Plutto-Backend'))
+sys.path.insert(0, BACKEND)
+os.chdir(BACKEND)
 from app.services.features import catalog as C
 C.__dict__.get('check_rate_limit')
 import app.core.rate_limiter as rl
